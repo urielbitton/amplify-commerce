@@ -1,15 +1,13 @@
 import React from 'react'
 import './styles/Navbar.css'
+import Logo from '../../common/Logo'
 
 export default function Navbar() {
   return (
     <>
       <nav className="navbar">
         <div className="left">
-          <div className="logocont">
-            <img src="https://i.imgur.com/43BCbLO.png" alt=""/>
-            <h5>Amplify<span>.</span></h5>
-          </div>
+          <Logo />
         </div>
         <div className="right">
           
