@@ -1,19 +1,48 @@
-import React from 'react'
+import React, { useState } from 'react'
 import './styles/Navbar.css'
 import Logo from '../../common/Logo'
+import { Link, NavLink } from 'react-router-dom'
+import menuLinks from './arrays/menuLinks'
 
 export default function Navbar() {
+
+  const [dealBar, setDealBar] = useState(true)
+  
+  const menulinksrow = menuLinks?.map(({name,url,exact,sublinks}) => {
+    return <div className="menulink">
+      <NavLink exact={exact} to={url} activeClassName="activemenulink">{name}<hr/></NavLink>
+      {
+        sublinks?.map(({name,url}) => {
+          return <div className="sublink">
+            <NavLink to={url}>{name}</NavLink>
+          </div>
+        }) 
+      }
+    </div>
+  })
+
   return (
     <>
+      { dealBar&&
+        <div className="dealbar">
+          <div></div>
+          <p>Exclsuive deals this weekend - <span>30% OFF</span> all women's wear.  
+            <Link href="#">Get deal</Link>
+          </p>
+          <i className="fal fa-times" onClick={() => setDealBar(false)}></i>
+        </div>
+      }
       <nav className="navbar">
         <div className="left">
-          <Logo />
+          <Logo color text/>
+          <div className="menu">
+            {menulinksrow}
+          </div>
         </div>
         <div className="right">
           
         </div>
       </nav>
-      <div style={{height:'80px'}}></div>
     </>
   )
 }

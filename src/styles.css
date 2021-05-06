@@ -5,10 +5,8 @@ html, body {
 }    
  
 :root { 
-  --color: #3161ff; 
-  --skyblue: #61cdff;
+  --color: #3bc1ff;
   --graytxt: #696e93;
-  --blue: #51b1ff;
   --yellow: #fbd04b;
   --red: #fc5185;
   --green: #8dd900;
