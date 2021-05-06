@@ -1,0 +1,33 @@
+.navbar {
+  position: fixed;
+  top: 0;
+  height: 80px;
+  width: 100%;
+  padding: 0 50px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.navbar > div {
+  display: flex;
+  align-items: center;
+}
+.navbar .logocont {
+  display: flex;
+  align-items: center;
+}
+.navbar .logocont img {
+  width: 50px;
+}
+.navbar .logocont h5 {
+  font-size: 22px;
+  font-weight: 500;
+  text-transform: uppercase;
+  color: #444;
+  margin-left: 5px;
+}
+.navbar .logocont h5 span {
+  font-weight: 600;
+  font-size: 25px;
+  color: var(--skyblue);
+}
