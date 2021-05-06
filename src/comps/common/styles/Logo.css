@@ -2,6 +2,9 @@
   display: flex;
   align-items: center;
 }
+.logocont.b-w {
+  filter: grayscale(100%) brightness(90%);
+}
 .logocont img {
   width: 50px;
 }
@@ -11,9 +14,12 @@
   text-transform: uppercase;
   color: #444;
   margin-left: 5px;
+  display: none;
 }
 .logocont h5 span {
   font-weight: 600;
-  font-size: 25px;
-  color: var(--skyblue);
+  color: var(--color);
+}
+.logocont.text h5 {
+  display: block;
 }

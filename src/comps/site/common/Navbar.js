@@ -26,7 +26,7 @@ export default function Navbar() {
       { dealBar&&
         <div className="dealbar">
           <div></div>
-          <p>Exclsuive deals this weekend - <span>30% OFF</span> all women's wear.  
+          <p>Exclusive deals this weekend - <span>30% OFF</span> all women's wear.  
             <Link href="#">Get deal</Link>
           </p>
           <i className="fal fa-times" onClick={() => setDealBar(false)}></i>
@@ -40,7 +40,22 @@ export default function Navbar() {
           </div>
         </div>
         <div className="right">
-          
+          <div className="logdiv">
+            <Link to="/login">register</Link>
+            <span>/</span>
+            <Link to="/login">login</Link>
+          </div>
+          <div>
+            <i className="fal fa-search"></i>
+          </div> 
+          <div>
+            <i className="fal fa-heart"></i>
+            <div className="numcircle">2</div>
+          </div>
+          <div>
+            <i className="fal fa-shopping-cart"></i>
+            <div className="numcircle">13</div>
+          </div>
         </div>
       </nav>
     </>

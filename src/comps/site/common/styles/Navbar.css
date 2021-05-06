@@ -22,7 +22,7 @@
   justify-content: space-between;
   align-items: center;
   transition: all 0.3s;
-  padding: 0 30px;
+  padding: 0 50px;
 }
 .dealbar p {
   font-size: 14px;
@@ -48,7 +48,7 @@
   margin-left: 100px;
 }
 .navbar .menu a {
-  font-size: 14px;
+  font-size: 13px;
   text-transform: uppercase;
   color: #555;
   margin: 0 20px;
@@ -75,4 +75,49 @@
 .navbar .menu a:hover hr {
   width: 100%;
   background: var(--color);
+}
+.navbar .right > div {
+  margin-left: 25px;
+}
+.navbar .right > div i {
+  font-size: 15px;
+  transition: all 0.2s;
+  cursor: pointer;
+  color: #555;
+}
+.navbar .right > div i:hover {
+  color: var(--color);
+}
+.navbar .right > div .numcircle {
+  position: absolute;
+  top: -5px;
+  right: -17px;
+  width: 17px;
+  height: 17px;
+  border-radius: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #fff;
+  background: var(--color);
+  font-size: 11px;
+}
+.navbar .right .logdiv {
+  display: flex;
+  align-items: center;
+  top: 1px;
+  margin-right: 20px;
+}
+.navbar .right .logdiv a {
+  font-size: 11px;
+  text-transform: uppercase;
+  transition: all 0.2s;
+  color: #555;
+}
+.navbar .right .logdiv a:hover {
+  color: var(--color);
+}
+.navbar .right .logdiv span {
+  margin: 0 2px;
+  color: #aaa;
 }

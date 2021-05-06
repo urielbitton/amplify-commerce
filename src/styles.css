@@ -18,21 +18,12 @@ html, body {
   --grad: linear-gradient(90deg, rgba(49,97,255,1) 0%, rgba(87,168,252,1) 100%);
   --hoverable: 0px 14px 25px 0px rgba(49,97,255,0.2); 
 }  
-/*
-@font-face {
-  font-family: 'Raleway';
-  src: local('Raleway'), url('./fonts/Raleway-Medium.ttf') format('truetype');
-} 
-*/
 .grid {
   width: 1300px;
   margin: auto;
 }
 .xgrid {
   padding: 50px 0;
-}
-.lgrid {
-  padding: 80px 0;
 }
 .spacer {
   height: 50px;
@@ -76,27 +67,8 @@ button {
   cursor: pointer;
   border: none;
   transition: all 0.2s;
-  border-radius: 6px;
-  padding: 12px 15px;
-  background: var(--color);
-  color: #fff;
-} 
-button:active {
-  transform: scale(0.97);
-}
-button.hoverable:hover {
-  box-shadow: var(--hoverable);
-} 
-button i {
-  margin-right: 10px;
-}
-button.black {
-  background: #222;
-  border-color: #222;
-}
-button.black:hover {
   background: #333;
-  border-color: #333;
+  color: #fff;
 }
 a { 
   text-decoration: none;

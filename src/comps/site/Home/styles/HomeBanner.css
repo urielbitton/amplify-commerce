@@ -1,0 +1,39 @@
+.homebanner {
+  width: 100%;
+  height: 70vh;
+}
+.homebanner .bannerbg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-position: center;
+  background-size: cover;
+}
+.homebanner .grid {
+  height: 100%;
+}
+.homebanner .titlescont {
+  width: 500px;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+}
+.homebanner .titlescont h5 {
+  text-transform: uppercase;
+  color: var(--graytxt);
+  font-size: 20px;
+  font-weight: 300;
+  opacity: 0.8;
+}
+.homebanner .titlescont h1 {
+  font-weight: 500;
+  font-size: 50px;
+  line-height: 1.2;
+  color: #333;
+}
+.homebanner .titlescont .btnscont {
+  margin-top: 20px;
+}

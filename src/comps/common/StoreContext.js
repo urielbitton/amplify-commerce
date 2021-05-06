@@ -7,7 +7,6 @@ export const StoreContext = createContext()
 const StoreContextProvider = (props) => {
 
   const user = firebase.auth().currentUser
-    
  
   return (
     <StoreContext.Provider value={{ 
