@@ -6,17 +6,15 @@ html, body {
  
 :root { 
   --color: #3bc1ff;
+  --lightblue: #e2f1f4;
   --graytxt: #696e93;
-  --yellow: #fbd04b;
-  --red: #fc5185;
-  --green: #8dd900;
+  --red: #ff384c;
+  --orange: #f5c136;
   --shadow: 0 0 6px rgba(0,0,0,0.1);
   --white1: #fff;
   --white2: #fff; 
   --dark1: #0d1117;
   --dark2: #161b22;
-  --grad: linear-gradient(90deg, rgba(49,97,255,1) 0%, rgba(87,168,252,1) 100%);
-  --hoverable: 0px 14px 25px 0px rgba(49,97,255,0.2); 
 }  
 .grid {
   width: 1300px;
@@ -41,22 +39,18 @@ html, body {
   outline: none;
 }
 ::selection {
-  background: var(--color);
+  background: #222;
   color: white;
 }
 ::-webkit-scrollbar {
-  width: 15px;
+  width: 10px;
   height: 10px;
 } 
 .hidescroll::-webkit-scrollbar {
   display: none;
 } 
-::-webkit-scrollbar-track {
-  border-radius: 50px;
-}
 ::-webkit-scrollbar-thumb {
-  background: var(--color);
-  border-radius: 50px;
+  background: #333;
 }
 img {
   object-fit: cover;

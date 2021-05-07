@@ -8,6 +8,12 @@
   justify-content: space-between;
   align-items: center;
   box-shadow: 0 3px 3px rgba(0,0,0,0.05);
+  z-index: 990;
+  background: #fff;
+  transition: all 0.3s;
+}
+.navbar.fixednav {
+  position: fixed;
 }
 .navbar > div {
   display: flex;
@@ -16,8 +22,8 @@
 .dealbar {
   position: relative;
   width: 100%;
-  height: 60px;
-  background: #e2f1f4;
+  height: 50px;
+  background: #f5f5f5;
   display: flex;
   justify-content: space-between;
   align-items: center;

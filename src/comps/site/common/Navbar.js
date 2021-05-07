@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import './styles/Navbar.css'
 import Logo from '../../common/Logo'
 import { Link, NavLink } from 'react-router-dom'
@@ -7,6 +7,8 @@ import menuLinks from './arrays/menuLinks'
 export default function Navbar() {
 
   const [dealBar, setDealBar] = useState(true)
+  const [fixNav, setFixNav] = useState(false)
+  let prevScrollpos = window.pageYOffset
   
   const menulinksrow = menuLinks?.map(({name,url,exact,sublinks}) => {
     return <div className="menulink">
@@ -21,6 +23,21 @@ export default function Navbar() {
     </div>
   })
 
+  useEffect(() => {
+    window.onscroll = () => {
+      let currentScrollPos = window.pageYOffset
+      if(window.pageYOffset > 130) {
+        if (prevScrollpos < currentScrollPos) {
+          setFixNav(true)
+        }  
+      }
+      else {
+        setFixNav(false)
+      }
+      prevScrollpos = currentScrollPos
+    }
+  },[])
+
   return (
     <>
       { dealBar&&
@@ -32,7 +49,7 @@ export default function Navbar() {
           <i className="fal fa-times" onClick={() => setDealBar(false)}></i>
         </div>
       }
-      <nav className="navbar">
+      <nav className={`navbar ${fixNav&&"fixednav"}`}>
         <div className="left">
           <Logo color text/>
           <div className="menu">

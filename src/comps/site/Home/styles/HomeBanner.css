@@ -24,7 +24,7 @@
 .homebanner .titlescont h5 {
   text-transform: uppercase;
   color: var(--graytxt);
-  font-size: 20px;
+  font-size: 19px;
   font-weight: 300;
   opacity: 0.8;
 }
@@ -37,3 +37,33 @@
 .homebanner .titlescont .btnscont {
   margin-top: 20px;
 }
+.bannernav {
+  position: absolute;
+  bottom: 40px;
+  display: flex;
+  gap: 15px;
+}
+.bannernav small {
+  font-size: 14px;
+  color: var(--graytxt);
+  display: block;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+.bannernav small hr {
+  width: 100%;
+  height: 1px;
+  background: var(--color);
+  opacity: 0;
+}
+.bannernav small.active {
+  color: var(--color);
+  transform: scale(1.2);
+}
+.bannernav small.active hr {
+  opacity: 1;
+}
+.bannernav small:hover {
+  color: var(--color);
+}
+

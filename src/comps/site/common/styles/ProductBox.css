@@ -1,0 +1,88 @@
+.productbox {
+  width: 250px;
+  height: 400px;
+  display: flex;
+  flex-direction: column;
+  cursor: pointer;
+}
+.productbox .imgcont {
+  width: 100%;
+  height: 300px;
+  background: #f2f3f5;
+  background-position: center;
+  background-size: cover;
+  padding: 20px;
+  overflow: hidden;
+}
+.productbox .infocont {
+  margin-top: 20px;
+  cursor: auto;
+}
+.productbox .infocont > div {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.productbox .infocont h6 {
+  font-size: 13px;
+  color: #444;
+  font-weight: 500;
+}
+.productbox .infocont .ratingscont {
+  top: -2px;
+}
+.productbox .infocont .ratingscont i {
+  font-size: 12px;
+  color: var(--orange);
+}
+.productbox .infocont small {
+  font-weight: 600;
+  color: #444;
+  font-size: 13px;
+}
+.productbox .infocont small.outofstock {
+  color: var(--red);
+  font-weight: 500;
+}
+.productbox .productactions {
+  position: absolute;
+  bottom: 15px;
+  width: 100%;
+  height: 50px;
+  left: 0;
+  right: 0;
+  margin: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 2px;
+  opacity: 0;
+  transform: scale(0.9);
+  transition: all 0.3s;
+}
+.productbox .productactions > div {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: rgba(255,255,255,0.95);
+  height: 50px;
+  width: 50px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.productbox .productactions > div:hover {
+  background: #333;
+  color: #fff;
+}
+.productbox .productactions > div.addtocartbtn {
+  width: 120px;
+}
+.productbox .productactions > div.addtocartbtn.disabled {
+  pointer-events: none;
+  opacity: 0.4;
+}
+.productbox:hover .productactions {
+  opacity: 1;
+  transform: scale(1);
+}
