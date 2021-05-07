@@ -9,7 +9,7 @@ export default function ProductBox(props) {
   function addToCart() {
 
   }
-
+ 
   return (
     <div className="productbox">
       <div className="imgcont" style={{backgroundImage: `url(${imgs[0]})`}}>

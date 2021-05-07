@@ -1,5 +1,6 @@
 .homesection {
   width: 100%;
+  margin: 50px auto;
 }
 .homesection .productssection {
   margin: 50px auto;
@@ -9,9 +10,6 @@
   align-items: center;
   flex-wrap: wrap;
   gap: 40px;
-}
-.section1 {
-  margin: 50px auto;
 }
 .section1 .btncont {
   width: 100%;

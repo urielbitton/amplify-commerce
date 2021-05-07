@@ -9,10 +9,12 @@ export default function Section1() {
 
   const {allProducts} = useContext(StoreContext)
 
-  const summertrend = allProducts?.map(el => {
+  const summertrend = allProducts
+  ?.filter(x => x.collection?.includes('summer2021'))
+  .map(el => {
     return <ProductBox el={el} />
   })
-
+ 
   return (
     <div className="section1 homesection">
       <div className="grid xgrid">
