@@ -29,6 +29,6 @@ export default function Section2() {
       <div className="categsection">
         {categoriesrow}
       </div>
-    </div>
+    </div> 
   )
 } 

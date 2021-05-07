@@ -75,7 +75,6 @@ input, select, textarea {
   padding: 13px 10px;
   border: 1px solid #ddd; 
   width: 100%;
-  border-radius: 5px;
 } 
 input, textarea, select {
   outline: none;

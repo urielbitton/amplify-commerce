@@ -5,13 +5,14 @@ import Ratings from '../../common/Ratings'
 export default function ProductBox(props) {
 
   const {name, price, rating, imgs, instock} = props.el
+  const {className} = props
 
   function addToCart() {
 
   }
  
   return (
-    <div className="productbox">
+    <div className={`productbox ${className}`}>
       <div className="imgcont" style={{backgroundImage: `url(${imgs[0]})`}}>
         <div className="productactions">
           <div>
