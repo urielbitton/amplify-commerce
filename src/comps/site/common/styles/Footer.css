@@ -1,0 +1,85 @@
+.footer {
+  width: 100%;
+  padding: 40px 20px;
+  background: rgba(0,0,0,0.9);
+}
+.footer .colsection {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  gap: 50px;
+  margin: 20px 0 70px 0;
+}
+.footer .col {
+  width: 280px;
+  display: flex;
+  flex-direction: column;
+}
+.footer .col h3 {
+  text-transform: uppercase;
+  color: #fff;
+  font-weight: 500;
+  font-size: 24px;
+}
+.footer .col h3 span {
+  color: var(--color);
+  font-size: 30px;
+  margin-bottom: 10px;
+}
+.footer .col p {
+  font-size: 13px;
+  color: #ddd;
+  font-weight: 300;
+}
+.footer .col img {
+  margin-top: 20px;
+  width: 160px;
+}
+.footer .col h4 {
+  margin-bottom: 30px;
+  text-transform: uppercase;
+  color: #fff;
+}
+.footer .col h6 {
+  font-size: 12px;
+  margin-bottom: 20px;
+}
+.footer .col h6 a {
+  color: #ddd;
+  font-weight: 300;
+  transition: all 0.2s;
+}
+.footer .col h6 a:hover {
+  color: #fff;
+}
+.footer .bottombar {
+  margin-top: 30px;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 30px;
+  padding-top: 30px;
+  border-top: 1px solid rgba(255,255,255,0.1);  
+}
+.footer .bottombar small {
+  color: #eee;
+  font-size: 12px;
+}
+.footer .bottombar div {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+.footer .bottombar div i {
+  color: #ddd;
+  font-size: 13px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.footer .bottombar div i:hover {
+  color: #fff;
+}

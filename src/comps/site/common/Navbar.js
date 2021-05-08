@@ -50,28 +50,28 @@ export default function Navbar() {
         </div>
       }
       <nav className={`navbar ${fixNav&&"fixednav"}`}>
-        <div className="left">
-          <Logo color text/>
-          <div className="menu">
-            {menulinksrow}
+        <div className="grid">
+          <div className="left">
+            <Logo color text/>
+            <div className="menu">
+              {menulinksrow}
+            </div>
           </div>
-        </div>
-        <div className="right">
-          <div className="logdiv">
-            <Link to="/login">register</Link>
-            <span>/</span>
-            <Link to="/login">login</Link>
-          </div>
-          <div>
-            <i className="fal fa-search"></i>
-          </div> 
-          <div>
-            <i className="fal fa-heart"></i>
-            <div className="numcircle">2</div>
-          </div>
-          <div>
-            <i className="fal fa-shopping-cart"></i>
-            <div className="numcircle">13</div>
+          <div className="right">
+            <div>
+              <i className="fal fa-search"></i>
+            </div> 
+            <div>
+              <i className="fal fa-heart"></i>
+              <div className="numcircle">2</div>
+            </div>
+            <div>
+              <i className="fal fa-shopping-cart"></i>
+              <div className="numcircle">13</div>
+            </div>
+            <div>
+              <i className="fal fa-user"></i>
+            </div>
           </div>
         </div>
       </nav>
