@@ -13,4 +13,14 @@
   font-size: 12px;
   text-transform: uppercase;
   color: #777;
+  margin-top: 10px;
+}
+
+@media (max-width: 400px) {
+  .sectiontitles h2 {
+    text-align: center;
+  }
+  .sectiontitles p {
+    text-align: center;
+  }
 }

@@ -5,6 +5,9 @@
 .logocont.b-w {
   filter: grayscale(100%) brightness(90%);
 }
+.logocont.linkable {
+  cursor: pointer;
+}
 .logocont img {
   width: 50px;
 }
@@ -15,6 +18,7 @@
   color: #444;
   margin-left: 5px;
   display: none;
+  text-decoration: none;
 }
 .logocont h5 span {
   font-weight: 600;

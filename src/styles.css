@@ -90,10 +90,6 @@ hr {
 .linkable {
   cursor: pointer;
 }
-.linkable:hover {
-  text-decoration: underline;
-  color: var(--color);
-}
 .sectionflex {
   width: 100%;
   display: flex;

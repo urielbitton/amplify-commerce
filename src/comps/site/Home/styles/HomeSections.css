@@ -133,6 +133,7 @@
   align-items: center;
   gap: 40px;
   margin-bottom: 50px;
+  flex-wrap: wrap;
 }
 .section5 .featuresbox {
   display: flex;
@@ -173,4 +174,47 @@
 }
 .section5 .subscribeform .appbutton i {
   display: none;
+}
+
+@media (max-width: 1080px) {
+  .section5 .featuressection {
+    justify-content: center;
+    gap: 70px 40px;
+  }
+  .section5 .featuresbox {
+    flex-direction: column;
+  }
+  .section5 .featuresbox > div {
+    text-align: center;
+  }
+}
+@media (max-width: 800px) {
+  .section2 .categsection {
+    display: flex;
+    flex-direction: column;
+  }
+  .section4 .dealbox .spacediv {
+    display: none;
+  }
+  .section4 .dealtitles {
+    align-items: center;
+  }
+  .section4 .dealtitles h2 {
+    text-align: center;
+  }
+  .section5 .subscribeform {
+    width: 100%;
+  }
+}
+@media (max-width: 400px) {
+  .section5 .subscribeform {
+    flex-direction: column;
+    gap: 20px;
+  }
+  .section5 .appbutton {
+    width: 100%;
+  }
+  .section4 .dealtitles h6 {
+    text-align: center;
+  }
 }

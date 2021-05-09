@@ -67,3 +67,25 @@
   color: var(--color);
 }
 
+@media (max-width: 800px) {
+  .homebanner .titlescont {
+    width: 100%;
+    align-items: center;
+  }
+  .homebanner .titlescont h1 {
+    width: 70%;
+    text-align: center;
+    margin: 10px auto;
+  }
+  .bannernav {
+    justify-content: center;
+    width: 100%;
+  }
+}
+@media (max-width: 400px) {
+  .homebanner .titlescont h1 {
+    margin: 10px auto;
+    text-align: center;
+    width: 100%;
+  }
+}

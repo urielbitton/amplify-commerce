@@ -3,7 +3,6 @@
   top: 0;
   height: 80px;
   width: 100%;
-  padding: 0 50px;
   box-shadow: 0 3px 3px rgba(0,0,0,0.05);
   z-index: 990;
   background: #fff;
@@ -31,7 +30,7 @@
   justify-content: space-between;
   align-items: center;
   transition: all 0.3s;
-  padding: 0 50px;
+  padding: 0 20px;
 }
 .dealbar p {
   font-size: 14px;
@@ -85,6 +84,9 @@
   width: 100%;
   background: var(--color);
 }
+.navbar .right .mobbtn {
+  display: none;
+}
 .navbar .right > div {
   margin-left: 25px;
 }
@@ -110,4 +112,49 @@
   color: #fff;
   background: var(--color);
   font-size: 11px;
+}
+
+@media(max-width: 1080px) {
+  .navbar .menu {
+    display: none;
+  }
+  .navbar .right .mobbtn {
+    display: block;
+    width: 17px;
+    cursor: pointer;
+  }
+  .navbar .right .mobbtn:hover hr {
+    background: var(--color);
+  }
+  .navbar .right .mobbtn hr {
+    display: block;
+    width: 100%;
+    height: 2px;
+    background: #aaa;
+    margin: 3px 0;
+    transition: all 0.2s;
+  }
+}
+@media (max-width: 600px) {
+  .dealbar {
+    height: 65px;
+  }
+}
+@media(max-width: 360px) {
+  .navbar {
+    height: 120px;
+  }
+  .navbar .grid {
+    flex-direction: column;
+    justify-content: center;
+    gap: 30px;
+  }
+  .navbar .right {
+    justify-content: space-evenly;
+    width: 100%;
+  }
+  .navbar .right > div {
+    margin: 0;
+  }
+  
 }

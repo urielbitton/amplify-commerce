@@ -86,3 +86,10 @@
   opacity: 1;
   transform: scale(1);
 }
+
+@media (max-width: 1080px) {
+  .productbox .productactions {
+    opacity: 1;
+    transform: scale(1)
+  }
+}

@@ -52,7 +52,7 @@ export default function Navbar() {
       <nav className={`navbar ${fixNav&&"fixednav"}`}>
         <div className="grid">
           <div className="left">
-            <Logo color text/>
+            <Logo color text linkable />
             <div className="menu">
               {menulinksrow}
             </div>
@@ -71,6 +71,9 @@ export default function Navbar() {
             </div>
             <div>
               <i className="fal fa-user"></i>
+            </div>
+            <div className="mobbtn">
+              <hr/><hr/><hr/>
             </div>
           </div>
         </div>
