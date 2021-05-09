@@ -87,6 +87,17 @@
 .navbar .right .mobbtn {
   display: none;
 }
+.navbar .right .mobbtn.active hr:nth-child(1) {
+  transform: rotate(45deg);
+  top: 5px;
+}
+.navbar .right .mobbtn.active hr:nth-child(3) {
+  transform: rotate(135deg);
+  top: -5px;
+}
+.navbar .right .mobbtn.active hr:nth-child(2) {
+  opacity: 0;
+}
 .navbar .right > div {
   margin-left: 25px;
 }

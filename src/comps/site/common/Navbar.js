@@ -1,11 +1,13 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import './styles/Navbar.css'
 import Logo from '../../common/Logo'
 import { Link, NavLink } from 'react-router-dom'
 import menuLinks from './arrays/menuLinks'
+import {StoreContext} from '../../common/StoreContext'
 
 export default function Navbar() {
 
+  const {slideNav, setSlideNav} = useContext(StoreContext)
   const [dealBar, setDealBar] = useState(true)
   const [fixNav, setFixNav] = useState(false)
   let prevScrollpos = window.pageYOffset
@@ -72,7 +74,7 @@ export default function Navbar() {
             <div>
               <i className="fal fa-user"></i>
             </div>
-            <div className="mobbtn">
+            <div className={`mobbtn ${slideNav&&"active"}`} onClick={() => setSlideNav(prev => !prev)}>
               <hr/><hr/><hr/>
             </div>
           </div>

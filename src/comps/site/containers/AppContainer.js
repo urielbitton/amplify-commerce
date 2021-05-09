@@ -4,6 +4,7 @@ import HomeCont from './HomeCont'
 import { Route, Switch } from 'react-router-dom'
 import AdminApp from '../../admin/containers/AdminApp'
 import Footer from '../common/Footer'
+import SlideNav from '../common/SlideNav'
 
 export default function AppContainer() {
 
@@ -15,6 +16,7 @@ export default function AppContainer() {
         </Route>
         <Route path="/">
           <Navbar />
+          <SlideNav />
           <HomeCont />
           <Footer />
         </Route>

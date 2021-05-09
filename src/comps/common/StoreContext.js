@@ -8,16 +8,19 @@ const StoreContextProvider = (props) => {
 
   const user = firebase.auth().currentUser
 
+  const [slideNav, setSlideNav] = useState(false)
+
   const [allProducts, setAllProducts] = useState([])
  
   useEffect(() => {
     db.collection('products').doc('allproducts').onSnapshot(snap => {
-      setAllProducts(snap.data().allproducts)
+      setAllProducts(snap.data().allproducts) 
     })
   },[])
 
   return (
     <StoreContext.Provider value={{ 
+      slideNav, setSlideNav,
       allProducts
     }}>
       {props.children}  

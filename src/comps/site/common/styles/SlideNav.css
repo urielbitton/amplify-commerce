@@ -1,0 +1,92 @@
+.slidenav {
+  position: fixed;
+  top: 0;
+  left: -100%;
+  padding: 30px;
+  background: #fff;
+  width: 80%;
+  height: 100vh;
+  transition: all 0.6s;
+  z-index: 1000;
+  overflow-y: scroll;
+}
+.slidenav.open {
+  box-shadow: 16px 0px 22px 2px rgba(0,0,0,0.2);
+  left: 0;
+}
+.slidenav.closed {
+  box-shadow: none;
+}
+.slidenav .menu {
+  display: flex;
+  flex-direction: column;
+  margin-top: 50px;
+}
+.slidenav .menu span {
+  transition: all 0.2s;
+}
+.slidenav .menu .moblink {
+  margin-bottom: 10px;
+  padding: 10px;
+  border-bottom: 1px solid #eee;
+  display: flex;
+  flex-direction: column;
+  transition: all 0.2s;
+  cursor: pointer;
+  max-height: 45px;
+  overflow: hidden; 
+}
+.slidenav .menu .moblink.open {
+  max-height: 250px;
+}
+.slidenav .menu .moblink.open .fa-angle-right {
+  transform: rotate(90deg);
+}
+.slidenav .menu .moblink .head {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.slidenav .menu .moblink .head > i {
+  transition: all 0.3s;
+}
+.slidenav .menu .moblink .body {
+  display: flex;
+  flex-direction: column;
+  margin-top: 20px;
+}
+.slidenav .menu .moblink .body a {
+  font-size: 14px;
+  margin-bottom: 10px;
+  padding: 5px 0;
+  padding-left: 10px;
+  text-transform: capitalize;
+}
+.slidenav .menu .moblink .body a:hover {
+  color: var(--color);
+}
+.slidenav .menu .moblink span {
+  font-weight: 600;
+  color: #555;
+  font-size: 15px;
+  text-transform: capitalize;
+  transition: all 0.2s;
+}
+.slidenav .menu .noborder {
+  border: none;
+  margin-top: 20px;
+}
+.slidenav .menu .moblink:hover, .slidenav .menu .moblink:hover span, .slidenav .menu .activemoblink span {
+  color: var(--color);
+}
+.slidenav .menu .noborder i {
+  left: 10px;
+}
+
+@media (min-width: 1080px) {
+  .slidenav.open {
+    box-shadow: 0;
+    left: -100%;
+  }
+}
