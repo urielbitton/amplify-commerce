@@ -1,0 +1,17 @@
+export default [
+  {name: 'Women\'s Apparel', url: ''},
+  {name: 'Men\'s Apparel', url: ''},
+  {name: 'Kid\'s Apparel', url: ''},
+  {name: 'Shop Collections', url: ''},
+  {name: 'Shop Deals', url: ''},
+  {name: '1-800-384-0039', url: ''},
+  {name: 'help@amplify.com', url: ''},
+  {name: 'Returns & Exchanges', url: '',},
+  {name: 'My Account', url: ''},
+  {name: 'FAQ', url: ''},
+  {name: 'Contact Us', url: ''},
+  {name: 'Our Stores', url: ''},
+  {name: 'About Us', url: ''},
+  {name: 'Careers', url: ''},
+  {name: 'Sustainability', url: ''},
+]
