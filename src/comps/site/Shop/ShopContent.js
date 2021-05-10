@@ -7,10 +7,10 @@ import ProductBox from '../common/ProductBox'
 
 export default function ShopContent() {
 
-  const {allProducts, colorFilter} = useContext(StoreContext)
+  const {allProducts, colorFilter, sizeFilter, ratingFilter, priceFilter} = useContext(StoreContext)
   const [categPos, setCategPos] = useState('all')
   const [sortPos, setSortPos] = useState('default')
-  const [view, setView] = useState(0)
+  const [view, setView] = useState(1)
 
   const categrow = categArr.map(({name,value}) => {
     return <small 
@@ -20,9 +20,16 @@ export default function ShopContent() {
   })
 
   const allproductsrow = allProducts
-    ?.filter(x => x.colors.includes(colorFilter) || colorFilter==='all')
+    ?.filter(x => { 
+      return (
+        (x.colors.includes(colorFilter) || colorFilter==='all') &&
+        (x.sizes.includes(sizeFilter) || sizeFilter==='all') &&
+        (Math.trunc(x.rating) === ratingFilter || ratingFilter==='all') &&
+        ((x.price >= priceFilter[0] && x.price < priceFilter[1]) || priceFilter==='all')
+      )
+    })
     .map(el => {
-      return <ProductBox el={el} />
+      return <ProductBox el={el} small={view===0} className={view===0&&"small"}/>
   })
 
   return (

@@ -15,11 +15,11 @@ export const categArr = [
 
 export const priceArr = [
   {name: 'all', value: 'all'},
-  {name: '$0 - $50', value: [0,50]},
-  {name: '$50 - $100', value: [50,10]},
-  {name: '$100 - $150', value: [100,150]},
-  {name: '$150 - $250', value: [150,250]},
-  {name: '$250 - $500', value: [350,500]},
+  {name: '$0 - $49', value: [0,49]},
+  {name: '$50 - $99', value: [50,99]},
+  {name: '$100 - $149', value: [100,149]},
+  {name: '$150 - $249', value: [150,249]},
+  {name: '$250 - $499', value: [250,499]},
   {name: '$500+', value: [500,Infinity]},
 ]
 
@@ -34,11 +34,11 @@ export const sizeArr = [
 
 export const ratingsArr = [
   {name: 'all', value: 'all'},
-  {name: '5 stars', value: '5'},
-  {name: '4 stars', value: '4'},
-  {name: '3 stars', value: '3'},
-  {name: '2 stars', value: '2'},
-  {name: '1 stars', value: '1'},
+  {name: '5 stars', value: 5},
+  {name: '4 stars', value: 4},
+  {name: '3 stars', value: 3},
+  {name: '2 stars', value: 2},
+  {name: '1 stars', value: 1},
 ]
 
 export const colorsArr = [

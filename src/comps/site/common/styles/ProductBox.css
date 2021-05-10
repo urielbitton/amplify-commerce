@@ -4,6 +4,7 @@
   display: flex;
   flex-direction: column;
   cursor: pointer;
+  transition: all 0.2s;
 }
 .productbox .imgcont {
   width: 100%;
@@ -23,6 +24,9 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+}
+.productbox .infocont .titlebar {
+  flex-wrap: wrap;
 }
 .productbox .infocont h6 {
   font-size: 13px;
@@ -100,6 +104,28 @@
   justify-content: center;
   align-items: center;
   border-radius: 100%;
+}
+.productbox.small {
+  width: 180px;
+  height: 320px;
+}
+.productbox.small .infocont > div:not(.colorsbar) {
+  align-items: center;
+  flex-direction: column;
+  gap: 5px;
+}
+.productbox.small .productactions {
+  width: 95%;
+}
+.productbox.small .productactions > div.addtocartbtn {
+  width: 50px;
+}
+.productbox.small .productactions small i {
+  font-size: 16px;
+  top: 2px;
+}
+.productbox.small .imgcont {
+  height: 200px;
 }
 
 @media (max-width: 1080px) {

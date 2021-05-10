@@ -5,7 +5,7 @@ import Ratings from '../../common/Ratings'
 export default function ProductBox(props) {
 
   const {name, price, rating, imgs, instock, colors} = props.el
-  const {className} = props
+  const {className, small} = props
 
   const colorsrow = colors?.map(el => {
     return <div className="colorcircle" style={{background:el}}></div>
@@ -23,7 +23,9 @@ export default function ProductBox(props) {
             <i className="fal fa-heart"></i>
           </div>
           <div className={`addtocartbtn ${!instock&&"disabled"}`}>
-            <small onClick={() => instock&&addToCart()}>Add to Cart</small>
+            <small onClick={() => instock&&addToCart()}>
+              {!small?"Add to Cart":<i className="fal fa-shopping-cart"></i>}
+            </small>
           </div>
           <div>
             <i className="fal fa-random"></i>
@@ -34,7 +36,7 @@ export default function ProductBox(props) {
         <div className="colorsbar">
           {colorsrow}
         </div>
-        <div>
+        <div className="titlebar">
           <h6>{name}</h6>
           <Ratings rating={rating} />
         </div>
