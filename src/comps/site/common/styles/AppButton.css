@@ -10,6 +10,7 @@
   cursor: pointer;
   transition: all 0.2s;
   white-space: nowrap;
+  user-select: none;
 }
 .appbutton.white {
   background: rgba(255,255,255,0.8);

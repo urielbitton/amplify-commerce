@@ -4,6 +4,10 @@ import Home from '../Home/Home'
 import Error from '../common/Error'
 import './styles/Homecont.css'
 import { StoreContext } from '../../common/StoreContext'
+import Shop from '../Shop/Shop'
+import NewArrivals from '../NewArrivals/NewArrivals'
+import About from '../About/About'
+import Contact from '../Contact/Contact'
 
 export default function HomeCont() {
 
@@ -15,7 +19,19 @@ export default function HomeCont() {
       <Switch>
         <Route exact path="/">
           <Home />
+        </Route> 
+        <Route exact path="/shop">
+          <Shop />
+        </Route>
+        <Route exact path="/new-arrivals">
+          <NewArrivals />
         </Route>  
+        <Route exact path="/about">
+          <About />
+        </Route>
+        <Route exact path="/contact">
+          <Contact />
+        </Route>
         <Route>
           <Error />
         </Route>

@@ -5,11 +5,12 @@ import './styles/HomeBanner.css'
 export default function HomeBanner() {
 
   const [slidePos, setSlidePos] = useState(-1) 
+  const slidettime = 8000
 
   const slidesarr = [
-    {title: 'Women\'s Summer Trends', subtitle: 'New collection 2021', btntext: 'Shop Now', btlink: '/shop/collections', img: 'https://i.imgur.com/4uKF9Ew.jpg'},
-    {title: 'Latest Fashion Apparel', subtitle: 'Winter fashion 2021', btntext: 'Shop Now', btlink: '/shop/collections', img: 'https://i.imgur.com/LqO5TYJ.jpg'},
-    {title: 'Season Fashion Features', subtitle: 'Fall collection 2021', btntext: 'Shop Now', btlink: '/shop/collections', img: 'https://i.imgur.com/M6NyUzJ.jpg'}
+    {title: 'Women\'s Summer Trends', subtitle: 'New collection 2021', btntext: 'Shop Now', btnlink: '/shop/collections', img: 'https://i.imgur.com/4uKF9Ew.jpg'},
+    {title: 'Latest Fashion Apparel', subtitle: 'Winter fashion 2021', btntext: 'Shop Now', btnlink: '/shop/collections', img: 'https://i.imgur.com/LqO5TYJ.jpg'},
+    {title: 'Season Fashion Features', subtitle: 'Fall collection 2021', btntext: 'Shop Now', btnlink: '/shop/collections', img: 'https://i.imgur.com/M6NyUzJ.jpg'}
   ] 
 
   const slidesrow = slidesarr.map(({title,subtitle,btntext,btnlink},i) => {
@@ -42,7 +43,10 @@ export default function HomeBanner() {
     </small>
   })
   const progbarrow = slidesarr.map((el,i) => {
-    return <div className={`slideprogbar ${slidePos===i&&"active"}`}></div>
+    return <div 
+      className={`slideprogbar ${slidePos===i&&"active"}`}
+      style={{transition: slidePos===i&&`width ${slidettime/1000}s linear`}}
+      ></div>
   })
 
   useEffect(() => {
@@ -52,7 +56,7 @@ export default function HomeBanner() {
   useEffect(() => {
     const timer = setInterval(() => {
       setSlidePos(prev => prev<(slidesarr.length-1)?prev+1:0)
-    },8000) 
+    },slidettime) 
     return () => {
       clearInterval(timer) 
     }

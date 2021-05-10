@@ -4,8 +4,12 @@ import Ratings from '../../common/Ratings'
 
 export default function ProductBox(props) {
 
-  const {name, price, rating, imgs, instock} = props.el
+  const {name, price, rating, imgs, instock, colors} = props.el
   const {className} = props
+
+  const colorsrow = colors?.map(el => {
+    return <div className="colorcircle" style={{background:el}}></div>
+  })
 
   function addToCart() {
 
@@ -27,6 +31,9 @@ export default function ProductBox(props) {
         </div>
       </div>
       <div className="infocont">
+        <div className="colorsbar">
+          {colorsrow}
+        </div>
         <div>
           <h6>{name}</h6>
           <Ratings rating={rating} />

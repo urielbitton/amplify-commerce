@@ -1,0 +1,40 @@
+.subscribesection {
+  width: 100%;
+  margin: 50px 0 80px 0;
+}
+.subscribeform {
+  margin: auto;
+  margin-top: 50px;
+  width: 500px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.subscribeform .appinput {
+  display: flex;
+  width: 100%;
+}
+.subscribeform .appinput input {
+  height: 50px;
+}
+.subscribeform .appinput h6 {
+  display: none;
+}
+.subscribeform .subscribeform .appbutton i {
+  display: none;
+}
+
+@media (max-width: 800px) {
+  .subscribeform {
+    width: 100%;
+  }
+}
+@media (max-width: 400px) {
+  .subscribeform {
+    flex-direction: column;
+    gap: 20px;
+  }
+  .subscribeform .appbutton {
+    width: 100%;
+  }
+}

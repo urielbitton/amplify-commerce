@@ -1,0 +1,29 @@
+.pagebanner {
+  background: #f5f5f5;
+  width: 100%;
+  padding: 40px 0;
+}
+.pagebanner .grid {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  gap: 10px;
+}
+.pagebanner .crumbscont {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.pagebanner .crumbscont small {
+  color: var(--graytxt);
+  text-transform: capitalize;
+}
+.pagebanner .crumbscont i {
+  font-size: 15px;
+  top: 2px;
+}
+.pagebanner .titlecont h2 {
+  font-weight: 500;
+  font-size: 30px;
+  color: #333;
+}

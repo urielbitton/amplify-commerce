@@ -1,0 +1,62 @@
+.shopcontent {
+  width: 100%;
+}
+.shopcontent .categbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 25px;
+}
+.shopcontent .categbar > div {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 5px;
+}
+.shopcontent .categbar .categories {
+  gap: 25px;
+}
+.shopcontent .categbar > div i {
+  color: rgba(0,0,0,0.15);
+  cursor: pointer;
+  transition: all 0.2s;
+  padding: 5px;
+}
+.shopcontent .categbar > div i:hover, .shopcontent .categbar > div i.active {
+  color: var(--color);
+}
+.shopcontent .categbar small {
+  color: #777;
+  transition: all 0.2s;
+  cursor: pointer;
+  text-transform: capitalize;
+}
+.shopcontent .categbar small:hover, .shopcontent .categbar small.active {
+  color: var(--color);
+}
+.shopcontent .categbar h6 {
+  color: #555;
+  font-size: 12px;
+}
+.shopcontent .categbar .appselect {
+  margin-left: 10px;
+}
+.shopcontent .categbar select {
+  height: auto;
+  border: none;
+  border-bottom: 1px solid #ddd;
+  padding: 5px 0;
+}
+.shopcontent .categbar select {
+  text-transform: capitalize;
+}
+.shopcontent .productscontent {
+  width: 100%;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 50px 25px;
+  margin-top: 40px;
+}

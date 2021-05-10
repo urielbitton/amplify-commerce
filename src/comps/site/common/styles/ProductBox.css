@@ -15,7 +15,7 @@
   overflow: hidden;
 }
 .productbox .infocont {
-  margin-top: 20px;
+  margin-top: 10px;
   cursor: auto;
 }
 .productbox .infocont > div {
@@ -85,6 +85,21 @@
 .productbox:hover .productactions {
   opacity: 1;
   transform: scale(1);
+}
+.productbox .infocont .colorsbar {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 4px;
+  margin-bottom: 7px;
+}
+.productbox .colorsbar .colorcircle {
+  height: 18px;
+  width: 18px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 100%;
 }
 
 @media (max-width: 1080px) {

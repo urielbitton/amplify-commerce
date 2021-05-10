@@ -1,0 +1,42 @@
+.filterssidebar {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 40px 0;
+}
+.filterssidebar > h3 {
+  color: #444;
+  font-weight: 500;
+}
+.filterssidebar > div {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.filterssidebar > div h4 {
+  color: #444;
+  text-transform: uppercase;
+  font-size: 14px;
+}
+.filterssidebar > div h6 {
+  color: #666;
+  font-weight: 500;
+  font-size: 13px;
+  cursor: pointer;
+  transition: color 0.2s;
+  text-transform: capitalize;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.filterssidebar > div h6:hover {
+  color: var(--color);
+}
+.filterssidebar > div h6.active {
+  color: var(--color);
+}
+.filterssidebar > div .colorcircle {
+  width: 10px;
+  height: 10px;
+  border-radius: 100%;
+}

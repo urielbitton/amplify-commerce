@@ -128,7 +128,6 @@
 }
 .homebanner .slideprogbar.active {
   width: 100%;
-  transition: width 8s linear;
 }
 
 @media (max-width: 800px) {

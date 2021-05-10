@@ -16,7 +16,7 @@ export default [
   },
   {
     name: 'new arrivals',
-    url:'/shop/new-arrivals',
+    url:'/new-arrivals',
     sublinks: [
       {name: 'Collections', url: '/shop/new-arrivals/collections'},
       {name: 'Clothing', url: '/shop/new-arrivals/clothing'},

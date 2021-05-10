@@ -154,27 +154,6 @@
   font-size: 13px;
   opacity: 0.8;
 }
-.section5 .subscribeform {
-  margin: auto;
-  margin-top: 70px;
-  width: 500px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.section5 .appinput {
-  display: flex;
-  width: 100%;
-}
-.section5 .appinput input {
-  height: 50px;
-}
-.section5 .appinput h6 {
-  display: none;
-}
-.section5 .subscribeform .appbutton i {
-  display: none;
-}
 
 @media (max-width: 1080px) {
   .section5 .featuressection {

@@ -1,0 +1,5 @@
+.shoppage .shopgrid {
+  display: grid;
+  grid-template-columns: 220px auto;
+  grid-gap: 20px;
+}
