@@ -12,7 +12,7 @@ export default function Section1() {
   const summertrend = allProducts
   ?.filter(x => x.collection?.includes('summer2021'))
   .map(el => {
-    return <ProductBox el={el} />
+    return <ProductBox el={el} key={el.id} />
   })
  
   return (

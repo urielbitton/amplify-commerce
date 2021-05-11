@@ -22,6 +22,7 @@ export default function SlideNav() {
     return <div 
       className={`moblink ${tabNum===i&&tabOpen&&"open"}`} 
       onClick={() => {setTabNum(i);setTabOpen(prev => !prev)}}
+      key={i}
     >
       <div className="head">
         <NavLink 
@@ -29,6 +30,7 @@ export default function SlideNav() {
           onClick={() => setSlideNav(prev => !prev)}
           exact={name==='home'&&true} 
           activeClassName="activemoblink"
+          key={name}
         >
           <span>{name}</span>
         </NavLink>
@@ -42,6 +44,7 @@ export default function SlideNav() {
               onClick={() => setSlideNav(prev => !prev)}
               exact={true} 
               activeClassName="activemoblink"
+              key={name}
             >
               {name}
             </NavLink>

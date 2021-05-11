@@ -15,18 +15,24 @@ const StoreContextProvider = (props) => {
   const [ratingFilter, setRatingFilter] = useState('all')
 
   const [allProducts, setAllProducts] = useState([])
+  const [myUser, setMyUser] = useState([])
  
   useEffect(() => {
     db.collection('products').doc('allproducts').onSnapshot(snap => {
       setAllProducts(snap.data().allproducts) 
+    }) 
+  },[]) 
+  useEffect(() => {
+    user&&db.collection('users').doc(user.uid).onSnapshot(snap => {
+      setMyUser(snap.data().userinfo)
     })
-  },[])
+  },[user])
 
   return (
     <StoreContext.Provider value={{ 
-      slideNav, setSlideNav, colorFilter, setColorFilter, priceFilter, setPriceFilter,
-      sizeFilter, setSizeFilter, ratingFilter, setRatingFilter,
-      allProducts
+      slideNav, setSlideNav, colorFilter, setColorFilter, priceFilter, setPriceFilter, sizeFilter, setSizeFilter,
+      ratingFilter, setRatingFilter,
+      allProducts, myUser, setMyUser
     }}>
       {props.children}  
     </StoreContext.Provider>

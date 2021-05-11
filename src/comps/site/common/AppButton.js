@@ -4,12 +4,12 @@ import './styles/AppButton.css'
 
 export default function AppButton(props) {
 
-  const {title, icon, url, white=false, shadow=false} = props
+  const {title, icon, url, white=false, shadow=false, className} = props
 
   return (
     <Link to={url}>
       <div  
-        className={`appbutton ${white&&"white"} ${shadow&&"shadow"}`}>
+        className={`appbutton ${className} ${white&&"white"} ${shadow&&"shadow"}`}>
         <span>{title}</span>
         <i className={icon}></i>
       </div>

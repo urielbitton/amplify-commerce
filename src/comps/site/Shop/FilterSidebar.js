@@ -13,24 +13,28 @@ export default function FilterSidebar() {
     return <h6 
       className={`${value===priceFilter&&"active"}`}
       onClick={() => setPriceFilter(value)}
+      key={name}
       >{name}</h6>
   })
   const sizerow = sizeArr?.map(({name,value}) => {
     return <h6 
       className={`${value===sizeFilter&&"active"}`}
       onClick={() => setSizeFilter(value)}
+      key={name}
       >{name}</h6>
   })
   const ratingsrow = ratingsArr?.map(({name,value}) => {
     return <h6 
       className={`${value===ratingFilter&&"active"}`}
       onClick={() => setRatingFilter(value)}
+      key={name}
       >{name}</h6>
   })
   const colorsrow = colorsArr?.map(({name,value}) => {
     return <h6 
       className={`${value===colorFilter&&"active"}`}
       onClick={() => setColorFilter(value)}
+      key={name}
       >
       <div className="colorcircle" style={{background:value}}></div>
       {name}

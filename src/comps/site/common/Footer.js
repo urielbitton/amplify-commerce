@@ -6,7 +6,7 @@ import footlinks from './arrays/footLinks'
 export default function Footer() {
 
   const footlinksrow = footlinks.map(({name,url}) => {
-    return <h6><Link to={url}>{name}</Link></h6>
+    return <h6 key={name}><Link to={url}>{name}</Link></h6>
   })
 
   return (

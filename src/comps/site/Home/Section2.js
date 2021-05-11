@@ -12,7 +12,7 @@ export default function Section2() {
   ]
 
   const categoriesrow = categories?.map(({name,img,url}) => {
-    return <div className="categbox" style={{backgroundImage: `url(${img})`}}>
+    return <div className="categbox" style={{backgroundImage: `url(${img})`}} key={name}>
       <div className="categtitles">
         <h4>{name}</h4>
         <Link to={url}><hr/>Shop Now</Link>

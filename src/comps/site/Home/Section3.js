@@ -23,6 +23,7 @@ export default function Section3() {
     return <ProductBox 
       el={el} 
       className={`${pos==='all'?"visible":el.belongs===pos?"visible":""}`}
+      key={el.id}
     />
   })
 
@@ -30,6 +31,7 @@ export default function Section3() {
     return <h6 
       className={`${pos===name&&"active"}`}
       onClick={() => setPos(name)}
+      key={name}
       >{name}</h6>
   })
 

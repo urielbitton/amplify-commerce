@@ -14,7 +14,7 @@ export default function HomeBanner() {
   ] 
 
   const slidesrow = slidesarr.map(({title,subtitle,btntext,btnlink},i) => {
-    return <div className={`titlescont ${i===slidePos&&"active"}`}>
+    return <div className={`titlescont ${i===slidePos&&"active"}`} key={title}>
       <h5>{subtitle}</h5>
       <h1>{title}</h1>
       <div className="btnscont">
@@ -31,12 +31,14 @@ export default function HomeBanner() {
     return <div 
       className={`bannerbg ${i===slidePos&&"active"}`} 
       style={{backgroundImage: `url(${img})`}}
+      key={i}
       ></div>
   })
   const bannernavrow = slidesarr.map((el,i) => {
     return <small 
       className={i===slidePos&&"active"}
       onClick={() => setSlidePos(i)}
+      key={i}
     > 
       0{i+1}
       <hr/>
@@ -46,6 +48,7 @@ export default function HomeBanner() {
     return <div 
       className={`slideprogbar ${slidePos===i&&"active"}`}
       style={{transition: slidePos===i&&`width ${slidettime/1000}s linear`}}
+      key={i}
       ></div>
   })
 

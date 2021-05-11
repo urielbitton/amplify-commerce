@@ -11,7 +11,7 @@ export default function Section5() {
   ]
 
   const featuresrow = features?.map(({name,icon,text}) => {
-    return <div className="featuresbox">
+    return <div className="featuresbox" key={name}>
       <i className={icon}></i>
       <div>
         <h4>{name}</h4>

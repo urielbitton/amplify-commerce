@@ -124,6 +124,115 @@
   background: var(--color);
   font-size: 11px;
 }
+.navbar .cartcont {
+  position: absolute;
+  top: 70px;
+  right: -15px;
+  width: 340px;
+  padding: 20px;
+  background: #fff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  box-shadow: 0 0 15px 2px rgba(0,0,0,0.1);
+  transition: all 0.2s;
+  opacity: 0;
+  visibility: hidden;
+}
+.navbar .cartcont.show {
+  top: 55px;
+  opacity: 1;
+  visibility: visible;
+}
+.navbar .cartcont .cartproducts {
+  width: 100%;
+  max-height: 300px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+.navbar .cartcont .totalsdiv {
+  width: 100%;
+  height: 45px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-top: 1px solid #ddd;
+  border-bottom: 1px solid #ddd;
+  margin: 20px 0;
+}
+.navbar .cartcont .totalsdiv span {
+  color: #555;
+  font-size: 12px;
+  font-weight: 500;
+  text-transform: uppercase;
+}
+.navbar .cartcont .totalsdiv small {
+  font-weight: 600;
+  color: #444;
+  font-size: 13px;
+}
+.navbar .cartcont .btnscont {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 7px;
+  width: 100%;
+}
+.navbar .cartcont .btnscont a, .navbar .cartcont .btnscont .appbutton {
+  width: 100%;
+}
+.navbar .cartcont .btnscont .appbutton i {
+  display: none;
+}
+.navbar .cartcont .btnscont .checkout {
+  background: var(--color);
+}
+.navbar .cartcont .cartproducts .cartitemcont {
+  width: 100%;
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+}
+.navbar .cartcont .cartproducts img {
+  width: 70px;
+  height: 70px;
+}
+.navbar .cartcont .cartproducts .cartitemcont .infocont {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+.navbar .cartcont .cartproducts .cartitemcont .infocont > div {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  width: 80%;
+}
+.navbar .cartcont .cartproducts .cartitemcont .infocont h5 {
+  font-size: 12px;
+  color: #333;
+  cursor: pointer;
+}
+.navbar .cartcont .cartproducts .cartitemcont .infocont h5:hover {
+  text-decoration: underline;
+}
+.navbar .cartcont .cartproducts .cartitemcont .infocont h6 {
+  color: #333;
+  font-weight: 500;
+  font-size: 11px;
+}
+.navbar .cartcont .cartproducts .cartitemcont .infocont i {
+  font-size: 20px;
+  color: #aaa;
+  cursor: pointer;
+  padding: 5px;
+}
+.navbar .cartcont .cartproducts .cartitemcont .infocont i:hover {
+  color: #333;
+}
 
 @media(max-width: 1080px) {
   .navbar .menu {

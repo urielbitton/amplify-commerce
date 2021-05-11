@@ -8,10 +8,10 @@ export default function PageBanner(props) {
   const location = useLocation()
   const crumbs = location.pathname?.split('/').slice(1)
  
-  const crumbsrow = crumbs?.map(el => {
+  const crumbsrow = crumbs?.map((el,i) => {
     return <>
-      <small><i className="fal fa-angle-left"></i></small>
-      <Link><small>{el.replaceAll('-',' ')}</small></Link>
+      <small key={i}><i className="fal fa-angle-left"></i></small>
+      <Link key={i}><small>{el.replaceAll('-',' ')}</small></Link>
     </>
   })
 

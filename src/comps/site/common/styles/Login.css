@@ -1,0 +1,172 @@
+.loginpage h2 {
+  margin-bottom: 30px;
+  font-size: 30px;
+  color: #444;
+  font-weight: 500;
+}
+.loginpage .xgrid {
+  padding: 80px 0;
+}
+.loginpage .loginbtnscont {
+  width: 100%;
+  margin: 10px 0 40px 0;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+.loginpage .googlebtn {
+  width: 200px;
+  padding: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #fff;
+  box-shadow: 0 0 3px rgba(0,0,0,0.2);
+  transition: all 0.2s;
+  cursor: pointer;
+}
+.loginpage .googlebtn:hover {
+  background: #f5f5f5;
+}
+.loginpage .googlebtn img {
+  width: 20px;
+}
+.loginpage .googlebtn h6 {
+  color: #555;
+  font-size: 12px;
+}
+.loginpage .loginform {
+  width: 100%;
+  margin: auto;
+  display: grid;
+  grid-template-columns: auto 700px;
+  min-height: 500px;
+  grid-gap: 30px;
+}
+.loginpage .imgcont {
+  background-position: center;
+  background-size: cover;
+}
+.loginpage .infocont {
+  padding: 0 40px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+.loginpage .infocont > .appinput {
+  width: 100%;
+  margin-bottom: 15px;
+  display: flex;
+}
+.loginpage .appinput input {
+  font-size: 14px;
+  padding-left: 45px;
+  border: none;
+  border-bottom: 1px solid #ddd;
+}
+.loginpage .appinput input::placeholder {
+  font-size: 15px;
+  color: #ddd;
+  transition: all 0.3s;
+}
+.loginpage .appinput input:focus::placeholder {
+  opacity: 0;
+}
+.loginpage .appinput i {
+  position: absolute;
+  top: 14px;
+  left: 17px;
+  color: #777;
+}
+.loginformactions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  margin-top: 40px;
+  user-select: none;
+}
+.loginformactions input {
+  width: 30px;
+  height: 17px;
+  border-radius: 5px;
+}
+.loginformactions .appinput {
+  display: flex;
+  align-items: center;
+  direction: rtl;
+  width: auto;
+}
+.loginformactions .appinput input {
+  box-shadow: none;
+}
+.loginformactions .appinput h6 {
+  font-size: 12px;
+  color: #555;
+}
+.loginformactions a {
+  font-size: 13px;
+  text-decoration: underline;
+  transition: all 0.2s;
+}
+.loginformactions a:hover {
+  color: var(--color);
+}
+.loginbtn {
+  margin-top: 30px;
+  width: 100%;
+  background: #222;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;
+  height: 50px;
+  color: #fff;
+  cursor: pointer;
+  transition: all 0.2s;
+  user-select: none;
+  margin-bottom: 20px;
+}
+.loginbtn h6 {
+  font-size: 15px;
+  font-weight: 500;
+}
+.loginbtn i {
+  right: 10px;
+  transition: all 0.3s;
+}
+.loginbtn:hover {
+  background: #333;
+}
+.loginbtn:active {
+  transform: scale(0.98);
+}
+.loginbtn:hover i {
+  right: 0;
+}
+.backtosite {
+  font-size: 13px;
+}
+.backtosite:hover {
+  text-decoration: underline;
+}
+.backtosite i {
+  margin-right: 5px;
+}
+.loginpage .bottomdiv {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 15px;
+}
+.loginpage .bottomdiv small {
+  font-size: 13px;
+}
+.loginpage .bottomdiv small a {
+  text-decoration: underline;
+  transition: all 0.2s;
+}
+.loginpage .bottomdiv small a:hover {
+  color: var(--color);
+}

@@ -8,6 +8,8 @@ import Shop from '../Shop/Shop'
 import NewArrivals from '../NewArrivals/NewArrivals'
 import About from '../About/About'
 import Contact from '../Contact/Contact'
+import Login from '../common/Login'
+import Register from '../common/Register'
 
 export default function HomeCont() {
 
@@ -31,6 +33,12 @@ export default function HomeCont() {
         </Route>
         <Route exact path="/contact">
           <Contact />
+        </Route>
+        <Route exact path="/login">
+          <Login /> 
+        </Route>
+        <Route exact path="/register">
+          <Register /> 
         </Route>
         <Route>
           <Error />

@@ -16,6 +16,7 @@ export default function ShopContent() {
     return <small 
       className={value===categPos&&"active"}
       onClick={() => setCategPos(value)}
+      key={name}
     >{name}</small>
   })
 
@@ -29,7 +30,12 @@ export default function ShopContent() {
       )
     })
     .map(el => {
-      return <ProductBox el={el} small={view===0} className={view===0&&"small"}/>
+      return <ProductBox 
+        el={el} 
+        small={view===0} 
+        className={view===0&&"small"}
+        key={el.id}
+      />
   })
 
   return (

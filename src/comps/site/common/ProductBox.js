@@ -1,18 +1,29 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import './styles/ProductBox.css'
 import Ratings from '../../common/Ratings'
+import firebase from 'firebase'
+import {db} from '../../common/Fire'
+import { StoreContext } from '../../common/StoreContext'
 
 export default function ProductBox(props) {
 
+  const {myUser} = useContext(StoreContext)
   const {name, price, rating, imgs, instock, colors} = props.el
   const {className, small} = props
+  const user = firebase.auth().currentUser
 
   const colorsrow = colors?.map(el => {
-    return <div className="colorcircle" style={{background:el}}></div>
+    return <div className="colorcircle" style={{background:el}} key={el}></div>
   })
 
   function addToCart() {
-
+    myUser.cart.push({
+      units: 1,
+      item: props.el
+    })
+    db.collection('users').doc(user.uid).update({
+      userinfo: myUser
+    })
   }
  
   return (

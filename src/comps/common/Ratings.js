@@ -6,8 +6,8 @@ export default function Ratings(props) {
 
   return (
     <div className="ratingscont">
-      { Array.apply(null, { length: Math.round(rating) }).map((el) => <i className="fas fa-star" style={{color}}></i> ) } 
-      { Array.apply(null, { length: 5-Math.round(rating) }).map((el) => ( <i className="far fa-star" style={{color}}></i> )) }
+      { Array.apply(null, { length: Math.round(rating) }).map((el,i) => <i className="fas fa-star" style={{color}} key={i}></i> ) } 
+      { Array.apply(null, { length: 5-Math.round(rating) }).map((el,i) => ( <i className="far fa-star" style={{color}} key={i}></i> )) }
     </div>
   )
 } 
