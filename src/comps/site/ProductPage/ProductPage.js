@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import PageBanner from '../common/PageBanner'
 import './styles/ProductPage.css'
 import AddToCart from '../common/AddToCart'
+import AddToWish from '../common/AddToWish'
 
 export default function ProductPage(props) {
 
@@ -43,6 +44,7 @@ export default function ProductPage(props) {
             <h3 className="price">{currencyFormat.format(price)}</h3>
             <div className="prodactionsrow">
               <AddToCart el={props.el} />
+              <AddToWish el={props.el} />
             </div>
           </div>
         </div>

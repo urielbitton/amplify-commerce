@@ -4,6 +4,8 @@ import Ratings from '../../common/Ratings'
 import { Link, useHistory } from 'react-router-dom'
 import AddToCart from './AddToCart'
 import { StoreContext } from '../../common/StoreContext'
+import AddToWish from './AddToWish'
+import CompareProduct from './CompareProduct'
 
 export default function ProductBox(props) {
 
@@ -24,13 +26,9 @@ export default function ProductBox(props) {
         onClick={() => history.push(`/product/${id}`)}
       >
         <div className="productactions" onClick={(e) => e.stopPropagation()}>
-          <div>
-            <i className="fal fa-heart"></i>
-          </div>
+          <AddToWish el={props.el} />
           <AddToCart el={props.el} />
-          <div>
-            <i className="fal fa-random"></i>
-          </div>
+          <CompareProduct el={props.el} />
         </div>
       </div>
       <div className="infocont">
