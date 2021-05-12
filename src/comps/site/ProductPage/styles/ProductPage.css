@@ -1,3 +1,101 @@
 .mainprodcont {
-
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 40px;
+}
+.mainprodcont > div {
+  display: flex;
+  flex-direction: column;
+}
+.mainprodcont .imgscontent {
+  width: 45%;
+}
+.mainprodcont .imgscontent .imgcontainer {
+  width: 100%;
+  height: 500px;
+  overflow: hidden;
+  cursor: crosshair;
+}
+.mainprodcont .imgscontent .imgcontainer:hover .imgcont {
+  transform: scale(3);
+}
+.mainprodcont .imgscontent .imgcont {
+  width: 100%;
+  height: 100%;
+  background-position: center;
+  background-size: cover;
+  transition: all 0.2s;
+}
+.mainprodcont .imgscontent .imgsrow {
+  width: 100%;
+  height: 80px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  margin-top: 5px;
+}
+.mainprodcont .imgscontent .imgsrow img {
+  width: 100px;
+  height: 100%;
+  transition: all 0.2s;
+  cursor: pointer;
+  opacity: 0.5;
+}
+.mainprodcont .imgscontent .imgsrow img:hover {
+  opacity: 1;
+}
+.mainprodcont .infocont {
+  width: 55%;
+}
+.mainprodcont .infocont h2 {
+  font-size: 27px;
+  color: #444;
+} 
+.mainprodcont .infocont h6.productid {
+  font-size: 12px;
+  color: #aaa;
+  font-weight: 500;
+  margin-top: 5px;
+}
+.mainprodcont .infocont h3.price {
+  margin-top: 20px;
+  font-size: 22px;
+  color: #444;
+}
+.productpage .prodactionsrow {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  margin-top: 40px;
+}
+.productpage .addtocartbtn {
+  background: #222;
+  color: #fff;
+  padding: 15px 25px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.productpage .addtocartbtn:hover {
+  background: #333;
+}
+.productpage .addtocartbtn small {
+  text-transform: uppercase;
+  font-size: 14px;
+}
+.productpage .produnitcontrol {
+  background: #f1f1f1;
+  height: 60px;
+  width: 150px;
+}
+.productpage .produnitcontrol > div {
+  cursor: pointer;
+}
+.productpage .produnitcontrol .productunits {
+  background: #fff;
+  border-top: 1px solid #f1f1f1;
+  border-bottom: 1px solid #f1f1f1;
+  cursor: default;
 }

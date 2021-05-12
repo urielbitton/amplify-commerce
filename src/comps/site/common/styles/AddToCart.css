@@ -1,0 +1,19 @@
+.produnitcontrol {
+  display: flex;
+  align-items: center;
+  width: 120px;
+}
+.produnitcontrol div {
+  height: 100%;
+  width: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.produnitcontrol div:hover:not(.productunits) {
+  background: #333;
+  color: #fff;
+}
+.produnitcontrol .productunits {
+  cursor: default;
+}
