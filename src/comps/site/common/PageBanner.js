@@ -11,7 +11,7 @@ export default function PageBanner(props) {
   const crumbsrow = crumbs?.map((el,i) => {
     return <>
       <small key={i}><i className="fal fa-angle-left"></i></small>
-      <Link key={i}><small>{el.replaceAll('-',' ')}</small></Link>
+      <Link key={i+1}><small>{el.replaceAll('-',' ')}</small></Link>
     </>
   })
 

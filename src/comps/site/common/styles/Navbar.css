@@ -127,7 +127,7 @@
 .navbar .cartcont {
   position: absolute;
   top: 70px;
-  right: -15px;
+  right: -40px;
   width: 340px;
   padding: 20px;
   background: #fff;
@@ -144,6 +144,29 @@
   opacity: 1;
   visibility: visible;
 }
+.navbar  .cartcont .cartfull {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.navbar  .cartcont .cartempty {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  gap: 10px;
+}
+.navbar  .cartcont .cartempty h4 {
+  color: #555;
+  font-size: 17px;
+  margin: 10px 0 20px 0;
+}
+.navbar  .cartcont .cartempty > i {
+  font-size: 20px;
+  color: #aaa;
+}
 .navbar .cartcont .cartproducts {
   width: 100%;
   max-height: 300px;
@@ -151,6 +174,10 @@
   flex-direction: column;
   align-items: center;
   gap: 10px;
+  overflow: auto;
+}
+.navbar .cartcont .cartproducts::-webkit-scrollbar {
+  width: 4px;
 }
 .navbar .cartcont .totalsdiv {
   width: 100%;
@@ -164,14 +191,24 @@
 }
 .navbar .cartcont .totalsdiv span {
   color: #555;
-  font-size: 12px;
+  font-size: 13px;
   font-weight: 500;
   text-transform: uppercase;
 }
 .navbar .cartcont .totalsdiv small {
   font-weight: 600;
   color: #444;
-  font-size: 13px;
+  font-size: 14px;
+}
+.navbar  .cartcont .clearcart {
+  align-self: flex-start;
+  top: -8px;
+  font-size: 12px;
+  color: var(--red);
+  cursor: pointer;
+}
+.navbar  .cartcont .clearcart:hover {
+  text-decoration: underline;
 }
 .navbar .cartcont .btnscont {
   display: flex;
@@ -183,9 +220,6 @@
 .navbar .cartcont .btnscont a, .navbar .cartcont .btnscont .appbutton {
   width: 100%;
 }
-.navbar .cartcont .btnscont .appbutton i {
-  display: none;
-}
 .navbar .cartcont .btnscont .checkout {
   background: var(--color);
 }
@@ -196,7 +230,7 @@
   gap: 10px;
 }
 .navbar .cartcont .cartproducts img {
-  width: 70px;
+  width: 90px;
   height: 70px;
 }
 .navbar .cartcont .cartproducts .cartitemcont .infocont {
@@ -208,7 +242,7 @@
 .navbar .cartcont .cartproducts .cartitemcont .infocont > div {
   display: flex;
   flex-direction: column;
-  gap: 5px;
+  gap: 2px;
   width: 80%;
 }
 .navbar .cartcont .cartproducts .cartitemcont .infocont h5 {
@@ -220,9 +254,9 @@
   text-decoration: underline;
 }
 .navbar .cartcont .cartproducts .cartitemcont .infocont h6 {
-  color: #333;
+  color: #555;
   font-weight: 500;
-  font-size: 11px;
+  font-size: 12px;
 }
 .navbar .cartcont .cartproducts .cartitemcont .infocont i {
   font-size: 20px;
@@ -231,7 +265,7 @@
   padding: 5px;
 }
 .navbar .cartcont .cartproducts .cartitemcont .infocont i:hover {
-  color: #333;
+  color: var(--color);
 }
 
 @media(max-width: 1080px) {

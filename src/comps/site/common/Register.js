@@ -4,6 +4,7 @@ import {AppInput} from '../../common/AppInputs'
 import { Link, useHistory } from 'react-router-dom'
 import firebase from 'firebase'
 import {db} from '../../common/Fire'
+import PageBanner from './PageBanner'
 
 export default function Login(props) {
 
@@ -59,7 +60,6 @@ export default function Login(props) {
             photoURL: 'https://i.imgur.com/1OKoctC.jpg'
           })
           const userinfo = {
-            userid: db.collection('users').doc().id,
             fullname: name,
             usertype: 'client', 
             email: email,
@@ -70,6 +70,7 @@ export default function Login(props) {
             profimg: "https://i.imgur.com/1OKoctC.jpg",
             cart: [],
             wishlist: [],
+            orders: [],
             settings: {
               
             } 
@@ -105,15 +106,21 @@ export default function Login(props) {
           profimg: res.additionalUserInfo.profile.picture,
           cart: [],
           wishlist: [],
+          orders: [],
           settings: {
             
           } 
         }
-        db.collection('users').doc(res.additionalUserInfo.profile.id).set({
-          userinfo
+        firebase.auth().onAuthStateChanged(user => {
+          if(user) {
+            db.collection('users').doc(user.uid).set({
+              userinfo
+            })
+            setAUser(user)
+            console.log(user)
+          }
         }) 
       }
-      setAUser(res.additionalUserInfo)
       history.push('/')
     }).catch((error) => {
       console.log(error)
@@ -128,6 +135,9 @@ export default function Login(props) {
  
   return (
     <div className="loginpage">
+      <PageBanner 
+        title="Register"
+      />
       <div className="grid xgrid">
         <div className="loginform">
           <div className="infocont">
@@ -149,7 +159,7 @@ export default function Login(props) {
             </div>
             <div className="loginbtn" onClick={() => handleSignup()}>
               <span></span>
-              <h6>Sign up</h6>
+              <h6>Create Account</h6>
               <i className="fal fa-long-arrow-right"></i>
             </div>
             <div className="bottomdiv">

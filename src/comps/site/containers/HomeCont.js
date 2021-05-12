@@ -10,10 +10,17 @@ import About from '../About/About'
 import Contact from '../Contact/Contact'
 import Login from '../common/Login'
 import Register from '../common/Register'
+import ProductPage from '../ProductPage/ProductPage'
 
 export default function HomeCont() {
 
-  const {slideNav} = useContext(StoreContext)
+  const {slideNav, allProducts} = useContext(StoreContext)
+
+  const productpagerow = allProducts?.map(el => {
+    return <Route exact path={`/product/${el.id}`}>
+      <ProductPage el={el} /> 
+    </Route>
+  })
  
   return (
     <div className="homecont">
@@ -34,6 +41,7 @@ export default function HomeCont() {
         <Route exact path="/contact">
           <Contact />
         </Route>
+        {productpagerow}
         <Route exact path="/login">
           <Login /> 
         </Route>

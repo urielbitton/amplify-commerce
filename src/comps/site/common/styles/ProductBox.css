@@ -75,7 +75,7 @@
   cursor: pointer;
   transition: all 0.2s;
 }
-.productbox .productactions > div:hover {
+.productbox .productactions > div:hover:not(.produnitcontrol) {
   background: #333;
   color: #fff;
 }
@@ -127,6 +127,26 @@
 .productbox.small .imgcont {
   height: 200px;
 }
+.productbox .productactions > div.produnitcontrol {
+  display: flex;
+  align-items: center;
+  width: 120px;
+}
+.productbox .produnitcontrol div {
+  height: 100%;
+  width: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.productbox .produnitcontrol div:hover:not(.productunits) {
+  background: #333;
+  color: #fff;
+}
+.productbox .produnitcontrol .productunits {
+  cursor: default;
+}
+
 
 @media (max-width: 1080px) {
   .productbox .productactions {

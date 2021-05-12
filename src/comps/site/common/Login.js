@@ -3,6 +3,8 @@ import './styles/Login.css'
 import {AppInput} from '../../common/AppInputs'
 import { Link, useHistory } from 'react-router-dom'
 import firebase from 'firebase'
+import {db} from '../../common/Fire'
+import PageBanner from './PageBanner'
 
 export default function Login(props) {
 
@@ -47,7 +49,6 @@ export default function Login(props) {
       if(user) {
         setAUser(user)
         clearInputs()
-        history.push('/')
       }
       else {
         setAUser(null)
@@ -67,8 +68,38 @@ export default function Login(props) {
     provider.addScope('email')
     firebase.auth().signInWithPopup(provider)
     .then((res) => {
-      setAUser(res.user)
-      history.push('/')
+      if(res.additionalUserInfo.isNewUser) {
+        const userinfo = {
+          userid: res.additionalUserInfo.profile.id,
+          fullname: res.additionalUserInfo.profile.name,
+          usertype: 'client', 
+          email: res.additionalUserInfo.profile.email,
+          phone: "",
+          city: "",
+          provstate: "",
+          country: "",
+          profimg: res.additionalUserInfo.profile.picture,
+          cart: [],
+          wishlist: [],
+          orders: [],
+          settings: {
+            
+          } 
+        }
+        firebase.auth().onAuthStateChanged(user => {
+          if(user) {
+            db.collection('users').doc(user.uid).set({
+              userinfo
+            })
+            console.log(user)
+          }
+        })
+        history.push('/')
+      }
+      else {
+        setAUser(res.user)
+        history.push('/')
+      }
     }).catch((error) => {
       console.log(error)
     })
@@ -76,15 +107,18 @@ export default function Login(props) {
 
   useEffect(() => { 
     clearInputs()
-    authListener()
+    //authListener()
   },[])
  
   return (
     <div className="loginpage">
+      <PageBanner 
+        title="Log In"
+      />
       <div className="grid xgrid">
         <div className="loginform">
           <div className="infocont">
-            <h2>Log in</h2>
+            <h2>Welcome back</h2>
             <div className="loginbtnscont">
             <div className="googlebtn" onClick={() => loginWithGoogle()}>
               <img src="https://i.imgur.com/AiBQ9eZ.png" alt="" />

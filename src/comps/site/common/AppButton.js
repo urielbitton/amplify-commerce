@@ -11,7 +11,7 @@ export default function AppButton(props) {
       <div  
         className={`appbutton ${className} ${white&&"white"} ${shadow&&"shadow"}`}>
         <span>{title}</span>
-        <i className={icon}></i>
+        <i className={icon} style={{display: icon?"block":"none"}}></i>
       </div>
     </Link>
   )

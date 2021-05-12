@@ -20,9 +20,6 @@
 .subscribeform .appinput h6 {
   display: none;
 }
-.subscribeform .subscribeform .appbutton i {
-  display: none;
-}
 
 @media (max-width: 800px) {
   .subscribeform {

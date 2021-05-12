@@ -5,14 +5,14 @@ import { Link, NavLink } from 'react-router-dom'
 import menuLinks from './arrays/menuLinks'
 import {StoreContext} from '../../common/StoreContext'
 import firebase from 'firebase'
+import {db} from '../../common/Fire'
 import AppButton from '../common/AppButton'
 
 export default function Navbar() {
 
-  const {slideNav, setSlideNav, myUser} = useContext(StoreContext)
+  const {slideNav, showCart, setShowCart, setSlideNav, myUser, cartTotal} = useContext(StoreContext)
   const [dealBar, setDealBar] = useState(true)
   const [fixNav, setFixNav] = useState(false)
-  const [showCart, setShowCart] = useState(false)
   const user = firebase.auth().currentUser
   let prevScrollpos = window.pageYOffset
   
@@ -30,17 +30,35 @@ export default function Navbar() {
   })
 
   const cartitemrow = myUser?.cart?.map(el => {
-    return <div className="cartitemcont">
+    return <div className="cartitemcont" key={el?.item?.id}>
       <img src={el?.item?.imgs[0]} alt=""/>
       <div className="infocont">
         <div>
           <h5>{el?.item?.name}</h5>
-          <h6>{el?.units} x ${el?.item.price}</h6>
+          <h6>Price: ${el?.item.price.toFixed(2)}</h6>
+          <h6>Units: {el?.units}</h6>
         </div>
-        <i className="fal fa-times"></i>
+        <i className="fal fa-times" onClick={() => removeCartItem(el?.item?.id)}></i>
       </div>
     </div>
   })
+  function removeCartItem(itemid) {
+    myUser.cart.forEach(el => {
+      if(el.item.id===itemid) {
+        let itemindex = myUser.cart.indexOf(el)
+        myUser.cart.splice(itemindex,1)
+      }
+    })
+    db.collection('users').doc(user.uid).update({
+      userinfo: myUser
+    })
+  }
+  function clearCart() {
+    myUser.cart = []
+    db.collection('users').doc(user.uid).update({
+      userinfo: myUser
+    })
+  }
 
   useEffect(() => {
     window.onscroll = () => {
@@ -87,29 +105,39 @@ export default function Navbar() {
             </div> 
             <div>
               <i className="fal fa-heart"></i>
-              <div className="numcircle">2</div>
+              {myUser?.wishlist?.length>0&&<div className="numcircle">{myUser?.wishlist?.length}</div>}
             </div>
             <div onClick={(e) => e.stopPropagation()}>
               <i className="fal fa-shopping-cart" onClick={() => setShowCart(prev => !prev)}></i>  
-              {myUser?.cart?.length>0&&<div className="numcircle">{myUser.cart.length}</div>}
+              {myUser?.cart?.length>0&&<div className="numcircle">{myUser?.cart?.length}</div>}
               <div className={`cartcont ${showCart&&"show"}`}>
-                <div className="cartproducts">
-                  {cartitemrow} 
+                <div className="cartfull" style={{display: myUser?.cart?.length?"flex":"none"}}>
+                  <div className="cartproducts">
+                    {cartitemrow} 
+                  </div>
+                  <div className="totalsdiv">
+                    <span>Total:</span>
+                    <small>{cartTotal}</small>
+                  </div>
+                  { myUser?.cart?.length>2&&
+                    <small className="clearcart" onClick={() => clearCart()}>Clear Cart</small>
+                  }
+                  <div className="btnscont">
+                    <AppButton title="View Cart" className="viewcart"/>
+                    <AppButton title="Checkout" className="checkout"/> 
+                  </div>
                 </div>
-                <div className="totalsdiv">
-                  <span>total:</span>
-                  <small>${myUser?.cart?.reduce((a, b) => a + b.item.price, 0)}</small>
-                </div>
-                <div className="btnscont">
-                  <AppButton title="View Cart" className="viewcart"/>
-                  <AppButton title="Checkout" className="checkout"/> 
+                <div className="cartempty" style={{display: !myUser?.cart?.length?"flex":"none"}}>
+                  <i className="fal fa-shopping-cart"></i>
+                  <h4>Your cart is empty</h4>
+                  <AppButton title="Add Items" url="/shop"/>
                 </div>
               </div>
             </div>
             <div>
               <Link to={user?"/my-account":"/login"}><i className="fal fa-user"></i></Link>
             </div>
-            { user&& 
+            { user&&  
               <div>
                 <i className="fal fa-sign-out" onClick={() => firebase.auth().signOut()}></i>
               </div>
