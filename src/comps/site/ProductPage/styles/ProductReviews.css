@@ -1,0 +1,4 @@
+.productreviewcont {
+  display: flex;
+  flex-direction: column;
+}

@@ -1,0 +1,35 @@
+.appaccordion {
+  display: flex;
+  flex-direction: column;
+  border-bottom: 1px solid #ddd;
+  margin-top: 20px;
+  overflow: hidden;
+}
+.appaccordion.open .content {
+  max-height: 500px;
+}
+.appaccordion .header {
+  width: 100%;
+  height: 50px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+  user-select: none;
+}
+.appaccordion .header h5 {
+  color: #777;
+}
+.appaccordion .header i {
+  color: #aaa;
+  transition: all 0.2s;
+}
+.appaccordion .header i.up {
+  transform: rotate(180deg);
+}
+.appaccordion .content {
+  display: flex;
+  flex-direction: column;
+  max-height: 0;
+  transition: all 0.5s;
+}

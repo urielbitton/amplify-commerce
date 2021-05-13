@@ -4,16 +4,14 @@ import Logo from '../../common/Logo'
 import { Link, NavLink } from 'react-router-dom'
 import menuLinks from './arrays/menuLinks'
 import {StoreContext} from '../../common/StoreContext'
-import firebase from 'firebase'
 import {db} from '../../common/Fire'
 import AppButton from '../common/AppButton'
 
 export default function Navbar() {
 
-  const {slideNav, showCart, setShowCart, setSlideNav, myUser, cartTotal} = useContext(StoreContext)
+  const {user, slideNav, showCart, setShowCart, setSlideNav, myUser, cartTotal} = useContext(StoreContext)
   const [dealBar, setDealBar] = useState(true)
   const [fixNav, setFixNav] = useState(false)
-  const user = firebase.auth().currentUser
   let prevScrollpos = window.pageYOffset
   
   const menulinksrow = menuLinks?.map(({name,url,exact,sublinks}) => {
@@ -31,10 +29,14 @@ export default function Navbar() {
 
   const cartitemrow = myUser?.cart?.map(el => {
     return <div className="cartitemcont" key={el?.item?.id}>
-      <img src={el?.item?.imgs[0]} alt=""/>
+      <img 
+        src={el?.item?.imgs[0]}  
+        alt="" 
+        title={`Color: ${el.chosenColor}. Size: ${el.chosenSize}`} 
+      />
       <div className="infocont">
         <div>
-          <h5>{el?.item?.name}</h5>
+          <Link to={`/product/${el?.item?.id}`}><h5>{el?.item?.name}</h5></Link>
           <h6>Price: ${el?.item.price.toFixed(2)}</h6>
           <h6>Units: {el?.units}</h6>
         </div>
@@ -100,15 +102,15 @@ export default function Navbar() {
             </div>
           </div>
           <div className="right">
-            <div>
+            <div title="Find products">
               <i className="fal fa-search"></i>
             </div> 
-            <div>
+            <div title="My Wishlist">
               <i className="fal fa-heart"></i>
               {myUser?.wishlist?.length>0&&<div className="numcircle">{myUser?.wishlist?.length}</div>}
             </div>
             <div onClick={(e) => e.stopPropagation()}>
-              <i className="fal fa-shopping-cart" onClick={() => setShowCart(prev => !prev)}></i>  
+              <i className="fal fa-shopping-cart" title="My Cart" onClick={() => setShowCart(prev => !prev)}></i>  
               {myUser?.cart?.length>0&&<div className="numcircle">{myUser?.cart?.length}</div>}
               <div className={`cartcont ${showCart&&"show"}`}>
                 <div className="cartfull" style={{display: myUser?.cart?.length?"flex":"none"}}>
@@ -137,11 +139,6 @@ export default function Navbar() {
             <div>
               <Link to={user?"/my-account":"/login"}><i className="fal fa-user"></i></Link>
             </div>
-            { user&&  
-              <div>
-                <i className="fal fa-sign-out" onClick={() => firebase.auth().signOut()}></i>
-              </div>
-            }
             <div className={`mobbtn ${slideNav&&"active"}`} onClick={() => setSlideNav(prev => !prev)}>
               <hr/><hr/><hr/>
             </div>

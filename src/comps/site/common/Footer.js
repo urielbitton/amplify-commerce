@@ -24,11 +24,11 @@ export default function Footer() {
           </div>
           <div className="col">
             <h4>Help</h4>
-            {footlinksrow.slice(5,9)}
+            {footlinksrow.slice(5,10)}
           </div>
           <div className="col">
             <h4>Company</h4>
-            {footlinksrow.slice(9,15)}
+            {footlinksrow.slice(10,15)}
           </div>
         </div>
         <div className="bottombar">

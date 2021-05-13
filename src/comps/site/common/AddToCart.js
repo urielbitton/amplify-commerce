@@ -1,21 +1,22 @@
 import React, { useContext } from 'react'
 import { StoreContext } from '../../common/StoreContext'
-import firebase from 'firebase'
 import {db} from '../../common/Fire'
 import './styles/AddToCart.css'
 
-export default function AddToCart(props) {
+export default function AddToCart(props) {  
   
-  const {myUser, setShowCart} = useContext(StoreContext)
+  const {myUser, setShowCart, user} = useContext(StoreContext)
   const {id, instock, stock, className, small} = props.el
+  const {chosenColor='', chosenSize=''} = props
   const cart = myUser?.cart
-  const user = firebase.auth().currentUser
   const productunits = cart?.filter(el => el?.item?.id===id)[0]?.units
    
   function addToCart() {
     if(!cart?.find(el => el.item.id === id)) {
       cart.push({
         units: 1,  
+        chosenColor,
+        chosenSize,
         item: props.el
       }) 
       db.collection('users').doc(user.uid).update({ 
@@ -64,9 +65,9 @@ export default function AddToCart(props) {
       </small>
     </div>:
     <div className="produnitcontrol" onClick={(e) => e.stopPropagation()}>
-      <div onClick={() => subUnits()}><i className="fal fa-minus"></i></div>
+      <div onClick={() => subUnits()} title="Remove 1 unit"><i className="fal fa-minus"></i></div>
       <div className="productunits">{productunits}</div>
-      <div onClick={() => addUnits()}><i className="fal fa-plus"></i></div>
+      <div onClick={() => addUnits()} title="Add 1 unit"><i className="fal fa-plus"></i></div>
     </div>
   )
 }
