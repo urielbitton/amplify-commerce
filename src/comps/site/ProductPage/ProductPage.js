@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import PageBanner from '../common/PageBanner'
 import './styles/ProductPage.css'
 import AddToCart from '../common/AddToCart'
@@ -14,7 +14,9 @@ import ProductBox from '../common/ProductBox'
 export default function ProductPage(props) {
 
   const {allProducts} = useContext(StoreContext)
-  const {id, name, price, rating, ratingsarr, imgs, instock, colors, stock, sizes, collection, descript, reviews} = props.el
+  const {id, name, price, rating, ratingsarr, imgs, instock, belongs, colors, stock, sizes,
+    collection, descript, reviews, categories
+  } = props.el
   const [activeImg, setActiveImg] = useState(imgs[0])
   const [chosenColor, setChosenColor] = useState('')
   const [chosenSize, setChosenSize] = useState('')
@@ -40,15 +42,22 @@ export default function ProductPage(props) {
   const socialshares = socialarr.map(({name,icon,url}) => {
     return <i className={icon} title={name} key={name}></i>
   })
+  //find at least 2 matching properties:
+  //.filter(el => el.colors.filter(x => colors.includes(x)).length > 1)
   const similarprodsrow = allProducts
-  ?.filter(el => el.colors.some(x => colors.includes(x)))
+  ?.filter(el => el.categories.some(x => categories.includes(x)) && el.belongs === belongs && el.id!==id)
+  .slice(0,4)
   .map(el => {
     return <ProductBox el={el} />
   })
 
   function magnifyImg(e) {
-     
+      
   }
+
+  useEffect(() => {
+    setActiveImg(imgs[0])
+  },[id])
 
   return (
     <div className="productpage">
@@ -89,8 +98,8 @@ export default function ProductPage(props) {
             <p className="description">{descript}</p>
             <hr/>
             <div className="productinfolist">
-              <div><h6>Collection</h6><span>{collection.join(', ')}</span></div>
-              <div><h6>Category</h6><span>-</span></div>
+              <div><h6>Collection</h6><span>{collection?.join(', ')}</span></div>
+              <div><h6>Categories</h6><span>{categories?.join(', ')}</span></div>
               <div><h6>Brand Name</h6><span>-</span></div>
               <div><h6>Stock Status</h6><span className={instock?"instock":"nostock"}>{instock?"In Stock":"Out of Stock"}</span></div>
               <div><h6>Share Product</h6><span>{socialshares}</span></div>
@@ -133,7 +142,7 @@ export default function ProductPage(props) {
           </div>
         </div>
         <div className="similarprodscont">
-          <h2>Similar Products</h2>
+          <h2>Similar Products ({similarprodsrow.length})</h2>
           <div className="productsrow">
             {similarprodsrow}
           </div>
