@@ -98,11 +98,11 @@ export default function ProductPage(props) {
             <p className="description">{descript}</p>
             <hr/>
             <div className="productinfolist">
-              <div><h6>Collection</h6><span>{collection?.join(', ')}</span></div>
+              <div><h6>Collections</h6><span>{collection?.join(', ')}</span></div>
               <div><h6>Categories</h6><span>{categories?.join(', ')}</span></div>
               <div><h6>Brand Name</h6><span>-</span></div>
               <div><h6>Stock Status</h6><span className={instock?"instock":"nostock"}>{instock?"In Stock":"Out of Stock"}</span></div>
-              <div><h6>Share Product</h6><span>{socialshares}</span></div>
+              <div><h6>Share Product</h6><span className="socialshares">{socialshares}</span></div>
               <div><h6>Rating</h6><span><Ratings rating={rating} /><small>({ratingsarr.length})</small></span></div>
               <div className="accordioncont">
                 <AppAccordion title="Product Description" className="proddescript">

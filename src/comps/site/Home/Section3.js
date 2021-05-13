@@ -4,6 +4,7 @@ import ProductBox from '../common/ProductBox'
 import SectionTitles from '../common/SectionTitles'
 import './styles/HomeSections.css'
 import AppButton from '../common/AppButton' 
+import Loader from '../../common/Loader'
 
 export default function Section3() {
 
@@ -19,6 +20,7 @@ export default function Section3() {
 
   const newarrivals = allProducts
   ?.filter(x => x.collection?.includes('newarrivals') && x.belongs)
+  .slice(0,8)
   .map(el => {
     return <ProductBox 
       el={el} 
@@ -46,7 +48,11 @@ export default function Section3() {
           <div className="s3nav">
             {belongsrow}
           </div>
-          {newarrivals}
+          {
+            allProducts.length?
+            newarrivals:
+            <Loader height="700px"/>
+          }
         </div>
         <div className="btncont">
           <AppButton 

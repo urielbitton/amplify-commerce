@@ -175,6 +175,10 @@
 .productpage .productinfolist span i {
   margin-right: 10px;
   cursor: pointer;
+  transition: all 0.2s;
+}
+.productpage .productinfolist .socialshares i:hover {
+  color: #111;
 }
 .productpage .productinfolist span .ratingscont i {
   margin: 0;

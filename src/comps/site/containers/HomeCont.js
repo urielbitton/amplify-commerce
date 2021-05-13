@@ -11,6 +11,7 @@ import Contact from '../Contact/Contact'
 import Login from '../common/Login'
 import Register from '../common/Register'
 import ProductPage from '../ProductPage/ProductPage'
+import Loader from '../../common/Loader'
 
 export default function HomeCont() {
 
@@ -41,7 +42,11 @@ export default function HomeCont() {
         <Route exact path="/contact">
           <Contact />
         </Route>
-        {productpagerow}
+        {
+          allProducts.length?
+          productpagerow:
+          <Loader height="70vh" />
+        }
         <Route exact path="/login">
           <Login /> 
         </Route>

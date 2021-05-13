@@ -4,6 +4,7 @@ import {categArr, sortArr} from './arrays/FilterArrays'
 import {AppSelect} from '../../common/AppInputs'
 import {StoreContext} from '../../common/StoreContext'
 import ProductBox from '../common/ProductBox'
+import Loader from '../../common/Loader'
 
 export default function ShopContent() {
 
@@ -61,7 +62,11 @@ export default function ShopContent() {
         </div>
       </div>
       <div className="productscontent">
-        {allproductsrow}
+        {
+          allProducts.length?
+          allproductsrow:
+          <Loader />
+        }
       </div>
     </div>
   )
