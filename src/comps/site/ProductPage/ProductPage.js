@@ -1,21 +1,53 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import PageBanner from '../common/PageBanner'
 import './styles/ProductPage.css'
 import AddToCart from '../common/AddToCart'
 import AddToWish from '../common/AddToWish'
+import {AppSelect} from '../../common/AppInputs'
+import {sizeConverter, colorConverter} from '../../common/UtilityFuncs'
+import Ratings from '../../common/Ratings'
+import AppAccordion from '../common/AppAccordion'
+import ProductReviews from './ProductReviews'
+import { StoreContext } from '../../common/StoreContext'
+import ProductBox from '../common/ProductBox'
 
 export default function ProductPage(props) {
 
-  const {id, name, price, rating, imgs, instock, colors, stock, sizes, collection} = props.el
+  const {allProducts} = useContext(StoreContext)
+  const {id, name, price, rating, ratingsarr, imgs, instock, colors, stock, sizes, collection, descript, reviews} = props.el
   const [activeImg, setActiveImg] = useState(imgs[0])
-  const currencyFormat = new Intl.NumberFormat('en-CA', {style: 'currency', currency: 'CAD'})
+  const [chosenColor, setChosenColor] = useState('')
+  const [chosenSize, setChosenSize] = useState('')
+  const [secTab, setSecTab] = useState(0)
+  const currencyFormat = new Intl.NumberFormat('en-CA', {style: 'currency', currency: 'CAD'}) 
 
+  const socialarr = [
+    {name: 'Facebook',icon: 'fab fa-facebook-f', url: ''},
+    {name: 'Twitter',icon: 'fab fa-twitter', url: ''},
+    {name: 'LinkedIn',icon: 'fab fa-linkedin-in', url: ''},
+    {name: 'Pinterest',icon: 'fab fa-instagram', url: ''},
+    {name: 'Pinterest',icon: 'fab fa-pinterest', url: ''}  
+  ]
   const imgsrow = imgs?.map(el => {
-    return <img src={el} alt="" onClick={() => setActiveImg(el)}/>
+    return <img src={el} alt="" onClick={() => setActiveImg(el)} key={el}/>
+  })
+  const coloroptions = colors?.map(el => {
+    return {name:colorConverter(el)}
+  })
+  const sizeoptions = sizes?.map(el => {
+    return {name:sizeConverter(el)}
+  })
+  const socialshares = socialarr.map(({name,icon,url}) => {
+    return <i className={icon} title={name} key={name}></i>
+  })
+  const similarprodsrow = allProducts
+  ?.filter(el => el.colors.some(x => colors.includes(x)))
+  .map(el => {
+    return <ProductBox el={el} />
   })
 
   function magnifyImg(e) {
-    
+     
   }
 
   return (
@@ -43,9 +75,67 @@ export default function ProductPage(props) {
             <h6 className="productid">Product ID: {id}</h6>
             <h3 className="price">{currencyFormat.format(price)}</h3>
             <div className="prodactionsrow">
-              <AddToCart el={props.el} />
+              <AddToCart el={props.el} chosenColor={chosenColor} chosenSize={chosenSize} />
               <AddToWish el={props.el} />
+              <AppSelect 
+                options={[{name: 'Choose a Color'},...coloroptions]}
+                onChange={(e) => setChosenColor(e.target.value)}
+              />
+              <AppSelect 
+                options={[{name: 'Choose a Size'},...sizeoptions]}
+                onChange={(e) => setChosenSize(e.target.value)}
+              />
             </div>
+            <p className="description">{descript}</p>
+            <hr/>
+            <div className="productinfolist">
+              <div><h6>Collection</h6><span>{collection.join(', ')}</span></div>
+              <div><h6>Category</h6><span>-</span></div>
+              <div><h6>Brand Name</h6><span>-</span></div>
+              <div><h6>Stock Status</h6><span className={instock?"instock":"nostock"}>{instock?"In Stock":"Out of Stock"}</span></div>
+              <div><h6>Share Product</h6><span>{socialshares}</span></div>
+              <div><h6>Rating</h6><span><Ratings rating={rating} /><small>({ratingsarr.length})</small></span></div>
+              <div className="accordioncont">
+                <AppAccordion title="Product Description" className="proddescript">
+                <div>
+                  <p>Product dimensions: length - 67 cm, width - 20 cm, height - 14 cm.</p>
+                  <p>Material: Cotton (20%) and Synthetic Wool (75%) Fiber (5%)</p>
+                  <p>Instruction: Washable in machine, use hot water. 30 minute machine dry. Material stretched</p>
+                  <p>*Made from high quality material in the U.S.</p>
+                </div>
+                </AppAccordion>
+                <AppAccordion title="Shipping & Returns" className="prodshipping">
+                  <div>
+                    <p>Express and regular shipping is available for this product. </p>
+                    <p>Free shipping is offered on all orders of $50 or more</p>
+                    <p>This product is fully refundable within 30 days of purchase</p>
+                    <p>We will handle all return and shipping fees.</p>
+                  </div>
+                </AppAccordion>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div className="section">
+          <div className="header">
+            <h2 className={secTab===0?"active":""} onClick={() => setSecTab(0)}>Customer Reviews ({reviews.length})</h2>
+            <h2 className={secTab===1?"active":""} onClick={() => setSecTab(1)}>Product Details</h2>
+          </div>
+          <div className="content">
+            {
+              secTab===0?
+              <ProductReviews reviews={reviews} />:
+              <div className="productdetailscont">
+              <p>No product details available right now</p>
+              </div>
+            }
+          </div>
+        </div>
+        <div className="similarprodscont">
+          <h2>Similar Products</h2>
+          <div className="productsrow">
+            {similarprodsrow}
           </div>
         </div>
       </div>

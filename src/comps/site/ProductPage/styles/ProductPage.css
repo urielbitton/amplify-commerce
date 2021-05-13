@@ -1,20 +1,20 @@
 .mainprodcont {
   width: 100%;
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-start;
   align-items: flex-start;
-  gap: 40px;
+  gap: 40px 80px;
 }
 .mainprodcont > div {
   display: flex;
   flex-direction: column;
 }
 .mainprodcont .imgscontent {
-  width: 45%;
+  width: 580px;
 }
 .mainprodcont .imgscontent .imgcontainer {
   width: 100%;
-  height: 500px;
+  height: 620px;
   overflow: hidden;
   cursor: crosshair;
 }
@@ -46,7 +46,7 @@
   opacity: 1;
 }
 .mainprodcont .infocont {
-  width: 55%;
+  width: 560px;
 }
 .mainprodcont .infocont h2 {
   font-size: 27px;
@@ -67,14 +67,32 @@
   width: 100%;
   display: flex;
   align-items: center;
+  flex-wrap: wrap;
   gap: 20px;
   margin-top: 30px;
+}
+.productpage .prodactionsrow .appselect select {
+  background: #f1f1f1;
+  border: none;
+  text-transform: capitalize;
+  height: 50px;
+  transition: all 0.2s;
+}
+.productpage .prodactionsrow .appselect select:hover {
+  background: #ddd;
+}
+.productpage .prodactionsrow .appselect select:hover option {
+  background: #f1f1f1;
 }
 .productpage .addtocartbtn {
   background: #222;
   color: #fff;
-  padding: 15px 25px;
+  padding: 0 25px;
+  height: 50px;
   cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   transition: background 0.2s;
 }
 .productpage .addtocartbtn:hover {
@@ -91,6 +109,7 @@
 } 
 .productpage .produnitcontrol > div {
   cursor: pointer;
+  transition: all 0.2s;
 }
 .productpage .produnitcontrol .productunits {
   background: #fff;
@@ -110,6 +129,160 @@
   transition: all 0.2s;
 }
 .productpage .prodactionsrow .addtowishbtn:hover {
-  background: #222;
-  color: #fff;
+  background: #ddd;
 }
+.productpage p.description {
+  margin-top: 20px;
+  font-size: 14px;
+  width: 95%;
+  color: #444;
+  margin-bottom: 10px;
+}
+.productpage .infocont > hr {
+  width: 100%;
+  height: 1px;
+  background: #eee;
+  margin: 20px auto;
+}
+.productpage .productinfolist {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.productpage .productinfolist > div {
+  display: flex;
+  align-items: center;
+}
+.productpage .productinfolist h6 {
+  font-size: 14px;
+  color: #333;
+  font-weight: 500;
+  width: 200px;
+}
+.productpage .productinfolist span {
+  color: #aaa;
+  text-transform: capitalize;
+  font-size: 14px;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.productpage .productinfolist span.nostock {
+  color: var(--red);
+}
+.productpage .productinfolist span i {
+  margin-right: 10px;
+  cursor: pointer;
+}
+.productpage .productinfolist span .ratingscont i {
+  margin: 0;
+  font-size: 16px;
+  cursor: default;
+}
+.productpage .productinfolist span .ratingscont {
+  display: inline;
+}
+.productpage .productinfolist .accordioncont {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+.productpage .accordioncont > div {
+  width: 100%;
+}
+.productpage .appaccordion .content p {
+  font-size: 13px;
+  color: #777;
+  font-weight: 500;
+}
+.productpage .appaccordion .content > div {
+  margin-bottom: 10px;
+}
+.productpage .appaccordion .content > div p {
+  margin: 10px 0;
+}
+
+.productpage .section {
+  width: 100%;
+  padding: 40px 0;
+  border-bottom: 1px solid #ddd;
+  margin-top: 70px;
+}
+.productpage .section .header {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 50px;
+}
+.productpage .section .header h2 {
+  color: #444;
+  text-align: center;
+  font-size: 22px;
+  opacity: 0.3;
+  user-select: none;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.productpage .section .header h2.active, .productpage .section .header h2:hover {
+  opacity: 1;
+}
+.productpage .section .content {
+  margin-top: 50px;
+}
+.productpage .similarprodscont {
+  margin-top: 50px;
+}
+.productpage .similarprodscont h2 {
+  color: #333;
+  font-size: 22px;
+}
+.productpage .similarprodscont .productsrow {
+  width: 100%;
+  margin-top: 40px;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

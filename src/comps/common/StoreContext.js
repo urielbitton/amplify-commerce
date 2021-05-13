@@ -33,10 +33,9 @@ const StoreContextProvider = (props) => {
 
   return (
     <StoreContext.Provider value={{ 
-      slideNav, setSlideNav, showCart, setShowCart, cartTotal,
-      colorFilter, setColorFilter, priceFilter, setPriceFilter, sizeFilter, setSizeFilter,
-      ratingFilter, setRatingFilter,
-      allProducts, myUser, setMyUser
+      slideNav, setSlideNav, showCart, setShowCart, cartTotal, colorFilter, setColorFilter, priceFilter,
+      setPriceFilter, sizeFilter, setSizeFilter, ratingFilter, setRatingFilter,
+      allProducts, myUser, setMyUser, user
     }}>
       {props.children}  
     </StoreContext.Provider>

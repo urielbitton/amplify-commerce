@@ -7,6 +7,7 @@ export default [
   {name: '1-800-384-0039', url: ''},
   {name: 'help@amplify.com', url: ''},
   {name: 'Returns & Exchanges', url: '',},
+  {name: 'Order Tracking', url: '',},
   {name: 'My Account', url: ''},
   {name: 'FAQ', url: ''},
   {name: 'Contact Us', url: ''},
