@@ -105,10 +105,12 @@ export default function Navbar() {
             <div title="Find products">
               <i className="fal fa-search"></i>
             </div> 
-            <div title="My Wishlist">
-              <i className="fal fa-heart"></i>
-              {myUser?.wishlist?.length>0&&<div className="numcircle">{myUser?.wishlist?.length}</div>}
-            </div>
+            <Link to="/wishlist">
+              <div title="My Wishlist">
+                <i className="fal fa-heart"></i>
+                {myUser?.wishlist?.length>0&&<div className="numcircle">{myUser?.wishlist?.length}</div>}
+              </div>
+            </Link>
             <div onClick={(e) => e.stopPropagation()}>
               <i className="fal fa-shopping-cart" title="My Cart" onClick={() => setShowCart(prev => !prev)}></i>  
               {myUser?.cart?.length>0&&<div className="numcircle">{myUser?.cart?.length}</div>}

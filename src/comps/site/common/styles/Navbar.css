@@ -98,7 +98,7 @@
 .navbar .right .mobbtn.active hr:nth-child(2) {
   opacity: 0;
 }
-.navbar .right > div {
+.navbar .right > div, .navbar .right > a {
   margin-left: 25px;
 }
 .navbar .right > div i {
@@ -107,10 +107,10 @@
   cursor: pointer;
   color: #555;
 }
-.navbar .right > div i:hover {
+.navbar .right > div i:hover, .navbar .right > a:hover {
   color: var(--color);
 }
-.navbar .right > div .numcircle {
+.navbar .right > div .numcircle, .navbar .right > a .numcircle {
   position: absolute;
   top: -5px;
   right: -17px;

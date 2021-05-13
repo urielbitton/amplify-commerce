@@ -1,0 +1,85 @@
+.wishlistpage .wishlisttable {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+.wishlisttable > div {
+  width: 100%;
+}
+.wishlisttable .header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid #ddd;
+  padding-bottom: 20px;
+}
+.wishlisttable .header h5 {
+  flex-basis: 20%;
+  color: #444;
+  font-size: 15px;
+}
+.wishlisttable .header h5:last-child {
+  flex-basis: 50px;
+}
+.wishlistpage .content {
+  margin-top: 30px;
+  display: flex;
+  flex-direction: column;
+}
+.wishlistpage .content img {
+  width: 70px;
+  height: 70px;
+}
+.wishlistpage .content .wishitem {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+} 
+.wishlistpage .content .wishitem div {
+  flex-basis: 20%;
+}
+.wishlistpage .content .wishitem .delete {
+  flex-basis: 50px;
+  width: 30px;
+  height: 45px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #f1f1f1;
+  transition: all 0.2s;
+  cursor: pointer;
+}
+.wishlistpage .content .wishitem .delete:hover {
+  background: #ddd;
+}
+.wishlistpage .content .wishitem .delete i {
+  font-size: 24px;
+  color: #777;
+}
+.wishlistpage .content .wishitem h6 {
+  font-size: 14px;
+  color: #555;
+  font-weight: 500;
+}
+.wishlistpage .addtocartbtn {
+  background: #222;
+  width: 120px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 10px 20px;
+  color: #fff;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.wishlistpage .addtocartbtn:hover {
+  background: #333;
+}
+.wishlistpage .content .wishitem .produnitcontrol {
+  height: 40px;
+}
+.wishlistpage .produnitcontrol > div {
+  width: 40px;
+  cursor: pointer;
+}

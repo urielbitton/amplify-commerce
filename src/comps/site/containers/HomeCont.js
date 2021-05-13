@@ -12,6 +12,7 @@ import Login from '../common/Login'
 import Register from '../common/Register'
 import ProductPage from '../ProductPage/ProductPage'
 import Loader from '../../common/Loader'
+import Wishlist from '../Wishlist/Wishlist'
 
 export default function HomeCont() {
 
@@ -41,6 +42,9 @@ export default function HomeCont() {
         </Route>
         <Route exact path="/contact">
           <Contact />
+        </Route>
+        <Route exact path="/wishlist">
+          <Wishlist />
         </Route>
         {
           allProducts.length?
