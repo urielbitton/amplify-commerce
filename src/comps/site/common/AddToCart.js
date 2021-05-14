@@ -6,8 +6,8 @@ import './styles/AddToCart.css'
 export default function AddToCart(props) {  
   
   const {myUser, setShowCart, user} = useContext(StoreContext)
-  const {id, instock, stock, className, small} = props.el
-  const {chosenColor='', chosenSize=''} = props
+  const {id, instock, stock} = props.el
+  const {chosenColor='', chosenSize='', className, small} = props
   const cart = myUser?.cart
   const productunits = cart?.filter(el => el?.item?.id===id)[0]?.units
    

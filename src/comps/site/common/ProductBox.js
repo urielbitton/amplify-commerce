@@ -27,7 +27,7 @@ export default function ProductBox(props) {
       >
         <div className="productactions" onClick={(e) => e.stopPropagation()}>
           <AddToWish el={props.el} />
-          <AddToCart el={props.el} />
+          <AddToCart el={props.el} small={small}/>
           <CompareProduct el={props.el} />
         </div>
       </div>

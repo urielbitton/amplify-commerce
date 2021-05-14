@@ -110,7 +110,8 @@
 }
 .wishlistpage .wishlistinfo {
   margin-top: 20px;
-  padding-top: 15px;
+  padding: 15px 0; 
+  border-bottom: 1px solid #eee;
 }
 .wishlistpage .wishlistinfo h6 {
   font-size: 13px;

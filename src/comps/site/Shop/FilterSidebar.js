@@ -6,21 +6,19 @@ import {colorConverter} from '../../common/UtilityFuncs'
 
 export default function FilterSidebar() {
 
-  const {colorFilter, setColorFilter, priceFilter, setPriceFilter, sizeFilter, setSizeFilter,
-    ratingFilter, setRatingFilter, categFilter, setCategFilter
+  const {priceFilter, setPriceFilter, colorFilter, setColorFilter, sizeFilter, setSizeFilter,
+    ratingFilter, setRatingFilter
   } = useContext(StoreContext)
   const [priceBubble, setPriceBubble] = useState()
   const [sizeBubble, setSizeBubble] = useState()
   const [ratingBubble, setRatingBubble] = useState()
   const [colorBubble, setColorBubble] = useState()
-  const [categBubble, setCategBubble] = useState()
 
   const bubblesarr = [
-    {name: 'Price', state: priceBubble, setState: setPriceBubble, clearFilter: setColorFilter, pricebubble: true},
-    {name: 'Size', state: sizeBubble, setState: setSizeBubble, clearFilter: setPriceFilter},
-    {name: 'Rating', state: ratingBubble, setState: setRatingBubble, clearFilter: setSizeFilter},
-    {name: 'Color', state: colorBubble, setState: setColorBubble, clearFilter: setRatingFilter, colorBubble: true,},
-    {name: 'Category', state: categBubble, setState: setCategBubble, clearFilter: setCategFilter}
+    {name: 'Price', state: priceBubble, setState: setPriceBubble, pricebubble: true},
+    {name: 'Color', state: colorBubble, setState: setColorBubble, colorBubble: true,},
+    {name: 'Size', state: sizeBubble, setState: setSizeBubble},
+    {name: 'Rating', state: ratingBubble, setState: setRatingBubble},
   ]
 
   const pricerow = priceArr?.map(({name,value}) => {
@@ -54,15 +52,21 @@ export default function FilterSidebar() {
       {name}
     </h6>
   })
+  function clearFilter(num) {
+    if(num===0) setPriceFilter('all')
+    if(num===1) setColorFilter('all')
+    if(num===2) setSizeFilter('all')
+    if(num===3) setRatingFilter('all')
+  }
 
-  const bubblesrow = bubblesarr.map(({name,state,setState,pricebubble,clearFilter}) => {
+  const bubblesrow = bubblesarr.map(({name,state,setState,pricebubble,colorBubble},i) => {
       return (
         state && state!=='all'?
-        <div className="filterbubble" onClick={() => {setState();clearFilter('all')}}>
+        <div className="filterbubble" onClick={() => {setState();clearFilter(i)}}>
           <small>{name}: {pricebubble?`$${state[0]}-$${state[1]}`:colorBubble?colorConverter(state):state}</small>
           <i className="fal fa-times"></i>
         </div>:
-        "" 
+        ""  
       )
   })
 
