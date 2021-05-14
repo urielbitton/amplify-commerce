@@ -2,11 +2,9 @@ import React, { useContext } from 'react'
 import PageBanner from '../common/PageBanner'
 import './styles/Wishlist.css'
 import {StoreContext} from '../../common/StoreContext'
-import AddToCart from '../common/AddToCart'
-import {db} from '../../common/Fire'
-import { Link } from 'react-router-dom'
 import AppButton from '../common/AppButton'
 import Subscribe from '../common/SubscribeComp'
+import WishItem from './WishItem'
 
 export default function Wishlist() { 
 
@@ -16,26 +14,8 @@ export default function Wishlist() {
   const wishtotal = currencyFormat.format(wishlist?.reduce((a,b) => a + b.price,0))
 
   const wishlistrow = wishlist?.map(el => {
-    return <div className="wishitem">
-      <div><img src={el.imgs[0]} alt="" /></div>
-      <div><Link to={`/product/${el.id}`}><h6>{el.name}</h6></Link></div>
-      <div><h6>{currencyFormat.format(el.price)}</h6></div>
-      <div className="addcartdiv"><AddToCart el={el} /></div>
-      <div className="delete" onClick={() => remWishlist(el.id)}><i className="fal fa-times"></i></div>
-    </div>
+    return <WishItem el={el} wishlist={wishlist} user={user} myUser={myUser} />
   })
-
-  function remWishlist(id) {
-    wishlist.forEach(el => {
-      if(el.id===id) {
-        let itemindex = wishlist.indexOf(el)
-        wishlist.splice(itemindex,1)
-      } 
-    }) 
-    db.collection('users').doc(user.uid).update({ 
-      userinfo: myUser
-    })
-  }
 
   return (
     <div className="wishlistpage">
@@ -46,7 +26,7 @@ export default function Wishlist() {
         {
           wishlist?.length?
           <>
-            <div className="wishlisttable">
+            <div className="wishlisttable producttable">
               <div className="header">
                 <h5>Product</h5>
                 <h5>Product Name</h5>

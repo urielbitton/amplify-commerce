@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useEffect} from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import './styles/PageBanner.css'
 
@@ -14,6 +14,10 @@ export default function PageBanner(props) {
       <Link key={i+1}><small>{el.replaceAll('-',' ')}</small></Link>
     </>
   })
+
+  useEffect(() => {
+    document.title = `${title} - Amplify Commerce`
+  },[])
 
   return (
     <div className="pagebanner">

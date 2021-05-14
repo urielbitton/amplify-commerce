@@ -23,12 +23,12 @@ const StoreContextProvider = (props) => {
  
   useEffect(() => {
     db.collection('products').doc('allproducts').onSnapshot(snap => {
-      setAllProducts(snap.data().allproducts) 
+      setAllProducts(snap?.data()?.allproducts) 
     })  
   },[]) 
   useEffect(() => {
     user&&db.collection('users').doc(user.uid).onSnapshot(snap => {
-      setMyUser(snap.data().userinfo)
+      setMyUser(snap?.data()?.userinfo)
     })
   },[user])
 

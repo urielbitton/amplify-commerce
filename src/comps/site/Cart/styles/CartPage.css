@@ -1,0 +1,12 @@
+.carttable {
+  width: 100%;
+  min-height: 300px;
+}
+.cartactions {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 40px;
+}

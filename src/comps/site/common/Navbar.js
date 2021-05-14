@@ -127,8 +127,8 @@ export default function Navbar() {
                     <small className="clearcart" onClick={() => clearCart()}>Clear Cart</small>
                   }
                   <div className="btnscont">
-                    <AppButton title="View Cart" className="viewcart"/>
-                    <AppButton title="Checkout" className="checkout"/> 
+                    <AppButton title="View Cart" className="viewcart" url="/cart" />
+                    <AppButton title="Checkout" className="checkout" url="/checkout" /> 
                   </div>
                 </div>
                 <div className="cartempty" style={{display: !myUser?.cart?.length?"flex":"none"}}>
