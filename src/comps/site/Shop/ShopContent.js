@@ -8,22 +8,35 @@ import Loader from '../../common/Loader'
 
 export default function ShopContent() {
 
-  const {allProducts, colorFilter, sizeFilter, ratingFilter, priceFilter} = useContext(StoreContext)
-  const [categPos, setCategPos] = useState('all')
+  const {allProducts, colorFilter, sizeFilter, ratingFilter, priceFilter, categFilter, setCategFilter} = useContext(StoreContext)
   const [sortPos, setSortPos] = useState('default')
   const [view, setView] = useState(1)
+  const [limit, setLimit] = useState(8)
+  const [page, setPage] = useState(0)
+  const options = [4,6,8,10,'all'] 
 
   const categrow = categArr.map(({name,value}) => {
     return <small 
-      className={value===categPos&&"active"}
-      onClick={() => setCategPos(value)}
+      className={value===categFilter&&"active"}
+      onClick={() => setCategFilter(value)}
       key={name}
     >{name}</small>
   })
-
+  //select box to choose number of elements per page
+  const optionsrow = options?.map(el => { 
+    if(el==='all') {
+      return <option value={allProducts.length}>{el}</option> 
+    }
+    else {
+      return <option selected={el===limit} value={el}>{el}</option>
+    }
+  })
+  //display and paginate results
   const allproductsrow = allProducts
-    ?.filter(x => { 
+    ?.slice(parseInt((limit*page),10),(parseInt((limit*page),10)+parseInt(limit,10)))
+    .filter(x => { 
       return (
+        (x.belongs === categFilter || categFilter === 'all') &&
         (x.colors.includes(colorFilter) || colorFilter==='all') &&
         (x.sizes.includes(sizeFilter) || sizeFilter==='all') &&
         (Math.trunc(x.rating) === ratingFilter || ratingFilter==='all') &&
@@ -37,6 +50,23 @@ export default function ShopContent() {
         className={view===0&&"small"}
         key={el.id}
       />
+  })
+  //pagination number boxes
+  const paginrows = Array.apply(null, { 
+    length: ((allProducts.length)%limit)===0?((allProducts.length)/limit):((allProducts.length)/limit)+1
+  }).map((el,i) => {
+    if((i+1)===1 || Math.abs(i-page) < 2 || (i+1)===(((allProducts.length)%limit)===0?((allProducts.length)/limit):((allProducts.length)/limit)+1)) {
+      return <div 
+        className={`navbox ${i===page&&'active'}`} 
+        onClick={() => setPage(i)}
+        >
+        {i+1}
+      </div>  
+    }
+    else if((i===1 || i>(page+1)) && (i===(allProducts.length) || (i<page+3))) { 
+      return <div className="navbox"><small>...</small></div>
+    }
+    else return ''
   })
 
   return (
@@ -56,9 +86,39 @@ export default function ShopContent() {
             onClick={() => setView(1)}
           ></i>
           <AppSelect 
+            title={<i className="fal fa-sort-size-down"></i>}
             options={sortArr} 
             onChange={(e) => setSortPos(e.target.value)} 
           />
+        </div>
+      </div>
+      <div className="paginatorrow">
+        <div className="left">
+          <h5>
+            Showing {allproductsrow.length} of {allProducts.length} products
+          </h5>
+          <hr/>
+          <h5>Display: 
+            <select onChange={(e) => setLimit(e.target.value)}>{optionsrow}</select>
+            per page
+          </h5>
+        </div>
+        <div className="paginrowscont">
+        <div 
+          onClick={() => page>0&&setPage(prev => prev-1)}
+          className={`navbox ${!page>0&&"faded"}`}
+        >
+          <small><i className="fal fa-angle-left"></i></small>
+          </div>
+          <div className="paginator">
+            {paginrows}
+          </div>
+          <div 
+            onClick={() => page<(paginrows.length-1)&&setPage(prev => prev+1)} 
+            className={`navbox ${page<paginrows.length-1?"":"faded"}`}
+          >
+            <small><i className="fal fa-angle-right"></i></small>
+          </div>
         </div>
       </div>
       <div className="productscontent">

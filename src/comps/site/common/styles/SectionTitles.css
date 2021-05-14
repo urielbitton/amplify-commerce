@@ -10,10 +10,10 @@
   color: #333;
 }
 .sectiontitles p {
-  font-size: 12px;
+  font-size: 14px;
   text-transform: uppercase;
-  color: #777;
-  margin-top: 10px;
+  color: #999;
+  margin-top: 7px;
 }
 
 @media (max-width: 400px) {

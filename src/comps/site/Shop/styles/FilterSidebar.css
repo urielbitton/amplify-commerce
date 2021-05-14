@@ -40,3 +40,33 @@
   height: 10px;
   border-radius: 100%;
 }
+.filterssidebar .filterbubblecont {
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+.filterssidebar .filterbubblecont .filterbubble {
+  border-radius: 40px;
+  background: #f1f1f1;
+  padding: 10px;
+  display: flex;
+  justify-content: space-between;
+  gap: 3px;
+  align-items: center;
+  transition: all 0.2s;
+  cursor: pointer;
+}
+.filterssidebar .filterbubblecont .filterbubble:hover {
+  background: #ddd;
+}
+.filterssidebar .filterbubblecont .filterbubble small {
+  color: #777;
+  font-size: 11px;
+  text-transform: capitalize;
+}
+.filterssidebar .filterbubblecont .filterbubble i {
+  font-size: 13px;
+  color: #777;
+}

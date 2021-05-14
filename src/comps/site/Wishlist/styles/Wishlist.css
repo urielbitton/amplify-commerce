@@ -1,7 +1,9 @@
 .wishlistpage .wishlisttable {
   width: 100%;
+  min-height: 200px;
   display: flex;
   flex-direction: column;
+  margin-top: 30px;
 }
 .wishlisttable > div {
   width: 100%;
@@ -21,25 +23,25 @@
 .wishlisttable .header h5:last-child {
   flex-basis: 50px;
 }
-.wishlistpage .content {
-  margin-top: 30px;
-  display: flex;
-  flex-direction: column;
-}
-.wishlistpage .content img {
+.wishlisttable img {
   width: 70px;
   height: 70px;
 }
-.wishlistpage .content .wishitem {
+.wishlisttable .content {
+  margin-top: 30px;
+}
+.wishlisttable .wishitem {
   width: 100%;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  border-bottom: 1px solid #eee;
+  padding: 20px 0;
 } 
-.wishlistpage .content .wishitem div {
+.wishlisttable .wishitem div {
   flex-basis: 20%;
 }
-.wishlistpage .content .wishitem .delete {
+.wishlisttable .wishitem .delete {
   flex-basis: 50px;
   width: 30px;
   height: 45px;
@@ -50,17 +52,18 @@
   transition: all 0.2s;
   cursor: pointer;
 }
-.wishlistpage .content .wishitem .delete:hover {
+.wishlisttable .wishitem .delete:hover {
   background: #ddd;
 }
-.wishlistpage .content .wishitem .delete i {
+.wishlisttable .wishitem .delete i {
   font-size: 24px;
   color: #777;
 }
-.wishlistpage .content .wishitem h6 {
+.wishlisttable .wishitem h6 {
   font-size: 14px;
   color: #555;
   font-weight: 500;
+  display: inline;
 }
 .wishlistpage .addtocartbtn {
   background: #222;
@@ -76,10 +79,49 @@
 .wishlistpage .addtocartbtn:hover {
   background: #333;
 }
-.wishlistpage .content .wishitem .produnitcontrol {
-  height: 40px;
+.wishlistpage .wishlisttable .wishitem .produnitcontrol {
+  height: 45px;
+  width: auto;
 }
 .wishlistpage .produnitcontrol > div {
-  width: 40px;
   cursor: pointer;
+  background: #f1f1f1;
+}
+.wishlistpage .produnitcontrol .productunits {
+  background: none;
+  border-top: 1px solid #eee;
+  border-bottom: 1px solid #eee;
+}
+.wishlistpage .emptylist {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  height: 200px;
+}
+.wishlistpage .emptylist h4 {
+  font-size: 20px;
+  color: #aaa;
+  font-weight: 500;
+}
+.wishlistpage .emptylist .appbutton {
+  margin-top: 20px;
+}
+.wishlistpage .wishlistinfo {
+  margin-top: 20px;
+  padding-top: 15px;
+}
+.wishlistpage .wishlistinfo h6 {
+  font-size: 13px;
+  display: flex;
+  align-items: center;
+  font-weight: 500;
+}
+.wishlistpage .wishlistinfo h6 span:first-child {
+  color: #333;
+  width: 120px;
+}
+.wishlistpage .wishlistinfo h6 span:last-child {
+  color: rgb(167, 144, 144);
 }

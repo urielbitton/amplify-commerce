@@ -19,6 +19,7 @@ const StoreContextProvider = (props) => {
   const [priceFilter, setPriceFilter] = useState('all')
   const [sizeFilter, setSizeFilter] = useState('all')
   const [ratingFilter, setRatingFilter] = useState('all')
+  const [categFilter, setCategFilter] = useState('all')
  
   useEffect(() => {
     db.collection('products').doc('allproducts').onSnapshot(snap => {
@@ -34,7 +35,7 @@ const StoreContextProvider = (props) => {
   return (
     <StoreContext.Provider value={{ 
       slideNav, setSlideNav, showCart, setShowCart, cartTotal, colorFilter, setColorFilter, priceFilter,
-      setPriceFilter, sizeFilter, setSizeFilter, ratingFilter, setRatingFilter,
+      setPriceFilter, sizeFilter, setSizeFilter, ratingFilter, setRatingFilter, categFilter, setCategFilter,
       allProducts, myUser, setMyUser, user
     }}>
       {props.children}  
