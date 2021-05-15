@@ -7,9 +7,10 @@ export default function AddToCart(props) {
   
   const {myUser, setShowCart, user} = useContext(StoreContext)
   const {id, instock, stock} = props.el
-  const {chosenColor='', chosenSize='', className, small} = props
+  const {chosenColor='', chosenSize='', className, small, dropdown=true} = props
   const cart = myUser?.cart
   const productunits = cart?.filter(el => el?.item?.id===id)[0]?.units
+  const cartitem = cart?.filter(el => el.item.id===id)
    
   function addToCart() {
     if(!cart?.find(el => el.item.id === id)) {
@@ -21,20 +22,18 @@ export default function AddToCart(props) {
       }) 
       db.collection('users').doc(user.uid).update({ 
         userinfo: myUser
-      }).then(res => setShowCart(true))
+      }).then(res => dropdown&&setShowCart(true))
     }
   }
   function addUnits() {
-    let cartitem = cart?.filter(el => el.item.id===id)
     if(cartitem[0].units < stock) {
       cartitem[0].units = cartitem[0].units + 1
       db.collection('users').doc(user.uid).update({
         userinfo: myUser
-      }).then(res => setShowCart(true))
+      }).then(res => dropdown&&setShowCart(true))
     }
   }
   function subUnits() {
-    let cartitem = cart?.filter(el => el.item.id===id)
     if(cartitem[0].units <= 1) { 
       cart.forEach(el => {
         if(el.item.id===id) {
@@ -44,13 +43,13 @@ export default function AddToCart(props) {
       })
       db.collection('users').doc(user.uid).update({
         userinfo: myUser
-      }).then(res => setShowCart(true))
+      }).then(res => dropdown&&setShowCart(true))
     }
     else if(cartitem[0].units > 0) {
       cartitem[0].units = cartitem[0].units - 1
       db.collection('users').doc(user.uid).update({
         userinfo: myUser
-      }).then(res => setShowCart(true))
+      }).then(res => dropdown&&setShowCart(true))
     }
   }
 

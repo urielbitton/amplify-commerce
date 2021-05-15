@@ -9,7 +9,7 @@ import AppButton from '../common/AppButton'
 
 export default function Navbar() {
 
-  const {user, slideNav, showCart, setShowCart, setSlideNav, myUser, cartTotal} = useContext(StoreContext)
+  const {user, slideNav, showCart, setShowCart, setSlideNav, myUser, cartSubtotal} = useContext(StoreContext)
   const [dealBar, setDealBar] = useState(true)
   const [fixNav, setFixNav] = useState(false)
   let prevScrollpos = window.pageYOffset
@@ -121,7 +121,7 @@ export default function Navbar() {
                   </div>
                   <div className="totalsdiv">
                     <span>Total:</span>
-                    <small>{cartTotal}</small>
+                    <small>{cartSubtotal}</small>
                   </div>
                   { myUser?.cart?.length>2&&
                     <small className="clearcart" onClick={() => clearCart()}>Clear Cart</small>

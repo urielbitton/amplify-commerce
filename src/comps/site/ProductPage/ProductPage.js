@@ -13,7 +13,7 @@ import ProductBox from '../common/ProductBox'
 
 export default function ProductPage(props) {
 
-  const {allProducts} = useContext(StoreContext)
+  const {allProducts, currencyFormat} = useContext(StoreContext)
   const {id, name, price, rating, ratingsarr, imgs, instock, belongs, colors, stock, sizes,
     collection, descript, reviews, categories
   } = props.el
@@ -21,7 +21,6 @@ export default function ProductPage(props) {
   const [chosenColor, setChosenColor] = useState('')
   const [chosenSize, setChosenSize] = useState('')
   const [secTab, setSecTab] = useState(0)
-  const currencyFormat = new Intl.NumberFormat('en-CA', {style: 'currency', currency: 'CAD'}) 
 
   const socialarr = [
     {name: 'Facebook',icon: 'fab fa-facebook-f', url: ''},

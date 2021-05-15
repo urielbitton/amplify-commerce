@@ -1,15 +1,26 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import '../common/styles/ProductTable.css'
 import AddToCart from '../common/AddToCart'
+import { StoreContext } from '../../common/StoreContext'
+import {db} from '../../common/Fire'
 
 export default function CartItem(props) {
   
+  const {currencyFormat, myUser, user} = useContext(StoreContext)
   const {id, name, imgs, price} = props.el.item
   const {chosenColor, chosenSize, units} = props.el
-  const currencyFormat = new Intl.NumberFormat('en-CA', {style: 'currency', currency: 'CAD'}) 
+  const cart = myUser?.cart
 
   function removeItem() {
-    
+    cart.forEach(el => {
+      if(el.item.id===id) {
+        let itemindex = cart.indexOf(el)
+        cart.splice(itemindex,1)
+      } 
+    })
+    db.collection('users').doc(user.uid).update({
+      userinfo: myUser
+    })
   }
 
   return (
@@ -26,9 +37,9 @@ export default function CartItem(props) {
         <h5>{currencyFormat.format(price)}</h5>
       </div>
       <div>
-        <AddToCart el={props.el.item} />
+        <AddToCart el={props.el.item} dropdown={false}/>
       </div>
-      <div>
+      <div className="small">
         <h5>{currencyFormat.format(price*units)}</h5>
       </div>
       <div className="delete" onClick={() => removeItem()}>

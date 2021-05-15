@@ -1,3 +1,16 @@
+.cartpage .cartgrid {
+  display: grid;
+  grid-template-columns: auto 250px;
+  grid-gap: 50px 70px;
+}
+.cartpage .header h5.small, .cartpage .content div.small {
+  flex-basis: 12%;
+}
+.maincartcont {
+  width: 100%;
+  display: flex;
+  flex-direction: column; 
+}
 .carttable {
   width: 100%;
   min-height: 300px;
@@ -9,4 +22,59 @@
   align-items: center;
   flex-wrap: wrap;
   gap: 40px;
+}
+.carttotalscont {
+  display: flex;
+  flex-direction: column;
+}
+.carttotalscont h5 {
+  font-weight: 500;
+  font-size: 16px;
+}
+.carttotalscont > div {
+  padding: 15px 0;
+  border-bottom: 1px solid #ddd;
+}
+.carttotalscont > div:first-child {
+  padding-top: 0;
+}
+.carttotalscont h6 {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 14px;
+}
+.carttotalscont h6 span {
+  font-weight: 500;
+}
+.carttotalscont h6 small {
+  font-size: 13px;
+}
+.carttotalscont .shipping > h6 {
+  align-items: flex-start;
+}
+.carttotalscont .shipoptions {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-top: 10px;
+}
+.carttotalscont .shipoptions .appinput {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.carttotalscont .shipoptions .appinput h6 {
+  font-size: 13px;
+  color: #333;
+}
+.carttotalscont .shipoptions .appinput i {
+  display: none;
+}
+.carttotalscont .shipoptions input {
+  width: 20px;
+  margin-right: 10px;
+}
+.carttotalscont .shipoptions .appinput span {
+  margin-left: 5px;
 }

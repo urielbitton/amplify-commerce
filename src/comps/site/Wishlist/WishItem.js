@@ -1,14 +1,15 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { Link } from 'react-router-dom'
 import {db} from '../../common/Fire'
+import { StoreContext } from '../../common/StoreContext'
 import AddToCart from '../common/AddToCart'
 import '../common/styles/ProductTable.css'
 
 export default function WishItem(props) {
 
+  const {currencyFormat} = useContext(StoreContext)
   const {id, name, imgs, price, instock} = props.el
   const {wishlist, user, myUser} = props
-  const currencyFormat = new Intl.NumberFormat('en-CA', {style: 'currency', currency: 'CAD'}) 
 
   function remWishlist() {
     wishlist.forEach(el => {
