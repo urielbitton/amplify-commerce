@@ -14,6 +14,7 @@ import ProductPage from '../ProductPage/ProductPage'
 import Loader from '../../common/Loader'
 import Wishlist from '../Wishlist/Wishlist'
 import CartPage from '../Cart/CartPage'
+import Checkout from '../Checkout/Checkout'
 
 export default function HomeCont() {
 
@@ -49,6 +50,9 @@ export default function HomeCont() {
         </Route>
         <Route exact path="/cart">
           <CartPage />
+        </Route>
+        <Route exact path="/checkout">
+          <Checkout />
         </Route>
         {
           allProducts.length?

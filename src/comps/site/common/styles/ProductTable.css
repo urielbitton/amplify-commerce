@@ -33,6 +33,9 @@
 .producttable .proditem div {
   flex-basis: 20%;
 }
+.producttable .header h5.small, .producttable .content div.small {
+  flex-basis: 12%;
+}
 .producttable .proditem .prodname {
   display: flex;
   flex-direction: column;

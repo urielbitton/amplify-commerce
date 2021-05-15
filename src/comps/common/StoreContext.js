@@ -13,7 +13,7 @@ const StoreContextProvider = (props) => {
  
   const [slideNav, setSlideNav] = useState(false)
   const [showCart, setShowCart] = useState(false)
-  const cartSubtotal = currencyFormat.format(myUser?.cart?.reduce((a, b) => a + (b.item.price*b.units), 0))
+  const cartSubtotal = myUser?.cart?.reduce((a, b) => a + (b.item.price*b.units), 0)
 
   const [colorFilter, setColorFilter] = useState('all')
   const [priceFilter, setPriceFilter] = useState('all')
@@ -23,7 +23,7 @@ const StoreContextProvider = (props) => {
 
   const [shippingMethods, setShippingMethods] = useState([
     {name: 'Express Shipping', price: 6.99, value: 'express'},
-    {name: 'Regular Shipping', price: 3.99, value: 'regular'},
+    {name: 'Regular Shipping', price: 3.99, value: 'regular', defaultvalue:true},
     {name: 'Local Pickup', price: 0, value: 'pickup'},
   ])
  

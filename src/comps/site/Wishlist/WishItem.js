@@ -25,7 +25,7 @@ export default function WishItem(props) {
 
   return (
     <div className="wishitem proditem">
-      <div><img src={imgs[0]} alt={name} /></div>
+      <div className="small"><img src={imgs[0]} alt={name} /></div>
       <div><Link to={`/product/${id}`}><h6>{name}</h6></Link></div>
       <div><h6>{currencyFormat.format(price)}</h6></div>
       <div className="addcartdiv">

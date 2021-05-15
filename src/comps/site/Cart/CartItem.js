@@ -25,7 +25,7 @@ export default function CartItem(props) {
 
   return (
     <div className="cartitem proditem">
-      <div>
+      <div className="small">
         <img src={imgs[0]} alt={name} />
       </div>
       <div className="prodname">
@@ -33,7 +33,7 @@ export default function CartItem(props) {
         <h6>Color: {chosenColor}</h6>
         <h6>Size: {chosenSize}</h6>
       </div> 
-      <div> 
+      <div className="small"> 
         <h5>{currencyFormat.format(price)}</h5>
       </div>
       <div>

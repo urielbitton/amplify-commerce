@@ -42,3 +42,10 @@
 .wishlistpage .wishlistinfo h6 span:last-child {
   color: rgb(167, 144, 144);
 }
+.wishlistpage .wishlistinfo small {
+  color: var(--red);
+  cursor: pointer;
+}
+.wishlistpage .wishlistinfo small:hover {
+  text-decoration: underline;
+}

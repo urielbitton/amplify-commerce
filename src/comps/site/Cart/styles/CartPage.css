@@ -1,10 +1,8 @@
 .cartpage .cartgrid {
   display: grid;
-  grid-template-columns: auto 250px;
+  grid-template-columns: auto 270px;
+  align-items: flex-start;
   grid-gap: 50px 70px;
-}
-.cartpage .header h5.small, .cartpage .content div.small {
-  flex-basis: 12%;
 }
 .maincartcont {
   width: 100%;
@@ -22,10 +20,32 @@
   align-items: center;
   flex-wrap: wrap;
   gap: 40px;
+  padding: 20px 0;
+  border-bottom: 1px solid #eee;
+}
+.cartactions .appbutton {
+  padding: 15px 20px;
+}
+.cartactions .couponcont {
+  display: flex;
+  align-items: center;
+}
+.cartactions .couponcont input {
+  padding: 14px 20px;
+  padding-left: 12px;
+  text-transform: uppercase;
+}
+.cartactions > div {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  flex-wrap: wrap;
 }
 .carttotalscont {
   display: flex;
   flex-direction: column;
+  background: #f1f1f1;
+  padding: 20px;
 }
 .carttotalscont h5 {
   font-weight: 500;
@@ -42,13 +62,15 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  gap: 5px;
+  flex-wrap: wrap;
   font-size: 14px;
 }
 .carttotalscont h6 span {
   font-weight: 500;
 }
 .carttotalscont h6 small {
-  font-size: 13px;
+  font-size: 15px;
 }
 .carttotalscont .shipping > h6 {
   align-items: flex-start;
@@ -75,6 +97,13 @@
   width: 20px;
   margin-right: 10px;
 }
-.carttotalscont .shipoptions .appinput span {
-  margin-left: 5px;
+.carttotalscont .appbutton {
+  margin-top: 20px;
+  width: 100%;
+}
+
+@media (max-width:1200px) {
+  .maincartcont, .carttotalscont {
+    grid-column: 1/-1;
+  }
 }

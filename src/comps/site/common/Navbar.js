@@ -9,7 +9,7 @@ import AppButton from '../common/AppButton'
 
 export default function Navbar() {
 
-  const {user, slideNav, showCart, setShowCart, setSlideNav, myUser, cartSubtotal} = useContext(StoreContext)
+  const {user, slideNav, showCart, setShowCart, setSlideNav, myUser, cartSubtotal, currencyFormat} = useContext(StoreContext)
   const [dealBar, setDealBar] = useState(true)
   const [fixNav, setFixNav] = useState(false)
   let prevScrollpos = window.pageYOffset
@@ -56,10 +56,13 @@ export default function Navbar() {
     })
   }
   function clearCart() {
-    myUser.cart = []
-    db.collection('users').doc(user.uid).update({
-      userinfo: myUser
-    })
+    let confirm = window.confirm('Are you sure you want to remove all items from your cart?')
+    if(confirm) {
+      myUser.cart = []
+      db.collection('users').doc(user.uid).update({
+        userinfo: myUser
+      })
+    }
   }
 
   useEffect(() => {
@@ -121,7 +124,7 @@ export default function Navbar() {
                   </div>
                   <div className="totalsdiv">
                     <span>Total:</span>
-                    <small>{cartSubtotal}</small>
+                    <small>{currencyFormat.format(cartSubtotal)}</small>
                   </div>
                   { myUser?.cart?.length>2&&
                     <small className="clearcart" onClick={() => clearCart()}>Clear Cart</small>

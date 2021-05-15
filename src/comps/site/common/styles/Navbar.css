@@ -177,6 +177,9 @@
   overflow: auto;
 }
 .navbar .cartcont .cartproducts::-webkit-scrollbar {
+  width: 0;
+}
+.navbar .cartcont .cartproducts:hover::-webkit-scrollbar {
   width: 4px;
 }
 .navbar .cartcont .totalsdiv {
