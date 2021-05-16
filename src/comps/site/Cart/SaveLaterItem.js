@@ -1,30 +1,40 @@
-import React, { useContext, useEffect, useState } from 'react'
-import '../common/styles/ProductTable.css'
-import AddToCart from '../common/AddToCart'
-import { StoreContext } from '../../common/StoreContext'
+import React, {useContext, useEffect, useState} from 'react'
+import {StoreContext} from '../../common/StoreContext'
 import {db} from '../../common/Fire'
-import SaveLater from '../common/SaveLater'
-import EditProduct from '../common/EditProduct'
 
-export default function CartItem(props) {
-  
+export default function SaveLaterItem(props) {
+
   const {currencyFormat, myUser, user} = useContext(StoreContext)
   const {id, name, imgs, price} = props.el.item
   const {chosenColor, chosenSize, units} = props.el
   const [showOpts, setShowOpts] = useState(false)
-  const cart = myUser?.cart
   const savedlater = myUser?.savedlater
+  const cart = myUser?.cart
 
   function removeItem() {
-    cart.forEach(el => {
+    savedlater.forEach(el => {
       if(el.item.id===id) {
-        let itemindex = cart.indexOf(el)
-        cart.splice(itemindex,1)
+        let itemindex = savedlater.indexOf(el)
+        savedlater.splice(itemindex,1)
       } 
     })
     db.collection('users').doc(user.uid).update({
       userinfo: myUser
     })
+  }
+  function addBackToCart() {
+    if(!cart.find(el => el.item.id===id)) {
+      cart.push({
+        units,  
+        chosenColor,
+        chosenSize,
+        item: props.el.item
+      }) 
+      removeItem()
+    }
+    else {
+      window.alert('Product is already in your cart.')
+    }
   }
 
   useEffect(() => {
@@ -34,7 +44,7 @@ export default function CartItem(props) {
   },[showOpts])
 
   return (
-    <div className="cartitem proditem">
+    <div className="savedlateritem proditem">
       <div className="small">
         <img src={imgs[0]} alt={name} />
       </div>
@@ -47,7 +57,7 @@ export default function CartItem(props) {
         <h5>{currencyFormat.format(price)}</h5>
       </div>
       <div>
-        <AddToCart el={props.el.item} dropdown={false}/>
+        <h5>{units}</h5>
       </div>
       <div className="small">
         <h5>{currencyFormat.format(price*units)}</h5>
@@ -57,9 +67,8 @@ export default function CartItem(props) {
           <i className="far fa-ellipsis-h"></i>
         </div>
         <div className={`optionscont ${showOpts?"show":""}`} onClick={() => setShowOpts(prev => !prev)}>
-          <EditProduct />
           <h6 onClick={() => removeItem()}>Delete</h6>
-          <SaveLater el={props.el} cart={cart} savedlater={savedlater} />
+          <h6 onClick={() => addBackToCart()}>Add to Cart</h6>
         </div>
       </div>
     </div>

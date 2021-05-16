@@ -39,9 +39,9 @@
   width: 100%;
   margin: auto;
   display: grid;
-  grid-template-columns: auto 700px;
+  grid-template-columns: auto 600px;
   min-height: 500px;
-  grid-gap: 30px;
+  grid-gap: 40px;
 }
 .loginpage .imgcont {
   background-position: center;

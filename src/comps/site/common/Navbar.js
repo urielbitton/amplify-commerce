@@ -12,6 +12,8 @@ export default function Navbar() {
   const {user, slideNav, showCart, setShowCart, setSlideNav, myUser, cartSubtotal, currencyFormat} = useContext(StoreContext)
   const [dealBar, setDealBar] = useState(true)
   const [fixNav, setFixNav] = useState(false)
+  const cart = myUser?.cart
+  const savedlater = myUser?.savedlater
   let prevScrollpos = window.pageYOffset
   
   const menulinksrow = menuLinks?.map(({name,url,exact,sublinks}) => {
@@ -27,7 +29,7 @@ export default function Navbar() {
     </div>
   })
 
-  const cartitemrow = myUser?.cart?.map(el => {
+  const cartitemrow = cart?.map(el => {
     return <div className="cartitemcont" key={el?.item?.id}>
       <img 
         src={el?.item?.imgs[0]}  
@@ -45,10 +47,10 @@ export default function Navbar() {
     </div>
   })
   function removeCartItem(itemid) {
-    myUser.cart.forEach(el => {
+    cart.forEach(el => {
       if(el.item.id===itemid) {
-        let itemindex = myUser.cart.indexOf(el)
-        myUser.cart.splice(itemindex,1)
+        let itemindex = cart.indexOf(el)
+        cart.splice(itemindex,1)
       }
     })
     db.collection('users').doc(user.uid).update({
@@ -116,9 +118,9 @@ export default function Navbar() {
             </Link>
             <div onClick={(e) => e.stopPropagation()}>
               <i className="fal fa-shopping-cart" title="My Cart" onClick={() => setShowCart(prev => !prev)}></i>  
-              {myUser?.cart?.length>0&&<div className="numcircle">{myUser?.cart?.length}</div>}
+              {cart?.length>0&&<div className="numcircle">{cart?.length}</div>}
               <div className={`cartcont ${showCart&&"show"}`}>
-                <div className="cartfull" style={{display: myUser?.cart?.length?"flex":"none"}}>
+                <div className="cartfull" style={{display: cart?.length?"flex":"none"}}>
                   <div className="cartproducts">
                     {cartitemrow} 
                   </div>
@@ -126,7 +128,7 @@ export default function Navbar() {
                     <span>Total:</span>
                     <small>{currencyFormat.format(cartSubtotal)}</small>
                   </div>
-                  { myUser?.cart?.length>2&&
+                  { cart?.length>2&&
                     <small className="clearcart" onClick={() => clearCart()}>Clear Cart</small>
                   }
                   <div className="btnscont">
@@ -134,11 +136,17 @@ export default function Navbar() {
                     <AppButton title="Checkout" className="checkout" url="/checkout" /> 
                   </div>
                 </div>
-                <div className="cartempty" style={{display: !myUser?.cart?.length?"flex":"none"}}>
-                  <i className="fal fa-shopping-cart"></i>
-                  <h4>Your cart is empty</h4>
-                  <AppButton title="Add Items" url="/shop"/>
-                </div>
+                {
+                  !cart?.length&&
+                  <div className="cartempty">
+                    <i className="fal fa-shopping-cart"></i>
+                    <h4>Your cart is empty</h4>
+                    <div className="emptybtnscont">
+                      <AppButton title="Add Items" url="/shop"/>
+                      {savedlater?.length?<AppButton title="View Saved" url="/cart"/>:""}
+                    </div>
+                  </div>
+                }
               </div>
             </div>
             <div>

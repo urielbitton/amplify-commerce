@@ -270,6 +270,11 @@
 .navbar .cartcont .cartproducts .cartitemcont .infocont i:hover {
   color: var(--color);
 }
+.navbar .emptybtnscont {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
 
 @media(max-width: 1080px) {
   .navbar .menu {

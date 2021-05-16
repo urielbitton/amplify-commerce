@@ -15,6 +15,7 @@ import Loader from '../../common/Loader'
 import Wishlist from '../Wishlist/Wishlist'
 import CartPage from '../Cart/CartPage'
 import Checkout from '../Checkout/Checkout'
+import MyAccount from '../client/MyAccount'
 
 export default function HomeCont() {
 
@@ -54,16 +55,17 @@ export default function HomeCont() {
         <Route exact path="/checkout">
           <Checkout />
         </Route>
-        {
-          allProducts.length?
-          productpagerow:
-          <Loader height="70vh" />
-        }
         <Route exact path="/login">
           <Login /> 
         </Route>
         <Route exact path="/register">
           <Register /> 
+        </Route>
+        {
+          allProducts.length?productpagerow:<Loader height="70vh" />
+        }
+        <Route path="/my-account">
+          <MyAccount />
         </Route>
         <Route>
           <Error />

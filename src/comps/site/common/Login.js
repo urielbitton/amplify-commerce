@@ -1,15 +1,15 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import './styles/Login.css'  
 import {AppInput} from '../../common/AppInputs'
 import { Link, useHistory } from 'react-router-dom'
 import firebase from 'firebase'
 import {db} from '../../common/Fire'
 import PageBanner from './PageBanner'
+import {StoreContext} from '../../common/StoreContext'
 
 export default function Login(props) {
 
-  const user = firebase.auth().currentUser
-  const [auser, setAUser] = useState()
+  const {setAUser} = useContext(StoreContext)
   const [email, setEmail] = useState('') 
   const [password, setPassword] = useState('') 
   const [emailError, setEmailError] = useState('') 
@@ -33,16 +33,7 @@ export default function Login(props) {
         default:
       }  
     })
-    firebase.auth().onAuthStateChanged(user => {
-      if(user) {
-        setAUser(user)
-        clearInputs()
-        history.push('/')
-      }
-      else {
-        setAUser(null)
-      }
-    })
+    authListener()
   } 
   const authListener = () => {
     firebase.auth().onAuthStateChanged(user => {
@@ -80,6 +71,7 @@ export default function Login(props) {
           country: "",
           profimg: res.additionalUserInfo.profile.picture,
           cart: [],
+          savedlater: [],
           wishlist: [],
           orders: [],
           settings: {
@@ -143,7 +135,7 @@ export default function Login(props) {
               <small>Don't have an account? <Link to="/register">Register here</Link></small>
             </div>
           </div>
-          <div className="imgcont" style={{backgroundImage: 'url(https://i.imgur.com/FNmBTAQ.jpg)'}}>
+          <div className="imgcont" style={{backgroundImage: 'url(https://i.imgur.com/WbadmIu.jpg)'}}>
             
           </div>
         </div>

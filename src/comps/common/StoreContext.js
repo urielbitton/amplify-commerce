@@ -7,6 +7,7 @@ export const StoreContext = createContext()
 const StoreContextProvider = (props) => {
 
   const user = firebase.auth().currentUser
+  const [auser, setAUser] = useState('')
   const currencyFormat = new Intl.NumberFormat('en-CA', {style: 'currency', currency: 'CAD'})
   const [allProducts, setAllProducts] = useState([])
   const [myUser, setMyUser] = useState([])
@@ -26,23 +27,24 @@ const StoreContextProvider = (props) => {
     {name: 'Regular Shipping', price: 3.99, value: 'regular', defaultvalue:true},
     {name: 'Local Pickup', price: 0, value: 'pickup'},
   ])
- 
+  
   useEffect(() => {
     db.collection('products').doc('allproducts').onSnapshot(snap => {
       setAllProducts(snap?.data()?.allproducts) 
     })  
-  },[]) 
+  },[auser]) 
   useEffect(() => {
     user&&db.collection('users').doc(user.uid).onSnapshot(snap => {
       setMyUser(snap?.data()?.userinfo)
     })
   },[user])
+  
 
   return (
     <StoreContext.Provider value={{ 
       slideNav, setSlideNav, showCart, setShowCart, cartSubtotal, colorFilter, setColorFilter, priceFilter,
       setPriceFilter, sizeFilter, setSizeFilter, ratingFilter, setRatingFilter, categFilter, setCategFilter,
-      allProducts, myUser, setMyUser, user,
+      allProducts, myUser, setMyUser, user, auser, setAUser,
       shippingMethods, currencyFormat
     }}>
       {props.children}  

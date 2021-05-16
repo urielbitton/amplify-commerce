@@ -14,7 +14,7 @@
 .producttable .header h5:last-child {
   flex-basis: 50px;
 }
-.producttable img {
+.producttable img { 
   width: 70px;
   height: 70px;
 }
@@ -43,23 +43,52 @@
 .producttable .proditem .prodname h6 {
   font-size: 12px;
 }
-.producttable .proditem .delete {
+.producttable .proditem .actionsbox {
   flex-basis: 50px;
+}
+.producttable .proditem .actionsbox .optsbox {
   width: 30px;
-  height: 45px;
+  height: 30px;
+  background: none;
+  border-radius: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
-  background: #f1f1f1;
   transition: all 0.2s;
   cursor: pointer;
 }
-.producttable .proditem .delete:hover {
-  background: #ddd;
+.producttable .proditem .actionsbox .optsbox:hover {
+  background: #f5f5f5;
 }
-.producttable .proditem .delete i {
-  font-size: 24px;
-  color: #777;
+.producttable .proditem .actionsbox .optionscont {
+  position: absolute;
+  right: 0;
+  display: flex;
+  flex-direction: column;
+  min-width: 120px;
+  background: #fff;
+  box-shadow: var(--shadow);
+  visibility: hidden;
+  opacity: 0;
+  cursor: pointer;
+  z-index: 100;
+}
+.producttable .proditem .actionsbox .optionscont.show {
+  visibility: visible;
+  opacity: 1;
+}
+.producttable .proditem .actionsbox .optionscont h6 {
+  padding: 8px 12px;
+  white-space: nowrap;
+  transition: all 0.2s;
+}
+.producttable .proditem .actionsbox .optionscont h6:hover {
+  background: #333;
+  color: #fff;
+}
+.producttable .proditem .actionsbox .optsbox i {
+  font-size: 20px;
+  color: #aaa;
 }
 .producttable .proditem h6 {
   font-size: 14px;

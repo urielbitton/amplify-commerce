@@ -18,7 +18,7 @@ export default function AddToCart(props) {
         units: 1,  
         chosenColor,
         chosenSize,
-        item: props.el
+        item: props.el 
       }) 
       db.collection('users').doc(user.uid).update({ 
         userinfo: myUser

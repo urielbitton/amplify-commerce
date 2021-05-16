@@ -1,15 +1,15 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import './styles/Login.css'  
 import {AppInput} from '../../common/AppInputs'
 import { Link, useHistory } from 'react-router-dom'
 import firebase from 'firebase'
 import {db} from '../../common/Fire'
 import PageBanner from './PageBanner'
+import { StoreContext } from '../../common/StoreContext'
 
 export default function Login(props) {
 
-  const user = firebase.auth().currentUser
-  const [auser, setAUser] = useState()
+  const {setAUser} = useContext(StoreContext)
   const [name, setName] = useState('')
   const [email, setEmail] = useState('') 
   const [password, setPassword] = useState('') 
@@ -69,6 +69,7 @@ export default function Login(props) {
             country: "",
             profimg: "https://i.imgur.com/1OKoctC.jpg",
             cart: [],
+            savedlater: [],
             wishlist: [],
             orders: [],
             settings: {
@@ -105,6 +106,7 @@ export default function Login(props) {
           country: "",
           profimg: res.additionalUserInfo.profile.picture,
           cart: [],
+          savedlater: [],
           wishlist: [],
           orders: [],
           settings: {
@@ -131,7 +133,7 @@ export default function Login(props) {
     clearInputs()
     clearErrors()
     authListener()
-  },[])
+  },[]) 
  
   return (
     <div className="loginpage">

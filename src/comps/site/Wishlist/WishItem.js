@@ -35,7 +35,9 @@ export default function WishItem(props) {
           <small>Out of Stock</small>
         }
       </div>
-      <div className="delete" onClick={() => remWishlist()}><i className="fal fa-times"></i></div>
+      <div className="actionsbox">
+        <i className="fal fa-ellipsis-h"></i> 
+      </div>
     </div>
   )
 }
