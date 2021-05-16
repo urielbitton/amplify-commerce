@@ -2,10 +2,10 @@ import React, { useContext } from 'react'
 import './styles/ProductBox.css'
 import Ratings from '../../common/Ratings'
 import { Link, useHistory } from 'react-router-dom'
-import AddToCart from './AddToCart'
 import { StoreContext } from '../../common/StoreContext'
 import AddToWish from './AddToWish'
 import CompareProduct from './CompareProduct'
+import QuickShopBtn from './QuickShopBtn'
 
 export default function ProductBox(props) {
 
@@ -27,7 +27,7 @@ export default function ProductBox(props) {
       >
         <div className="productactions" onClick={(e) => e.stopPropagation()}>
           <AddToWish el={props.el} />
-          <AddToCart el={props.el} small={small}/>
+          <QuickShopBtn product={props.el} />
           <CompareProduct el={props.el} />
         </div>
       </div>

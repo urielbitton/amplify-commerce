@@ -79,12 +79,13 @@
   background: #333;
   color: #fff;
 }
-.productbox .productactions > div.addtocartbtn {
+.productbox .productactions > div.quickshopbtn {
   width: 120px;
+  color: #333;
 }
-.productbox .productactions > div.addtocartbtn.disabled {
-  pointer-events: none;
+.productbox .productactions > div.quickshopbtn.disabled {
   opacity: 0.4;
+  pointer-events: none;
 }
 .productbox:hover .productactions {
   opacity: 1;

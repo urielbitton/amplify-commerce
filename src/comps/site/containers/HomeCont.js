@@ -16,6 +16,7 @@ import Wishlist from '../Wishlist/Wishlist'
 import CartPage from '../Cart/CartPage'
 import Checkout from '../Checkout/Checkout'
 import MyAccount from '../client/MyAccount'
+import QuickShopComp from '../common/QuickShopComp'
 
 export default function HomeCont() {
 
@@ -30,6 +31,7 @@ export default function HomeCont() {
   return (
     <div className="homecont">
       <div className={`homecontcover ${slideNav&&"visible"}`}></div>
+      <QuickShopComp />
       <Switch>
         <Route exact path="/">
           <Home />

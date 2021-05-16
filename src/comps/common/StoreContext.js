@@ -15,6 +15,14 @@ const StoreContextProvider = (props) => {
  
   const [slideNav, setSlideNav] = useState(false)
   const [showCart, setShowCart] = useState(false)
+  const [showQuickShop, setShowQuickShop] = useState(false)
+  const [quickShopProd, setQuickShopProd] = useState({
+    name: '',
+    price: 0,
+    sizes: [],
+    imgs: [],
+    descript: '',
+  })
   const cartSubtotal = myUser?.cart?.reduce((a, b) => a + (refProd(allProducts,b.id).price*b.units), 0)
 
   const [colorFilter, setColorFilter] = useState('all')
@@ -45,8 +53,8 @@ const StoreContextProvider = (props) => {
     <StoreContext.Provider value={{ 
       slideNav, setSlideNav, showCart, setShowCart, cartSubtotal, colorFilter, setColorFilter, priceFilter,
       setPriceFilter, sizeFilter, setSizeFilter, ratingFilter, setRatingFilter, categFilter, setCategFilter,
-      allProducts, myUser, setMyUser, user, auser, setAUser,
-      shippingMethods, currencyFormat
+      allProducts, myUser, setMyUser, user, auser, setAUser, shippingMethods, currencyFormat, 
+      showQuickShop, setShowQuickShop, quickShopProd, setQuickShopProd
     }}>
       {props.children}  
     </StoreContext.Provider>

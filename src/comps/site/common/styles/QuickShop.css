@@ -1,0 +1,137 @@
+.quickshopcover {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  z-index: 1000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: rgba(0,0,0,0.8);
+  visibility: hidden;
+  opacity: 0;
+  transition: all 0.2s;
+}
+.quickshopcover.show {
+  visibility: visible;
+  opacity: 1;
+}
+.quickshopcont {
+  width: 1080px;
+  height: 700px;
+  background: #fff;
+  display: grid;
+  grid-template-columns: 450px auto;
+  gap: 20px;
+  justify-content: flex-start;
+}
+.quickshopcont .closeicon {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  font-size: 30px;
+  cursor: pointer;
+  padding: 5px;
+  color: #aaa;
+  z-index: 10;
+  transition: all 0.2s;
+}
+.quickshopcont .closeicon:hover {
+  color: #333;
+}
+.quickshopcont .imgcont {
+  height: 700px;
+}
+.quickshopcont .imgcont img {
+  height: 100%;
+}
+.quickshopcont .infocont {
+  display: flex;
+  flex-direction: column;
+  padding: 30px 20px;
+  padding-right: 30px;
+}
+.quickshopcont .infocont h2 {
+  font-weight: 500;
+  color: #444;
+  font-size: 26px;
+  margin-bottom: 20px;
+}
+.quickshopcont .infocont p.descript {
+  font-size: 13px;
+  width: 90%;
+  color: #555;
+  margin-bottom: 40px;
+}
+.quickshopcont .infocont .section {
+  width: 100%;
+  padding: 15px 0;
+  border-bottom: 1px solid #eee;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.quickshopcont .infocont .section h6 {
+  font-size: 14px;
+  color: #444;
+  font-weight: 500;
+}
+.quickshopcont .infocont .section span {
+  font-size: 15px;
+  font-weight: 600;
+  color: #444;
+}
+.quickshopcont .infocont .sizesopts {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.quickshopcont .infocont .sizesopts .sizebox {
+  width: 30px;
+  height: 30px;
+  background: #f1f1f1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+.quickshopcont .infocont .sizesopts .sizebox:hover, 
+.quickshopcont .infocont .sizesopts .sizebox.active {
+  background: #222;
+}
+.quickshopcont .infocont .sizesopts .sizebox:hover small, 
+.quickshopcont .infocont .sizesopts .sizebox.active small {
+  color: #fff;
+}
+.quickshopcont .infocont .sizesopts small {
+  color: #444;
+  font-weight: 500;
+  font-size: 13px;
+  text-transform: uppercase;
+  transition: all 0.2s;
+}
+.quickshopcont .infocont .colorsopts {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+.quickshopcont .infocont .colorcircle {
+  width: 27px;
+  height: 27px;
+  border-radius: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.quickshopcont .infocont .colorcircle:hover,
+.quickshopcont .infocont .colorcircle.active {
+  border: 1px solid #555;
+}
+.quickshopcont .infocont .colorcircle .color {
+  width: 23px;
+  height: 23px;
+  border-radius: 100%;
+}
