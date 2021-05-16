@@ -2,23 +2,24 @@ import React, { useContext } from 'react'
 import { StoreContext } from '../../common/StoreContext'
 import {db} from '../../common/Fire'
 import './styles/AddToCart.css'
+import refProd from '../../common/referProduct'
 
 export default function AddToCart(props) {  
   
-  const {myUser, setShowCart, user} = useContext(StoreContext)
-  const {id, instock, stock} = props.el
+  const {myUser, setShowCart, user, allProducts} = useContext(StoreContext)
+  const {id, instock, stock} = refProd(allProducts,props.el.id)
   const {chosenColor='', chosenSize='', className, small, dropdown=true} = props
   const cart = myUser?.cart
-  const productunits = cart?.filter(el => el?.item?.id===id)[0]?.units
-  const cartitem = cart?.filter(el => el.item.id===id)
+  const productunits = cart?.find(el => el?.id===id)?.units
+  const cartitem = cart?.find(el => el.id===id)
    
   function addToCart() {
-    if(!cart?.find(el => el.item.id === id)) {
+    if(!cart?.find(el => el.id === id)) {
       cart.push({
         units: 1,  
         chosenColor,
         chosenSize,
-        item: props.el 
+        id
       }) 
       db.collection('users').doc(user.uid).update({ 
         userinfo: myUser
@@ -26,17 +27,17 @@ export default function AddToCart(props) {
     }
   }
   function addUnits() {
-    if(cartitem[0].units < stock) {
-      cartitem[0].units = cartitem[0].units + 1
+    if(cartitem.units < stock) {
+      cartitem.units = cartitem.units + 1
       db.collection('users').doc(user.uid).update({
         userinfo: myUser
       }).then(res => dropdown&&setShowCart(true))
     }
   }
   function subUnits() {
-    if(cartitem[0].units <= 1) { 
+    if(cartitem.units <= 1) { 
       cart.forEach(el => {
-        if(el.item.id===id) {
+        if(el.id===id) {
           let itemindex = cart.indexOf(el)
           cart.splice(itemindex,1)
         } 
@@ -45,8 +46,8 @@ export default function AddToCart(props) {
         userinfo: myUser
       }).then(res => dropdown&&setShowCart(true))
     }
-    else if(cartitem[0].units > 0) {
-      cartitem[0].units = cartitem[0].units - 1
+    else if(cartitem.units > 0) {
+      cartitem.units = cartitem.units - 1
       db.collection('users').doc(user.uid).update({
         userinfo: myUser
       }).then(res => dropdown&&setShowCart(true))
@@ -54,7 +55,7 @@ export default function AddToCart(props) {
   }
 
   return (
-    !cart?.find(el => el.item.id === id)?
+    !cart?.find(el => el.id === id)?
     <div 
       className={`addtocartbtn ${!instock&&"disabled"} ${className}`}
       onClick={(e) => {instock&&addToCart();e.stopPropagation()}}

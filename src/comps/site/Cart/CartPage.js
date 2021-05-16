@@ -15,11 +15,11 @@ export default function CartPage() {
   const [chosenShipping, setChosenShipping] = useState({name: "regular",cost: 3.99})
   const [couponCode, setCouponCode] = useState("")
 
-  const cartitemsrow = cart?.map((el) => {
-    return <CartItem el={el} key={el.item.id} />
+  const cartitemsrow = cart?.map(el => {
+    return <CartItem el={el} key={el.id} />
   })
   const savedlateritemsrow = savedlater?.map((el) => {
-    return <SaveLaterItem el={el} key={el.item.id} />
+    return <SaveLaterItem el={el} key={el.id} />
   })
   const shipoptions = shippingMethods?.map(({name,price,value,defaultvalue}, i) => {
       return (

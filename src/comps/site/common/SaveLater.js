@@ -6,17 +6,17 @@ export default function SaveLater(props) {
 
   const {user, myUser} = useContext(StoreContext)
   const {cart, savedlater} = props
-  const {item, chosenColor, chosenSize, units} = props.el
+  const {id, chosenColor, chosenSize, units} = props.el
 
   function saveForLater() {
     savedlater.push({
       units,
       chosenColor,
       chosenSize,
-      item
+      id
     })
     cart.forEach(el => {
-      if(el.item.id===item.id) {
+      if(el.id===id) {
         let itemindex = cart.indexOf(el)
         cart.splice(itemindex,1)
       } 

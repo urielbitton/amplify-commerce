@@ -5,11 +5,12 @@ import { StoreContext } from '../../common/StoreContext'
 import {db} from '../../common/Fire'
 import SaveLater from '../common/SaveLater'
 import EditProduct from '../common/EditProduct'
+import refProd from '../../common/referProduct'
 
 export default function CartItem(props) {
   
-  const {currencyFormat, myUser, user} = useContext(StoreContext)
-  const {id, name, imgs, price} = props.el.item
+  const {currencyFormat, myUser, user, allProducts} = useContext(StoreContext)
+  const {id, name, imgs, price} = refProd(allProducts,props.el.id)
   const {chosenColor, chosenSize, units} = props.el
   const [showOpts, setShowOpts] = useState(false)
   const cart = myUser?.cart
@@ -17,7 +18,7 @@ export default function CartItem(props) {
 
   function removeItem() {
     cart.forEach(el => {
-      if(el.item.id===id) {
+      if(el.id===id) {
         let itemindex = cart.indexOf(el)
         cart.splice(itemindex,1)
       } 
@@ -47,7 +48,7 @@ export default function CartItem(props) {
         <h5>{currencyFormat.format(price)}</h5>
       </div>
       <div>
-        <AddToCart el={props.el.item} dropdown={false}/>
+        <AddToCart el={props.el} dropdown={false}/>
       </div>
       <div className="small">
         <h5>{currencyFormat.format(price*units)}</h5>

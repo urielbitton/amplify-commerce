@@ -1,6 +1,7 @@
 import React, {createContext, useEffect, useState} from 'react'
 import firebase from 'firebase'
 import {db} from './Fire'
+import refProd from './referProduct'
 
 export const StoreContext = createContext()
 
@@ -14,7 +15,7 @@ const StoreContextProvider = (props) => {
  
   const [slideNav, setSlideNav] = useState(false)
   const [showCart, setShowCart] = useState(false)
-  const cartSubtotal = myUser?.cart?.reduce((a, b) => a + (b.item.price*b.units), 0)
+  const cartSubtotal = myUser?.cart?.reduce((a, b) => a + (refProd(allProducts,b.id).price*b.units), 0)
 
   const [colorFilter, setColorFilter] = useState('all')
   const [priceFilter, setPriceFilter] = useState('all')

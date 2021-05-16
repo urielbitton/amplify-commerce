@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import {db} from '../../common/Fire'
 import { StoreContext } from '../../common/StoreContext'
@@ -10,8 +10,9 @@ export default function WishItem(props) {
   const {currencyFormat} = useContext(StoreContext)
   const {id, name, imgs, price, instock} = props.el
   const {wishlist, user, myUser} = props
+  const [showOpts, setShowOpts] = useState(false)
 
-  function remWishlist() {
+  function removeItem() {
     wishlist.forEach(el => {
       if(el.id===id) {
         let itemindex = wishlist.indexOf(el)
@@ -22,6 +23,12 @@ export default function WishItem(props) {
       userinfo: myUser
     })
   }
+
+  useEffect(() => {
+    window.onclick = () => {
+      showOpts&&setShowOpts(false)
+    }
+  },[showOpts])
 
   return (
     <div className="wishitem proditem">
@@ -36,7 +43,12 @@ export default function WishItem(props) {
         }
       </div>
       <div className="actionsbox">
-        <i className="fal fa-ellipsis-h"></i> 
+        <div className="optsbox" onClick={() => setShowOpts(prev => !prev)}>
+          <i className="far fa-ellipsis-h"></i>
+        </div>
+        <div className={`optionscont ${showOpts?"show":""}`} onClick={() => setShowOpts(prev => !prev)}>
+          <h6 onClick={() => removeItem()}>Delete</h6>
+        </div>
       </div>
     </div>
   )

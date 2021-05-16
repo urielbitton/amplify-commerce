@@ -1,11 +1,12 @@
 import React, {useContext, useEffect, useState} from 'react'
 import {StoreContext} from '../../common/StoreContext'
 import {db} from '../../common/Fire'
+import refProd from '../../common/referProduct'
 
 export default function SaveLaterItem(props) {
 
-  const {currencyFormat, myUser, user} = useContext(StoreContext)
-  const {id, name, imgs, price} = props.el.item
+  const {currencyFormat, myUser, user, allProducts} = useContext(StoreContext)
+  const {id, name, imgs, price} = refProd(allProducts,props.el.id)
   const {chosenColor, chosenSize, units} = props.el
   const [showOpts, setShowOpts] = useState(false)
   const savedlater = myUser?.savedlater
@@ -13,7 +14,7 @@ export default function SaveLaterItem(props) {
 
   function removeItem() {
     savedlater.forEach(el => {
-      if(el.item.id===id) {
+      if(el.id===id) {
         let itemindex = savedlater.indexOf(el)
         savedlater.splice(itemindex,1)
       } 
@@ -22,13 +23,13 @@ export default function SaveLaterItem(props) {
       userinfo: myUser
     })
   }
-  function addBackToCart() {
-    if(!cart.find(el => el.item.id===id)) {
+  function addBackToCart() { 
+    if(!cart.find(el => el.id===id)) {
       cart.push({
         units,  
         chosenColor,
         chosenSize,
-        item: props.el.item
+        id
       }) 
       removeItem()
     }

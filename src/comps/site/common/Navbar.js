@@ -6,10 +6,11 @@ import menuLinks from './arrays/menuLinks'
 import {StoreContext} from '../../common/StoreContext'
 import {db} from '../../common/Fire'
 import AppButton from '../common/AppButton'
+import refProd from '../../common/referProduct'
 
 export default function Navbar() {
 
-  const {user, slideNav, showCart, setShowCart, setSlideNav, myUser, cartSubtotal, currencyFormat} = useContext(StoreContext)
+  const {allProducts, user, slideNav, showCart, setShowCart, setSlideNav, myUser, cartSubtotal, currencyFormat} = useContext(StoreContext)
   const [dealBar, setDealBar] = useState(true)
   const [fixNav, setFixNav] = useState(false)
   const cart = myUser?.cart
@@ -29,26 +30,26 @@ export default function Navbar() {
     </div>
   })
 
-  const cartitemrow = cart?.map(el => {
-    return <div className="cartitemcont" key={el?.item?.id}>
+  const cartitemrow = cart?.map(({id,units, chosenColor, chosenSize}) => {
+    return <div className="cartitemcont" key={id}>
       <img 
-        src={el?.item?.imgs[0]}  
+        src={refProd(allProducts,id).imgs[0]}  
         alt="" 
-        title={`Color: ${el.chosenColor}. Size: ${el.chosenSize}`} 
+        title={`Color: ${chosenColor}. Size: ${chosenSize}`} 
       />
       <div className="infocont">
         <div>
-          <Link to={`/product/${el?.item?.id}`}><h5>{el?.item?.name}</h5></Link>
-          <h6>Price: ${el?.item.price.toFixed(2)}</h6>
-          <h6>Units: {el?.units}</h6>
+          <Link to={`/product/${id}`}><h5>{refProd(allProducts,id).name}</h5></Link>
+          <h6>Price: ${refProd(allProducts,id).price.toFixed(2)}</h6>
+          <h6>Units: {units}</h6>
         </div>
-        <i className="fal fa-times" onClick={() => removeCartItem(el?.item?.id)}></i>
+        <i className="fal fa-times" onClick={() => removeCartItem(id)}></i>
       </div>
     </div>
   })
   function removeCartItem(itemid) {
     cart.forEach(el => {
-      if(el.item.id===itemid) {
+      if(el.id===itemid) {
         let itemindex = cart.indexOf(el)
         cart.splice(itemindex,1)
       }
