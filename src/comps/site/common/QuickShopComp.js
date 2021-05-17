@@ -3,13 +3,16 @@ import { StoreContext } from '../../common/StoreContext'
 import './styles/QuickShop.css'
 import {colorConverter, sizeConverter} from '../../common/UtilityFuncs'
 import AddToCart from './AddToCart'
+import AppButton from './AppButton'
 
-export default function QuickShopComp() {
+export default function QuickShopComp(props) {
 
-  const {showQuickShop, setShowQuickShop, quickShopProd, currencyFormat} = useContext(StoreContext)
-  const {name, imgs, price, sizes, descript} = quickShopProd
-  const [chosenSize, setChosenSize] = useState(sizes[0]?.name)
-  const [chosenColor, setChosenColor] = useState(sizes[0]?.colors[0])
+  const {currencyFormat} = useContext(StoreContext)
+  const {showQuickShop, setShowQuickShop} = props
+  const {id, name, imgs, price, sizes, descript} = props.product
+  const [chosenSize, setChosenSize] = useState(sizes[0].name)
+  const [chosenColor, setChosenColor] = useState(sizes[0].colors[0])
+  const stocksLeft = sizes[sizes.findIndex(x => x.name===chosenSize)]?.stock
 
   const sizesrow = sizes.map(el => {
     return <div 
@@ -32,7 +35,12 @@ export default function QuickShopComp() {
     setChosenColor(sizes[sizes.findIndex(x => x.name===chosenSize)]?.colors[0])
   },[chosenSize])
 
-  return (
+  useEffect(() => {
+    setChosenSize(sizes[0].name)
+    setChosenColor(sizes[0].colors[0])
+  },[showQuickShop])
+
+  return ( 
     <div  
       className={`quickshopcover ${showQuickShop?"show":""}`} 
       onClick={() => setShowQuickShop(false)}
@@ -57,8 +65,28 @@ export default function QuickShopComp() {
             <h6>Color: &nbsp;&nbsp;{colorConverter(chosenColor)}</h6>
             <span className="colorsopts">{colorsrow}</span>
           </div>
+          <div className="notifssection">
+            {
+              stocksLeft>3?
+              <small className="instock">In Stock</small>:
+              stocksLeft===0?<small className="lowstock">Out of Stock</small>:
+              stocksLeft<=3?
+              <small className="lowstock">Only {stocksLeft} left in stock</small>:""
+            }
+          </div>
           <div className="btnscont">
-            
+            <AddToCart 
+              el={props.product} 
+              stocksLeft={stocksLeft} 
+              chosenSize={chosenSize}
+              chosenColor={chosenColor}
+              setShowQuickShop={setShowQuickShop}
+            />
+            <AppButton 
+              title="View Details"
+              url={`/product/${id}`}
+              className="viewdetails"
+            />
           </div>
         </div>
       </div>

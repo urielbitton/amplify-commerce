@@ -8,7 +8,7 @@ export default function AddToCart(props) {
   
   const {myUser, setShowCart, user, allProducts} = useContext(StoreContext)
   const {id, instock, stock} = refProd(allProducts,props.el.id)
-  const {chosenColor='', chosenSize='', className, small, dropdown=true} = props
+  const {stocksLeft, chosenColor, chosenSize, className, small, dropdown=true, setShowQuickShop} = props
   const cart = myUser?.cart
   const productunits = cart?.find(el => el?.id===id)?.units
   const cartitem = cart?.find(el => el.id===id)
@@ -57,10 +57,10 @@ export default function AddToCart(props) {
   return (
     !cart?.find(el => el.id === id)?
     <div 
-      className={`addtocartbtn ${!instock&&"disabled"} ${className}`}
-      onClick={(e) => {instock&&addToCart();e.stopPropagation()}}
+      className={`addtocartbtn ${stocksLeft<1?"disabled":""} ${className}`}
+      onClick={(e) => {stocksLeft>0&&addToCart();e.stopPropagation()}}
     >
-      <small>
+      <small> 
         {!small?"Add to Cart":<i className="fal fa-shopping-cart"></i>}
       </small>
     </div>:
