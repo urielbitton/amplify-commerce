@@ -7,19 +7,20 @@ import refProd from '../../common/referProduct'
 export default function AddToCart(props) {  
   
   const {myUser, setShowCart, user, allProducts} = useContext(StoreContext)
-  const {id, instock, stock} = refProd(allProducts,props.el.id)
-  const {stocksLeft, chosenColor, chosenSize, className, small, dropdown=true, setShowQuickShop} = props
+  const {id} = refProd(allProducts,props.el.id)
+  const {stocksLeft, subid, chosenColor, chosenSize, className, small, dropdown=true} = props
   const cart = myUser?.cart
   const productunits = cart?.find(el => el?.id===id)?.units
-  const cartitem = cart?.find(el => el.id===id)
+  const cartitem = cart?.find(el => el.id===id) 
    
   function addToCart() {
-    if(!cart?.find(el => el.id === id)) {
+    if(!cart?.find(el => el.id === id) || !cart?.find(el => el.subid === subid)) {
       cart.push({
         units: 1,  
         chosenColor,
         chosenSize,
-        id
+        id,
+        subid: chosenSize+chosenColor
       }) 
       db.collection('users').doc(user.uid).update({ 
         userinfo: myUser
@@ -27,7 +28,7 @@ export default function AddToCart(props) {
     }
   }
   function addUnits() {
-    if(cartitem.units < stock) {
+    if(cartitem.units < stocksLeft) {
       cartitem.units = cartitem.units + 1
       db.collection('users').doc(user.uid).update({
         userinfo: myUser
@@ -55,7 +56,7 @@ export default function AddToCart(props) {
   }
 
   return (
-    !cart?.find(el => el.id === id)?
+    (!cart?.find(el => el.id === id) || !cart?.find(el => el.subid === subid))?
     <div 
       className={`addtocartbtn ${stocksLeft<1?"disabled":""} ${className}`}
       onClick={(e) => {stocksLeft>0&&addToCart();e.stopPropagation()}}

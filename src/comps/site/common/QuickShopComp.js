@@ -7,12 +7,12 @@ import AppButton from './AppButton'
 
 export default function QuickShopComp(props) {
 
-  const {currencyFormat} = useContext(StoreContext)
-  const {showQuickShop, setShowQuickShop} = props
-  const {id, name, imgs, price, sizes, descript} = props.product
+  const {currencyFormat, quickProduct, showQuickShop, setShowQuickShop} = useContext(StoreContext)
+  const {id, name, imgs, price, sizes, descript} = quickProduct
   const [chosenSize, setChosenSize] = useState(sizes[0].name)
   const [chosenColor, setChosenColor] = useState(sizes[0].colors[0])
   const stocksLeft = sizes[sizes.findIndex(x => x.name===chosenSize)]?.stock
+  const subid = chosenSize+chosenColor
 
   const sizesrow = sizes.map(el => {
     return <div 
@@ -38,7 +38,8 @@ export default function QuickShopComp(props) {
   useEffect(() => {
     setChosenSize(sizes[0].name)
     setChosenColor(sizes[0].colors[0])
-  },[showQuickShop])
+  },[showQuickShop])  
+
 
   return ( 
     <div  
@@ -75,13 +76,16 @@ export default function QuickShopComp(props) {
             }
           </div>
           <div className="btnscont">
-            <AddToCart 
-              el={props.product} 
-              stocksLeft={stocksLeft} 
-              chosenSize={chosenSize}
-              chosenColor={chosenColor}
-              setShowQuickShop={setShowQuickShop}
-            />
+            {
+              chosenSize&&
+              <AddToCart 
+                el={quickProduct} 
+                stocksLeft={stocksLeft} 
+                chosenSize={chosenSize}
+                chosenColor={chosenColor}
+                subid={subid}
+              />
+            }
             <AppButton 
               title="View Details"
               url={`/product/${id}`}

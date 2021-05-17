@@ -128,7 +128,7 @@
   position: absolute;
   top: 70px;
   right: -40px;
-  width: 340px;
+  width: 360px;
   padding: 20px;
   background: #fff;
   display: flex;
@@ -233,8 +233,8 @@
   gap: 10px;
 }
 .navbar .cartcont .cartproducts img {
-  width: 90px;
-  height: 70px;
+  width: 95px;
+  height: 80px;
 }
 .navbar .cartcont .cartproducts .cartitemcont .infocont {
   display: flex;
@@ -260,6 +260,7 @@
   color: #555;
   font-weight: 500;
   font-size: 12px;
+  text-transform: capitalize
 }
 .navbar .cartcont .cartproducts .cartitemcont .infocont i {
   font-size: 20px;

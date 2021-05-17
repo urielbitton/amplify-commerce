@@ -79,7 +79,7 @@ export default function ProductPage(props) {
             </div>
           </div>
           <div className="infocont">
-            <h2>{name}</h2>
+            <h2>{name}</h2> 
             <h6 className="productid">Product ID: {id}</h6>
             <h3 className="price">{currencyFormat.format(price)}</h3>
             <div className="prodactionsrow">

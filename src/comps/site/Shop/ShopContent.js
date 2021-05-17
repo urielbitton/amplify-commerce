@@ -30,14 +30,14 @@ export default function ShopContent() {
     else {
       return <option selected={el===limit} value={el}>{el}</option>
     }
-  })
+  }) 
   //display and paginate results
   const allproductsrow = allProducts
     ?.slice(parseInt((limit*page),10),(parseInt((limit*page),10)+parseInt(limit,10)))
     .filter(x => { 
       return (
         (x.belongs === categFilter || categFilter === 'all') &&
-        (x.colors.includes(colorFilter) || colorFilter==='all') &&
+        //(x.colors.includes(colorFilter) || colorFilter==='all') &&
         (x.sizes.includes(sizeFilter) || sizeFilter==='all') &&
         (Math.trunc(x.rating) === ratingFilter || ratingFilter==='all') &&
         ((x.price >= priceFilter[0] && x.price < priceFilter[1]) || priceFilter==='all')

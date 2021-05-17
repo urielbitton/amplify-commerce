@@ -7,6 +7,7 @@ import {StoreContext} from '../../common/StoreContext'
 import {db} from '../../common/Fire'
 import AppButton from '../common/AppButton'
 import refProd from '../../common/referProduct'
+import {colorConverter, sizeConverter} from '../../common/UtilityFuncs'
 
 export default function Navbar() {
 
@@ -35,11 +36,11 @@ export default function Navbar() {
       <img 
         src={refProd(allProducts,id).imgs[0]}  
         alt="" 
-        title={`Color: ${chosenColor}. Size: ${chosenSize}`} 
       />
       <div className="infocont">
         <div>
           <Link to={`/product/${id}`}><h5>{refProd(allProducts,id).name}</h5></Link>
+          <h6>Size: {chosenSize}, Color: {colorConverter(chosenColor)}</h6>
           <h6>Price: ${refProd(allProducts,id).price.toFixed(2)}</h6>
           <h6>Units: {units}</h6>
         </div>

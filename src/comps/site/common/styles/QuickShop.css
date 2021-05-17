@@ -19,7 +19,7 @@
 }
 .quickshopcont {
   width: 1080px;
-  height: 700px;
+  height: 640px;
   background: #fff;
   display: grid;
   grid-template-columns: 450px auto;
@@ -41,7 +41,7 @@
   color: #333;
 }
 .quickshopcont .imgcont {
-  height: 700px;
+  height: 640px;
 }
 .quickshopcont .imgcont img {
   height: 100%;
@@ -134,4 +134,60 @@
   width: 23px;
   height: 23px;
   border-radius: 100%;
+}
+.quickshopcont .notifssection {
+  padding: 10px 0;
+}
+.quickshopcont .notifssection small {
+  font-size: 12px;
+  font-weight: 500;
+}
+.quickshopcont .notifssection small.lowstock {
+  color: var(--red)
+}
+.quickshopcont .notifssection small.instock {
+  color: var(--green)
+}
+.quickshopcont .btnscont {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+}
+.quickshopcont .btnscont > div {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 15px;
+  transition: all 0.2s;
+  cursor: pointer;
+  text-transform: uppercase;
+}
+.quickshopcont .addtocartbtn {
+  background: #222;
+  color: #fff;
+}
+.quickshopcont .addtocartbtn:hover {
+  background: #333;
+}
+.quickshopcont .viewdetails {
+  background: none;
+  border: 2px solid #222;
+  color: #333;
+}
+.quickshopcont .viewdetails:hover {
+  background: #222;
+  color: #fff;
+}
+.quickshopcont .produnitcontrol > div:not(.productunits) {
+  background: #222;
+  height: 40px;
+  color: #fff;
+}
+.quickshopcont .produnitcontrol .productunits {
+  border-top: 1px solid #ddd;
+  border-bottom: 1px solid #ddd;
 }

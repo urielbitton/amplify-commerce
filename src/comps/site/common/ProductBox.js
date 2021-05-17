@@ -1,17 +1,17 @@
-import React, {useState} from 'react'
+import React, {useContext} from 'react'
 import './styles/ProductBox.css'
 import Ratings from '../../common/Ratings'
 import { Link, useHistory } from 'react-router-dom'
 import AddToWish from './AddToWish'
 import CompareProduct from './CompareProduct'
 import AppButton from './AppButton'
-import QuickShopComp from './QuickShopComp'
+import { StoreContext } from '../../common/StoreContext'
 
 export default function ProductBox(props) {
 
-  const {id, name, price, rating, imgs, sizes, colors} = props.el
+  const {id, name, price, rating, imgs, sizes} = props.el
+  const {setShowQuickShop, setQuickProduct} = useContext(StoreContext)
   const {className, small} = props
-  const [showQuickShop, setShowQuickShop] = useState(false)
   const history = useHistory()
   const allcolors = []
 
@@ -23,7 +23,6 @@ export default function ProductBox(props) {
       }
     })
   })
-
   const colorsrow = allcolors.slice(0,4).map(el => {
     return <div className="colorcircle" style={{background:el}} key={el}></div>
   })
@@ -40,7 +39,7 @@ export default function ProductBox(props) {
           <AppButton 
             title="Quick Shop"
             className="quickshopbtn"
-            onClick={() => setShowQuickShop(true)}
+            onClick={() => {setQuickProduct(props.el);setShowQuickShop(true)}}
           />
           <CompareProduct el={props.el} />
         </div>
@@ -64,14 +63,8 @@ export default function ProductBox(props) {
           <small>${price?.toFixed(2)}</small>
         </div>
         <div>
-
         </div>
       </div>
-      <QuickShopComp 
-        product={props.el} 
-        showQuickShop={showQuickShop} 
-        setShowQuickShop={setShowQuickShop}
-      />
     </div>
   )
 }
