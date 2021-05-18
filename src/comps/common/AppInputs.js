@@ -15,9 +15,9 @@ export function AppInput(props) {
 }    
 
 export function AppSelect(props) {
-  const {multiple, options, regname, title, onChange, value} = props
+  const {multiple, options, namebased, title, onChange, value} = props
   let optionsdata = options && options.map((data) =>
-    <option key={data.id} value={regname?data.value:data.name?data.name.toLowerCase().replaceAll(' ',''):data.name} name={regname?data.name:null}>  
+    <option key={data.id} value={namebased?data.value:data.name?data.name.toLowerCase().replaceAll(' ',''):data.name} name={namebased?data.name:null}>  
         {data.name}
     </option>
   )  

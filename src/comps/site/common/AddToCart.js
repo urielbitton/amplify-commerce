@@ -10,12 +10,12 @@ export default function AddToCart(props) {
   const {id} = refProd(allProducts,props.el.id)
   const {stocksLeft, subid, chosenColor, chosenSize, className, small, dropdown=true} = props
   const cart = myUser?.cart
-  const productunits = cart?.find(el => el?.id===id)?.units
-  const cartitem = cart?.find(el => el.id===id) 
+  const productunits = cart?.find(el => el.subid === subid)?.units
+  const cartitem = cart?.find(el => el.subid === subid) 
    
   function addToCart() {
-    if(!cart?.find(el => el.id === id) || !cart?.find(el => el.subid === subid)) {
-      cart.push({
+    if(!cart?.find(el => el.subid === subid)) {
+      cart.push({ 
         units: 1,  
         chosenColor,
         chosenSize,
@@ -38,7 +38,7 @@ export default function AddToCart(props) {
   function subUnits() {
     if(cartitem.units <= 1) { 
       cart.forEach(el => {
-        if(el.id===id) {
+        if(el.subid===subid) {
           let itemindex = cart.indexOf(el)
           cart.splice(itemindex,1)
         } 
@@ -56,12 +56,12 @@ export default function AddToCart(props) {
   }
 
   return (
-    (!cart?.find(el => el.id === id) || !cart?.find(el => el.subid === subid))?
+    !cart?.find(el => el.subid === subid)?
     <div 
       className={`addtocartbtn ${stocksLeft<1?"disabled":""} ${className}`}
       onClick={(e) => {stocksLeft>0&&addToCart();e.stopPropagation()}}
     >
-      <small> 
+      <small className={stocksLeft<1?"disabled":""}> 
         {!small?"Add to Cart":<i className="fal fa-shopping-cart"></i>}
       </small>
     </div>:

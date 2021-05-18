@@ -260,7 +260,7 @@
   color: #555;
   font-weight: 500;
   font-size: 12px;
-  text-transform: capitalize
+  text-transform: capitalize;
 }
 .navbar .cartcont .cartproducts .cartitemcont .infocont i {
   font-size: 20px;

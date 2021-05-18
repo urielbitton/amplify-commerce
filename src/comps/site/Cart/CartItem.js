@@ -6,19 +6,21 @@ import {db} from '../../common/Fire'
 import SaveLater from '../common/SaveLater'
 import EditProduct from '../common/EditProduct'
 import refProd from '../../common/referProduct'
+import {colorConverter, sizeConverter} from '../../common/UtilityFuncs'
 
 export default function CartItem(props) {
   
   const {currencyFormat, myUser, user, allProducts} = useContext(StoreContext)
-  const {id, name, imgs, price} = refProd(allProducts,props.el.id)
-  const {chosenColor, chosenSize, units} = props.el
+  const {id, name, imgs, price, sizes} = refProd(allProducts,props.el.id)
+  const {subid, chosenColor, chosenSize, units} = props.el
   const [showOpts, setShowOpts] = useState(false)
+  const stocksLeft = sizes[sizes.findIndex(x => x.name===chosenSize)]?.stock
   const cart = myUser?.cart
   const savedlater = myUser?.savedlater
 
   function removeItem() {
     cart.forEach(el => {
-      if(el.id===id) {
+      if(el.subid===subid) {
         let itemindex = cart.indexOf(el)
         cart.splice(itemindex,1)
       } 
@@ -41,14 +43,19 @@ export default function CartItem(props) {
       </div>
       <div className="prodname">
         <h5>{name}</h5>
-        <h6>Color: {chosenColor}</h6>
-        <h6>Size: {chosenSize}</h6>
+        <h6>Color: {colorConverter(chosenColor)}</h6>
+        <h6>Size: {chosenSize?.toUpperCase()}</h6>
       </div> 
       <div className="small"> 
         <h5>{currencyFormat.format(price)}</h5>
       </div>
       <div>
-        <AddToCart el={props.el} dropdown={false}/>
+        <AddToCart 
+          el={props.el} 
+          dropdown={false}
+          subid={subid}
+          stocksLeft={stocksLeft}
+        />
       </div>
       <div className="small">
         <h5>{currencyFormat.format(price*units)}</h5>
@@ -58,7 +65,7 @@ export default function CartItem(props) {
           <i className="far fa-ellipsis-h"></i>
         </div>
         <div className={`optionscont ${showOpts?"show":""}`} onClick={() => setShowOpts(prev => !prev)}>
-          <EditProduct />
+          <EditProduct product={props.el} />
           <h6 onClick={() => removeItem()}>Delete</h6>
           <SaveLater el={props.el} cart={cart} savedlater={savedlater} />
         </div>

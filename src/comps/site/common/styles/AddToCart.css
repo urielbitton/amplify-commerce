@@ -1,3 +1,17 @@
+.addtocartbtn {
+  color: #fff;
+  background: #222;
+  text-transform: uppercase;
+  transition: all 0.2s;
+  cursor: pointer;
+}
+.addtocartbtn:hover {
+  background: #333;
+}
+.addtocartbtn.disabled {
+  opacity: 0.5;
+  pointer-events: none;
+}
 .produnitcontrol {
   display: flex;
   align-items: center;

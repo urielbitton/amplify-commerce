@@ -41,7 +41,7 @@ export default function Wishlist() {
                 <h5 className="small">Product</h5>
                 <h5>Product Name</h5>
                 <h5>Price</h5> 
-                <h5>Add to Cart</h5>
+                <h5>Stock Status</h5>
                 <h5>Actions</h5>
               </div>
               <div className="content">
@@ -52,6 +52,7 @@ export default function Wishlist() {
               <h6><span>Wishlist Items: </span><span>{wishlist?.length}</span></h6>
               <h6><span>Items Total: </span><span>{wishtotal}</span></h6>
               <small onClick={() => clearWishlist()}>Clear List</small> 
+              <h6>Share Wishlist</h6>
             </div>
           </>:
           <div className="emptylist">

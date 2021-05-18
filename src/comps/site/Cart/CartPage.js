@@ -3,23 +3,29 @@ import PageBanner from "../common/PageBanner"
 import "./styles/CartPage.css"
 import { StoreContext } from "../../common/StoreContext"
 import CartItem from "./CartItem"
-import { AppInput } from "../../common/AppInputs"
+import { AppInput, AppSelect } from "../../common/AppInputs"
 import AppButton from "../common/AppButton"
 import {db} from "../../common/Fire"
 import SaveLaterItem from "./SaveLaterItem"
+import {sizeConverter, colorConverter} from '../../common/UtilityFuncs'
  
 export default function CartPage() {
-  const {myUser, user, cartSubtotal, shippingMethods, currencyFormat, showCart, setShowCart} = useContext(StoreContext)
+  const {myUser, user, cartSubtotal, shippingMethods, currencyFormat, showCart, setShowCart,
+    editProduct, showEditProd, setShowEditProd
+  } = useContext(StoreContext)
   const cart = myUser?.cart
   const savedlater = myUser?.savedlater
   const [chosenShipping, setChosenShipping] = useState({name: "regular",cost: 3.99})
   const [couponCode, setCouponCode] = useState("")
+  const [chosenSize, setChosenSize] = useState(editProduct?.chosenSize)
+  const [chosenColor, setChosenColor] = useState(editProduct?.chosenColor)
+  const allcolors = []
 
   const cartitemsrow = cart?.map(el => {
-    return <CartItem el={el} key={el.id} />
+    return <CartItem el={el} key={el.subid} />
   })
-  const savedlateritemsrow = savedlater?.map((el) => {
-    return <SaveLaterItem el={el} key={el.id} />
+  const savedlateritemsrow = savedlater?.map(el => {
+    return <SaveLaterItem el={el} key={el.subid} />
   })
   const shipoptions = shippingMethods?.map(({name,price,value,defaultvalue}, i) => {
       return (
@@ -34,6 +40,16 @@ export default function CartPage() {
       )
     }
   )
+  const sizesoptions = editProduct?.sizes?.map(el => {
+    return {name: sizeConverter(el.name), value: el.name}
+  })
+  editProduct?.sizes && editProduct?.sizes[editProduct?.sizes?.findIndex(x => x.name===chosenSize)]?.colors.forEach(el => {
+    allcolors.push(el)
+  })
+  const coloroptions = allcolors.map(el => {
+    return {name: colorConverter(el), value: el} 
+  })
+   
   function clearCart() {
     let confirm = window.confirm("Are you sure you want to remove all the items from your cart?")
     if (confirm) {
@@ -43,10 +59,28 @@ export default function CartPage() {
       })
     } 
   }
+  function saveProduct() {
+    let currentProd = cart.find(x => x.subid === editProduct?.subid) 
+    console.log(currentProd)
+    /*currentProd = {
+      units: editProduct?.units,  
+      chosenColor,
+      chosenSize,
+      id: editProduct?.id,
+      subid: chosenSize+chosenColor
+    }*/
+    db.collection('users').doc(user.uid).update({ 
+      userinfo: myUser
+    }).then(res => setShowEditProd(false))
+  }
 
   useEffect(() => {
     showCart && setShowCart(false);
   }, [])
+  useEffect(() => {
+    setChosenSize(editProduct?.chosenSize)
+    setChosenColor(editProduct?.chosenColor)
+  },[showEditProd])
 
   return (
     <div className="cartpage">
@@ -143,6 +177,42 @@ export default function CartPage() {
           </div>
         </div>
         }
+      </div>
+      <div className={`editprodcover ${showEditProd?"show":""}`}>
+        <div className="editprodcont">
+          <h3>
+            Edit Product
+            <i className="fal fa-times closeicon" onClick={() => setShowEditProd(false)}></i>
+          </h3>
+          <div className="productrow">
+            <div className="infodiv">
+              <img src={editProduct?.img} alt=""/>
+              <div>
+                <h4>{editProduct?.name}</h4>
+                <small>Units: {editProduct?.units}</small>
+              </div>
+            </div>
+            <div>
+              <AppSelect 
+                title="Size"
+                options={[...sizesoptions]}
+                onChange={(e) => setChosenSize(e.target.value)}   
+                value={chosenSize}   
+                namebased
+              /> 
+              <AppSelect 
+                title="Color"
+                options={[...coloroptions]} 
+                onChange={(e) => setChosenColor(e.target.value)}
+                value={chosenColor}  
+              />
+              <AppButton 
+                title="Save"
+                onClick={() => saveProduct()}
+              />
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   )

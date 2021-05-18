@@ -115,6 +115,94 @@
   margin-bottom: 40px;
   color: #444;
 }
+.editprodcover {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  z-index: 1000;
+  background: rgba(0,0,0,0.8);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  visibility: hidden;
+  opacity: 0;
+  transition: all 0.2s;
+}
+.editprodcover.show {
+  visibility: visible;
+  opacity: 1;
+}
+.editprodcont {
+  width: 850px;
+  height: 180px;
+  box-shadow: 0 0 10px 10px rgba(0,0,0,0.1);
+  background: #fff;
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+  padding: 20px;
+}
+.editprodcont h3 {
+  color: #333;
+  font-weight: 500;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.editprodcont .closeicon {
+  cursor: pointer;
+  font-size: 30px;
+  color: #777;
+}
+.editprodcont .appbutton {
+  width: 120px;
+}
+.editprodcont .productrow {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.editprodcont .productrow > div {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+.editprodcont .productrow img {
+  height: 80px;
+  width: 70px;
+}
+.editprodcont .productrow .infodiv > div {
+  display: flex;
+  flex-direction: column;
+}
+.editprodcont .productrow h4 {
+  color: #333;
+  font-weight: 500;
+  font-size: 15px;
+}
+.editprodcont .productrow small {
+  display: block;
+  font-size: 13px;
+  color: #777;
+}
+.editprodcont .productrow .appselect select {
+  background: #f1f1f1;
+  border: 1px solid #eee;
+  height: 50px;
+}
+.editprodcont .productrow .appselect {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.editprodcont .productrow .appselect h6 {
+  color: #333;
+  font-weight: 500;
+  font-size: 13px;
+}
 
 @media (max-width:1200px) {
   .maincartcont, .carttotalscont {

@@ -31,8 +31,8 @@ export default function Navbar() {
     </div>
   })
 
-  const cartitemrow = cart?.map(({id,units, chosenColor, chosenSize}) => {
-    return <div className="cartitemcont" key={id}>
+  const cartitemrow = cart?.map(({id,units,chosenColor,chosenSize,subid}) => {
+    return <div className="cartitemcont" key={subid}>
       <img 
         src={refProd(allProducts,id).imgs[0]}  
         alt="" 
@@ -40,17 +40,18 @@ export default function Navbar() {
       <div className="infocont">
         <div>
           <Link to={`/product/${id}`}><h5>{refProd(allProducts,id).name}</h5></Link>
-          <h6>Size: {chosenSize}, Color: {colorConverter(chosenColor)}</h6>
+          <h6>Size: {chosenSize?.toUpperCase()}, Color: {colorConverter(chosenColor)}</h6>
           <h6>Price: ${refProd(allProducts,id).price.toFixed(2)}</h6>
           <h6>Units: {units}</h6>
         </div>
-        <i className="fal fa-times" onClick={() => removeCartItem(id)}></i>
+        <i className="fal fa-times" onClick={() => removeCartItem(subid)}></i>
       </div>
     </div>
   })
-  function removeCartItem(itemid) {
+
+  function removeCartItem(subid) {
     cart.forEach(el => {
-      if(el.id===itemid) {
+      if(el.subid===subid) {
         let itemindex = cart.indexOf(el)
         cart.splice(itemindex,1)
       }

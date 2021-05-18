@@ -2,7 +2,6 @@ import React, { useContext, useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import {db} from '../../common/Fire'
 import { StoreContext } from '../../common/StoreContext'
-import AddToCart from '../common/AddToCart'
 import '../common/styles/ProductTable.css'
 
 export default function WishItem(props) {
@@ -46,6 +45,7 @@ export default function WishItem(props) {
         </div>
         <div className={`optionscont ${showOpts?"show":""}`} onClick={() => setShowOpts(prev => !prev)}>
           <h6 onClick={() => removeItem()}>Delete</h6>
+          <h6>Send Item</h6>
         </div>
       </div>
     </div>
