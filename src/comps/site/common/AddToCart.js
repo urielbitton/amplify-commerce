@@ -20,7 +20,7 @@ export default function AddToCart(props) {
         chosenColor,
         chosenSize,
         id,
-        subid: chosenSize+chosenColor
+        subid: id+chosenSize+chosenColor
       }) 
       db.collection('users').doc(user.uid).update({ 
         userinfo: myUser

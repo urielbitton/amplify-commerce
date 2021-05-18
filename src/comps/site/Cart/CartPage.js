@@ -11,7 +11,7 @@ import {sizeConverter, colorConverter} from '../../common/UtilityFuncs'
  
 export default function CartPage() {
   const {myUser, user, cartSubtotal, shippingMethods, currencyFormat, showCart, setShowCart,
-    editProduct, showEditProd, setShowEditProd
+    editProduct, setEditProduct, showEditProd, setShowEditProd
   } = useContext(StoreContext)
   const cart = myUser?.cart
   const savedlater = myUser?.savedlater
@@ -20,6 +20,7 @@ export default function CartPage() {
   const [chosenSize, setChosenSize] = useState(editProduct?.chosenSize)
   const [chosenColor, setChosenColor] = useState(editProduct?.chosenColor)
   const allcolors = []
+  const subid = editProduct.id+chosenSize+chosenColor
 
   const cartitemsrow = cart?.map(el => {
     return <CartItem el={el} key={el.subid} />
@@ -60,18 +61,19 @@ export default function CartPage() {
     } 
   }
   function saveProduct() {
-    let currentProd = cart?.find(x => x.subid === editProduct?.subid)
+    let prevProd = cart?.find(x => x.subid === editProduct.subid)
+    let currentProd = cart?.find(x => x.subid === subid)
     if(!currentProd) {
-      currentProd.chosenSize = chosenSize
-      currentProd.chosenColor = chosenColor
-      currentProd.subid = chosenSize+chosenColor
-    }
+      prevProd.chosenSize = chosenSize
+      prevProd.chosenColor = chosenColor
+      prevProd.subid = editProduct.id+chosenSize+chosenColor
+      db.collection('users').doc(user.uid).update({ 
+        userinfo: myUser
+      }).then(res => setShowEditProd(false))
+    } 
     else {
-      //add units from both products together and delete one product
+      window.alert('This product already exists in your cart. Please choose a different size or color.')
     }
-    db.collection('users').doc(user.uid).update({ 
-      userinfo: myUser
-    }).then(res => setShowEditProd(false))
   }
 
   useEffect(() => {

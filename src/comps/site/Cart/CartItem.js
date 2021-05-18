@@ -6,7 +6,7 @@ import {db} from '../../common/Fire'
 import SaveLater from '../common/SaveLater'
 import EditProduct from '../common/EditProduct'
 import refProd from '../../common/referProduct'
-import {colorConverter, sizeConverter} from '../../common/UtilityFuncs'
+import {colorConverter} from '../../common/UtilityFuncs'
 
 export default function CartItem(props) {
   

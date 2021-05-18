@@ -12,7 +12,7 @@ export default function QuickShopComp(props) {
   const [chosenSize, setChosenSize] = useState(sizes[0].name)
   const [chosenColor, setChosenColor] = useState(sizes[0].colors[0])
   const stocksLeft = sizes[sizes.findIndex(x => x.name===chosenSize)]?.stock
-  const subid = chosenSize+chosenColor
+  const subid = id+chosenSize+chosenColor
 
   const sizesrow = sizes.map(el => {
     return <div 
