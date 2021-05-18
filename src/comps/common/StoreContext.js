@@ -47,6 +47,18 @@ const StoreContextProvider = (props) => {
     {name: 'Regular Shipping', price: 3.99, value: 'regular', defaultvalue:true},
     {name: 'Local Pickup', price: 0, value: 'pickup'},
   ])
+  const [billingState, setBillingState] = useState({
+    fname: '',
+    lname: '',
+    company: '',
+  })
+  const [shippingState, setShippingState] = useState({
+
+  })
+  const [countriesList, setCountriesList] = useState([
+    {name: 'Canada', value: 'ca'},
+    {name: 'United States', value: 'us'},
+  ])
 
   
   useEffect(() => {
@@ -67,7 +79,8 @@ const StoreContextProvider = (props) => {
       setPriceFilter, sizeFilter, setSizeFilter, ratingFilter, setRatingFilter, categFilter, setCategFilter,
       allProducts, myUser, setMyUser, user, auser, setAUser, shippingMethods, currencyFormat,
       showQuickShop, setShowQuickShop, quickProduct, setQuickProduct, showEditProd, setShowEditProd,
-      editProduct, setEditProduct
+      editProduct, setEditProduct, billingState, setBillingState, shippingState, setShippingState,
+      countriesList, setCountriesList
     }}>
       {props.children}  
     </StoreContext.Provider>

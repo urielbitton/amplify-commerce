@@ -1,0 +1,61 @@
+.checkoutpage .registercont {
+  margin-bottom: 20px;
+  background: #f1f1f1;
+  padding: 20px;
+}
+.checkoutpage .registercont h6 {
+  font-size: 13px;
+  color: #222;
+  font-weight: 500;
+}
+.checkoutpage .registercont h6 a {
+  text-decoration: underline;
+  margin-left: 5px;
+}
+.checkoutcont {
+  width: 100%;
+  display: grid;
+  grid-template-columns: auto 400px;
+  align-items: flex-start;
+  grid-gap: 30px;
+  margin-top: 30px;
+}
+.checkoutcont h3.titles {
+  margin-bottom: 20px;
+  color: #333;
+  font-weight: 500;
+  grid-column: 1/-1;
+}
+.checkoutcont .checkoutform {
+  display: grid;
+  grid-template-columns: repeat(2,1fr);
+  grid-gap: 20px;
+  width: 100%;
+}
+.checkoutcont .checkoutform .appinput, 
+.checkoutcont .checkoutform .appselect {
+  grid-column: 1/-1;
+}
+.checkoutcont .checkoutform .appinput input, 
+.checkoutcont .checkoutform .appselect select {
+  border: none;
+  background: #f1f1f1;
+  height: 50px;
+  transition: all 0.2s;
+}
+.checkoutcont .checkoutform .appinput input:focus, 
+.checkoutcont .checkoutform .appselect select:focus {
+  border: 1px solid #eee;
+}
+.checkoutcont .checkoutform .appinput h6, .checkoutcont .checkoutform .appselect h6 {
+  font-size: 14px;
+  color: #555;
+  margin-bottom: 5px;
+  font-weight: 500;
+}
+.checkoutcont .checkoutform .appinput.halfwidth {
+  grid-column: span 1;
+}
+.checkoutcont .ordercont {
+
+}
