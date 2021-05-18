@@ -60,15 +60,15 @@ export default function CartPage() {
     } 
   }
   function saveProduct() {
-    let currentProd = cart.find(x => x.subid === editProduct?.subid) 
-    console.log(currentProd)
-    /*currentProd = {
-      units: editProduct?.units,  
-      chosenColor,
-      chosenSize,
-      id: editProduct?.id,
-      subid: chosenSize+chosenColor
-    }*/
+    let currentProd = cart?.find(x => x.subid === editProduct?.subid)
+    if(!currentProd) {
+      currentProd.chosenSize = chosenSize
+      currentProd.chosenColor = chosenColor
+      currentProd.subid = chosenSize+chosenColor
+    }
+    else {
+      //add units from both products together and delete one product
+    }
     db.collection('users').doc(user.uid).update({ 
       userinfo: myUser
     }).then(res => setShowEditProd(false))
@@ -81,6 +81,9 @@ export default function CartPage() {
     setChosenSize(editProduct?.chosenSize)
     setChosenColor(editProduct?.chosenColor)
   },[showEditProd])
+  useEffect(() => {
+    setChosenColor(editProduct?.sizes[editProduct?.sizes?.findIndex(x => x.name===chosenSize)]?.colors[0])
+  },[chosenSize])
 
   return (
     <div className="cartpage">
