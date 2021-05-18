@@ -2,12 +2,13 @@ import React, {useContext, useEffect, useState} from 'react'
 import {StoreContext} from '../../common/StoreContext'
 import {db} from '../../common/Fire'
 import refProd from '../../common/referProduct'
+import {colorConverter} from '../../common/UtilityFuncs'
 
 export default function SaveLaterItem(props) {
 
   const {currencyFormat, myUser, user, allProducts} = useContext(StoreContext)
   const {id, name, imgs, price} = refProd(allProducts,props.el.id)
-  const {chosenColor, chosenSize, units} = props.el
+  const {subid, chosenColor, chosenSize, units} = props.el
   const [showOpts, setShowOpts] = useState(false)
   const savedlater = myUser?.savedlater
   const cart = myUser?.cart
@@ -24,12 +25,13 @@ export default function SaveLaterItem(props) {
     })
   }
   function addBackToCart() { 
-    if(!cart.find(el => el.id===id)) {
+    if(!cart.find(el => el.subid===subid)) {
       cart.push({
         units,  
         chosenColor,
         chosenSize,
-        id
+        id,
+        subid: id+chosenSize+chosenColor
       }) 
       removeItem()
     }
@@ -49,10 +51,10 @@ export default function SaveLaterItem(props) {
       <div className="small">
         <img src={imgs[0]} alt={name} />
       </div>
-      <div className="prodname">
+      <div className="prodname"> 
         <h5>{name}</h5>
-        <h6>Color: {chosenColor}</h6>
-        <h6>Size: {chosenSize}</h6>
+        <h6>Color: {colorConverter(chosenColor) || chosenColor}</h6>
+        <h6>Size: {chosenSize.toUpperCase()}</h6>
       </div> 
       <div className="small"> 
         <h5>{currencyFormat.format(price)}</h5>

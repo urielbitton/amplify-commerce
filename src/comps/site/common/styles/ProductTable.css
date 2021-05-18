@@ -42,6 +42,7 @@
 }
 .producttable .proditem .prodname h6 {
   font-size: 12px;
+  text-transform: capitalize;
 }
 .producttable .proditem .actionsbox {
   flex-basis: 50px;

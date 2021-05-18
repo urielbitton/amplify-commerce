@@ -61,6 +61,7 @@ export default function CartPage() {
     } 
   }
   function saveProduct() {
+    console.log(chosenColor)
     let prevProd = cart?.find(x => x.subid === editProduct.subid)
     let currentProd = cart?.find(x => x.subid === subid)
     if(!currentProd) {

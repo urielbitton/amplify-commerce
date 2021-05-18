@@ -11,7 +11,7 @@ import {colorConverter} from '../../common/UtilityFuncs'
 export default function CartItem(props) {
   
   const {currencyFormat, myUser, user, allProducts} = useContext(StoreContext)
-  const {id, name, imgs, price, sizes} = refProd(allProducts,props.el.id)
+  const {name, imgs, price, sizes} = refProd(allProducts,props.el.id)
   const {subid, chosenColor, chosenSize, units} = props.el
   const [showOpts, setShowOpts] = useState(false)
   const stocksLeft = sizes[sizes.findIndex(x => x.name===chosenSize)]?.stock
@@ -43,8 +43,8 @@ export default function CartItem(props) {
       </div>
       <div className="prodname">
         <h5>{name}</h5>
-        <h6>Color: {colorConverter(chosenColor)}</h6>
-        <h6>Size: {chosenSize?.toUpperCase()}</h6>
+        <h6>Size: {chosenSize.toUpperCase()}</h6>
+        <h6>Color: {colorConverter(chosenColor) || chosenColor}</h6>
       </div> 
       <div className="small"> 
         <h5>{currencyFormat.format(price)}</h5>
