@@ -9,6 +9,7 @@
   "main": "src/index.js",
   "dependencies": {
     "apexcharts": "3.26.0",
+    "axios": "0.21.1",
     "emailjs-com": "2.6.4",
     "firebase": "8.4.2",
     "react": "17.0.2",

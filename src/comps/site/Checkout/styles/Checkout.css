@@ -18,10 +18,9 @@
   grid-template-columns: auto 400px;
   align-items: flex-start;
   grid-gap: 30px;
-  margin-top: 30px;
 }
 .checkoutcont h3.titles {
-  margin-bottom: 20px;
+  margin: 30px 0 20px 0;
   color: #333;
   font-weight: 500;
   grid-column: 1/-1;
@@ -36,26 +35,159 @@
 .checkoutcont .checkoutform .appselect {
   grid-column: 1/-1;
 }
-.checkoutcont .checkoutform .appinput input, 
-.checkoutcont .checkoutform .appselect select {
-  border: none;
+.checkoutcont .appinput input, 
+.checkoutcont .appselect select {
+  border: 1px solid transparent;
   background: #f1f1f1;
   height: 50px;
   transition: all 0.2s;
 }
-.checkoutcont .checkoutform .appinput input:focus, 
-.checkoutcont .checkoutform .appselect select:focus {
-  border: 1px solid #eee;
+.checkoutcont .appinput input:focus, 
+.checkoutcont .appselect select:focus {
+  border: 1px solid #bbb;
 }
-.checkoutcont .checkoutform .appinput h6, .checkoutcont .checkoutform .appselect h6 {
+.checkoutcont .appinput h6, 
+.checkoutcont .appselect h6 {
+  font-size: 14px;
+  color: #555;
+  margin-bottom: 5px;
+  font-weight: 500;
+  cursor: auto;
+}
+.checkoutcont .appinput.halfwidth {
+  grid-column: span 1;
+}
+.checkoutcont .appinput.checkinput {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 20px;
+}
+.checkoutcont .appinput.checkinput h6 {
+  margin-bottom: 0;
+}
+.checkoutcont .appinput.checkinput input {
+  height: 15px;
+  width: 15px;
+}
+.checkoutcont .apptextarea {
+  grid-column: 1/-1;
+  margin-top: 20px;
+}
+.checkoutcont .apptextarea h6 {
   font-size: 14px;
   color: #555;
   margin-bottom: 5px;
   font-weight: 500;
 }
-.checkoutcont .checkoutform .appinput.halfwidth {
-  grid-column: span 1;
+.checkoutcont textarea {
+  background: #f1f1f1;
+  border: none;
+  resize: vertical;
+  min-height: 100px;
 }
 .checkoutcont .ordercont {
-
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+.checkoutcont .checkoutrowscont {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+.checkoutcont .checkoutitem {
+  padding: 20px 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  border-bottom: 1px solid #eee;
+}
+.checkoutcont .checkoutitem h5 {
+  font-weight: 500;
+  color: #555;
+  font-size: 14px;
+}
+.checkoutcont .checkoutitem small {
+  text-transform: capitalize;
+  display: block;
+  font-size: 11px;
+  color: #aaa;
+}
+.checkoutcont .checkoutitem small span {
+  color: #555;
+  font-weight: 600;
+}
+.checkoutcont .checkoutitem h4 {
+  color: var(--color);
+  font-weight: 500;
+}
+.checkoutcont .checkoutitem h3 {
+  color: var(--color);
+}
+.checkoutcont .shipping > h6 {
+  align-items: flex-start;
+  font-weight: 500;
+  color: #555;
+  font-size: 14px;
+}
+.checkoutcont .shipoptions {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-top: 10px;
+}
+.checkoutcont .checkboxitem .appinput {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-direction: row-reverse;
+  gap: 8px;
+}
+.checkoutcont .checkboxitem .appinput h6 {
+  font-size: 13px;
+  color: #333;
+}
+.checkoutcont .checkboxitem .appinput i {
+  display: none;
+}
+.checkoutcont .checkboxitem input {
+  width: 15px;
+  height: 15px;
+  top: -2px;
+}
+.checkoutcont .carttotal h3:first-child {
+  color: #333;
+}
+.checkoutcont .paymentsrow {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  width: 100%;
+  gap: 15px;
+}
+.checkoutcont .paymentitem {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: auto;
+}
+.checkoutcont .paymentitem img {
+  width: 45px;
+}
+.checkoutcont .paymentitem .appinput {
+  justify-content: flex-start;
+}
+.checkoutcont .paycont {
+  border-bottom: none; 
+}
+.checkoutcont .paycont .appbutton.placeorderbtn {
+  width: 100%;
+  cursor: not-allowed;
+}
+.checkoutcont .paycont .placeorderbtn.enabled {
+  pointer-events: all;
+  cursor: pointer;
 }

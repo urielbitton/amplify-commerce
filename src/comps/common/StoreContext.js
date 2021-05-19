@@ -2,6 +2,7 @@ import React, {createContext, useEffect, useState} from 'react'
 import firebase from 'firebase'
 import {db} from './Fire'
 import refProd from './referProduct'
+import axios from 'axios'
 
 export const StoreContext = createContext()
 
@@ -13,8 +14,11 @@ const StoreContextProvider = (props) => {
   const [auser, setAUser] = useState('')
 
   const currencyFormat = new Intl.NumberFormat('en-CA', {style: 'currency', currency: 'CAD'})
+  const percentFormat = new Intl.NumberFormat('en-US', {style: 'percent'})
   const cartSubtotal = myUser?.cart?.reduce((a, b) => a + (refProd(allProducts,b.id).price*b.units), 0)
 
+  const [locateUser, setLocateUser] = useState(false)
+  const [userLocation, setUserLocation] = useState({})
   const [slideNav, setSlideNav] = useState(false)
   const [showCart, setShowCart] = useState(false)
   const [showQuickShop, setShowQuickShop] = useState(false)
@@ -48,9 +52,7 @@ const StoreContextProvider = (props) => {
     {name: 'Local Pickup', price: 0, value: 'pickup'},
   ])
   const [billingState, setBillingState] = useState({
-    fname: '',
-    lname: '',
-    company: '',
+ 
   })
   const [shippingState, setShippingState] = useState({
 
@@ -58,6 +60,25 @@ const StoreContextProvider = (props) => {
   const [countriesList, setCountriesList] = useState([
     {name: 'Canada', value: 'ca'},
     {name: 'United States', value: 'us'},
+  ])
+  const [paymentMethods, setPaymentMethods] = useState([
+    {name: 'Credit/Debit Card', value: 'stripe', img: 'https://i.imgur.com/NK5CCXP.png', defaultValue: true},
+    {name: 'PayPal', value: 'paypal', img: 'https://i.imgur.com/6fFDmjU.png'},
+  ])
+  const [provinces, setProvinces] = useState([
+    {name: 'Alberta', rate: 5},
+    {name: 'British Columbia', rate: 12},
+    {name: 'Manitoba', rate: 12},
+    {name: 'New Brunswick', rate: 15},
+    {name: 'Newfoundland & Labrador', rate: 15},
+    {name: 'Northwest Territories', rate: 5},
+    {name: 'Nova Scotia', rate: 15},
+    {name: 'Nunavut', rate: 5},
+    {name: 'Ontario', rate: 13},
+    {name: 'Prince Edward Island', rate: 15},
+    {name: 'Quebec', rate: 15},
+    {name: 'Saskatchewan', rate: 11},
+    {name: 'Yukon', rate: 5},
   ])
 
   
@@ -72,15 +93,27 @@ const StoreContextProvider = (props) => {
     })
   },[user])
   
+  useEffect(() => {
+    if(locateUser) {
+      axios({
+        method: 'get', 
+        url: `https://extreme-ip-lookup.com/json/`,
+      }).then((res) => {
+        console.log(res)
+        setUserLocation(res.data)
+      })
+    }
+  },[locateUser])
 
   return (
     <StoreContext.Provider value={{ 
       slideNav, setSlideNav, showCart, setShowCart, cartSubtotal, colorFilter, setColorFilter, priceFilter,
       setPriceFilter, sizeFilter, setSizeFilter, ratingFilter, setRatingFilter, categFilter, setCategFilter,
-      allProducts, myUser, setMyUser, user, auser, setAUser, shippingMethods, currencyFormat,
+      allProducts, myUser, setMyUser, user, auser, setAUser, shippingMethods, currencyFormat, percentFormat,
       showQuickShop, setShowQuickShop, quickProduct, setQuickProduct, showEditProd, setShowEditProd,
       editProduct, setEditProduct, billingState, setBillingState, shippingState, setShippingState,
-      countriesList, setCountriesList
+      countriesList, setCountriesList, paymentMethods, setPaymentMethods, locateUser, setLocateUser,
+      userLocation, setUserLocation, provinces, setProvinces
     }}>
       {props.children}  
     </StoreContext.Provider>

@@ -16,7 +16,7 @@ export default function Footer() {
           <div className="col">
             <h3>Amplify<span>.</span></h3>
             <p>Shop the hottest collections and trends with secure checkouts and free returns.</p>
-            <img src="https://i.imgur.com/Kduhi71.png" alt="payments"/>
+            <img src="https://i.imgur.com/dEkxWsy.png" alt="payments"/>
           </div>
           <div className="col">
             <h4>Shop</h4>
