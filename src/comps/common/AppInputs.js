@@ -12,7 +12,7 @@ export function AppInput(props) {
       <input style={{paddingRight: iconclass?"40px":"10px"}} {...props} />
     </label>
   )   
-}    
+}     
 
 export function AppSelect(props) {
   const {multiple, options, namebased, title, onChange, value, name} = props

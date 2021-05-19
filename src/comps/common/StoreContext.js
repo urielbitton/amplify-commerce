@@ -57,13 +57,13 @@ const StoreContextProvider = (props) => {
   const [shippingState, setShippingState] = useState({
 
   })
-  const [countriesList, setCountriesList] = useState([
-    {name: 'Canada', value: 'ca'},
-    {name: 'United States', value: 'us'},
-  ])
   const [paymentMethods, setPaymentMethods] = useState([
     {name: 'Credit/Debit Card', value: 'stripe', img: 'https://i.imgur.com/NK5CCXP.png', defaultValue: true},
     {name: 'PayPal', value: 'paypal', img: 'https://i.imgur.com/6fFDmjU.png'},
+  ])
+  const [countries, setCountries] = useState([
+    {name: 'Canada', value: 'ca'},
+    {name: 'United States', value: 'us'},
   ])
   const [provinces, setProvinces] = useState([
     {name: 'Alberta', rate: 5},
@@ -112,7 +112,7 @@ const StoreContextProvider = (props) => {
       allProducts, myUser, setMyUser, user, auser, setAUser, shippingMethods, currencyFormat, percentFormat,
       showQuickShop, setShowQuickShop, quickProduct, setQuickProduct, showEditProd, setShowEditProd,
       editProduct, setEditProduct, billingState, setBillingState, shippingState, setShippingState,
-      countriesList, setCountriesList, paymentMethods, setPaymentMethods, locateUser, setLocateUser,
+      countries, setCountries, paymentMethods, setPaymentMethods, locateUser, setLocateUser,
       userLocation, setUserLocation, provinces, setProvinces
     }}>
       {props.children}  

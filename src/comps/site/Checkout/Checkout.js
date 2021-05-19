@@ -10,16 +10,23 @@ import AppButton from '../common/AppButton'
 export default function Checkout() {
 
   const {
-    showCart, setShowCart, billingState, setBillingState, shippingState, setShippingState, countriesList,
+    showCart, setShowCart, billingState, setBillingState, shippingState, setShippingState, countries,
     myUser, cartSubtotal, currencyFormat, percentFormat, shippingMethods, paymentMethods, setLocateUser, 
     userLocation, provinces} = useContext(StoreContext)
   const [chosenShipping, setChosenShipping] = useState({name: "regular",cost: 3.99})
   const [paymentMethod, setPaymentMethod] = useState('stripe')
-  const [taxRate, setTaxRate] = useState(0.15)
+  const [taxRate, setTaxRate] = useState(0.15) 
   const orderTotal = cartSubtotal + (cartSubtotal*taxRate) + chosenShipping.cost
 
   const provincesOpts = provinces?.map(({name,rate}) => {
-    return {name:name, value:rate, selected:userLocation.region===name}
+    return <option value={name} selected={userLocation.region===name}>
+      {name} 
+    </option>
+  }) 
+  const countriesOpts = countries?.map(({name,value}) => {
+    return <option value={name} selected={userLocation.country===name}>
+      {name}
+    </option>  
   })
   const billingarr = [
     {title: 'First Name *', name: 'fname', halfwidth: true},
@@ -28,28 +35,17 @@ export default function Checkout() {
     {title: 'Street Address *', name: 'address'},
     {title: 'Apartment/Unit', name: 'aptunit'},
     {title: 'City *', name: 'city'},
-    {title: 'Province/State *', name: 'provstate', options: provincesOpts, provinces:true},
-    {title: 'Country *', name: 'country', options:countriesList},
     {title: 'Postal Code/ZIP *', name: 'postcode'},
     {title: 'Phone Number *', name: 'phone'},
     {title: 'Email Address *', name: 'email'},
   ]
-  const billingInputs = billingarr.map(({title,name,halfwidth,options,required,provinces}) => {
-    if(!options) 
-      return <AppInput 
-        title={title} 
-        name={name}
-        onChange={(e) => handleChange(e)}
-        className={halfwidth?"halfwidth":""}
-      />
-    else 
-      return <AppSelect  
-        options={[{name:'Select an Option',disabled:true},...options]} 
-        title={title}
-        name={name}
-        onChange={(e) => !provinces?handleChange(e):setTaxRate(e.target.value/100)}
-        namebased={provinces}
-      />
+  const billingInputs = billingarr.map(({title,name,halfwidth}) => {
+    return <AppInput 
+      title={title} 
+      name={name}
+      onChange={(e) => handleChange(e)}
+      className={halfwidth?"halfwidth":""}
+    />
   })
   const caritemrows = myUser?.cart?.map(el => {
     return <CheckoutItem el={el} />
@@ -93,7 +89,7 @@ export default function Checkout() {
       return true
     }
     else return false
-  }
+  } 
   function placeOrder() {
     if(allowOrder())
       console.log('Order has been placed')
@@ -103,14 +99,17 @@ export default function Checkout() {
 
   useEffect(() => {
     showCart&&setShowCart(false) 
-  },[]) 
+  },[])  
 
   useEffect(() => { 
     setLocateUser(true)  
     console.log('User is in: '+userLocation.region) 
-    console.log(taxRate)  
-    console.log(billingState)
-  },[])
+    setBillingState(prev => ({
+      ...prev,
+      provstate: userLocation.region,
+      country: userLocation.country
+    }))  
+  },[])   
 
   return (
     <div className="checkoutpage">
@@ -120,9 +119,22 @@ export default function Checkout() {
           <h6>Returning Customer?<Link to="/login">Login Here</Link></h6>
         </div>
         <div className="checkoutcont">
-          <div className="checkoutform">
+          <form className="checkoutform" onSubmit={(e) => e.preventDefault()} autoComplete>
             <h3 className="titles">Billing Details</h3>
-            {billingInputs}
+            {billingInputs.slice(0,6)}
+            <label className="appselect">
+              <h6>Province/State *</h6>
+              <select onChange={(e) => setBillingState(prev => ({...prev,provstate:e.target.value}))}>
+                {provincesOpts}
+              </select>
+            </label> 
+            <label className="appselect"> 
+              <h6>Country *</h6>
+              <select onChange={(e) => setBillingState(prev => ({...prev,country:e.target.value}))}>
+                {countriesOpts} 
+              </select> 
+            </label> 
+            {billingInputs.slice(6)} 
             <div>
               <AppInput title="Create an Account?" type="checkbox" className="checkinput" />
             </div>
@@ -134,7 +146,7 @@ export default function Checkout() {
               <h6>Order Notes</h6>
               <textarea placeholder="Delivery instructions, notes about order..."/>
             </label>
-          </div>
+          </form>
           <div className="ordercont">
             <h3 className="titles">Order Details</h3>
             <div className="checkoutrowscont">
