@@ -48,7 +48,7 @@ const StoreContextProvider = (props) => {
   const [categFilter, setCategFilter] = useState('all')
   const [shippingMethods, setShippingMethods] = useState([
     {name: 'Express Shipping', price: 6.99, value: 'express'},
-    {name: 'Regular Shipping', price: 3.99, value: 'regular', defaultvalue:true},
+    {name: 'Standard Shipping', price: 3.99, value: 'standard', defaultvalue:true},
     {name: 'Local Pickup', price: 0, value: 'pickup'},
   ])
   const [billingState, setBillingState] = useState({
@@ -80,6 +80,7 @@ const StoreContextProvider = (props) => {
     {name: 'Saskatchewan', rate: 11},
     {name: 'Yukon', rate: 5},
   ])
+  const [myOrders, setMyOrders] = useState([])
 
   
   useEffect(() => {
@@ -90,6 +91,9 @@ const StoreContextProvider = (props) => {
   useEffect(() => {
     user&&db.collection('users').doc(user.uid).onSnapshot(snap => {
       setMyUser(snap?.data()?.userinfo)
+    })
+    user&&db.collection('orders').doc(user.uid).onSnapshot(snap => {
+      setMyOrders(snap?.data()?.allorders) 
     })
   },[user])
   
@@ -113,7 +117,7 @@ const StoreContextProvider = (props) => {
       showQuickShop, setShowQuickShop, quickProduct, setQuickProduct, showEditProd, setShowEditProd,
       editProduct, setEditProduct, billingState, setBillingState, shippingState, setShippingState,
       countries, setCountries, paymentMethods, setPaymentMethods, locateUser, setLocateUser,
-      userLocation, setUserLocation, provinces, setProvinces
+      userLocation, setUserLocation, provinces, setProvinces, myOrders, setMyOrders
     }}>
       {props.children}  
     </StoreContext.Provider>

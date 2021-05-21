@@ -1,0 +1,75 @@
+.orderconfirmpage .titles {
+  margin-bottom: 20px;
+}
+.orderconfirmpage .titles h3 {
+  color: #333;
+}
+.orderconfirmpage .titles p {
+  font-size: 15px;
+  color: #777;
+}
+.orderconfirmcont {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap: 40px;
+}
+.orderconfirmcont > div {
+  width: 100%;
+}
+.orderconfirmcont .producttable {
+  margin: 30px 0;
+}
+.orderconfirmcont .recapcont {
+  width: 600px;
+  padding: 25px;
+  background: #f1f1f1;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.orderconfirmcont .recapcont > div {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+}
+.orderconfirmcont .recapcont h6 {
+  font-size: 13px;
+  color: #444;
+}
+.orderconfirmcont .recapcont span {
+  font-size: 13px;
+  text-transform: capitalize;
+  font-weight: 500;
+  color: #444;
+}
+.orderconfirmcont .recapcont .large h6, .orderconfirmcont .recapcont .large span {
+  font-size: 16px;
+  font-weight: 600;
+}
+.orderconfirmcont .recapcont .large {
+  border-top: 1px solid #ddd;
+  padding-top: 10px;
+}
+.orderconfirmcont .notifbar {
+  width: auto;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding: 15px 20px;
+  background: #f1f1f1;
+}
+.orderconfirmcont .notifbar p {
+  font-size: 14px;
+}
+.orderconfirmcont .endcont {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  margin-top: 30px;
+}
+.orderconfirmcont .endcont .btnscont {
+  display: flex;
+  gap: 20px;
+}

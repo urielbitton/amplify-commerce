@@ -17,6 +17,7 @@ import CartPage from '../Cart/CartPage'
 import Checkout from '../Checkout/Checkout'
 import MyAccount from '../client/MyAccount'
 import QuickShopComp from '../common/QuickShopComp'
+import OrderConfirm from '../Checkout/OrderConfirm'
 
 export default function HomeCont() {
 
@@ -63,8 +64,11 @@ export default function HomeCont() {
         <Route exact path="/register">
           <Register /> 
         </Route>
+        <Route exact path="/order-confirm">
+          <OrderConfirm /> 
+        </Route>
         {
-          allProducts.length?productpagerow:<Loader height="70vh" />
+          allProducts?.length?productpagerow:<Loader height="70vh" />
         }
         <Route path="/my-account">
           <MyAccount />

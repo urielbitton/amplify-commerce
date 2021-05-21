@@ -12,10 +12,10 @@
   text-decoration: underline;
   margin-left: 5px;
 }
-.checkoutcont {
+.checkoutcont { 
   width: 100%;
   display: grid;
-  grid-template-columns: auto 400px;
+  grid-template-columns: auto 440px;
   align-items: flex-start;
   grid-gap: 30px;
 }
@@ -183,11 +183,19 @@
 .checkoutcont .paycont {
   border-bottom: none; 
 }
-.checkoutcont .paycont .appbutton.placeorderbtn {
+.checkoutcont .paycont .placeorderbtn {
   width: 100%;
   cursor: not-allowed;
 }
 .checkoutcont .paycont .placeorderbtn.enabled {
   pointer-events: all;
   cursor: pointer;
+}
+.checkoutcont .paypalcont {
+  width: 100%;
+  display: none;
+  margin-top: 20px;
+}
+.checkoutcont .paypalcont.show {
+  display: block;
 }

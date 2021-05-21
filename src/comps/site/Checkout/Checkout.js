@@ -2,10 +2,14 @@ import React, {useContext, useEffect, useState} from 'react'
 import PageBanner from '../common/PageBanner'
 import {StoreContext} from '../../common/StoreContext'
 import './styles/Checkout.css'
-import { Link } from 'react-router-dom'
+import { Link, useHistory } from 'react-router-dom'
 import {AppInput, AppSelect} from '../../common/AppInputs'
 import CheckoutItem from './CheckoutItem'
 import AppButton from '../common/AppButton'
+import { PayPalButton } from 'react-paypal-button-v2'
+import CreateOrder from './CreateOrder'
+import { db } from '../../common/Fire'
+import firebase from 'firebase'
 
 export default function Checkout() {
 
@@ -13,11 +17,18 @@ export default function Checkout() {
     showCart, setShowCart, billingState, setBillingState, shippingState, setShippingState, countries,
     myUser, cartSubtotal, currencyFormat, percentFormat, shippingMethods, paymentMethods, setLocateUser, 
     userLocation, provinces} = useContext(StoreContext)
+  const cart = myUser?.cart
   const [chosenShipping, setChosenShipping] = useState({name: "regular",cost: 3.99})
   const [paymentMethod, setPaymentMethod] = useState('stripe')
   const [taxRate, setTaxRate] = useState(0.15) 
+  const [successPaid, setSuccessPaid] = useState(false)
+  const [failPaid, setFailPaid] = useState(false)
+  const [paySwitch, setPaySwitch] = useState(0)
   const orderTotal = cartSubtotal + (cartSubtotal*taxRate) + chosenShipping.cost
-
+  const clientid = "ASTQpkv9Y3mQ5-YBd20q0jMb9-SJr_TvUl_nhXu5h3C7xl0wumYgdqpSYIL6Vd__56oB7Slag0n2HA_r"
+  const history = useHistory()
+  const user = firebase.auth().currentUser
+    
   const provincesOpts = provinces?.map(({name,rate}) => {
     return <option value={name} selected={userLocation.region===name}>
       {name} 
@@ -47,7 +58,7 @@ export default function Checkout() {
       className={halfwidth?"halfwidth":""}
     />
   })
-  const caritemrows = myUser?.cart?.map(el => {
+  const caritemrows = cart?.map(el => {
     return <CheckoutItem el={el} />
   })
   const shipoptions = shippingMethods?.map(({name,price,value,defaultvalue}, i) => {
@@ -61,13 +72,13 @@ export default function Checkout() {
       />
     }
   )
-  const paymentInputs = paymentMethods.map(({name,value,img,defaultValue}) => {
+  const paymentInputs = paymentMethods.map(({name,value,img,defaultValue},i) => {
     return <div className="paymentitem">
       <AppInput
         type="radio"
         title={name}
         name="paymentmethod"
-        onChange={(e) => setPaymentMethod(e.target.value)}
+        onChange={(e) => {setPaymentMethod(e.target.value);setPaySwitch(i)}}
         value={value}
         defaultChecked={defaultValue}
       />
@@ -91,10 +102,28 @@ export default function Checkout() {
     else return false
   } 
   function placeOrder() {
-    if(allowOrder())
-      console.log('Order has been placed')
+    if(allowOrder()) {
+      
+    }
     else 
       window.alert('Please fill in all billing details to proceed.')
+  }
+  function startOrder() {
+    const orderid = db.collection('orders').doc().id
+    const customer = {
+      id: user.uid,
+      name: myUser.fullname,
+      email: myUser.email,
+      phone: myUser.phone,
+      profimg: myUser.profimg,
+      city: myUser.city,
+      country: myUser.country,
+      provstate: myUser.provstate
+    }
+    CreateOrder(orderid, cart, customer, cartSubtotal, orderTotal, chosenShipping,
+      paymentMethod, taxRate, billingState, shippingState, myUser)
+    setBillingState({})
+    history.push('/order-confirm')
   }
 
   useEffect(() => {
@@ -104,12 +133,11 @@ export default function Checkout() {
   useEffect(() => { 
     setLocateUser(true)  
     console.log('User is in: '+userLocation.region) 
-    setBillingState(prev => ({
-      ...prev,
+    setBillingState({
       provstate: userLocation.region,
       country: userLocation.country
-    }))  
-  },[])   
+    })  
+  },[userLocation])   
 
   return (
     <div className="checkoutpage">
@@ -172,13 +200,24 @@ export default function Checkout() {
             </div>
             <div className="checkoutitem checkboxitem paymentsrow">
               {paymentInputs}
+              <div className={`paypalcont ${paySwitch===1?"show":""}`}>
+                <PayPalButton
+                  amount={0.01} 
+                  onSuccess={(details, data) =>  {startOrder();setSuccessPaid(true)}}
+                  onError={() => {setFailPaid(true);window.alert('The transaction was not successful, please try again later.')}}
+                  options={{ clientId: clientid }}
+                />
+              </div>
             </div>
             <div className="checkoutitem paycont">
-              <AppButton 
+              {
+                paySwitch===0&&
+                <AppButton 
                 title="Place Order"
                 onClick={() => placeOrder()}
                 className={`placeorderbtn ${allowOrder()?"enabled":""}`}
               />
+              }
             </div>
           </div>
         </div>

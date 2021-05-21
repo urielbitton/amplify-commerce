@@ -11,7 +11,7 @@
   font-weight: 500;
   font-size: 15px;
 }
-.producttable .header h5:last-child {
+.producttable .header h5:last-child, .producttable .content div:last-child {
   flex-basis: 50px;
 }
 .producttable img { 
