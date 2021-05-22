@@ -9,35 +9,38 @@ export default function QuickShopComp(props) {
 
   const {currencyFormat, quickProduct, showQuickShop, setShowQuickShop} = useContext(StoreContext)
   const {id, name, imgs, price, sizes, descript} = quickProduct
-  const [chosenSize, setChosenSize] = useState(sizes[0].name)
-  const [chosenColor, setChosenColor] = useState(sizes[0].colors[0])
-  const stocksLeft = sizes[sizes.findIndex(x => x.name===chosenSize)]?.stock
+  const [chosenSize, setChosenSize] = useState(sizes[0]?.name)
+  const [chosenColor, setChosenColor] = useState(sizes[0]?.colors[0]?.name)
+  const chosenSizeIndex = sizes.findIndex(x => x.name===chosenSize)
+  const stocksLeft = sizes[chosenSizeIndex]?.colors[sizes[chosenSizeIndex].colors.findIndex(x => x.name===chosenColor)]?.stock
   const subid = id+chosenSize+chosenColor
 
   const sizesrow = sizes.map(el => {
     return <div 
       className={`sizebox ${el.name===chosenSize?"active":""}`}
       onClick={() => setChosenSize(el.name)}
+      key={el.name}
     >
-      <small>{el.name}</small> 
+      <small>{el.name}</small>  
     </div>
   })
-  const colorsrow = sizes[sizes.findIndex(x => x.name===chosenSize)]?.colors.map(el => {
+  const colorsrow = sizes[chosenSizeIndex]?.colors.map(el => {
     return <div 
-      className={`colorcircle ${el===chosenColor?"active":""}`}
-      onClick={() => setChosenColor(el)}
+      className={`colorcircle ${el.name===chosenColor?"active":""}`}
+      onClick={() => setChosenColor(el.name)}
+      key={el.name}
     >
-      <div className="color" style={{background: el}}></div>
+      <div className="color" style={{background: el.name}}></div>
     </div>
   })
 
   useEffect(() => {
-    setChosenColor(sizes[sizes.findIndex(x => x.name===chosenSize)]?.colors[0])
+    setChosenColor(sizes[chosenSizeIndex]?.colors[0]?.name)
   },[chosenSize])
 
   useEffect(() => {
-    setChosenSize(sizes[0].name)
-    setChosenColor(sizes[0].colors[0])
+    setChosenSize(sizes[0]?.name)
+    setChosenColor(sizes[0]?.colors[0]?.name)
   },[showQuickShop])  
 
 

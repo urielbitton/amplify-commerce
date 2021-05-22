@@ -25,7 +25,7 @@ export default function HomeCont() {
 
   const productpagerow = allProducts?.map(el => {
     return <Route exact path={`/product/${el.id}`}>
-      <ProductPage el={el} /> 
+      <ProductPage el={el} key={el.id}/> 
     </Route>
   })
  

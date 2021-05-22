@@ -6,6 +6,6 @@ export default function Loader(props) {
   const {height="100%"} = props
 
   return <div className="loadercont" style={{height}}>
-    <div class="spinner"></div>
+    <div className="spinner"></div>
   </div>
 }

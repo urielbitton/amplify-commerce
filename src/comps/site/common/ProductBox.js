@@ -18,13 +18,13 @@ export default function ProductBox(props) {
   //push all colors to single array
   sizes.forEach(el => {
     el.colors.forEach(el => {
-      if(!allcolors.includes(el)) {
-        allcolors.push(el)
+      if(!allcolors.includes(el.name)) {
+        allcolors.push(el.name)
       }
     })
   })
   const colorsrow = allcolors.slice(0,4).map(el => {
-    return <div className="colorcircle" style={{background:el}} key={el}></div>
+    return <div className="colorcircle" style={{background:el.name}} key={el}></div>
   })
  
   return (
