@@ -15,8 +15,46 @@
   gap: 30px;
   flex-wrap: wrap;
 }
+.orderdetailspage .ordercontainer .column {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
 .orderdetailspage .ordercontainer h6 {
-  font-size: 12px;
+  font-size: 13px;
   color: #333;
+  margin-bottom: 5px;
+}
+.orderdetailspage .ordercontainer small {
+  color: #555;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 5px;
+}
+.orderdetailspage .ordercontainer small.ordertotal {
+  font-weight: 600;
+}
+.orderdetailspage .ordercontainer small span.upper {
+  text-transform: uppercase;
+}
+.orderdetailspage .ordercontainer small img {
+  height: 25px;
+  width: 40px;
+}
+.orderdetailspage .ordercontainer .ordersummary {
+  min-width: 250px;
+}
+.orderdetailspage .metainfo {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  flex-wrap: wrap;
+  padding: 10px 0;
   margin-bottom: 10px;
+}
+.orderdetailspage .metainfo h5 {
+  color: #333;
+  font-weight: 500;
 }

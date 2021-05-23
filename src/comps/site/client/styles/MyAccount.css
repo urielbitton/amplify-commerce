@@ -30,6 +30,9 @@
 .myaccountsidebar .menu a i {
   margin-right: 10px;
 }
+.myaccountsidebar .appbutton i {
+  font-size: 15px;
+}
 .myaccountcontent {
   width: 100%;
   background: #fff;
@@ -37,5 +40,6 @@
 .myaccountcontent h3.contenttitle {
   font-size: 25px;
   color: #444;
+  font-weight: 500;
   margin-bottom: 20px;
 }

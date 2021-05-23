@@ -9,7 +9,7 @@ export default function OrdersCard(props) {
   
   const {currencyFormat, allProducts} = useContext(StoreContext)
   const {orderStatus, orderid, orderDateCreated, orderTotal, shippingDetails, products,
-    
+    shippingMethod
   } = props.order
   const {topbar=true, vieworderbtn=true, prodindex=0, showmore=false} = props
   let orderDate = orderDateCreated.toDate().toString().split(' ')
@@ -54,6 +54,8 @@ export default function OrdersCard(props) {
             <h6>
               <Link to={`/product/${products[prodindex].id}`} className="prodtitle">{refProd(allProducts,products[prodindex].id).name} x {products[prodindex].units}</Link>
               {showmore&&productsmore>0&&<small>+ {productsmore} more product{productsmore>1?"s":""}</small>}
+              <small>{currencyFormat.format(refProd(allProducts,products[prodindex].id).price)}</small>
+              <small>Brand: {refProd(allProducts,products[prodindex].id).brand}</small>
               <AppButton title="Buy Again" url={`/product/${products[prodindex].id}`}/>
             </h6>
           </div>
@@ -89,6 +91,13 @@ export default function OrdersCard(props) {
             className={orderStatus==='delivered'?"show":""}
             onClick={() => null}
           />
+          {
+            !vieworderbtn&&
+            <h6 className="shippingmethod">
+              Shipping Method:
+              <small> {shippingMethod.name}</small>
+            </h6>
+          }
         </div>
       </div>
     </div>

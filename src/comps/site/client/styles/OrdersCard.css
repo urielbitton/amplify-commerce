@@ -74,20 +74,17 @@
   width: 80px;
 }
 .orderscard .infocont .packagedetails h6 {
-  font-size: 14px;
-  color: #444;
+  color: #555;
   font-weight: 500;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
 }
-.orderscard .infocont .packagedetails h6 a {
-  color: #777;
-}
 .orderscard .infocont .packagedetails h6 a.prodtitle {
   color: #000;
+  font-size: 15px;
 }
-.orderscard .infocont .packagedetails h6 a:hover {
+.orderscard .infocont .packagedetails h6 a.prodtitle:hover {
   text-decoration: underline;
 }
 .orderscard .infocont .packagedetails h6 .appbutton {
@@ -97,6 +94,10 @@
   color: #333;
   margin-top: 10px;
   display: flex;
+}
+.orderscard .infocont .packagedetails small {
+  text-transform: capitalize;
+  font-size: 12px;
 }
 .orderscard .infocont .packagedetails .appbutton:hover {
   background: #e1e1e1;
@@ -128,4 +129,13 @@
 }
 .orderscard .appbutton:hover {
   background: #e1e1e1;
+}
+.orderscard .btnscont .shippingmethod {
+  font-size: 12px;
+  font-weight: 500;
+}
+.orderscard .btnscont .shippingmethod small {
+  font-size: 11px;
+  text-transform: capitalize;
+  color: var(--color);
 }

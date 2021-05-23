@@ -20,6 +20,7 @@ export default function MyAccount() {
   const accountlinks = [
     {name: 'home', url: '/my-account', icon: 'fal fa-home', exact: true},
     {name: 'my orders', url: '/my-account/orders/', icon: 'fal fa-shopping-bag'},
+    {name: 'my reviews', url: '/my-account/reviews/', icon: 'fal fa-star-half-alt'},
     {name: 'my addresses', url: '/my-account/addresses/', icon: 'fal fa-map-marker-alt'},
     {name: 'my payments', url: '/my-account/payments/', icon: 'fal fa-credit-card-front'},
     {name: 'settings', url: '/my-account/settings/', icon: 'fal fa-cog'},
