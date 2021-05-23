@@ -9,10 +9,10 @@ export default function PageBanner(props) {
   const crumbs = location.pathname?.split('/').slice(1)
  
   const crumbsrow = crumbs?.map((el,i) => {
-    return <>
-      <small key={i}><i className="fal fa-angle-left"></i></small>
-      <Link key={i+1}><small>{el.replaceAll('-',' ')}</small></Link>
-    </>
+    return <React.Fragment key={i}>
+      <small className="slash">/</small>
+      <Link ><small>{el.replaceAll('-',' ')}</small></Link>
+    </React.Fragment>
   })
 
   useEffect(() => {

@@ -12,15 +12,15 @@
 .pagebanner .crumbscont {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 5px;
 }
-.pagebanner .crumbscont small {
+.pagebanner .crumbscont a small {
   color: var(--graytxt);
   text-transform: capitalize;
 }
-.pagebanner .crumbscont i {
-  font-size: 15px;
+.pagebanner .crumbscont small.slash {
   top: 2px;
+  color: #aaa;
 }
 .pagebanner .titlecont h2 {
   font-weight: 500;

@@ -1,0 +1,120 @@
+.orderscard {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid #eee;
+}
+.orderscard .topbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+  flex-wrap: wrap;
+  padding: 15px;
+  background: #222;
+}
+.orderscard .topbar ::selection {
+  background: #fff;
+  color: #333;
+}
+.orderscard .topbar > div {
+  display: flex;
+  gap: 30px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+.orderscard .topbar > div > div {
+  display: flex;
+  flex-direction: column;
+}
+.orderscard .topbar > div > div h5 {
+  text-transform: uppercase;
+  font-weight: 500;
+  color: #fff;
+  font-size: 12px;
+}
+.orderscard .topbar > div > div span {
+  font-weight: 400;
+  color: #ddd;
+  font-size: 13px;
+  text-transform: capitalize;
+}
+
+.orderscard .cardcontent {
+  display: grid;
+  grid-template-columns: auto 200px;
+  grid-gap: 20px;
+  padding: 15px;
+}
+.orderscard .infocont {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+.orderscard .infocont h4 {
+  color: #333;
+}
+.orderscard .infocont .packagedetails {
+  display: flex;
+  align-items: flex-start;
+  gap: 15px;
+}
+.orderscard .infocont .packagedetails img {
+  width: 80px;
+}
+.orderscard .infocont .packagedetails h6 {
+  font-size: 14px;
+  color: #444;
+  font-weight: 500;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+.orderscard .infocont .packagedetails h6 a {
+  color: #777;
+}
+.orderscard .infocont .packagedetails h6 a.prodtitle {
+  color: #000;
+}
+.orderscard .infocont .packagedetails h6 a:hover {
+  text-decoration: underline;
+}
+.orderscard .infocont .packagedetails h6 .appbutton {
+  padding: 10px 20px;
+  text-transform: capitalize;
+  background: #f1f1f1;
+  color: #333;
+  margin-top: 10px;
+  display: flex;
+}
+.orderscard .infocont .packagedetails .appbutton:hover {
+  background: #e1e1e1;
+}
+.orderscard .btnscont {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+  width: 100%;
+}
+.orderscard .btnscont .appbutton {
+  width: 100%;
+  padding: 10px;
+  text-transform: capitalize;
+  background: #f1f1f1;
+  color: #333;
+  display: none;
+}
+.orderscard .btnscont .appbutton.show {
+  display: flex;
+}
+.orderscard .btnscont .appbutton.highlight {
+  background: var(--color);
+  color: #fff;
+}
+.orderscard .btnscont .appbutton.highlight:hover {
+  background: #00aeff; 
+}
+.orderscard .appbutton:hover {
+  background: #e1e1e1;
+}

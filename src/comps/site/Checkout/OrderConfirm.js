@@ -76,7 +76,7 @@ export default function OrderConfirm() {
               />
               <AppButton 
                 title="My Orders"
-                url="/my-account"
+                url="/my-account/orders/"
               />
             </div>
           </div>
