@@ -12,6 +12,10 @@
   flex-wrap: wrap;
   padding: 15px;
   background: #222;
+  display: none;
+}
+.orderscard .topbar.show {
+  display: flex;
 }
 .orderscard .topbar ::selection {
   background: #fff;
@@ -38,6 +42,13 @@
   color: #ddd;
   font-size: 13px;
   text-transform: capitalize;
+}
+.orderscard .topbar div.right .orderlinks {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  color: #eee;
+  font-size: 13px;
 }
 
 .orderscard .cardcontent {

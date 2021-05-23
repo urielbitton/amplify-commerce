@@ -11,12 +11,13 @@ export default function OrdersCard(props) {
   const {orderStatus, orderid, orderDateCreated, orderTotal, shippingDetails, products,
     
   } = props.order
+  const {topbar=true, vieworderbtn=true, prodindex=0, showmore=false} = props
   let orderDate = orderDateCreated.toDate().toString().split(' ')
   const productsmore = products.length>1?products.length-1:0
 
   return (
     <div className="orderscard">
-      <div className="topbar">
+      <div className={`topbar ${topbar?"show":""}`}>
         <div className="left">
           <div>
             <h5>Order Placed</h5>
@@ -38,7 +39,10 @@ export default function OrdersCard(props) {
         <div className="right">
           <div>
             <h5>Order #{orderid}</h5>
-            <span>View Invoice</span>
+            <div className="orderlinks">
+              <small>View Invoice</small>
+              <small>View order details</small>
+            </div>
           </div>
         </div>
       </div>
@@ -46,11 +50,11 @@ export default function OrdersCard(props) {
         <div className="infocont">
           <h4>{orderStatus==='delivered'?"Delivered on:":"Arriving:"} </h4>
           <div className="packagedetails">
-            <img src={refProd(allProducts,products[0].id).imgs} alt=""/>
+            <img src={refProd(allProducts,products[prodindex].id).imgs} alt=""/>
             <h6>
-              <Link to="" className="prodtitle">{refProd(allProducts,products[0].id).name} x {products[0].units}</Link>
-              {productsmore>0&&<Link to=""><small>+ {productsmore} more product{productsmore>1?"s":""}</small></Link>}
-              <AppButton title="Buy Again" url=""/>
+              <Link to={`/product/${products[prodindex].id}`} className="prodtitle">{refProd(allProducts,products[prodindex].id).name} x {products[prodindex].units}</Link>
+              {showmore&&productsmore>0&&<small>+ {productsmore} more product{productsmore>1?"s":""}</small>}
+              <AppButton title="Buy Again" url={`/product/${products[prodindex].id}`}/>
             </h6>
           </div>
         </div>
@@ -67,8 +71,8 @@ export default function OrdersCard(props) {
           />
           <AppButton 
             title="View/Edit Order"
-            className="show"
-            onClick={() => null}
+            className={`${vieworderbtn?"show":""}`}
+            url={`/my-account/order-details/${orderid}/`}
           />
           <AppButton 
             title="Cancel Items"

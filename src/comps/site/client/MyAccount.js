@@ -10,10 +10,11 @@ import AccountOrders from './AccountOrders'
 import AccountAddresses from './AccountAddresses'
 import AccountPayments from './AccountPayments'
 import AccountSettings from './AccountSettings'
+import OrderDetails from './OrderDetails'
 
 export default function MyAccount() {
 
-  const {user} = useContext(StoreContext)
+  const {user, myOrders} = useContext(StoreContext)
   const history = useHistory()
 
   const accountlinks = [
@@ -28,6 +29,11 @@ export default function MyAccount() {
       <i className={icon}></i>
       {name}
     </NavLink>
+  })
+  const orderdetailspage = myOrders?.map(order => {
+    return <Route path={`/my-account/order-details/${order.orderid}`}>
+      <OrderDetails order={order} />
+    </Route>
   })
 
   function logoutUser() {
@@ -77,6 +83,7 @@ export default function MyAccount() {
               <Route path="/my-account/settings">
                 <AccountSettings />
               </Route>
+              {orderdetailspage}
             </Switch>
           </div>
         </div>

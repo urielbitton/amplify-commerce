@@ -2,7 +2,7 @@ import firebase from 'firebase'
 import {db} from '../../common/Fire'
 
 export default function CreateOrder(orderid, products, customer, orderSubtotal, orderTotal, shippingMethod, 
-  paymentMethod, taxAmount, billingDetails, shippingDetails, myUser) {
+  paymentDetails, taxAmount, billingDetails, shippingDetails, myUser) {
   
     const user = firebase.auth().currentUser
 
@@ -14,7 +14,7 @@ export default function CreateOrder(orderid, products, customer, orderSubtotal, 
       orderSubtotal: orderSubtotal.toFixed(2),
       orderTotal: orderTotal.toFixed(2),
       taxAmount,
-      paymentMethod,
+      paymentDetails,
       shippingMethod,
       billingDetails,
       shippingDetails: billingDetails, //temporary - remove when implemented

@@ -54,7 +54,7 @@ export default function OrderConfirm() {
           <div className="recapcont">
             <div><h6>Order Number</h6><span>{currentOrder.orderid}</span></div>
             <div><h6>Order Created Date</h6><span>{orderDateCreated}</span></div>
-            <div><h6>Payment Method</h6><span>{currentOrder.paymentMethod}</span></div>
+            <div><h6>Payment Method</h6><span>{currentOrder.paymentDetails.method}</span></div>
             <div><h6>Products</h6><span>{currentOrder.products.length}</span></div>
             <div><h6>Shipping Method</h6><span>{currentOrder.shippingMethod.name} - {currencyFormat.format(currentOrder.shippingMethod.cost)}</span></div>
             <div><h6>Taxes</h6><span>{currencyFormat.format(currentOrder.taxAmount*currentOrder.orderSubtotal)}</span></div>

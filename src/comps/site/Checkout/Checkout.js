@@ -19,7 +19,7 @@ export default function Checkout() {
     userLocation, provinces} = useContext(StoreContext)
   const cart = myUser?.cart
   const [chosenShipping, setChosenShipping] = useState({name: "regular",cost: 3.99})
-  const [paymentMethod, setPaymentMethod] = useState('stripe')
+  const [paymentDetails, setPaymentDetails] = useState({method:'stripe',email:'',cardnumber:''})
   const [taxRate, setTaxRate] = useState(0.15) 
   const [successPaid, setSuccessPaid] = useState(false)
   const [failPaid, setFailPaid] = useState(false)
@@ -78,7 +78,7 @@ export default function Checkout() {
         type="radio"
         title={name}
         name="paymentmethod"
-        onChange={(e) => {setPaymentMethod(e.target.value);setPaySwitch(i)}}
+        onChange={(e) => {setPaymentDetails({method:'paypal',email:'urielas1@gmail.com',cardnumber:''});setPaySwitch(i)}}
         value={value}
         defaultChecked={defaultValue}
       />
@@ -121,7 +121,7 @@ export default function Checkout() {
       provstate: myUser.provstate
     }
     CreateOrder(orderid, cart, customer, cartSubtotal, orderTotal, chosenShipping,
-      paymentMethod, taxRate, billingState, shippingState, myUser)
+      paymentDetails, taxRate, billingState, shippingState, myUser)
     setBillingState({})
     history.push('/order-confirm')
   }

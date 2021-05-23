@@ -2,7 +2,7 @@
   width: 100%;
   display: grid;
   grid-template-columns: 200px auto;
-  grid-gap: 20px;
+  grid-gap: 30px;
   align-items: flex-start;
 }
 .myaccountsidebar {
@@ -33,8 +33,6 @@
 .myaccountcontent {
   width: 100%;
   background: #fff;
-  box-shadow: 0 0 7px rgba(0,0,0,0.1);
-  padding: 20px;
 }
 .myaccountcontent h3.contenttitle {
   font-size: 25px;
