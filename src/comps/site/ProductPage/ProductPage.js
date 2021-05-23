@@ -10,10 +10,11 @@ import AppAccordion from '../common/AppAccordion'
 import ProductReviews from './ProductReviews'
 import { StoreContext } from '../../common/StoreContext'
 import ProductBox from '../common/ProductBox'
+import { useLocation } from 'react-router-dom'
 
 export default function ProductPage(props) {
 
-  const {allProducts, currencyFormat} = useContext(StoreContext)
+  const {allProducts, currencyFormat, setShowQuickShop, setShowCart} = useContext(StoreContext)
   const {id, name, price, rating, ratingsarr, imgs, belongs, sizes,
     collection, descript, reviews, categories
   } = props.el
@@ -23,6 +24,8 @@ export default function ProductPage(props) {
   const [secTab, setSecTab] = useState(0)
   const chosenSizeIndex = sizes?.findIndex(x => x.name===chosenSize)
   const stocksLeft = sizes[chosenSizeIndex]?.colors[sizes[chosenSizeIndex]?.colors?.findIndex(x => x.name===chosenColor)]?.stock  
+  const subid = id+chosenSize+chosenColor
+  const location = useLocation()
 
   const socialarr = [
     {name: 'Facebook',icon: 'fab fa-facebook-f', url: ''},
@@ -35,7 +38,7 @@ export default function ProductPage(props) {
     return <img src={el} alt="" onClick={() => setActiveImg(el)} key={el}/>
   })
   const sizeoptions = sizes?.map(el => {
-    return {name: sizeConverter(el.name), value: el.name}
+    return {name: sizeConverter(el.name), value: el.name, selected:el.name===chosenSize}
   })
   const coloroptions = sizes[chosenSizeIndex]?.colors?.map(el => {
     return {name:colorConverter(el.name), value: el.name, selected:el.name===chosenColor}
@@ -43,7 +46,6 @@ export default function ProductPage(props) {
   const socialshares = socialarr.map(({name,icon,url}) => {
     return <i className={icon} title={name} key={name}></i>
   })
-
   //find at least 2 matching properties:
   //.filter(el => el.colors.filter(x => colors.includes(x)).length > 1)
   const similarprodsrow = allProducts
@@ -53,16 +55,21 @@ export default function ProductPage(props) {
     return <ProductBox el={el} key={el.id}/>
   })
 
-  function magnifyImg(e) {
-      
-  }
-
+  useEffect(() => {
+    setShowQuickShop(false)
+    if(location.search.includes('?')) {
+      setChosenSize(location.search.split('?')[1])
+      setChosenColor(location.hash)
+    }  
+    setShowCart(false)
+  },[])
   useEffect(() => {
     setActiveImg(imgs[0])
   },[id])
-
   useEffect(() => {
-    setChosenColor(sizes[chosenSizeIndex]?.colors[0]?.name) 
+    if(!location.search.includes('?')) {
+      setChosenColor(sizes[chosenSizeIndex]?.colors[0]?.name) 
+    }
   },[chosenSize,chosenSizeIndex,sizes]) 
 
   return (
@@ -77,13 +84,12 @@ export default function ProductPage(props) {
               <div 
                 className="imgcont" 
                 style={{backgroundImage: `url(${activeImg})`}} 
-                onMouseMove={(e) => magnifyImg(e)}
               >
             </div>
             </div>
             <div className="imgsrow">
               {imgsrow}
-            </div>
+            </div> 
           </div>
           <div className="infocont">
             <h2>{name}</h2> 
@@ -95,6 +101,7 @@ export default function ProductPage(props) {
                 chosenColor={chosenColor} 
                 chosenSize={chosenSize} 
                 stocksLeft={stocksLeft}
+                subid={subid}
               />
               <AddToWish el={props.el} />
               <AppSelect 
@@ -114,10 +121,19 @@ export default function ProductPage(props) {
               <div><h6>Collections</h6><span>{collection?.join(', ')}</span></div>
               <div><h6>Categories</h6><span>{categories?.join(', ')}</span></div>
               <div><h6>Brand Name</h6><span>-</span></div>
-              <div><h6>Stock Status</h6><span className={!stocksLeft>0?"nostock":""}>{stocksLeft>0?"In Stock":"Out Of Stock"}</span></div>
+              <div>
+                <h6>Stock Status</h6>
+                {
+                  stocksLeft<3?<span className="nostock">Low Stock ({stocksLeft} left)</span>:
+                  <span className={!stocksLeft>0?"nostock":""}>{stocksLeft>0?"In Stock":"Out Of Stock"}</span>
+                }
+                
+              </div>
               <div><h6>SKU</h6><span>{id}</span></div>
               <div><h6>Share Product</h6><span className="socialshares">{socialshares}</span></div>
-              <div><h6>Rating</h6><span><Ratings rating={rating} /><small>({ratingsarr.length})</small></span></div>
+              <div>
+                <h6>Rating</h6><span><Ratings rating={rating} /><small>({ratingsarr.length})</small></span>
+              </div>
               <div className="accordioncont">
                 <AppAccordion title="Product Description" className="proddescript">
                 <div>

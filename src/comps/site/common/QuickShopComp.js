@@ -14,7 +14,7 @@ export default function QuickShopComp(props) {
   const chosenSizeIndex = sizes.findIndex(x => x.name===chosenSize)
   const stocksLeft = sizes[chosenSizeIndex]?.colors[sizes[chosenSizeIndex].colors.findIndex(x => x.name===chosenColor)]?.stock
   const subid = id+chosenSize+chosenColor
-
+ 
   const sizesrow = sizes.map(el => {
     return <div 
       className={`sizebox ${el.name===chosenSize?"active":""}`}
@@ -91,7 +91,7 @@ export default function QuickShopComp(props) {
             }
             <AppButton 
               title="View Details"
-              url={`/product/${id}`}
+              url={`/product/${id}?${chosenSize}${chosenColor}`}
               className="viewdetails"
             />
           </div>

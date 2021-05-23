@@ -12,6 +12,7 @@ export default function AddToCart(props) {
   const cart = myUser?.cart
   const productunits = cart?.find(el => el.subid === subid)?.units
   const cartitem = cart?.find(el => el.subid === subid) 
+  console.log(stocksLeft)
    
   function addToCart() {
     if(!cart?.find(el => el.subid === subid)) {

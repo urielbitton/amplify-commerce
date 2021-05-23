@@ -24,7 +24,7 @@ export default function ProductBox(props) {
     })
   })
   const colorsrow = allcolors.slice(0,4).map(el => {
-    return <div className="colorcircle" style={{background:el.name}} key={el}></div>
+    return <div className="colorcircle" style={{background:el}} key={el}></div>
   })
  
   return (
