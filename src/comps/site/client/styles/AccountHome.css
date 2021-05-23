@@ -1,0 +1,18 @@
+.accounthomepage {
+  display: grid;
+  grid-template-columns: repeat(auto-fit,minmax(400px,1fr));
+  grid-gap: 20px;
+}
+.accounthomepage .homebox {
+  background: #fff;
+  box-shadow: var(--shadow);
+  padding: 20px;
+}
+.accounthomepage .homebox.full {
+  grid-column: 1/-1;;
+}
+.accounthomepage .homebox h4 {
+  font-size: 15px;
+  color: var(--graytxt);
+  font-weight: 500;
+}
