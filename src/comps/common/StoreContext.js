@@ -81,7 +81,16 @@ const StoreContextProvider = (props) => {
     {name: 'Yukon', rate: 5},
   ])
   const [myOrders, setMyOrders] = useState([])
-  const [trackingDetails, setTrackingDetails] = useState({})
+  const [trackingDetails, setTrackingDetails] = useState({
+    img: '',
+    trackingNum: '',
+    products: [{id:''}],
+    estDelivery: '',
+    carrier: '',
+    shippingMethod: '',
+    updates: [],
+    orderStatus: ''
+  })
   const [showTrackCont, setShowTrackCont] = useState(false)
 
   

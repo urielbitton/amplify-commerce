@@ -7,13 +7,27 @@ import { Link } from 'react-router-dom'
 
 export default function OrdersCard(props) {
   
-  const {currencyFormat, allProducts, setShowTrackCont} = useContext(StoreContext)
+  const {currencyFormat, allProducts, setShowTrackCont, setTrackingDetails} = useContext(StoreContext)
   const {orderStatus, orderid, orderDateCreated, orderTotal, shippingDetails, products,
-    shippingMethod
+    shippingMethod, updates
   } = props.order
   const {topbar=true, vieworderbtn=true, prodindex=0, showmore=false} = props
   let orderDate = orderDateCreated.toDate().toString().split(' ')
   const productsmore = products.length>1?products.length-1:0
+
+  function trackOrder() {
+    setShowTrackCont(true)
+    setTrackingDetails({
+      img: refProd(allProducts,products[0].id).imgs[0],
+      trackingNum: 'N/A',
+      products,
+      estDelivery: 'N/A',
+      carrier: 'N/A',
+      shippingMethod,
+      updates,
+      orderStatus
+    })
+  }
 
   return (
     <div className="orderscard">
@@ -64,7 +78,7 @@ export default function OrdersCard(props) {
           <AppButton 
             title="Track Order"
             className={`show ${orderStatus==='delivered'?"":"highlight"}`}
-            onClick={() => setShowTrackCont(true)}
+            onClick={() => trackOrder()}
           />
           <AppButton 
             title="Change Shipping"

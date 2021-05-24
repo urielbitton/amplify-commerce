@@ -16,3 +16,22 @@ export function colorConverter(color) {
   if(color==='#edb5ff') return 'Pink'
   if(color==='#bdc6c7') return 'Gray'
 }
+
+export function convertTime(time) { 
+  time = time.split(':')
+  let hours = Number(time[0])
+  let minutes = Number(time[1])
+  let seconds = Number(time[2])
+  let timeValue
+  if (hours > 0 && hours <= 12) {
+    timeValue = "" + hours
+  } else if (hours > 12) {
+    timeValue = "" + (hours - 12)
+  } else if (hours === 0) {
+    timeValue = "12"
+  }
+  timeValue += (minutes < 10) ? ":0" + minutes : ":" + minutes
+  //timeValue += (seconds < 10) ? ":0" + seconds : ":" + seconds
+  timeValue += (hours >= 12) ? " PM" : " AM"
+  return timeValue
+}

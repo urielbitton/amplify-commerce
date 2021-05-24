@@ -17,8 +17,9 @@ export default function CreateOrder(orderid, products, customer, orderSubtotal, 
       paymentDetails,
       shippingMethod,
       billingDetails,
-      shippingDetails: billingDetails, //temporary - remove when implemented
-      orderStatus: 'open'
+      shippingDetails: billingDetails, //temporary - edit when implemented
+      orderStatus: 'open',
+      update: []
     }
     //create order on firebase
     db.collection('orders').doc(user.uid).set({

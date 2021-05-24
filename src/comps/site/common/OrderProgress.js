@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import './styles/OrderProgress.css'
+import {convertTime} from '../../common/UtilityFuncs'
 
 export default function OrderProgress(props) {
   
@@ -12,9 +13,9 @@ export default function OrderProgress(props) {
 
   function convertLevel(level) {
     switch(level) {
-      case 'open': return 18;
-      case 'processing': return 43;
-      case 'shipped': return 68;
+      case 'open': return 16;
+      case 'processing': return 42;
+      case 'shipped': return 67;
       case 'delivered': return 100;
       case 'cancelled': return 0;
       default: return 0;
@@ -22,9 +23,9 @@ export default function OrderProgress(props) {
   }
 
   const levels = [
-    {name: 'Open', level: 18, date: order?.updates[openDate]?.date},
-    {name: 'Processing', level: 43, date: order?.updates[processDate]?.date},
-    {name: 'Shipped', level: 68, date: order?.updates[shipDate]?.date},
+    {name: 'Open', level: 16, date: order?.updates[openDate]?.date},
+    {name: 'Processing', level: 42, date: order?.updates[processDate]?.date},
+    {name: 'Shipped', level: 67, date: order?.updates[shipDate]?.date},
     {name: 'Delivered', level: 100, date: order?.updates[delivDate]?.date},
   ]
   const subtitlesrow = levels.map(({name,level,date}) => {
@@ -32,7 +33,14 @@ export default function OrderProgress(props) {
       {name}
       {
         dateTitles&&
-        <span>{date.toDate().toString().split(' ')[1]}</span>
+        <>
+          <span>
+            {date?.toDate().toString().split(' ')[1]}&nbsp;
+            {date?.toDate().toString().split(' ')[2]}&nbsp;
+            {date?.toDate().toString().split(' ')[3]}
+          </span>
+          <span>{date&&convertTime(date?.toDate().toString().split(' ').slice(4,7)[0])}</span>
+        </>
       }
     </small>
   })

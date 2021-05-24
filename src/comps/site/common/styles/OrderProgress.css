@@ -38,16 +38,26 @@
   width: 100%;
   display: flex;
   justify-content: space-around;
-  align-items: center;
+  align-items: flex-start;
 }
 .orderprogcont .subtitlescont small {
   font-size: 13px;
-  color: #333;
-  left: 5px;
+  color: #000;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.orderprogcont .subtitlescont small span {
+  display: block;
+  font-size: 12px;
+  color: #777;
 }
 .orderprogcont .subtitlescont small:nth-of-type(1) {
-  left: 8px;
+  left: -3px;
 }
 .orderprogcont .subtitlescont small:nth-of-type(2) {
-  left: 12px;
+  left: -8px;
+}
+.orderprogcont .subtitlescont small:nth-of-type(3) {
+  left: -8px;
 }
