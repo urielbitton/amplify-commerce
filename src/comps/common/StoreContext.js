@@ -81,6 +81,8 @@ const StoreContextProvider = (props) => {
     {name: 'Yukon', rate: 5},
   ])
   const [myOrders, setMyOrders] = useState([])
+  const [trackingDetails, setTrackingDetails] = useState({})
+  const [showTrackCont, setShowTrackCont] = useState(false)
 
   
   useEffect(() => {
@@ -117,7 +119,8 @@ const StoreContextProvider = (props) => {
       showQuickShop, setShowQuickShop, quickProduct, setQuickProduct, showEditProd, setShowEditProd,
       editProduct, setEditProduct, billingState, setBillingState, shippingState, setShippingState,
       countries, setCountries, paymentMethods, setPaymentMethods, locateUser, setLocateUser,
-      userLocation, setUserLocation, provinces, setProvinces, myOrders, setMyOrders
+      userLocation, setUserLocation, provinces, setProvinces, myOrders, setMyOrders, 
+      trackingDetails, setTrackingDetails, showTrackCont, setShowTrackCont
     }}>
       {props.children}  
     </StoreContext.Provider>

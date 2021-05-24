@@ -1,19 +1,20 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import {db} from '../../common/Fire'
+import referProduct from '../../common/referProduct'
 import { StoreContext } from '../../common/StoreContext'
 import '../common/styles/ProductTable.css'
 
 export default function WishItem(props) {
 
-  const {currencyFormat} = useContext(StoreContext)
-  const {id, name, imgs, price, stock} = props.el
+  const {currencyFormat, allProducts} = useContext(StoreContext)
+  const {id, name, imgs, price, sizes} = referProduct(allProducts,props.el)
   const {wishlist, user, myUser} = props
   const [showOpts, setShowOpts] = useState(false)
 
   function removeItem() {
     wishlist.forEach(el => {
-      if(el.id===id) {
+      if(el===id) {
         let itemindex = wishlist.indexOf(el)
         wishlist.splice(itemindex,1)
       } 
@@ -36,7 +37,7 @@ export default function WishItem(props) {
       <div><h6>{currencyFormat.format(price)}</h6></div>
       <div className="addcartdiv">
         {
-          stock>0?<small>In Stock</small>:<small>Out of Stock</small>
+          sizes.some(x => x.colors.some(x => x.stock > 0))?<small>In Stock</small>:<small>Out of Stock</small>
         } 
       </div>
       <div className="actionsbox">

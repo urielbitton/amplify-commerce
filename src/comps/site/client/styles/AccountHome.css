@@ -12,7 +12,73 @@
   grid-column: 1/-1;;
 }
 .accounthomepage .homebox h4 {
-  font-size: 15px;
+  font-size: 16px;
   color: var(--graytxt);
   font-weight: 500;
+  margin-bottom: 10px;
+}
+.accounthomepage .hometable {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.accounthomepage .hometable .header {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 5px;
+  border-bottom: 1px solid #eee;
+}
+.accounthomepage .hometable .header h6 {
+  font-size: 13px;
+  font-weight: 500;
+  flex-basis: 20%;
+}
+.accounthomepage .hometable .header h6:last-child {
+  flex-basis: 80px;
+}
+.accounthomepage .hometable .content {
+  display: flex;
+  flex-direction: column-reverse;
+  width: 100%;
+}
+.accounthomepage .hometable .content .orderrow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 0;
+}
+.accounthomepage .hometable .content .orderrow h6 {
+  flex-basis: 20%;
+  color: #555;
+  font-size: 13px;
+  font-weight: 500;
+  text-transform: capitalize;
+}
+.accounthomepage .hometable .content .orderrow h6 span {
+  padding: 5px;
+  background: #f1f1f1;
+}
+.accounthomepage .hometable .content .orderrow h6 span.delivered {
+  background: var(--color);
+  color: #fff;
+}
+.accounthomepage .hometable .content .orderrow h6 span.cancelled {
+  background: var(--red);
+  color: #fff;
+}
+.accounthomepage .hometable .content .orderrow h6:last-child {
+  flex-basis: 80px;
+}
+.accounthomepage .homebox .orderinfo {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+.accounthomepage .homebox .orderinfo h6 {
+  font-weight: 500;
+  color: #333;
+  font-size: 13px;
 }

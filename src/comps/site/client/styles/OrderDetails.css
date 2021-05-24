@@ -58,3 +58,12 @@
   color: #333;
   font-weight: 500;
 }
+.orderdetailspage .metainfo span {
+  text-transform: capitalize;
+}
+.orderdetailspage .metainfo span.delivered {
+  color: var(--color)
+}
+.orderdetailspage .metainfo span.cancelled {
+  color: var(--red)
+}

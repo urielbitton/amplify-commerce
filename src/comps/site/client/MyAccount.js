@@ -11,6 +11,7 @@ import AccountAddresses from './AccountAddresses'
 import AccountPayments from './AccountPayments'
 import AccountSettings from './AccountSettings'
 import OrderDetails from './OrderDetails'
+import OrderTracker from './OrderTracker'
 
 export default function MyAccount() {
 
@@ -86,6 +87,7 @@ export default function MyAccount() {
               </Route>
               {orderdetailspage}
             </Switch>
+            <OrderTracker />
           </div>
         </div>
       </div>

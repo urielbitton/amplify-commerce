@@ -15,9 +15,8 @@ import { useLocation } from 'react-router-dom'
 export default function ProductPage(props) {
 
   const {allProducts, currencyFormat, setShowQuickShop, setShowCart} = useContext(StoreContext)
-  const {id, name, price, rating, ratingsarr, imgs, belongs, sizes,
-    collection, descript, reviews, categories
-  } = props.el
+  const {id, name, price, rating, ratingsarr, imgs, belongs, sizes, collection, descript, 
+    reviews, categories, brand } = props.el
   const [activeImg, setActiveImg] = useState(imgs[0])
   const [chosenSize, setChosenSize] = useState(sizes[0]?.name)
   const [chosenColor, setChosenColor] = useState(sizes[0]?.colors[0]?.name)
@@ -120,7 +119,7 @@ export default function ProductPage(props) {
             <div className="productinfolist">
               <div><h6>Collections</h6><span>{collection?.join(', ')}</span></div>
               <div><h6>Categories</h6><span>{categories?.join(', ')}</span></div>
-              <div><h6>Brand Name</h6><span>-</span></div>
+              <div><h6>Brand Name</h6><span>{brand}</span></div>
               <div>
                 <h6>Stock Status</h6>
                 {

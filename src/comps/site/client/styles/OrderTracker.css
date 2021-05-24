@@ -1,0 +1,75 @@
+.ordertrackercover {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  z-index: 1000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: rgba(0,0,0,0.8);
+  transition: all 0.2s;
+  visibility: hidden;
+  opacity: 0;
+}
+.ordertrackercover.show {
+  visibility: visible;
+  opacity: 1;
+}
+.ordertrackercont {
+  width: 1200px;
+  height: 80%;
+  background: #fff;
+  box-shadow: 0 0 20px rgba(0,0,0,0.1);
+  padding: 30px 50px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 30px;
+}
+.ordertrackercont .tracktitles {
+  width: 100%;
+}
+.ordertrackercont .tracktitles h3 {
+  color: #333;
+  font-weight: 500;
+  font-size: 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.ordertrackercont .tracktitles .closecont {
+  padding: 5px;
+  z-index: 10;
+  font-size: 30px;
+  color: #777; 
+  cursor: pointer;
+ }
+ .ordertrackercont .trackingdetails {
+   min-width: 400px;
+   display: grid;
+   grid-template-columns: 120px auto;
+   grid-gap: 15px;
+ }
+ .ordertrackercont .trackingdetails img {
+   width: 120px;
+   height: 120px;
+   background: red;
+ }
+ .ordertrackercont .trackingdetails .infocont {
+   display: flex;
+   flex-direction: column;
+   gap: 5px;
+ }
+ .ordertrackercont .trackingdetails .infocont h6 {
+   display: flex;
+   justify-content: space-between;
+   align-items: center;
+   font-size: 12px;
+   color: #444;
+ }
+ .ordertrackercont .trackingdetails .infocont h6 span {
+   font-weight: 500;
+   color: #111;
+ }

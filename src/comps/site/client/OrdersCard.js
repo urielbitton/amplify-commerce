@@ -7,7 +7,7 @@ import { Link } from 'react-router-dom'
 
 export default function OrdersCard(props) {
   
-  const {currencyFormat, allProducts} = useContext(StoreContext)
+  const {currencyFormat, allProducts, setShowTrackCont} = useContext(StoreContext)
   const {orderStatus, orderid, orderDateCreated, orderTotal, shippingDetails, products,
     shippingMethod
   } = props.order
@@ -62,9 +62,9 @@ export default function OrdersCard(props) {
         </div>
         <div className="btnscont">
           <AppButton 
-            title="Track Package"
+            title="Track Order"
             className={`show ${orderStatus==='delivered'?"":"highlight"}`}
-            onClick={() => null}
+            onClick={() => setShowTrackCont(true)}
           />
           <AppButton 
             title="Change Shipping"

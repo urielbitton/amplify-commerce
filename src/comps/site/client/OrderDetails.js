@@ -6,7 +6,7 @@ import './styles/OrderDetails.css'
 export default function OrderDetails(props) {
 
   const {products, shippingDetails, paymentDetails, orderid, orderDateCreated,
-    orderSubtotal, shippingMethod, orderTotal
+    orderSubtotal, shippingMethod, orderTotal, orderStatus
   } = props.order
   const {currencyFormat} = useContext(StoreContext)
   const orderDate = orderDateCreated.toDate().toString().split(' ')
@@ -33,6 +33,10 @@ export default function OrderDetails(props) {
         <h5>Order Date: {orderDate[1]} {orderDate[2]} {orderDate[3]}</h5>
         <h5 style={{color:'#aaa'}}>|</h5>
         <h5>Order Number: {orderid}</h5>
+        <h5 style={{color:'#aaa'}}>|</h5>
+        <h5>Order Status: &nbsp;
+          <span className={`status ${orderStatus==='delivered'?"delivered":""} ${orderStatus==='cancelled'?"cancelled":""}`}>{orderStatus}</span>
+        </h5>
       </div>
       <div className="ordercontainer">
         <div className="subcontainer">

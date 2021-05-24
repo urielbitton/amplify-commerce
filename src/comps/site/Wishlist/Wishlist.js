@@ -6,13 +6,14 @@ import AppButton from '../common/AppButton'
 import Subscribe from '../common/SubscribeComp'
 import WishItem from './WishItem'
 import {db} from '../../common/Fire'
+import referProduct from '../../common/referProduct'
 
 export default function Wishlist() { 
 
-  const {myUser, user} = useContext(StoreContext)
+  const {myUser, user, allProducts} = useContext(StoreContext)
   let wishlist = myUser?.wishlist
   const currencyFormat = new Intl.NumberFormat('en-CA', {style: 'currency', currency: 'CAD'}) 
-  const wishtotal = currencyFormat.format(wishlist?.reduce((a,b) => a + b.price,0))
+  const wishtotal = currencyFormat.format(wishlist?.reduce((a,b) => a + referProduct(allProducts,b).price,0))
 
   const wishlistrow = wishlist?.map(el => {
     return <WishItem el={el} wishlist={wishlist} user={user} myUser={myUser} />
