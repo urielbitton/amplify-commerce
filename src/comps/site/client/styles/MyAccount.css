@@ -42,4 +42,12 @@
   color: #444;
   font-weight: 500;
   margin-bottom: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+.myaccountcontent h3.contenttitle .appbutton {
+  padding: 10px 20px;
 }

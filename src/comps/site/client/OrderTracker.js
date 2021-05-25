@@ -55,7 +55,7 @@ export default function OrderTracker(props) {
             <div className="content">
               {
                 updates.length?updatesrow:
-                <h6>There are no updates yet. The seller will soon addorder updates.</h6>
+                <h6 className="noupdates">There are no updates yet. The seller will soon update your order.</h6>
               }
             </div>
           </div>

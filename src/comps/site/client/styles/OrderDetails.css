@@ -34,6 +34,7 @@
 }
 .orderdetailspage .ordercontainer small.ordertotal {
   font-weight: 600;
+  font-size: 15px;
 }
 .orderdetailspage .ordercontainer small span.upper {
   text-transform: uppercase;
