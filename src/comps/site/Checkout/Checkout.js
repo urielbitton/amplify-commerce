@@ -11,13 +11,13 @@ import CreateOrder from './CreateOrder'
 import { db } from '../../common/Fire'
 import firebase from 'firebase'
 import AddressBox from '../client/AddressBox'
-import Loader from '../../common/Loader'
+import {countries} from '../../common/Lists'
 
 export default function Checkout() {
 
-  const { showCart, setShowCart, billingState, setBillingState, shippingState, setShippingState, countries,
+  const { showCart, setShowCart, billingState, setBillingState, shippingState, setShippingState,
     myUser, cartSubtotal, currencyFormat, percentFormat, shippingMethods, paymentMethods, setLocateUser, 
-    userLocation, provinces} = useContext(StoreContext)
+    userLocation, selectProvince, selectCountry, setSelectCountry} = useContext(StoreContext)
   const cart = myUser?.cart
   const [chosenShipping, setChosenShipping] = useState({name: "regular",cost: 3.99})
   const [paymentDetails, setPaymentDetails] = useState({method:'stripe',email:'',cardnumber:''})
@@ -30,13 +30,13 @@ export default function Checkout() {
   const history = useHistory()
   const user = firebase.auth().currentUser
     
-  const provincesOpts = provinces?.map(({name,rate}) => {
+  const provincesOpts = selectProvince?.map(({name,isoCode}) => {
     return <option value={name} selected={userLocation.region===name}>
       {name} 
     </option>
   }) 
-  const countriesOpts = countries?.map(({name,value}) => {
-    return <option value={name} selected={userLocation.country===name}>
+  const countriesOpts = countries?.map(({name,code}) => {
+    return <option value={code} selected={userLocation.countryCode===code}>
       {name}
     </option>  
   })
@@ -139,12 +139,18 @@ export default function Checkout() {
 
   useEffect(() => { 
     setLocateUser(true)  
-    console.log('User is in: '+userLocation.region) 
+    console.log('User is in: '+userLocation.region)  
     setBillingState({
       provstate: userLocation.region,
       country: userLocation.country
     })  
+    return () => {
+      setLocateUser(false) 
+    }
   },[userLocation])   
+  useEffect(() => {
+    setSelectCountry(userLocation.countryCode)
+  },[userLocation])
 
   return (
     <div className="checkoutpage">
@@ -170,7 +176,7 @@ export default function Checkout() {
               </label> 
               <label className="appselect"> 
                 <h6>Country *</h6>
-                <select onChange={(e) => setBillingState(prev => ({...prev,country:e.target.value}))}>
+                <select onChange={(e) => {setSelectCountry(e.target.value);setBillingState(prev => ({...prev,country:e.target.value}))}}>
                   {countriesOpts} 
                 </select> 
               </label> 

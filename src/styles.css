@@ -77,12 +77,10 @@ input, select, textarea {
   padding: 13px 10px;
   border: 1px solid #ddd; 
   width: 100%;
-} 
-input, textarea, select {
   outline: none;
   transition: all 0.3s;
   font-family: inherit;
-}
+} 
 input::placeholder, textarea::placeholder {
   color: #bbb;
 }

@@ -3,6 +3,7 @@ import firebase from 'firebase'
 import {db} from './Fire'
 import refProd from './referProduct'
 import axios from 'axios'
+import csc from 'country-state-city'
 
 export const StoreContext = createContext()
 
@@ -53,7 +54,7 @@ const StoreContextProvider = (props) => {
   ])
   const [billingState, setBillingState] = useState({
  
-  })
+  }) 
   const [shippingState, setShippingState] = useState({
 
   })
@@ -61,29 +62,10 @@ const StoreContextProvider = (props) => {
     {name: 'Credit/Debit Card', value: 'stripe', img: 'https://i.imgur.com/NK5CCXP.png', defaultValue: true},
     {name: 'PayPal', value: 'paypal', img: 'https://i.imgur.com/6fFDmjU.png'},
   ])
-  const [countries, setCountries] = useState([
-    {name: 'Canada', value: 'ca'},
-    {name: 'United States', value: 'us'},
-  ])
-  const [provinces, setProvinces] = useState([
-    {name: 'Alberta', rate: 5},
-    {name: 'British Columbia', rate: 12},
-    {name: 'Manitoba', rate: 12},
-    {name: 'New Brunswick', rate: 15},
-    {name: 'Newfoundland & Labrador', rate: 15},
-    {name: 'Northwest Territories', rate: 5},
-    {name: 'Nova Scotia', rate: 15},
-    {name: 'Nunavut', rate: 5},
-    {name: 'Ontario', rate: 13},
-    {name: 'Prince Edward Island', rate: 15},
-    {name: 'Quebec', rate: 15},
-    {name: 'Saskatchewan', rate: 11},
-    {name: 'Yukon', rate: 5},
-  ])
   const [myOrders, setMyOrders] = useState([])
   const [trackingDetails, setTrackingDetails] = useState({
     img: '',
-    trackingNum: '',
+    trackingNum: '', 
     products: [{id:''}],
     estDelivery: '',
     carrier: '',
@@ -92,8 +74,9 @@ const StoreContextProvider = (props) => {
     orderStatus: ''
   })
   const [showTrackCont, setShowTrackCont] = useState(false)
+  const [selectCountry, setSelectCountry] = useState('')
+  const [selectProvince, setSelectProvince] = useState([])
 
-  
   useEffect(() => {
     db.collection('products').doc('allproducts').onSnapshot(snap => {
       setAllProducts(snap?.data()?.allproducts) 
@@ -114,12 +97,14 @@ const StoreContextProvider = (props) => {
         method: 'get', 
         url: `https://extreme-ip-lookup.com/json/`,
       }).then((res) => {
-        console.log(res)
         setUserLocation(res.data)
       })
     }
   },[locateUser])
-
+  useEffect(() => {
+    setSelectProvince(csc.getStatesOfCountry(selectCountry))
+  },[selectCountry, userLocation]) 
+ 
   return (
     <StoreContext.Provider value={{ 
       slideNav, setSlideNav, showCart, setShowCart, cartSubtotal, colorFilter, setColorFilter, priceFilter,
@@ -127,9 +112,9 @@ const StoreContextProvider = (props) => {
       allProducts, myUser, setMyUser, user, auser, setAUser, shippingMethods, currencyFormat, percentFormat,
       showQuickShop, setShowQuickShop, quickProduct, setQuickProduct, showEditProd, setShowEditProd,
       editProduct, setEditProduct, billingState, setBillingState, shippingState, setShippingState,
-      countries, setCountries, paymentMethods, setPaymentMethods, locateUser, setLocateUser,
-      userLocation, setUserLocation, provinces, setProvinces, myOrders, setMyOrders, 
-      trackingDetails, setTrackingDetails, showTrackCont, setShowTrackCont
+      paymentMethods, setPaymentMethods, locateUser, setLocateUser,
+      userLocation, setUserLocation, myOrders, setMyOrders, trackingDetails, setTrackingDetails, 
+      showTrackCont, setShowTrackCont, selectCountry, setSelectCountry, selectProvince, setSelectProvince
     }}>
       {props.children}  
     </StoreContext.Provider>
