@@ -82,11 +82,15 @@ export default function Login(props) {
           if(user) {
             db.collection('users').doc(user.uid).set({
               userinfo
-            })
-            console.log(user)
+            }).then(res => { 
+              db.collection('orders').doc(user.uid).set({
+                allorders: []
+              })
+              console.log(user)
+              history.push('/')
+            }).catch(err => window.alert('An errror occurred with the google login. Please try again.'))
           }
         })
-        history.push('/')
       }
       else {
         setAUser(res.user)
