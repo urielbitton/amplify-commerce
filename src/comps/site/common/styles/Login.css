@@ -170,3 +170,8 @@
 .loginpage .bottomdiv small a:hover {
   color: var(--color);
 }
+.loginpage .logerrors {
+  font-size: 13px;
+  color: var(--red);
+  padding-left: 20px;
+}

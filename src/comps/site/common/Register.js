@@ -44,7 +44,7 @@ export default function Login(props) {
       switch(err.code) {
         case "auth/email-already-in-use":
         case "auth/invalid-email":
-          setEmailError(err.message)
+          setEmailError('Please enter a valid email address.')
         break
         case "auth/weak-password":
           setPassError(err.message)
@@ -63,8 +63,9 @@ export default function Login(props) {
             fullname: name,
             usertype: 'client', 
             email: email,
+            password,
             phone: "", 
-            city: "",
+            city: "", 
             provstate: "",
             country: "",
             profimg: "https://i.imgur.com/1OKoctC.jpg",
@@ -78,9 +79,13 @@ export default function Login(props) {
           }
           db.collection('users').doc(user.uid).set({
             userinfo
-          })  
-          setAUser(user)
-          history.push('/my-account')
+          }).then(res => {
+            db.collection('orders').doc(user.uid).set({
+              allorders: []
+            })  
+            setAUser(user)
+            history.push('/')
+          })
         }
         else {
           setAUser(null)
@@ -117,20 +122,23 @@ export default function Login(props) {
           if(user) {
             db.collection('users').doc(user.uid).set({
               userinfo
+            }).then(res => {
+              db.collection('orders').doc(user.uid).set({
+                allorders: []
+              })
+              setAUser(user)
+              console.log(user)
+              history.push('/')
             })
-            setAUser(user)
-            console.log(user)
           }
         }) 
       }
-      history.push('/')
     }).catch((error) => {
       console.log(error)
-    })
+    }) 
   }
 
   useEffect(() => { 
-    clearInputs()
     clearErrors()
     authListener()
   },[]) 

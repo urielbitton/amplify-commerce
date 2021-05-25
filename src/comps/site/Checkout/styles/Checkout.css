@@ -199,3 +199,6 @@
 .checkoutcont .paypalcont.show {
   display: block;
 }
+.checkoutpage .addressbox {
+  border: none;
+}

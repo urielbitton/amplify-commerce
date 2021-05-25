@@ -3,18 +3,19 @@ import PageBanner from '../common/PageBanner'
 import {StoreContext} from '../../common/StoreContext'
 import './styles/Checkout.css'
 import { Link, useHistory } from 'react-router-dom'
-import {AppInput, AppSelect} from '../../common/AppInputs'
+import {AppInput} from '../../common/AppInputs'
 import CheckoutItem from './CheckoutItem'
 import AppButton from '../common/AppButton'
 import { PayPalButton } from 'react-paypal-button-v2'
 import CreateOrder from './CreateOrder'
 import { db } from '../../common/Fire'
 import firebase from 'firebase'
+import AddressBox from '../client/AddressBox'
+import Loader from '../../common/Loader'
 
 export default function Checkout() {
 
-  const {
-    showCart, setShowCart, billingState, setBillingState, shippingState, setShippingState, countries,
+  const { showCart, setShowCart, billingState, setBillingState, shippingState, setShippingState, countries,
     myUser, cartSubtotal, currencyFormat, percentFormat, shippingMethods, paymentMethods, setLocateUser, 
     userLocation, provinces} = useContext(StoreContext)
   const cart = myUser?.cart
@@ -59,7 +60,7 @@ export default function Checkout() {
     />
   })
   const caritemrows = cart?.map(el => {
-    return <CheckoutItem el={el} />
+    return <CheckoutItem el={el} key={el.id}/>
   })
   const shipoptions = shippingMethods?.map(({name,price,value,defaultvalue}, i) => {
     return <AppInput
@@ -69,11 +70,12 @@ export default function Checkout() {
         onChange={() => setChosenShipping({ name: value, cost: price })}
         value={chosenShipping}
         defaultChecked={defaultvalue}
+        key={i}
       />
     }
   )
   const paymentInputs = paymentMethods.map(({name,value,img,defaultValue},i) => {
-    return <div className="paymentitem">
+    return <div className="paymentitem" key={i}>
       <AppInput
         type="radio"
         title={name}
@@ -84,6 +86,11 @@ export default function Checkout() {
       />
       <img src={img} alt={name}/>
     </div>
+  })
+  const addressboxrow = myUser?.addresses
+  ?.filter(x => x.primary)
+  .map(el => {
+    return <AddressBox el={el} />
   })
 
   function handleChange(event) {
@@ -146,26 +153,36 @@ export default function Checkout() {
         <div className="registercont">
           <h6>Returning Customer?<Link to="/login">Login Here</Link></h6>
         </div>
+        {myUser?.addresses?.length?
         <div className="checkoutcont">
           <form className="checkoutform" onSubmit={(e) => e.preventDefault()} autoComplete>
             <h3 className="titles">Billing Details</h3>
-            {billingInputs.slice(0,6)}
-            <label className="appselect">
-              <h6>Province/State *</h6>
-              <select onChange={(e) => setBillingState(prev => ({...prev,provstate:e.target.value}))}>
-                {provincesOpts}
-              </select>
-            </label> 
-            <label className="appselect"> 
-              <h6>Country *</h6>
-              <select onChange={(e) => setBillingState(prev => ({...prev,country:e.target.value}))}>
-                {countriesOpts} 
-              </select> 
-            </label> 
-            {billingInputs.slice(6)} 
-            <div>
-              <AppInput title="Create an Account?" type="checkbox" className="checkinput" />
-            </div>
+            {
+              !myUser?.addresses?.length?
+              <>
+              {billingInputs.slice(0,6)}
+              <label className="appselect">
+                <h6>Province/State *</h6>
+                <select onChange={(e) => setBillingState(prev => ({...prev,provstate:e.target.value}))}>
+                  {provincesOpts}
+                </select>
+              </label> 
+              <label className="appselect"> 
+                <h6>Country *</h6>
+                <select onChange={(e) => setBillingState(prev => ({...prev,country:e.target.value}))}>
+                  {countriesOpts} 
+                </select> 
+              </label> 
+              {billingInputs.slice(6)} 
+              </>:
+              addressboxrow
+            }
+            {
+              !myUser?.addresses?.length&&
+              <div>
+                <AppInput title="Create an Account?" type="checkbox" className="checkinput" />
+              </div>
+            }
             <h3 className="titles">Shipping Address</h3>
             <div>
               <AppInput title="Different Shipping Adress" type="checkbox" className="checkinput" />
@@ -220,7 +237,9 @@ export default function Checkout() {
               }
             </div>
           </div>
-        </div>
+        </div>:
+        <Loader />
+        }
       </div>
     </div>
   )
