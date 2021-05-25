@@ -1,12 +1,4 @@
-.addressescont {
-  width: 100%;
-  margin-top: 30px;
-  display: flex;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 20px;
-}
-.addressescont .addressbox {
+.addressbox {
   width: 340px;
   height: 250px;
   padding: 20px;
@@ -15,38 +7,38 @@
   flex-direction: column;
   background: #f1f1f1;
 }
-.addressescont .addressbox.primary {
+.addressbox.primary {
   border: 2px solid var(--color);
 }
-.addressescont .addressbox .infocont {
+.addressbox .infocont {
   display: flex;
   flex-direction: column;
   gap: 2px;
   width: 100%;
 }
-.addressescont .addressbox .infocont h6 {
+.addressbox .infocont h6 {
   font-size: 13px;
   font-weight: 500;
   color: #333;
   text-transform: capitalize;
 }
-.addressescont .addressbox .infocont h6.name {
+.addressbox .infocont h6.name {
   font-weight: 600;
 }
-.addressescont .addressbox .actionscont {
+.addressbox .actionscont {
   width: 100%;
   display: flex;
   gap: 20px;
   flex-wrap: wrap;
 }
-.addressescont .addressbox .actionscont small {
+.addressbox .actionscont small {
   color: #000;
   cursor: pointer;
 }
-.addressescont .addressbox .actionscont small:hover {
+.addressbox .actionscont small:hover {
   text-decoration: underline;
 }
-.addressescont .addressbox .actionscont small.primary {
+.addressbox .actionscont small.primary {
   color: var(--color);
   cursor: default;
 }

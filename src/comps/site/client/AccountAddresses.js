@@ -1,6 +1,5 @@
-import React, { useContext, useEffect, useRef, useState } from 'react'
+import React, { useContext, useRef, useState } from 'react'
 import AppButton from '../common/AppButton'
-import './styles/AccountAddresses.css'
 import {AppInput, AppSelect} from '../../common/AppInputs'
 import {countries} from '../../common/Lists'
 import {db} from '../../common/Fire'
@@ -49,7 +48,7 @@ export default function AccountAddresses()  {
     else 
       return <AppSelect 
         title={title}
-        options={[{name:'Choose an Option',disabled:true},...options]} 
+        options={[{name:'Choose an Option',disabled:true,selected:'selected'},...options]} 
         value={addressDetails.country || userLocation?.country?.toLowerCase()}
         onChange={(e) => setAddressDetails(prev =>({...prev, country:e.target.value}))}
       />
@@ -61,6 +60,7 @@ export default function AccountAddresses()  {
       setShowAddCont={setShowAddCont} 
       addressDetails={addressDetails}
       setEditMode={setEditMode}
+      showActions
     />
   })
 
@@ -72,6 +72,7 @@ export default function AccountAddresses()  {
     })) 
   }
   function addAddress() {
+    console.log(addressDetails)
     if(addressDetails.fullname && addressDetails.address && addressDetails.city && addressDetails.provstate
       && addressDetails.country && addressDetails.postcode) {
         if(!myAddresses.find(x => x.address === addressDetails.address)) {
@@ -84,6 +85,9 @@ export default function AccountAddresses()  {
             formRef.current.reset()
           })
         } 
+        else {
+          window.alert('This address already exists. Please enter a different address.')
+        }
     }
     else {
       window.alert('Please fill in all required fields (marked by *)')
@@ -106,10 +110,14 @@ export default function AccountAddresses()  {
         }) 
     }
   }
-  
-  useEffect(() => {
-    setLocateUser(true)
-  },[])
+  function addAddressSet() {
+    setAddressDetails()
+    setEditMode(false)
+    setShowAddCont(true)
+    setAddressDetails(prev => ({
+      ...prev, country: userLocation?.country?.toLowerCase()
+    }))
+  }
 
   return (
     <div className="accountaddresspage">
@@ -117,7 +125,7 @@ export default function AccountAddresses()  {
         Addresses
         <AppButton 
           title="Add Address" 
-          onClick={() => {setEditMode(false);setShowAddCont(true)}}
+          onClick={() => addAddressSet()}
         />
       </h3>
       <div className="addressescont">

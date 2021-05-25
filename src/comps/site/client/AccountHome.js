@@ -41,18 +41,21 @@ export default function AccountHome()  {
           </div>
         </div>
       </div>
-      <div className="homebox">
-        <h4>Latest Order</h4>
-        <div className="orderinfo">
-          <h6>Order #: {myOrders[myOrders?.length-1]?.orderid}</h6>
-          <h6>
-            {myOrders[myOrders?.length-1]?.orderDateCreated.toDate().toString().split(' ')[1]}&nbsp;
-            {myOrders[myOrders?.length-1]?.orderDateCreated.toDate().toString().split(' ')[2]}&nbsp;
-            {myOrders[myOrders?.length-1]?.orderDateCreated.toDate().toString().split(' ')[3]}
-          </h6>
-        </div>
-        <OrderProgress order={myOrders[myOrders?.length-1]} />
-      </div>
+      {
+        myOrders?.length?
+        <div className="homebox">
+          <h4>Latest Order</h4>
+          <div className="orderinfo">
+            <h6>Order #: {myOrders[myOrders?.length-1]?.orderid}</h6>
+            <h6>
+              {myOrders[myOrders?.length-1]?.orderDateCreated.toDate().toString().split(' ')[1]}&nbsp;
+              {myOrders[myOrders?.length-1]?.orderDateCreated.toDate().toString().split(' ')[2]}&nbsp;
+              {myOrders[myOrders?.length-1]?.orderDateCreated.toDate().toString().split(' ')[3]}
+            </h6>
+          </div>
+          <OrderProgress order={myOrders[myOrders?.length-1]} />
+        </div>:""
+      }
       <div className="homebox full">
         <h4>Recent Purchases</h4>
       </div>
