@@ -150,10 +150,11 @@ export default function Checkout() {
     <div className="checkoutpage">
       <PageBanner title="Checkout" />
       <div className="grid xgrid">
-        <div className="registercont">
-          <h6>Returning Customer?<Link to="/login">Login Here</Link></h6>
-        </div>
-        {myUser?.addresses?.length?
+        { !myUser&&
+          <div className="registercont">
+            <h6>Returning Customer?<Link to="/login">Login Here</Link></h6>
+          </div>
+        }
         <div className="checkoutcont">
           <form className="checkoutform" onSubmit={(e) => e.preventDefault()} autoComplete>
             <h3 className="titles">Billing Details</h3>
@@ -237,9 +238,7 @@ export default function Checkout() {
               }
             </div>
           </div>
-        </div>:
-        <Loader />
-        }
+        </div>
       </div>
     </div>
   )
