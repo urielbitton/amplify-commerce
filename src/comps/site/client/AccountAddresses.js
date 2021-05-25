@@ -94,7 +94,8 @@ export default function AccountAddresses()  {
       && addressDetails.country && addressDetails.postcode) {
         myAddresses.forEach(el => {
           if(el.id === addressDetails.id) {
-            el.address = addressDetails.address
+            let itemindex = myAddresses.indexOf(el)
+            myAddresses[itemindex] = addressDetails
           }
         }) 
         db.collection('users').doc(user.uid).update({

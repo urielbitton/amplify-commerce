@@ -4,7 +4,7 @@ import {StoreContext} from '../../common/StoreContext'
 
 export default function AddressBox(props) {
 
-  const {fullname, address, aptunit, city, provstate, country, postcode,phone,primary} = props.el
+  const {id, fullname, address, aptunit, city, provstate, country, postcode,phone,primary} = props.el
   const {setAddressDetails, setShowAddCont, setEditMode} = props
   const {myUser, user} = useContext(StoreContext)
   const myAddresses = myUser?.addresses
@@ -21,6 +21,7 @@ export default function AddressBox(props) {
   function editAddressSet() {
     setEditMode(true)
     setAddressDetails({
+      id,
       fullname,
       address,
       aptunit,
@@ -33,7 +34,18 @@ export default function AddressBox(props) {
     setShowAddCont(true)
   }
   function deleteAddress() {
-    
+    let confirm = window.confirm('Are you sure you want to delete this address?')
+    if(confirm) {
+      myAddresses.forEach(el => {
+        if(el.id === id) {
+          let itemindex = myAddresses.indexOf(el)
+          myAddresses.splice(itemindex,1)
+        }
+      }) 
+      db.collection('users').doc(user.uid).update({
+        userinfo: myUser
+      })
+    }
   }
 
   return (
