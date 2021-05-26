@@ -11,17 +11,16 @@ import CreateOrder from './CreateOrder'
 import { db } from '../../common/Fire'
 import firebase from 'firebase'
 import AddressBox from '../client/AddressBox'
-import {countries} from '../../common/Lists'
+import ProvinceCountry from '../../common/ProvinceCountry'
 
 export default function Checkout() {
 
   const { showCart, setShowCart, billingState, setBillingState, shippingState, setShippingState,
     myUser, cartSubtotal, currencyFormat, percentFormat, shippingMethods, paymentMethods, setLocateUser, 
-    userLocation, selectProvince, selectCountry, setSelectCountry} = useContext(StoreContext)
+    userLocation, taxRate} = useContext(StoreContext)
   const cart = myUser?.cart
   const [chosenShipping, setChosenShipping] = useState({name: "regular",cost: 3.99})
   const [paymentDetails, setPaymentDetails] = useState({method:'stripe',email:'',cardnumber:''})
-  const [taxRate, setTaxRate] = useState(0.15) 
   const [successPaid, setSuccessPaid] = useState(false)
   const [failPaid, setFailPaid] = useState(false)
   const [paySwitch, setPaySwitch] = useState(0)
@@ -30,16 +29,6 @@ export default function Checkout() {
   const history = useHistory()
   const user = firebase.auth().currentUser
     
-  const provincesOpts = selectProvince?.map(({name,isoCode}) => {
-    return <option value={name} selected={userLocation.region===name}>
-      {name} 
-    </option>
-  }) 
-  const countriesOpts = countries?.map(({name,code}) => {
-    return <option value={code} selected={userLocation.countryCode===code}>
-      {name}
-    </option>  
-  })
   const billingarr = [
     {title: 'First Name *', name: 'fname', halfwidth: true},
     {title: 'Last Name *', name: 'lname', halfwidth: true},
@@ -148,9 +137,6 @@ export default function Checkout() {
       setLocateUser(false) 
     }
   },[userLocation])   
-  useEffect(() => {
-    setSelectCountry(userLocation.countryCode)
-  },[userLocation])
 
   return (
     <div className="checkoutpage">
@@ -168,18 +154,7 @@ export default function Checkout() {
               !myUser?.addresses?.length?
               <>
               {billingInputs.slice(0,6)}
-              <label className="appselect">
-                <h6>Province/State *</h6>
-                <select onChange={(e) => setBillingState(prev => ({...prev,provstate:e.target.value}))}>
-                  {provincesOpts}
-                </select>
-              </label> 
-              <label className="appselect"> 
-                <h6>Country *</h6>
-                <select onChange={(e) => {setSelectCountry(e.target.value);setBillingState(prev => ({...prev,country:e.target.value}))}}>
-                  {countriesOpts} 
-                </select> 
-              </label> 
+              <ProvinceCountry setBillingState={setBillingState} />  
               {billingInputs.slice(6)} 
               </>:
               addressboxrow

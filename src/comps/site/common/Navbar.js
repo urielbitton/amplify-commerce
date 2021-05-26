@@ -120,7 +120,7 @@ export default function Navbar() {
               </div>
             </Link>
             <div onClick={(e) => e.stopPropagation()}>
-              <i className="fal fa-shopping-cart" title="My Cart" onClick={() => setShowCart(prev => !prev)}></i>  
+              <i className="fal fa-shopping-bag" title="My Cart" onClick={() => setShowCart(prev => !prev)}></i>  
               {cart?.length>0&&<div className="numcircle">{cart?.length}</div>}
               <div className={`cartcont ${showCart&&"show"}`}>
                 <div className="cartfull" style={{display: cart?.length?"flex":"none"}}>
