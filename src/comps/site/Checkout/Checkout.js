@@ -17,7 +17,7 @@ export default function Checkout() {
 
   const { showCart, setShowCart, billingState, setBillingState, shippingState, setShippingState,
     myUser, cartSubtotal, currencyFormat, percentFormat, shippingMethods, paymentMethods, setLocateUser, 
-    userLocation, taxRate} = useContext(StoreContext)
+    userLocation, selectedProvince, provinceChoices, taxRate} = useContext(StoreContext)
   const cart = myUser?.cart
   const [chosenShipping, setChosenShipping] = useState({name: "regular",cost: 3.99})
   const [paymentDetails, setPaymentDetails] = useState({method:'stripe',email:'',cardnumber:''})
@@ -91,7 +91,7 @@ export default function Checkout() {
   }
   function allowOrder() {
     if(billingState.fname &&  billingState.lname && billingState.address && billingState.aptunit &&
-      billingState.city && billingState.provstate && billingState.country && billingState.postcode &&
+      billingState.city && (provinceChoices.length&&billingState.provstate) && billingState.country && billingState.postcode &&
       billingState.phone && billingState.email) {
       return true
     }
@@ -130,13 +130,13 @@ export default function Checkout() {
     setLocateUser(true)  
     console.log('User is in: '+userLocation.region)  
     setBillingState({
-      provstate: userLocation.region,
       country: userLocation.country
     })  
     return () => {
       setLocateUser(false) 
     }
-  },[userLocation])   
+  },[userLocation]) 
+  console.log(billingState)  
 
   return (
     <div className="checkoutpage">

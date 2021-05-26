@@ -15,7 +15,7 @@ export function AppInput(props) {
 }     
 
 export function AppSelect(props) {
-  const {multiple, options, namebased, title, onChange, value} = props
+  const {multiple, options, namebased, title, onChange, value, defaultValue} = props
   let optionsdata = options?.map((data) =>
     <option key={data.id} selected={data.selected} disabled={data.disabled} value={namebased?data.value:data.name?data.name.toLowerCase().replaceAll(' ',''):data.name} name={namebased?data.name:null}>  
         {data.name}
@@ -26,7 +26,7 @@ export function AppSelect(props) {
       <h6>{title}</h6>
       {
         multiple?
-        <select onChange={(e) => onChange(e)} value={value} multiple>
+        <select onChange={(e) => onChange(e)} value={value} multiple defaultValue={defaultValue}>
           {optionsdata}
         </select>:
         <select onChange={(e) => onChange(e)} value={value}>
