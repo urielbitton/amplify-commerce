@@ -1,24 +1,24 @@
-.producttable .header {
+.producttable > .header {
   display: flex;
   align-items: center;
   justify-content: space-between;
   border-bottom: 1px solid #ddd;
   padding-bottom: 20px;
 }
-.producttable .header h5 {
+.producttable > .header h5 {
   flex-basis: 20%;
   color: #444;
   font-weight: 500;
   font-size: 15px;
 }
-.producttable .header h5:last-child, .producttable .content div:last-child {
+.producttable > .header h5:last-child, .producttable > .content div:last-child {
   flex-basis: 50px;
 }
-.producttable img { 
+.producttable > .content img { 
   width: 70px;
   height: 70px;
 }
-.producttable .content h5 {
+.producttable > .content h5 {
   color: #555;
   font-size: 14px;
 }
@@ -33,7 +33,7 @@
 .producttable .proditem div {
   flex-basis: 20%;
 }
-.producttable .header h5.small, .producttable .content div.small {
+.producttable > .header h5.small, .producttable > .content div.small {
   flex-basis: 12%;
 }
 .producttable .proditem .prodname {

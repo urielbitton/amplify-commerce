@@ -38,19 +38,17 @@
   width: 100%;
   background: #fff;
 }
-.myaccountcontent h3.contenttitle {
-  font-size: 25px;
+.myaccountcontent h3.accounttitle {
+  font-size: 21px;
   color: #444;
   font-weight: 500;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
   display: flex;
   justify-content: space-between;
   align-items: center;
   flex-wrap: wrap;
+  grid-column: 1/-1;
   gap: 20px;
-}
-.myaccountcontent h3.contenttitle .appbutton {
-  padding: 10px 20px;
 }
 .addressescont {
   width: 100%;
@@ -70,4 +68,38 @@
   grid-column: 1/-1;
 }
 .addaddresscont form .appinput.halfwidth {
+  grid-column: 1;
+}
+
+.myaccountcont .switchbar {
+  width: 100%;
+  display: flex;
+  gap: 25px;
+  border-bottom: 1px solid #ddd;
+}
+.myaccountcont .switchbar a {
+  font-size: 14px;
+  padding: 10px 0;
+  color: var(--graytxt);
+  text-transform: capitalize;
+  transition: all 0.2s;
+}
+.myaccountcont .switchbar a hr {
+  position: absolute;
+  bottom: -1px;
+  width: 0;
+  left: 0;
+  right: 0;;
+  margin: auto;
+  height: 2px;
+  background: var(--color);
+  transition: all 0.2s;
+}
+.myaccountcont .switchbar a:hover, 
+.myaccountcont .switchbar a.activemenulink {
+  color: var(--color);
+}
+.myaccountcont .switchbar a:hover hr, 
+.myaccountcont .switchbar a.activemenulink hr {
+  width: 100%;
 }

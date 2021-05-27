@@ -51,6 +51,7 @@ export default function AccountOrders()  {
 
   return (
     <div className="accountorderspage">
+      <h3 className="accounttitle">My Orders</h3>
       <div className="switchbar">
         {ordermenulinks}
       </div>

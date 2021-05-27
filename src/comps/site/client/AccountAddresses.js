@@ -5,6 +5,7 @@ import {db} from '../../common/Fire'
 import {StoreContext} from '../../common/StoreContext'
 import AddressBox from './AddressBox'
 import ProvinceCountry from '../../common/ProvinceCountry'
+import { countries } from '../../common/Lists'
 
 export default function AccountAddresses()  {
 
@@ -106,6 +107,7 @@ export default function AccountAddresses()  {
     }
   }
   function addAddressSet() {
+    setSelectedCountry(countries.find(x => x.name===userLocation?.country).code)
     setAddressDetails()
     setEditMode(false)
     setShowAddCont(true)
@@ -116,9 +118,10 @@ export default function AccountAddresses()  {
 
   return (
     <div className="accountaddresspage">
-      <h3 className="contenttitle">
-        Addresses
+      <h3 className="accounttitle">
+        My Addresses
         <AppButton 
+          className="adminbtn"
           title="Add Address" 
           onClick={() => addAddressSet()}
         />

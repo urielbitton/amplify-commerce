@@ -73,6 +73,7 @@
 .ordertrackercont .trackingdetails .infocont h6 span {
   font-weight: 500;
   color: #111;
+  text-transform: capitalize;
 }
 .ordertrackercont .updatescont {
   width: 100%;

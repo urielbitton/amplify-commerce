@@ -26,6 +26,7 @@ export default function AccountHome()  {
 
   return (
     <div className="accounthomepage">
+      <h3 className="accounttitle">Overview</h3>
       <div className="homebox">
         <h4>Recent Orders</h4>
         <div className="hometable orderstable">

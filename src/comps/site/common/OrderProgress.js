@@ -1,9 +1,11 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import './styles/OrderProgress.css'
 import {convertTime} from '../../common/UtilityFuncs'
+import {StoreContext} from '../../common/StoreContext'
 
 export default function OrderProgress(props) {
   
+  const {showTrackCont} = useContext(StoreContext)
   const {order, dateTitles=false, tubeHeight=20, iconsize=16} = props
   const [progLevel, setProgLevel] = useState(0)
   const openDate = order?.updates.findIndex(x => x.status==='open')
@@ -55,6 +57,11 @@ export default function OrderProgress(props) {
   useEffect(() => {
     setProgLevel(convertLevel(order?.orderStatus))
   },[order]) 
+  useEffect(() => {
+    if(!showTrackCont) {
+      setProgLevel(0)
+    }
+  },[showTrackCont])
 
   return (
     <div className="orderprogcont">

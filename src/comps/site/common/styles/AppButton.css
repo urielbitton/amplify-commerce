@@ -12,6 +12,10 @@
   white-space: nowrap;
   user-select: none;
 }
+.appbutton.adminbtn {
+  padding: 10px 20px;
+  font-weight: 500;
+}
 .appbutton.white {
   background: rgba(255,255,255,0.8);
   color: #333;
