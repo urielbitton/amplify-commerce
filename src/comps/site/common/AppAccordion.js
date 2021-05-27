@@ -1,10 +1,14 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import './styles/AppAccordion.css'
 
 export default function AppAccordion(props) {
 
-  const {title, children, className} = props
-  const [open, setOpen] = useState(false)
+  const {title, children, className, openDefault=false, maxHeight=500} = props
+  const [open, setOpen] = useState(openDefault)
+
+  useEffect(() => {
+    setOpen(openDefault)
+  },[openDefault])
 
   return (
     <div className={`appaccordion ${className} ${open?"open":"closed"}`}>
@@ -12,7 +16,7 @@ export default function AppAccordion(props) {
         <h5>{title}</h5>
         <i className={`far fa-angle-down ${open?"up":""}`}></i>
       </div>
-      <div className="content"> 
+      <div className="content" style={{maxHeight: open?maxHeight:'0'}}> 
         {children}
       </div>
     </div>

@@ -6,7 +6,7 @@
   overflow: hidden;
 }
 .appaccordion.open .content {
-  max-height: 500px;
+  padding-bottom: 40px;
 }
 .appaccordion .header {
   width: 100%;

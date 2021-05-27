@@ -1,20 +1,21 @@
-import React, { useContext, useRef, useState } from 'react'
+import React, { useContext, useEffect, useRef, useState } from 'react'
 import AppButton from '../common/AppButton'
-import {AppInput, AppSelect} from '../../common/AppInputs'
-import {countries} from '../../common/Lists'
+import {AppInput} from '../../common/AppInputs'
 import {db} from '../../common/Fire'
 import {StoreContext} from '../../common/StoreContext'
 import AddressBox from './AddressBox'
+import ProvinceCountry from '../../common/ProvinceCountry'
 
 export default function AccountAddresses()  {
 
-  const {myUser, user, setLocateUser, userLocation} = useContext(StoreContext)
+  const {myUser, user, userLocation, setSelectedCountry, selectedCountry} = useContext(StoreContext)
   const myAddresses = myUser?.addresses
   const [showAddCont, setShowAddCont] = useState(false)
   const [editMode, setEditMode] = useState(false)
   const [addressDetails, setAddressDetails] = useState({
     id: '',
-    fullname: '',
+    fname: '',
+    lname: '',
     address: '',
     aptunit: '',
     city: '',
@@ -22,41 +23,35 @@ export default function AccountAddresses()  {
     country: '',
     postcode: '',
     phone: '',
+    email: '',
     primary: false
   }) 
   const formRef = useRef()
 
   const inputsOpts = [
-    {title: 'Full Name *', name: 'fullname', value: addressDetails.fullname},
+    {title: 'First Name *', name: 'fname', value: addressDetails.fname, halfwidth: true},
+    {title: 'Last Name *', name: 'lname', value: addressDetails.lname, halfwidth: true},
     {title: 'Address *', name: 'address', value: addressDetails.address},
     {title: 'Apt/Unit Number', name: 'aptunit', value: addressDetails.aptunit}, 
     {title: 'City *', name: 'city', value: addressDetails.city},
-    {title: 'Province/State *', name: 'provstate', value: addressDetails.provstate},
-    {title: 'Country *', options: countries},
     {title: 'Postal Code/ZIP *', name: 'postcode', value: addressDetails.postcode},
     {title: 'Phone', name: 'phone', value: addressDetails.phone},
-  ]
+    {title: 'Email', name: 'email', value: addressDetails.email},
+  ] 
 
   const inputsrow = inputsOpts.map(({title,name,options,value}) => {
-    if(!options)
-      return <AppInput 
+    return <AppInput 
       title={title}
       name={name}
       onChange={(e) => handleChange(e)}
       value={value}
     /> 
-    else 
-      return <AppSelect 
-        title={title}
-        options={[{name:'Choose an Option',disabled:true,selected:'selected'},...options]} 
-        value={addressDetails.country || userLocation?.country?.toLowerCase()}
-        onChange={(e) => setAddressDetails(prev =>({...prev, country:e.target.value}))}
-      />
   })
   const addressboxrows = myAddresses?.map(el => {
     return <AddressBox 
       el={el} 
       setAddressDetails={setAddressDetails} 
+      showAddCont={showAddCont}
       setShowAddCont={setShowAddCont} 
       addressDetails={addressDetails}
       setEditMode={setEditMode}
@@ -71,10 +66,9 @@ export default function AccountAddresses()  {
       [name]:value
     })) 
   }
-  function addAddress() {
-    console.log(addressDetails)
-    if(addressDetails.fullname && addressDetails.address && addressDetails.city && addressDetails.provstate
-      && addressDetails.country && addressDetails.postcode) {
+  function addAddress() { 
+    if(addressDetails.fname && addressDetails.lname && addressDetails.address && addressDetails.city &&
+      addressDetails.provstate && addressDetails.country && addressDetails.postcode) {
         if(!myAddresses.find(x => x.address === addressDetails.address)) {
           addressDetails.id = db.collection('users').doc().id
           myAddresses.push(addressDetails)
@@ -94,8 +88,8 @@ export default function AccountAddresses()  {
     }
   }
   function editAddress() {
-    if(addressDetails.fullname && addressDetails.address && addressDetails.city && addressDetails.provstate
-      && addressDetails.country && addressDetails.postcode) {
+    if(addressDetails.fname && addressDetails.lname && addressDetails.address && addressDetails.city &&
+      addressDetails.provstate && addressDetails.country && addressDetails.postcode) {
         myAddresses.forEach(el => {
           if(el.id === addressDetails.id) {
             let itemindex = myAddresses.indexOf(el)
@@ -111,11 +105,11 @@ export default function AccountAddresses()  {
     }
   }
   function addAddressSet() {
-    setAddressDetails()
+    setAddressDetails({})
     setEditMode(false)
     setShowAddCont(true)
     setAddressDetails(prev => ({
-      ...prev, country: userLocation?.country?.toLowerCase()
+      ...prev, country: userLocation?.country
     }))
   }
 
@@ -139,7 +133,9 @@ export default function AccountAddresses()  {
             <i className="fal fa-times" onClick={() => {formRef.current.reset();setShowAddCont(false)}}></i>
           </h4>
           <form onSubmit={(e) => e.preventDefault()} ref={formRef}>
-            {inputsrow}
+            {inputsrow.slice(0,4)}
+            <ProvinceCountry setState={setAddressDetails} />
+            {inputsrow.slice(4,8)}
             <AppButton 
               title={!editMode?"Add Address":"Edit Address"}
               onClick={() => !editMode?addAddress():editAddress()}

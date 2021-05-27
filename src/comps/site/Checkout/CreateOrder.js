@@ -17,7 +17,7 @@ export default function CreateOrder(orderid, products, customer, orderSubtotal, 
       paymentDetails,
       shippingMethod,
       billingDetails,
-      shippingDetails: billingDetails, //temporary - edit when implemented
+      shippingDetails: shippingDetails.length?shippingDetails:billingDetails, 
       orderStatus: 'open',
       update: []
     }

@@ -105,9 +105,9 @@ const StoreContextProvider = (props) => {
   },[selectedCountry, userLocation]) 
   useEffect(() => { 
     SalesTax.getSalesTax(selectedCountry,provinceChoices?.find(x => x.name===selectedProvince || x.isoCode===selectedProvince)?.isoCode).then(tax=>{
-      selectedProvince.length>0?setTaxRate(tax.rate):setTaxRate(0)
+      setTaxRate(tax.rate)
      })
-  },[selectedProvince, selectedCountry])
+  },[selectedProvince, selectedCountry]) 
   
  
   return (

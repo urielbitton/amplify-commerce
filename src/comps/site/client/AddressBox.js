@@ -1,13 +1,15 @@
-import React, { useContext } from 'react'
+import React, { useContext, useEffect } from 'react'
 import {db} from '../../common/Fire'
 import {StoreContext} from '../../common/StoreContext'
 import './styles/AddressBox.css'
+import {countries} from '../../common/Lists'
 
 export default function AddressBox(props) {
 
-  const {id, fullname, address, aptunit, city, provstate, country, postcode,phone,primary} = props.el
+  const {id, fname, lname, address, aptunit, city, provstate, country, postcode,phone,primary} = props.el
   const {setAddressDetails, setShowAddCont, setEditMode, showActions=false} = props
-  const {myUser, user} = useContext(StoreContext)
+  const {myUser, user, selectedCountry, selectedProvince, setSelectedCountry, 
+    setSelectedProvince, provinceChoices} = useContext(StoreContext)
   const myAddresses = myUser?.addresses
 
   function setPrimaryAddress() {
@@ -23,14 +25,16 @@ export default function AddressBox(props) {
     setEditMode(true)
     setAddressDetails({
       id,
-      fullname,
+      fname,
+      lname,
       address,
       aptunit,
       city,
       provstate,
       country,
       postcode,
-      phone
+      phone,
+      primary: true
     })
     setShowAddCont(true)
   }
@@ -49,10 +53,15 @@ export default function AddressBox(props) {
     }
   }
 
+  useEffect(() => {
+    setSelectedCountry(countries?.find(x => x.name===country)?.code)
+    setSelectedProvince(provinceChoices?.find(x => x.name===provstate)?.isoCode)
+  },[]) 
+
   return (
     <div className={`addressbox ${primary?"primary":""}`}>
       <div className="infocont">
-        <h6 className="name">{fullname}</h6>
+        <h6 className="name">{fname} {lname}</h6>
         <h6>{address}</h6>
         {aptunit.length?<h6>Apt. {aptunit}</h6>:""}
         <h6>{city}, {provstate} {postcode}</h6>

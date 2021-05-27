@@ -1,16 +1,16 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useContext, useEffect } from 'react'
 import { AppSelect } from './AppInputs'
 import { StoreContext } from './StoreContext'
 import {countries} from './Lists'
 
 export default function ProvinceCountry(props) {
 
-  const {setBillingState} = props
+  const {setState} = props
   const {provinceChoices, selectedCountry, setSelectedCountry, setSelectedProvince, userLocation, 
-    selectedProvince, setTaxRate} = useContext(StoreContext)
+    selectedProvince, setLocateUser} = useContext(StoreContext)
  
   const countriesOpts = countries?.map(({name,code}) => {
-    return {name:name, value:code, selected: userLocation.countryCode===code} 
+    return {name:name, value:code, selected: userLocation?.countryCode===code} 
   })
   const provincesOpts = provinceChoices?.map(({name,isoCode}) => {
     return {name:name, value:isoCode,selected:false} 
@@ -18,12 +18,22 @@ export default function ProvinceCountry(props) {
 
   useEffect(() => {
     setSelectedCountry(selectedCountry || userLocation.countryCode)
-    //setSelectedProvince(provinceChoices?.find(x => x.name===userLocation.region)?.isoCode)
+    return() => setSelectedCountry('')
   },[userLocation,provinceChoices,selectedCountry])
   useEffect(() => {
-    setBillingState(prev => ({...prev,provstate:''}))
+    setState(prev => ({...prev,provstate:''}))
     setSelectedProvince('')
   },[selectedCountry])
+  useEffect(() => {
+    setLocateUser(true)
+    setState({
+      country: userLocation?.country 
+    })
+    return () => {
+      setLocateUser(false)
+    }
+  }, [userLocation]) 
+  console.log(selectedCountry)
 
   return ( 
     <>
@@ -32,21 +42,24 @@ export default function ProvinceCountry(props) {
         options={countriesOpts} 
         onChange={(e) => {
           setSelectedCountry(e.target.value)
-          setBillingState(prev => ({...prev,country:countries.find(x => x.code===e.target.value || x.name===e.target.value).name}))}
+          setState(prev => ({...prev,country:countries.find(x => x.code===e.target.value || x.name===e.target.value).name}))}
         } 
         namebased
       />
-      <AppSelect 
-        title="Province/State" 
-        options={[{name:'Select a Province/State',value:'',disabled:true},...provincesOpts]} 
-        value={selectedProvince}
-        defaultValue={selectedProvince}
-        onChange={(e) => {
-          setSelectedProvince(e.target.value)
-          setBillingState(prev => ({...prev,provstate:provinceChoices.find(x => x.isoCode===e.target.value).name}))}
-        }
-        namebased
-      />
+      {
+        provinceChoices.length?
+        <AppSelect 
+          title="Province/State" 
+          options={[{name:'Select a Province/State',value:'',disabled:true},...provincesOpts]} 
+          value={selectedProvince}
+          defaultValue={selectedProvince}
+          onChange={(e) => {
+            setSelectedProvince(e.target.value)
+            setState(prev => ({...prev,provstate:provinceChoices.find(x => x.isoCode===e.target.value).name}))}
+          }
+          namebased
+        />:""
+      }
     </>
   )
 }

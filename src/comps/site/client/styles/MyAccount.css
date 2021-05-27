@@ -18,13 +18,14 @@
   font-size: 15px;
   font-weight: 500;
   text-transform: capitalize;
-  padding: 10px; 
+  padding: 10px;
   color: var(--graytxt);
   transition: all 0.2s;
   cursor: pointer;
 }
-.myaccountsidebar .menu a.activemenulink, .myaccountsidebar .menu a:hover {
-  background: rgba(59, 193, 255,0.1);
+.myaccountsidebar .menu a.activemenulink,
+.myaccountsidebar .menu a:hover {
+  background: rgba(59, 193, 255, 0.1);
   color: var(--color);
 }
 .myaccountsidebar .menu a i {
@@ -58,4 +59,15 @@
   align-items: center;
   flex-wrap: wrap;
   gap: 20px;
+}
+.addaddresscont form {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+}
+.addaddresscont form .appinput,
+.addaddresscont form .appbutton,
+.addaddresscont form .appselect {
+  grid-column: 1/-1;
+}
+.addaddresscont form .appinput.halfwidth {
 }

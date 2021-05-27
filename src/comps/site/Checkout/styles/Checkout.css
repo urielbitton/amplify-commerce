@@ -199,6 +199,27 @@
 .checkoutcont .paypalcont.show {
   display: block;
 }
+.checkoutpage .formcont {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
 .checkoutpage .addressbox {
   border: none;
+}
+.checkoutpage .appaccordion .header h5 {
+  color: #333;
+  font-weight: 500;
+  font-size: 1.17em;
+  margin-bottom: 30px;
+}
+.checkoutpage .defaultformbtn {
+  display: flex;
+  max-width: 200px;
+}
+.checkoutpage .shippingformcont {
+  width: 100%;
+  margin-top: 20px;
+  display: grid;
+  grid-template-columns: repeat(2,1fr);
 }
