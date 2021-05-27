@@ -7,11 +7,12 @@ import SaveLater from '../common/SaveLater'
 import EditProduct from '../common/EditProduct'
 import refProd from '../../common/referProduct'
 import {colorConverter} from '../../common/UtilityFuncs'
+import { Link } from 'react-router-dom'
 
 export default function CartItem(props) {
   
   const {currencyFormat, myUser, user, allProducts} = useContext(StoreContext)
-  const {name, imgs, price, sizes} = refProd(allProducts,props.el.id)
+  const {id, name, imgs, price, sizes} = refProd(allProducts,props.el.id)
   const {subid, chosenColor, chosenSize, units} = props.el
   const [showOpts, setShowOpts] = useState(false)
   const stocksLeft = sizes[sizes.findIndex(x => x.name===chosenSize)]?.stock
@@ -42,7 +43,7 @@ export default function CartItem(props) {
         <img src={imgs[0]} alt={name} />
       </div>
       <div className="prodname">
-        <h5>{name}</h5>
+        <Link to={`/product/${id}`}><h5>{name}</h5></Link>
         <h6>Size: {chosenSize.toUpperCase()}</h6>
         <h6>Color: {colorConverter(chosenColor) || chosenColor}</h6>
       </div> 

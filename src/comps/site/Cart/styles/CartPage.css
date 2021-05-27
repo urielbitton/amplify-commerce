@@ -203,6 +203,9 @@
   font-weight: 500;
   font-size: 13px;
 }
+.cartitem .prodname h5:hover {
+  text-decoration: underline;
+}
 
 @media (max-width:1200px) {
   .maincartcont, .carttotalscont {

@@ -3,14 +3,16 @@ import {db} from '../../common/Fire'
 import {StoreContext} from '../../common/StoreContext'
 import './styles/AddressBox.css'
 import {countries} from '../../common/Lists'
+import { useLocation } from 'react-router-dom'
 
 export default function AddressBox(props) {
 
   const {id, fname, lname, address, aptunit, city, provstate, country, postcode,phone,primary} = props.el
-  const {setAddressDetails, setShowAddCont, setEditMode, showActions=false} = props
+  const {setAddressDetails, setShowAddCont, editMode, setEditMode, showActions=false} = props
   const {myUser, user, selectedCountry, selectedProvince, setSelectedCountry, 
     setSelectedProvince, provinceChoices} = useContext(StoreContext)
   const myAddresses = myUser?.addresses
+  const location = useLocation()
 
   function setPrimaryAddress() {
     myAddresses.forEach(el => {
@@ -23,6 +25,7 @@ export default function AddressBox(props) {
   }
   function editAddressSet() {
     setEditMode(true)
+    setSelectedCountry(countries?.find(x => x.name===country)?.code)
     setAddressDetails({
       id,
       fname,
@@ -54,10 +57,11 @@ export default function AddressBox(props) {
   }
  
   useEffect(() => {
-    setSelectedCountry(countries?.find(x => x.name===country)?.code)
-    setSelectedProvince(provinceChoices?.find(x => x.name===provstate)?.isoCode)
+    if(location.pathname.includes('checkout')) {
+      setSelectedCountry(countries?.find(x => x.name===country)?.code)
+      setSelectedProvince(provinceChoices?.find(x => x.name===provstate)?.isoCode)
+    }
   },[selectedCountry, provinceChoices]) 
-  console.log(selectedCountry)
 
   return (
     <div className={`addressbox ${primary?"primary":""}`}>

@@ -25,7 +25,7 @@ export default function Section1() {
         />
         <div className="productssection">
           {
-            allProducts.length?
+            allProducts?.length?
             summertrend:
             <Loader height="300px"/>
           }

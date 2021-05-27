@@ -54,6 +54,7 @@ export default function AccountAddresses()  {
       showAddCont={showAddCont}
       setShowAddCont={setShowAddCont} 
       addressDetails={addressDetails}
+      editMode={editMode}
       setEditMode={setEditMode}
       showActions
     />
@@ -76,7 +77,7 @@ export default function AccountAddresses()  {
             userinfo: myUser
           }).then(res => {
             setShowAddCont(false)
-            formRef.current.reset()
+            //formRef.current.reset()
           })
         } 
         else {
@@ -100,7 +101,7 @@ export default function AccountAddresses()  {
           userinfo: myUser
         }).then(res => {
           setShowAddCont(false)
-          formRef.current.reset()
+          //formRef.current.reset()
         }) 
     }
   }
@@ -130,7 +131,7 @@ export default function AccountAddresses()  {
         <div className="addaddresscont">
           <h4>
             Add An Address
-            <i className="fal fa-times" onClick={() => {formRef.current.reset();setShowAddCont(false)}}></i>
+            <i className="fal fa-times" onClick={() => {/*formRef.current.reset()*/;setShowAddCont(false)}}></i>
           </h4>
           <form onSubmit={(e) => e.preventDefault()} ref={formRef}>
             {inputsrow.slice(0,4)}

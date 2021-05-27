@@ -17,6 +17,9 @@ export default function ProvinceCountry(props) {
   })
 
   useEffect(() => {
+    setLocateUser(true)
+  },[])
+  useEffect(() => {
     setSelectedCountry(selectedCountry || userLocation.countryCode)
     return() => setSelectedCountry('')
   },[userLocation,provinceChoices,selectedCountry])
@@ -25,13 +28,8 @@ export default function ProvinceCountry(props) {
     setSelectedProvince('')
   },[selectedCountry])
   useEffect(() => {
-    setLocateUser(true)
-    setState({
-      country: userLocation?.country 
-    })
-    return () => {
-      setLocateUser(false)
-    }
+    setState({ country: userLocation?.country })
+    return () => setLocateUser(false)
   }, [userLocation]) 
   console.log(selectedCountry)
 
@@ -44,6 +42,7 @@ export default function ProvinceCountry(props) {
           setSelectedCountry(e.target.value)
           setState(prev => ({...prev,country:countries.find(x => x.code===e.target.value || x.name===e.target.value).name}))}
         } 
+        value={selectedCountry}
         namebased
       />
       {
