@@ -11,6 +11,7 @@ import ProductReviews from './ProductReviews'
 import { StoreContext } from '../../common/StoreContext'
 import ProductBox from '../common/ProductBox'
 import { useLocation } from 'react-router-dom'
+import { SideBySideMagnifier} from "react-image-magnifiers"
 
 export default function ProductPage(props) {
 
@@ -82,8 +83,11 @@ export default function ProductPage(props) {
             <div className="imgcontainer">
               <div 
                 className="imgcont" 
-                style={{backgroundImage: `url(${activeImg})`}} 
               >
+                <SideBySideMagnifier
+                  alwaysInPlace
+                  imageSrc={activeImg}
+                />
             </div>
             </div>
             <div className="imgsrow">

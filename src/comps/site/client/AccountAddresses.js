@@ -105,7 +105,7 @@ export default function AccountAddresses()  {
     }
   }
   function addAddressSet() {
-    setAddressDetails({})
+    setAddressDetails()
     setEditMode(false)
     setShowAddCont(true)
     setAddressDetails(prev => ({

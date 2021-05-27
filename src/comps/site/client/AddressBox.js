@@ -52,11 +52,12 @@ export default function AddressBox(props) {
       })
     }
   }
-
+ 
   useEffect(() => {
     setSelectedCountry(countries?.find(x => x.name===country)?.code)
     setSelectedProvince(provinceChoices?.find(x => x.name===provstate)?.isoCode)
-  },[]) 
+  },[selectedCountry, provinceChoices]) 
+  console.log(selectedCountry)
 
   return (
     <div className={`addressbox ${primary?"primary":""}`}>

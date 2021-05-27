@@ -18,9 +18,6 @@
   overflow: hidden;
   cursor: crosshair;
 }
-.mainprodcont .imgscontent .imgcontainer:hover .imgcont {
-  transform: scale(3);
-}
 .mainprodcont .imgscontent .imgcont {
   width: 100%;
   height: 100%;
