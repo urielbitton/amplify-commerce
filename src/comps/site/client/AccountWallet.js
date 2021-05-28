@@ -1,49 +1,79 @@
-import React, {useContext} from 'react'
+import React, {useContext, useRef, useState} from 'react'
 import AppButton from '../common/AppButton'
-import AppAccordion from '../common/AppAccordion'
 import {StoreContext} from '../../common/StoreContext'
+import {AppInput, AppSelect} from '../../common/AppInputs'
+import {db} from '../../common/Fire'
+import firebase from 'firebase'
+import PaymentBox from './PaymentBox'
 
 export default function AccountWallet() {
   
-  const {myUser} = useContext(StoreContext)
+  const {myUser, expiryMonths, expiryYears, user} = useContext(StoreContext)
+  const [showAdd, setShowAdd] = useState(false)
+  const [cardNumber, setCardNumber] = useState('')
+  const [cardholderName, setCardholderName] = useState('')
+  const [expiryMonth, setExpiryMonth] = useState('01')
+  const [expiryYear, setExpiryYear] = useState(new Date().getFullYear())
+  const [billingAddress, setBillingAddress] = useState('')
   const payments = myUser?.payments
+  const addresses = myUser?.addresses
+  const formRef = useRef()
+  const currentMonth = new Date().getMonth()+1
+  const currentYear = new Date().getFullYear()
+  const cardObj = {
+    bank: '',
+    billingAddress,
+    cardHolder: cardholderName,
+    cardNumber,
+    cardName: `${cardholderName} Card`,
+    code: '',
+    expiryMonth,
+    expiryYear,
+    id: db.collection('users').doc().id,
+    nickname: 'My Amplify Card',
+    primary: false
+  }
 
   const paymentsrow = payments?.map((el) => {
-    return <AppAccordion 
-      title={
-        <><img src="https://i.imgur.com/qFu3UQf.jpg" alt=""/>{el.cardname} ****{el.cardnumber.slice(-4)}</>
-      }>
-      <div className="space-between">
-        <div className="left">
-          <div>
-            <h6>Cardholder Name</h6>
-            <span>{el.cardholder}</span>
-          </div>
-          <div>
-            <h6>Expiry Date</h6>
-            <span>{`${el.expiryMonth<10?"0"+el.expiryMonth:el.expiryMonth}`}/{el.expiryYear}</span>
-          </div>
-          <div>
-            <h6>Bank</h6>
-            <span>{el.bank}</span>
-          </div>
-        </div>
-        <div className="right">
-          <div>
-            <h6>Billing Address</h6>
-            <small>{el.billingAddress.fname} {el.billingAddress.lname}</small>
-            <small>{el.billingAddress.address}</small>
-            <small style={{display: el.billingAddress.aptunit.length?"block":"none"}}>
-              Apt. {el.billingAddress.aptunit}
-            </small>
-            <small>{el.billingAddress.city}, {el.billingAddress.provstate} {el.billingAddress.postcode}</small>
-            <small>{el.billingAddress.country}</small>
-            <small>{el.billingAddress.phone}</small>
-          </div>
-        </div>
-      </div>
-    </AppAccordion>
+    return <PaymentBox el={el} />
   })
+  const expiryMonthOpts = expiryMonths.map(el => {
+    return {name: `${el<10?"0"+el:el}`, value: el}
+  })
+  const expiryYearsOpts = expiryYears.map(el => {
+    return {name: el, value: el}
+  })
+  const addressesOpts = addresses?.map(el => {
+    return {name: `${el.address} - ${el.fname} ${el.lname}`, value: el.id}
+  })
+
+  function resetForm() {
+    formRef.current.reset()
+    setCardNumber('')
+    setCardholderName('')
+    setExpiryMonth(1)
+    setExpiryYear(currentYear)
+    setBillingAddress('')
+  }
+  function addCard() {
+    if(parseInt(expiryMonth,10) < currentMonth) {
+      alert('Expiry date must be in the future.')
+    }
+    else {
+      if(!payments.find(x => x.cardNumber===cardNumber)) {
+        console.log('hit')
+        payments.push(cardObj)
+        db.collection('users').doc(user.uid).update({
+          userinfo: myUser
+        }).then(res => {
+          formRef.current.reset()
+          setShowAdd(false)
+        })
+      }
+      else
+        window.alert('Card already exists. Please enter a new card.')
+    }
+  }
 
   return (
     <>
@@ -52,9 +82,75 @@ export default function AccountWallet() {
         <AppButton 
           className="adminbtn"
           title="Add Card"
+          onClick={() => setShowAdd(true)}
         />
       </h4>
       {paymentsrow}
+      <div className={`addcardcover ${showAdd?"show":""}`}>
+        <div className="addcardcont">
+          <h4>Add a Card</h4>
+          <div className="main">
+            <form ref={formRef} className="infocont" onSubmit={(e) => e.preventDefault()}>
+              <AppInput 
+                title="Card Number" 
+                onChange={(e) => setCardNumber(e.target.value)}
+                value={cardNumber.replace(/[^0-9]/g, "").replace(/\W/gi, '').replace(/(.{4})/g, '$1 ')}
+              />
+              <AppInput 
+                title="Cardholder Name"
+                onChange={(e) => setCardholderName(e.target.value)}
+              />
+              <div className="selectscont">
+                <h6>Expiration Date</h6>
+                <div>
+                  <AppSelect 
+                    options={expiryMonthOpts} 
+                    onChange={(e) => setExpiryMonth(e.target.value)}
+                    value={expiryMonth}
+                    namebased
+                  />
+                  <AppSelect 
+                    namebased
+                    options={expiryYearsOpts}
+                    onChange={(e) => setExpiryYear(e.target.value)}
+                    value={expiryYear}
+                  />
+                </div>
+              </div>
+              <div className="addresscont">
+                <h5>Billing Address</h5>
+                <AppSelect 
+                  options={addressesOpts?[{name:'Please Choose', selected:true, value: '', disabled:true}, ...addressesOpts]:[]}
+                  onChange={(e) => setBillingAddress(e.target.value)}
+                  value={billingAddress}
+                  namebased
+                />
+              </div>
+            </form>
+            <div className="acceptcont">
+              <h5>Accepted Cards</h5>
+              <img src="https://i.imgur.com/dEkxWsy.png" alt=""/>
+            </div>
+          </div>
+          <div className="btnscont">
+            <AppButton 
+              onClick={() => addCard()}
+              title="Add Card" 
+              className="adminbtn"
+            />
+            <AppButton 
+              title="Clear" 
+              className="adminbtn cancelbtn"
+              onClick={() => resetForm()}
+            />
+            <AppButton 
+              title="Cancel" 
+              className="adminbtn cancelbtn"
+              onClick={() => {setShowAdd(false);resetForm()}}
+            />
+          </div>
+        </div>
+      </div>
     </>
   )
 }

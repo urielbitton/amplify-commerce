@@ -75,7 +75,10 @@ const StoreContextProvider = (props) => {
     updates: [],
     orderStatus: ''
   })
-  
+  const expiryMonths = [1,2,3,4,5,6,7,8,9,10,11,12]
+  const expiryYears =  Array.apply(null, {length: 15}).map((el,i) => {
+    return new Date().getFullYear() + i
+  })
 
   useEffect(() => {
     db.collection('products').doc('allproducts').onSnapshot(snap => {
@@ -120,7 +123,7 @@ const StoreContextProvider = (props) => {
       paymentMethods, setPaymentMethods, locateUser, setLocateUser, userLocation, setUserLocation, 
       myOrders, setMyOrders, trackingDetails, setTrackingDetails, showTrackCont, setShowTrackCont, 
       provinceChoices, setProvinceChoices, taxRate, setTaxRate, selectedProvince, setSelectedProvince,
-      selectedCountry, setSelectedCountry
+      selectedCountry, setSelectedCountry, expiryMonths, expiryYears
     }}>
       {props.children}  
     </StoreContext.Provider>

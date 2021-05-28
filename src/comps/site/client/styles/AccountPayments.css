@@ -37,3 +37,123 @@
   justify-content: space-between;
   align-items: center;
 }
+.paymentscontent .appaccordion .btnscont {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 20px;
+}
+.paymentscontent .appaccordion .btnscont .appbutton {
+  padding: 7px 10px;
+}
+.paymentscontent .appaccordion .btnscont .appbutton span {
+  font-size: 11px;
+  color: #fff;
+}
+
+.addcardcover {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  z-index: 1000;
+  background: rgba(0,0,0,0.8);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  visibility: hidden;
+  opacity: 0;
+  transition: all 0.2s;
+}
+.addcardcover.show {
+  visibility: visible;
+  opacity: 1;
+}
+.addcardcont {
+  width: 650px;
+  min-height: 240px;
+  background: #fff;
+  padding: 20px;
+  box-shadow: var(--shadow);
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
+  gap: 10px;
+}
+.addcardcont > h4 {
+  color: #555;
+}
+.addcardcont .main {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.addcardcont .main .infocont {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  width: 350px;
+}
+.addcardcont .acceptcont h5 {
+  font-weight: 500;
+  font-size: 15px;
+  margin-bottom: 10px;
+}
+.addcardcont .acceptcont img {
+  height: 30px;
+}
+.addcardcont .appinput {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.addcardcont .appinput h6{
+  white-space: nowrap;
+  font-weight: 500;
+  font-size: 12px;
+  width: 190px;
+}
+.addcardcont .appinput input {
+  padding: 6px 10px;
+}
+.addcardcont .selectscont {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.addcardcont .selectscont h6 {
+  margin-right: 5px;
+  white-space: nowrap;
+  font-weight: 500;
+  font-size: 12px;
+}
+.addcardcont .selectscont > div {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+}
+.addcardcont select {
+  padding: 6px;
+}
+.addcardcont .btnscont {
+  display: flex;
+  gap: 15px;
+  margin-top: 10px;
+}
+.addcardcont .btnscont .cancelbtn {
+  background: none;
+  border: 1px solid #333;
+  color: #333;
+}
+.addcardcont .btnscont .cancelbtn:hover {
+  background: #333;
+  color: #fff;
+}
+.addcardcont .addresscont {
+  margin-top: 10px;
+}
+.addcardcont .addresscont h5 {
+  font-weight: 500;
+  margin-bottom: 5px;
+}

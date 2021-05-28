@@ -76,18 +76,13 @@ export default function AccountAddresses()  {
           myAddresses.push(addressDetails)
           db.collection('users').doc(user.uid).update({
             userinfo: myUser
-          }).then(res => {
-            setShowAddCont(false)
-            //formRef.current.reset()
-          })
+          }).then(res => setShowAddCont(false))
         } 
-        else {
+        else
           window.alert('This address already exists. Please enter a different address.')
-        }
     }
-    else {
+    else
       window.alert('Please fill in all required fields (marked by *)')
-    }
   }
   function editAddress() {
     if(addressDetails.fname && addressDetails.lname && addressDetails.address && addressDetails.city &&
@@ -134,7 +129,7 @@ export default function AccountAddresses()  {
         <div className="addaddresscont">
           <h4>
             Add An Address
-            <i className="fal fa-times" onClick={() => {/*formRef.current.reset()*/;setShowAddCont(false)}}></i>
+            <i className="fal fa-times" onClick={() => {setShowAddCont(false)}}></i>
           </h4>
           <form onSubmit={(e) => e.preventDefault()} ref={formRef}>
             {inputsrow.slice(0,4)}
