@@ -1,9 +1,8 @@
-import React, {useContext, useRef, useState} from 'react'
+import React, {useContext, useRef, useState, useEffect} from 'react'
 import AppButton from '../common/AppButton'
 import {StoreContext} from '../../common/StoreContext'
 import {AppInput, AppSelect} from '../../common/AppInputs'
 import {db} from '../../common/Fire'
-import firebase from 'firebase'
 import PaymentBox from './PaymentBox'
 
 export default function AccountWallet() {
@@ -15,6 +14,8 @@ export default function AccountWallet() {
   const [expiryMonth, setExpiryMonth] = useState('01')
   const [expiryYear, setExpiryYear] = useState(new Date().getFullYear())
   const [billingAddress, setBillingAddress] = useState('')
+  const [cardType, setCardType] = useState('')
+  const [cardImg, setCardImg] = useState('')
   const payments = myUser?.payments
   const addresses = myUser?.addresses
   const formRef = useRef()
@@ -26,6 +27,7 @@ export default function AccountWallet() {
     cardHolder: cardholderName,
     cardNumber,
     cardName: `${cardholderName} Card`,
+    cardImg,
     code: '',
     expiryMonth,
     expiryYear,
@@ -74,6 +76,29 @@ export default function AccountWallet() {
         window.alert('Card already exists. Please enter a new card.')
     }
   }
+
+  useEffect(() => {
+    if(cardNumber.slice(0,1) === '6') {
+      setCardType('Discover')
+      setCardImg('https://i.imgur.com/twQ7QKd.jpg')
+    } 
+    else if(cardNumber.slice(0,1) === '4') {
+      setCardType('Visa')
+      setCardImg('https://i.imgur.com/qFu3UQf.jpg')
+    }
+    else if(cardNumber.slice(0,2) === '34' || cardNumber.slice(0,2) === '37') {
+      setCardType('American Express')
+      setCardImg('https://i.imgur.com/VCkBTjg.jpg')
+    } 
+    else if(cardNumber.slice(0,1) === '2' || cardNumber.slice(0,1) === '5') {
+      setCardType('Master Card')
+      setCardImg('https://i.imgur.com/VVJJmxs.jpg')
+    } 
+    else {
+      setCardType('')
+      setCardImg('')
+    }
+  },[cardNumber])
 
   return (
     <>
@@ -127,9 +152,15 @@ export default function AccountWallet() {
                 />
               </div>
             </form>
-            <div className="acceptcont">
-              <h5>Accepted Cards</h5>
-              <img src="https://i.imgur.com/dEkxWsy.png" alt=""/>
+            <div className="cardscont">
+              <div className="carddetector">
+                <h3>{cardType}</h3>
+                <img src={cardImg} alt=""/>
+              </div>
+              <div className="acceptcont">
+                <h5>Accepted Cards</h5>
+                <img src="https://i.imgur.com/dEkxWsy.png" alt=""/>
+              </div>
             </div>
           </div>
           <div className="btnscont">

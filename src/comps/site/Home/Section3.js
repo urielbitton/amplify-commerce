@@ -49,7 +49,7 @@ export default function Section3() {
             {belongsrow}
           </div>
           {
-            allProducts.length?
+            allProducts?.length?
             newarrivals:
             <Loader height="700px"/>
           }

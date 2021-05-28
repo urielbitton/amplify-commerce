@@ -11,7 +11,6 @@ export default function AccountPayments()  {
     {name: 'Wallet', url: '/my-account/payments/', exact: true},
     {name: 'Transactions', url: '/my-account/payments/transactions'},
   ]
-
   const paymenulinks = paymentlinks.map(({name,url,exact}) => {
     return <NavLink exact={exact} to={url} activeClassName="activemenulink">
       {name}<hr/>

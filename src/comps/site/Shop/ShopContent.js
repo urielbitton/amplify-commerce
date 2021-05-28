@@ -123,7 +123,7 @@ export default function ShopContent() {
       </div>
       <div className="productscontent">
         {
-          allProducts.length?
+          allProducts?.length?
           allproductsrow:
           <Loader />
         }

@@ -72,7 +72,6 @@
 }
 .addcardcont {
   width: 650px;
-  min-height: 240px;
   background: #fff;
   padding: 20px;
   box-shadow: var(--shadow);
@@ -88,6 +87,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  height: 100%;
 }
 .addcardcont .main .infocont {
   display: flex;
@@ -95,10 +95,28 @@
   gap: 5px;
   width: 350px;
 }
-.addcardcont .acceptcont h5 {
+.addcardcont .cardscont {
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
+  align-items: center;
+  height: 200px;
+  gap: 50px;
+}
+.addcardcont .cardscont h5 {
   font-weight: 500;
   font-size: 15px;
   margin-bottom: 10px;
+}
+.addcardcont .carddetector img {
+  width: 70px;
+  margin-top: 5px;
+}
+.addcardcont .acceptcont, .addcardcont .carddetector {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
 }
 .addcardcont .acceptcont img {
   height: 30px;
@@ -108,7 +126,7 @@
   align-items: center;
   gap: 10px;
 }
-.addcardcont .appinput h6{
+.addcardcont .appinput h6 {
   white-space: nowrap;
   font-weight: 500;
   font-size: 12px;
@@ -156,4 +174,51 @@
 .addcardcont .addresscont h5 {
   font-weight: 500;
   margin-bottom: 5px;
+}
+.transactioncont {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  width: 100%;
+  margin-top: 20px;
+}
+.transactioncont .transdiv {
+  border: 1px solid #ddd;
+  width: 100%;
+}
+.transactioncont .transdiv .header {
+  padding: 15px;
+  background: #f1f1f1;
+}
+.transactioncont .transdiv .header h5 {
+  color: #444;
+}
+.transactioncont .transdiv .content {
+  padding: 15px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+.transactioncont .transdiv .content > div {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+.transactioncont .transdiv .content h6 {
+  font-size: 13px;
+  font-weight: 500;
+}
+.transactioncont .transdiv .content a {
+  font-size: 13px;
+  color: var(--color);
+  text-decoration: underline;
+}
+.transactioncont .transdiv .content h6:last-child {
+  color: #777;
+}
+.transactioncont .transdiv .content h5 {
+  font-size: 15px;
+  color: #444;
 }

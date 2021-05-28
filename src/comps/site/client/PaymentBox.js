@@ -5,7 +5,7 @@ import AppButton from '../common/AppButton'
 
 export default function PaymentBox(props) {
 
-  const {id, cardName, cardNumber, cardHolder, expiryMonth, expiryYear, bank, billingAddress} = props.el
+  const {id, cardName, cardNumber, cardHolder, expiryMonth, expiryYear, bank, cardImg, billingAddress} = props.el
   const {myUser} = useContext(StoreContext)
   const payments = myUser?.payments
   const addresses = myUser?.addresses
@@ -21,7 +21,7 @@ export default function PaymentBox(props) {
   return (
     <AppAccordion 
       title={
-        <><img src="https://i.imgur.com/qFu3UQf.jpg" alt=""/>{cardName} ****{cardNumber.slice(-4)}</>
+        <><img src={cardImg} alt=""/>{cardName} ****{cardNumber.slice(-4)}</>
       }>
       <div className="space-between">
         <div className="left">
