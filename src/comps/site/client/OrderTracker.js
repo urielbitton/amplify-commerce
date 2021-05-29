@@ -37,7 +37,7 @@ export default function OrderTracker(props) {
           <img src={img} alt=""/>
           <div className="infocont">
             <h6>Tracking number <span>{trackingNum}</span></h6>
-            <h6>Products: <span>{refProd(allProducts,products[0].id)?.name}</span></h6>
+            <h6>Products: <span>{refProd(allProducts,products[0].id)?.name} + {products.length-1}</span></h6>
             <h6>Estimated delivery: <span>{estDelivery}</span></h6>
             <h6>Carrier: <span>{carrier}</span></h6>
             <h6>Shipping Method: <span>{shippingMethod.name}</span></h6>

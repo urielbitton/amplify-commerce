@@ -1,4 +1,5 @@
 import React, { useContext } from 'react'
+import { db } from '../../common/Fire'
 import { StoreContext } from '../../common/StoreContext'
 import AppAccordion from '../common/AppAccordion'
 import AppButton from '../common/AppButton'
@@ -6,7 +7,7 @@ import AppButton from '../common/AppButton'
 export default function PaymentBox(props) {
 
   const {id, cardName, cardNumber, cardHolder, expiryMonth, expiryYear, bank, cardImg, billingAddress} = props.el
-  const {myUser} = useContext(StoreContext)
+  const {myUser, user} = useContext(StoreContext)
   const payments = myUser?.payments
   const addresses = myUser?.addresses
   const billAddressRef = addresses?.find(x => x.id===billingAddress)
@@ -15,7 +16,14 @@ export default function PaymentBox(props) {
     
   }
   function removeCard() {
-
+    let confirm = window.confirm('Are you sure you want to remove this card?')
+    if(confirm) {
+      let itemindex = payments?.findIndex(x => x.id === id)
+      payments.splice(itemindex,1)
+      db.collection('users').doc(user.uid).update({
+        userinfo: myUser
+      })
+    }
   }
 
   return (

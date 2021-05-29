@@ -28,7 +28,7 @@ export default function AccountOrders()  {
   })
   const orderlinks = [
     {name: 'orders', url: '/my-account/orders/', exact: true},
-    {name: 'open orders', url: '/my-account/orders/open/?query=open'},
+    {name: 'delivered', url: '/my-account/orders/open/?query=delivered'},
     {name: 'cancelled', url: '/my-account/orders/cancelled/?query=cancelled'}
   ]
   const ordermenulinks = orderlinks.map(({name,url,exact}) => {

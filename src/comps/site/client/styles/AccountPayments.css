@@ -213,6 +213,8 @@
 .transactioncont .transdiv .content a {
   font-size: 13px;
   color: var(--color);
+}
+.transactioncont .transdiv .content a:hover {
   text-decoration: underline;
 }
 .transactioncont .transdiv .content h6:last-child {

@@ -26,7 +26,7 @@ export default function AccountWallet() {
     billingAddress,
     cardHolder: cardholderName,
     cardNumber,
-    cardName: `${cardholderName} Card`,
+    cardName: `${cardholderName}'s Card`,
     cardImg,
     code: '',
     expiryMonth,
@@ -58,22 +58,21 @@ export default function AccountWallet() {
     setBillingAddress('')
   }
   function addCard() {
-    if(parseInt(expiryMonth,10) < currentMonth) {
+    if(parseInt(expiryMonth,10) < currentMonth && parseInt(expiryYear,10) === currentYear) {
       alert('Expiry date must be in the future.')
     }
     else {
-      if(!payments.find(x => x.cardNumber===cardNumber)) {
-        console.log('hit')
+      if(!payments.find(x => x.cardNumber===cardNumber) && billingAddress.length) {
         payments.push(cardObj)
         db.collection('users').doc(user.uid).update({
           userinfo: myUser
         }).then(res => {
-          formRef.current.reset()
+          resetForm()
           setShowAdd(false)
         })
       }
       else
-        window.alert('Card already exists. Please enter a new card.')
+        window.alert('Please fill in all fields and make sure card does not already exist.')
     }
   }
 

@@ -53,15 +53,15 @@ export default function OrderProgress(props) {
       style={{fontSize:iconsize}}
     ></i>
   })
-
-  useEffect(() => {
-    setProgLevel(convertLevel(order?.orderStatus))
-  },[order]) 
+ 
   useEffect(() => {
     if(!showTrackCont) {
       setProgLevel(0)
     }
   },[showTrackCont])
+  useEffect(() => {
+    setProgLevel(convertLevel(order?.orderStatus))
+  },[order])
 
   return (
     <div className="orderprogcont">
