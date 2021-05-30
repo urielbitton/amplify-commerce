@@ -110,6 +110,15 @@ export default function AccountWallet() {
         />
       </h4>
       {paymentsrow}
+      <div className="spacer"></div>
+      <h4 className="titlerow">
+        Gift Cards
+        <AppButton 
+          className="adminbtn"
+          title="Add Gift Card"
+          onClick={() => null}
+        />
+      </h4>
       <div className={`addcardcover ${showAdd?"show":""}`}>
         <div className="addcardcont">
           <h4>Add a Card</h4>

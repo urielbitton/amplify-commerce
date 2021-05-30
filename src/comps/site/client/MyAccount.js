@@ -9,7 +9,7 @@ import AccountHome from './AccountHome'
 import AccountOrders from './AccountOrders'
 import AccountAddresses from './AccountAddresses'
 import AccountPayments from './AccountPayments'
-import AccountSettings from './AccountSettings'
+import AccountProfile from './AccountProfile'
 import OrderDetails from './OrderDetails'
 import OrderTracker from './OrderTracker'
 
@@ -24,7 +24,7 @@ export default function MyAccount() {
     {name: 'my reviews', url: '/my-account/reviews/', icon: 'fal fa-star-half-alt'},
     {name: 'my addresses', url: '/my-account/addresses/', icon: 'fal fa-map-marker-alt'},
     {name: 'my payments', url: '/my-account/payments/', icon: 'fal fa-credit-card-front'},
-    {name: 'settings', url: '/my-account/settings/', icon: 'fal fa-cog'},
+    {name: 'profile', url: '/my-account/profile/', icon: 'fal fa-user'},
   ]
   const accountlinksrow = accountlinks.map(({name,url,icon,exact}) => {
     return <NavLink to={url} exact={exact} activeClassName="activemenulink">
@@ -82,8 +82,8 @@ export default function MyAccount() {
               <Route path="/my-account/payments">
                 <AccountPayments />
               </Route>
-              <Route path="/my-account/settings">
-                <AccountSettings />
+              <Route path="/my-account/profile">
+                <AccountProfile />
               </Route>
               {orderdetailspage}
             </Switch>
