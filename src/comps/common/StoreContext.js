@@ -16,7 +16,8 @@ const StoreContextProvider = (props) => {
   const [auser, setAUser] = useState('')
 
   const currencyFormat = new Intl.NumberFormat('en-CA', {style: 'currency', currency: 'CAD'})
-  const percentFormat = new Intl.NumberFormat('en-US', {style: 'percent'})
+  const percentFormat = new Intl.NumberFormat('en-CA', {style: 'percent'})
+  const numberFormat = new Intl.NumberFormat('en-CA')
   const cartSubtotal = myUser?.cart?.reduce((a, b) => a + (refProd(allProducts,b.id).price*b.units), 0)
 
   const [locateUser, setLocateUser] = useState(false)
@@ -123,7 +124,7 @@ const StoreContextProvider = (props) => {
       paymentMethods, setPaymentMethods, locateUser, setLocateUser, userLocation, setUserLocation, 
       myOrders, setMyOrders, trackingDetails, setTrackingDetails, showTrackCont, setShowTrackCont, 
       provinceChoices, setProvinceChoices, taxRate, setTaxRate, selectedProvince, setSelectedProvince,
-      selectedCountry, setSelectedCountry, expiryMonths, expiryYears
+      selectedCountry, setSelectedCountry, expiryMonths, expiryYears, numberFormat
     }}>
       {props.children}  
     </StoreContext.Provider>

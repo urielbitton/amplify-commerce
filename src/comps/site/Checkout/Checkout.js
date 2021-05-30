@@ -25,11 +25,11 @@ export default function Checkout() {
   const [successPaid, setSuccessPaid] = useState(false);
   const [failPaid, setFailPaid] = useState(false);
   const [paySwitch, setPaySwitch] = useState(0);
-  const orderTotal = cartSubtotal + cartSubtotal * taxRate + chosenShipping.cost;
-  const clientid = "ASTQpkv9Y3mQ5-YBd20q0jMb9-SJr_TvUl_nhXu5h3C7xl0wumYgdqpSYIL6Vd__56oB7Slag0n2HA_r"
-  const history = useHistory();
   const [defaultForm, setDefaultForm] = useState(false);
   const [altShipAddress, setAltShipAddress] = useState(false);
+  const orderTotal = cartSubtotal + cartSubtotal * taxRate + chosenShipping.cost
+  const clientid = "ASTQpkv9Y3mQ5-YBd20q0jMb9-SJr_TvUl_nhXu5h3C7xl0wumYgdqpSYIL6Vd__56oB7Slag0n2HA_r"
+  const history = useHistory();
   const user = firebase.auth().currentUser;
   const primaryAddress = myUser?.addresses?.find((x) => x.primary);
 
