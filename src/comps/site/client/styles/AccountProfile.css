@@ -18,10 +18,16 @@
   height: 120px;
   cursor: pointer;
 }
+.profilecont .profimgcont label {
+  cursor: pointer;
+}
 .profilecont .profimgcont img {
   width: 100%;
   height: 100%;
   border-radius: 100%;
+}
+.profilecont .profimgcont:hover .iconcont {
+  opacity: 1;
 }
 .profilecont .profimgcont .iconcont {
   position: absolute;
@@ -30,21 +36,47 @@
   border-radius: 100%;
   width: 30px;
   height: 30px;
-  background: rgba(255,255,255,0.9);
+  background: #fff;
   display: flex;
   justify-content: center;
   align-items: center;
   box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+  opacity: 0;
+  transition: all 0.2s;
 }
 .profilecont .profimgcont .iconcont i {
   color: var(--color);
 }
-.accountprofilepage .profilecont h4 {
+.profilecont h4 {
   color: #444;
 }
-.accountprofilepage .profilecont h5 {
+.profilecont h5 {
   font-weight: 500;
   color: #444;
+}
+.profilecont .loadertube {
+  position: absolute;
+  display: none;
+  width: 100px;
+  height: 3px;
+  border-radius: 40px;
+  background: #f1f1f1;
+  left: 0;
+  right: 0;
+  margin: auto;
+  z-index: 10;
+  overflow: hidden;
+  transition: all 0.2s;
+}
+.profilecont .loadertube.show {
+  display: block;
+}
+.profilecont .loadertube .prog {
+  background: var(--color);
+  width: 0;
+  height: 100%;
+  border-radius: 40px;
+  transition: all 0.4s;
 }
 .accountprofilepage .btnscont {
   margin-top: 30px;

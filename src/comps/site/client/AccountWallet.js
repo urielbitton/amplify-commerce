@@ -16,6 +16,8 @@ export default function AccountWallet() {
   const [billingAddress, setBillingAddress] = useState('')
   const [cardType, setCardType] = useState('')
   const [cardImg, setCardImg] = useState('')
+  const [id, setId] = useState('')
+  const [editMode, setEditMode] = useState(false)
   const payments = myUser?.payments
   const addresses = myUser?.addresses
   const formRef = useRef()
@@ -29,15 +31,25 @@ export default function AccountWallet() {
     cardName: `${cardholderName}'s Card`,
     cardImg,
     code: '',
-    expiryMonth,
-    expiryYear,
+    expiryMonth: parseInt(expiryMonth,10),
+    expiryYear: parseInt(expiryYear,10),
     id: db.collection('users').doc().id,
     nickname: 'My Amplify Card',
     primary: false
   }
 
   const paymentsrow = payments?.map((el) => {
-    return <PaymentBox el={el} />
+    return <PaymentBox 
+      el={el} 
+      setShowAdd={setShowAdd} 
+      setEditMode={setEditMode} 
+      setCardNumber={setCardNumber}
+      setCardholderName={setCardholderName}
+      setExpiryMonth={setExpiryMonth}
+      setExpiryYear={setExpiryYear}
+      setBillingAddress={setBillingAddress}
+      setId={setId}
+    />
   })
   const expiryMonthOpts = expiryMonths.map(el => {
     return {name: `${el<10?"0"+el:el}`, value: el}
@@ -57,22 +69,27 @@ export default function AccountWallet() {
     setExpiryYear(currentYear)
     setBillingAddress('')
   }
-  function addCard() {
+  function addEditCard() {
     if(parseInt(expiryMonth,10) < currentMonth && parseInt(expiryYear,10) === currentYear) {
       alert('Expiry date must be in the future.')
     }
+    else if(!billingAddress.length && !cardNumber.length && !cardholderName.length) {
+      window.alert('Please fill in all fields and make sure card does not already exist.')
+    }
     else {
-      if(!payments.find(x => x.cardNumber===cardNumber) && billingAddress.length) {
+      if(!editMode && !payments.find(x => x.cardNumber===cardNumber)) { //add card
         payments.push(cardObj)
-        db.collection('users').doc(user.uid).update({
-          userinfo: myUser
-        }).then(res => {
-          resetForm()
-          setShowAdd(false)
-        })
       }
-      else
-        window.alert('Please fill in all fields and make sure card does not already exist.')
+      else { //edit card
+        let itemindex = payments?.findIndex(x => x.id === id)
+        payments[itemindex] = cardObj
+      }
+      db.collection('users').doc(user.uid).update({
+        userinfo: myUser
+      }).then(res => {
+        resetForm()
+        setShowAdd(false)
+      })
     }
   }
 
@@ -106,7 +123,7 @@ export default function AccountWallet() {
         <AppButton 
           className="adminbtn"
           title="Add Card"
-          onClick={() => setShowAdd(true)}
+          onClick={() => {setEditMode(false);setShowAdd(true)}}
         />
       </h4>
       {paymentsrow}
@@ -121,6 +138,7 @@ export default function AccountWallet() {
       </h4>
       <div className={`addcardcover ${showAdd?"show":""}`}>
         <div className="addcardcont">
+          <i className="fal fa-times" onClick={() => {setShowAdd(false);resetForm()}}></i>
           <h4>Add a Card</h4>
           <div className="main">
             <form ref={formRef} className="infocont" onSubmit={(e) => e.preventDefault()}>
@@ -132,6 +150,7 @@ export default function AccountWallet() {
               <AppInput 
                 title="Cardholder Name"
                 onChange={(e) => setCardholderName(e.target.value)}
+                value={cardholderName}
               />
               <div className="selectscont">
                 <h6>Expiration Date</h6>
@@ -173,8 +192,8 @@ export default function AccountWallet() {
           </div>
           <div className="btnscont">
             <AppButton 
-              onClick={() => addCard()}
-              title="Add Card" 
+              onClick={() => addEditCard()}
+              title={!editMode?"Add Card":"Edit Card"} 
               className="adminbtn"
             />
             <AppButton 

@@ -7,14 +7,13 @@ import AppButton from '../common/AppButton'
 export default function PaymentBox(props) {
 
   const {id, cardName, cardNumber, cardHolder, expiryMonth, expiryYear, bank, cardImg, billingAddress} = props.el
+  const {setShowAdd, setEditMode, setCardNumber, setCardholderName, setExpiryMonth, setExpiryYear, 
+    setBillingAddress, setId} = props
   const {myUser, user} = useContext(StoreContext)
   const payments = myUser?.payments
   const addresses = myUser?.addresses
   const billAddressRef = addresses?.find(x => x.id===billingAddress)
 
-  function editCard() {
-    
-  }
   function removeCard() {
     let confirm = window.confirm('Are you sure you want to remove this card?')
     if(confirm) {
@@ -24,6 +23,16 @@ export default function PaymentBox(props) {
         userinfo: myUser
       })
     }
+  }
+  function setEditCard() {
+    setEditMode(true)
+    setShowAdd(true)
+    setCardNumber(cardNumber)
+    setCardholderName(cardHolder) 
+    setExpiryMonth(expiryMonth)
+    setExpiryYear(expiryYear)
+    setBillingAddress(billingAddress)
+    setId(id)
   }
 
   return (
@@ -48,7 +57,7 @@ export default function PaymentBox(props) {
           <div className="btnscont">
             <AppButton 
               title="Edit Card"
-              onClick={() => editCard()}
+              onClick={() => setEditCard()}
               className="adminbtn"
             />
             <AppButton 
