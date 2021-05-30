@@ -18,7 +18,7 @@ import Checkout from '../Checkout/Checkout'
 import MyAccount from '../client/MyAccount'
 import QuickShopComp from '../common/QuickShopComp'
 import OrderConfirm from '../Checkout/OrderConfirm'
-import OrderTracking from '../common/OrderTracking'
+import OrderTrackingPage from '../common/OrderTrackingPage'
 
 export default function HomeCont() {
 
@@ -69,7 +69,7 @@ export default function HomeCont() {
           <OrderConfirm /> 
         </Route>
         <Route path="/order-tracking">
-          <OrderTracking />
+          <OrderTrackingPage />
         </Route>
         {
           allProducts?.length?productpagerow:<Loader height="70vh" />

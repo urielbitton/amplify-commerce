@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React, { useContext, useState } from 'react'
 import './styles/OrdersCard.css'
 import AppButton from '../common/AppButton'
 import { StoreContext } from '../../common/StoreContext'
@@ -12,6 +12,7 @@ export default function OrdersCard(props) {
     shippingMethod, updates
   } = props.order
   const {topbar=true, vieworderbtn=true, prodindex=0, showmore=false} = props
+  const [showActions, setShowActions] = useState(-1)
   let orderDate = orderDateCreated.toDate().toString().split(' ')
   const productsmore = products.length>1?products.length-1:0
 
@@ -113,6 +114,10 @@ export default function OrdersCard(props) {
             </h6>
           }
         </div>
+      </div>
+
+      <div className="actionscover">
+        
       </div>
     </div>
   )
