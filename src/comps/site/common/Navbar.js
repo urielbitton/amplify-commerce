@@ -7,11 +7,12 @@ import {StoreContext} from '../../common/StoreContext'
 import {db} from '../../common/Fire'
 import AppButton from '../common/AppButton'
 import refProd from '../../common/referProduct'
-import {colorConverter, sizeConverter} from '../../common/UtilityFuncs'
+import {colorConverter} from '../../common/UtilityFuncs'
 
 export default function Navbar() {
 
-  const {allProducts, user, slideNav, showCart, setShowCart, setSlideNav, myUser, cartSubtotal, currencyFormat} = useContext(StoreContext)
+  const {allProducts, user, slideNav, showCart, setShowCart, setSlideNav, myUser, cartSubtotal, 
+    currencyFormat, setShowSearch} = useContext(StoreContext)
   const [dealBar, setDealBar] = useState(true)
   const [fixNav, setFixNav] = useState(false)
   const cart = myUser?.cart
@@ -111,7 +112,7 @@ export default function Navbar() {
           </div>
           <div className="right">
             <div title="Find products">
-              <i className="fal fa-search"></i>
+              <i className="fal fa-search" onClick={() => setShowSearch(true)}></i>
             </div> 
             <Link to="/wishlist">
               <div title="My Wishlist">

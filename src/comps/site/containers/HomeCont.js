@@ -20,6 +20,7 @@ import QuickShopComp from '../common/QuickShopComp'
 import OrderConfirm from '../Checkout/OrderConfirm'
 import OrderTrackingPage from '../common/OrderTrackingPage'
 import OrderTracker from '../client/OrderTracker'
+import Search from '../common/Search'
 
 export default function HomeCont() {
 
@@ -36,6 +37,7 @@ export default function HomeCont() {
       <div className={`homecontcover ${slideNav&&"visible"}`}></div>
       <QuickShopComp />
       <OrderTracker />
+      <Search />
       <Switch>
         <Route exact path="/">
           <Home />

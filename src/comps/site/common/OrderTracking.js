@@ -7,15 +7,13 @@ import OrdersCard from '../client/OrdersCard'
 
 export default function OrderTracking(props) {
 
-  const {} = props
   const {allOrders} = useContext(StoreContext)
   const [orderID, setOrderID] = useState('')
   const [billingEmail, setBillingEmail] = useState('')
   const [orderNumGo, setOrderNumGo] = useState('')
   const [emailGo, setEmailGo] = useState('')
   const [message, setMessage] = useState('')
-  const clean = text => text.replace(/[^a-zA-Z0-9 ]/g, "")
-  const pattern = new RegExp('\\b' + clean(orderID), 'i')
+  console.log(allOrders)
 
   const ordersrow = allOrders?.allorders
   ?.filter(x => x.orderid === orderNumGo && x.billingDetails.email === emailGo)

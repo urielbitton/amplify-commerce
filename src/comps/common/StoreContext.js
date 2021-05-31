@@ -38,6 +38,7 @@ const StoreContextProvider = (props) => {
   const [selectedProvince, setSelectedProvince] = useState('')
   const [selectedCountry, setSelectedCountry] = useState('')
   const [taxRate, setTaxRate] = useState(0)
+  const [showSearch, setShowSearch] = useState(false)
 
   const [quickProduct, setQuickProduct] = useState({
     id: '', 
@@ -133,7 +134,8 @@ const StoreContextProvider = (props) => {
       paymentMethods, setPaymentMethods, locateUser, setLocateUser, userLocation, setUserLocation, 
       myOrders, setMyOrders, trackingDetails, setTrackingDetails, showTrackCont, setShowTrackCont, 
       provinceChoices, setProvinceChoices, taxRate, setTaxRate, selectedProvince, setSelectedProvince,
-      selectedCountry, setSelectedCountry, expiryMonths, expiryYears, numberFormat, allOrders, setAllOrders
+      selectedCountry, setSelectedCountry, expiryMonths, expiryYears, numberFormat, allOrders, setAllOrders,
+      showSearch, setShowSearch
     }}>
       {props.children}  
     </StoreContext.Provider>

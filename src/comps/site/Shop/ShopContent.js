@@ -1,10 +1,11 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import './styles/ShopContent.css'
 import {categArr, sortArr} from './arrays/FilterArrays'
 import {AppSelect} from '../../common/AppInputs'
 import {StoreContext} from '../../common/StoreContext'
 import ProductBox from '../common/ProductBox'
 import Loader from '../../common/Loader'
+import { useLocation } from 'react-router-dom'
 
 export default function ShopContent() {
 
@@ -13,7 +14,11 @@ export default function ShopContent() {
   const [view, setView] = useState(1)
   const [limit, setLimit] = useState(8)
   const [page, setPage] = useState(0)
+  const [urlSearch, setUrlSearch] = useState('')
+  const clean = text => text.replace(/[^a-zA-Z0-9 ]/g, "")
+  const pattern = new RegExp('\\b' + clean(urlSearch), 'i')
   const options = [4,6,8,10,'all'] 
+  const location = useLocation()
 
   const categrow = categArr.map(({name,value}) => {
     return <small 
@@ -37,10 +42,15 @@ export default function ShopContent() {
     .filter(x => { 
       return (
         (x.belongs === categFilter || categFilter === 'all') &&
-        //(x.colors.includes(colorFilter) || colorFilter==='all') &&
         (x.sizes.includes(sizeFilter) || sizeFilter==='all') &&
         (Math.trunc(x.rating) === ratingFilter || ratingFilter==='all') &&
-        ((x.price >= priceFilter[0] && x.price < priceFilter[1]) || priceFilter==='all')
+        ((x.price >= priceFilter[0] && x.price < priceFilter[1]) || priceFilter==='all') &&
+        ((pattern.test(clean(x.name)) || urlSearch === '') || 
+        (pattern.test(x.price) || urlSearch === '') ||
+        (x.id === urlSearch || urlSearch === '') || 
+        (x.categories.some(x => x===urlSearch) || urlSearch === '') ||
+        (x.collection.some(x => x===urlSearch) || urlSearch === '') ||
+        (pattern.test(x.belongs) || urlSearch === ''))
       )
     })
     .map(el => {
@@ -68,6 +78,14 @@ export default function ShopContent() {
     }
     else return ''
   })
+
+  useEffect(() => {
+    if(location.search)   
+      setUrlSearch(location.search.split('=')[1])
+    else 
+      setUrlSearch('')
+    return () => setUrlSearch('')
+  },[location]) 
 
   return (
     <div className="shopcontent">

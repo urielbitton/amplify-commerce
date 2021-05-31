@@ -126,7 +126,7 @@ export default function AccountAddresses()  {
       </div>
 
       <div className={`addaddresscover ${showAddCont?"show":""}`}>
-        <div className="addaddresscont">
+        <div className="addaddresscont bluescrollbar">
           <h4>
             Add An Address
             <i className="fal fa-times" onClick={() => {setShowAddCont(false)}}></i>

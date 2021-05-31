@@ -3,7 +3,7 @@ import './styles/AppInputs.css'
 
 export function AppInput(props) {
  
-  const {title,iconclass,className} = props
+  const {title, iconclass, className} = props
    
   return ( 
     <label className={`appinput ${className}`}> 

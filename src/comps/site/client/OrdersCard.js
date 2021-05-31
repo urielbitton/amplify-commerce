@@ -42,10 +42,13 @@ export default function OrdersCard(props) {
             <h5>Total</h5>
             <span>{currencyFormat.format(orderTotal)}</span>
           </div>
-          <div>
-            <h5>Ship to</h5>
-            <span>{shippingDetails.address}</span>
-          </div>
+          {
+            customer?.id === user?.uid&&
+            <div>
+              <h5>Ship to</h5>
+              <span>{shippingDetails.address}</span>
+            </div>
+          }
           <div>
             <h5>Order Status</h5>
             <span>{orderStatus}</span>

@@ -4,6 +4,10 @@ html, body {
   font-family: Poppins, sans-serif;
   overflow: overlay;
 }    
+body {
+  overflow: hidden;
+  height: 100%;
+}
  
 :root { 
   --color: #3bc1ff;
@@ -54,6 +58,12 @@ html, body {
 ::-webkit-scrollbar-thumb {
   background: #333;
 }
+.bluescrollbar::-webkit-scrollbar-thumb {
+  background: var(--color);
+}
+.bluescrollbar::-webkit-scrollbar {
+  width: 7px;
+}
 img {
   object-fit: cover;
   max-width: 100%;
@@ -96,7 +106,10 @@ hr {
   justify-content: space-between;
   align-items: center;
 }
-
+.appcontainer.noscroll {
+  overflow-y: hidden;
+  height: 100vh;
+}
 
 @media (max-width: 1400px) {
   .grid {
