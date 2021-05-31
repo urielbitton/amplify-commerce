@@ -6,6 +6,12 @@
   flex-direction: column;
   gap: 15px;
 }
+.ordertrackingcont form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  margin-top: 10px;
+}
 .ordertrackingcont .btnscont {
   margin-top: 20px;
 }
@@ -14,7 +20,14 @@
   font-size: 13px;
   font-weight: 500;
 }
+.ordertrackingcont .appinput input {
+  border: none;
+}
 .ordertrackingcont > p {
   font-size: 14px;
   color: #555;
+}
+.orderresultscont {
+  width: 100%;
+  margin-top: 30px;
 }

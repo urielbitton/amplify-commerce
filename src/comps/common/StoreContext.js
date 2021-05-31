@@ -25,6 +25,7 @@ const StoreContextProvider = (props) => {
   const [slideNav, setSlideNav] = useState(false)
   const [showCart, setShowCart] = useState(false)
   const [myOrders, setMyOrders] = useState([])
+  const [allOrders, setAllOrders] = useState([])
   const [showQuickShop, setShowQuickShop] = useState(false)
   const [showEditProd, setShowEditProd] = useState(false)
   const [colorFilter, setColorFilter] = useState('all')
@@ -85,6 +86,14 @@ const StoreContextProvider = (props) => {
     db.collection('products').doc('allproducts').onSnapshot(snap => {
       setAllProducts(snap?.data()?.allproducts) 
     })  
+    db.collection('orders').onSnapshot(snap => {
+      let allorders = []
+      snap.forEach(el => {
+        if(el.data().allorders.length)
+          allorders.push(el.data())
+      })
+      setAllOrders(...allorders)
+    })
   },[auser]) 
   useEffect(() => {
     user&&db.collection('users').doc(user.uid).onSnapshot(snap => {
@@ -124,7 +133,7 @@ const StoreContextProvider = (props) => {
       paymentMethods, setPaymentMethods, locateUser, setLocateUser, userLocation, setUserLocation, 
       myOrders, setMyOrders, trackingDetails, setTrackingDetails, showTrackCont, setShowTrackCont, 
       provinceChoices, setProvinceChoices, taxRate, setTaxRate, selectedProvince, setSelectedProvince,
-      selectedCountry, setSelectedCountry, expiryMonths, expiryYears, numberFormat
+      selectedCountry, setSelectedCountry, expiryMonths, expiryYears, numberFormat, allOrders, setAllOrders
     }}>
       {props.children}  
     </StoreContext.Provider>

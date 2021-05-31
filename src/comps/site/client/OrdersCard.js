@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useReducer, useState } from 'react'
 import './styles/OrdersCard.css'
 import AppButton from '../common/AppButton'
 import { StoreContext } from '../../common/StoreContext'
@@ -7,9 +7,9 @@ import { Link } from 'react-router-dom'
 
 export default function OrdersCard(props) {
   
-  const {currencyFormat, allProducts, setShowTrackCont, setTrackingDetails} = useContext(StoreContext)
+  const {currencyFormat, allProducts, setShowTrackCont, setTrackingDetails,  user} = useContext(StoreContext)
   const {orderStatus, orderid, orderDateCreated, orderTotal, shippingDetails, products,
-    shippingMethod, updates
+    shippingMethod, updates, customer
   } = props.order
   const {topbar=true, vieworderbtn=true, prodindex=0, showmore=false} = props
   const [showActions, setShowActions] = useState(-1)
@@ -81,31 +81,36 @@ export default function OrdersCard(props) {
             className={`show ${orderStatus==='delivered'?"":"highlight"}`}
             onClick={() => trackOrder()}
           />
-          <AppButton 
-            title="Change Shipping"
-            className={(orderStatus==='delivered' || orderStatus==='shipped')?"":"show"} 
-            onClick={() => null}
-          />
-          <AppButton 
-            title="View/Edit Order"
-            className={`${vieworderbtn?"show":""}`}
-            url={`/my-account/order-details/${orderid}/`}
-          />
-          <AppButton 
-            title="Cancel Items"
-            className={(orderStatus==='delivered' || orderStatus==='shipped')?"":"show"} 
-            onClick={() => null}
-          />
-          <AppButton 
-            title="Write Product Review"
-            className={orderStatus==='delivered'?"show highlight":""}
-            onClick={() => null}
-          />
-          <AppButton 
-            title="Return Items"
-            className={orderStatus==='delivered'?"show":""}
-            onClick={() => null}
-          />
+          {
+            customer?.id === user?.uid&&
+            <>
+            <AppButton 
+              title="Change Shipping"
+              className={(orderStatus==='delivered' || orderStatus==='shipped')?"":"show"} 
+              onClick={() => null}
+            />
+            <AppButton 
+              title="View/Edit Order"
+              className={`${vieworderbtn?"show":""}`}
+              url={`/my-account/order-details/${orderid}/`}
+            />
+            <AppButton 
+              title="Cancel Items"
+              className={(orderStatus==='delivered' || orderStatus==='shipped')?"":"show"} 
+              onClick={() => null}
+            />
+            <AppButton 
+              title="Write Product Review"
+              className={orderStatus==='delivered'?"show highlight":""}
+              onClick={() => null}
+            />
+            <AppButton 
+              title="Return Items"
+              className={orderStatus==='delivered'?"show":""}
+              onClick={() => null}
+            />
+          </>
+          }
           {
             !vieworderbtn&&
             <h6 className="shippingmethod">
