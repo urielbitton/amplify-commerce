@@ -11,12 +11,12 @@ import { Link } from 'react-router-dom'
 
 export default function CartItem(props) {
   
-  const {currencyFormat, myUser, user, allProducts} = useContext(StoreContext)
+  const {currencyFormat, cart, myUser, user, allProducts} = useContext(StoreContext)
   const {id, name, imgs, price, sizes} = refProd(allProducts,props.el.id)
   const {subid, chosenColor, chosenSize, units} = props.el
   const [showOpts, setShowOpts] = useState(false)
-  const stocksLeft = sizes[sizes.findIndex(x => x.name===chosenSize)]?.stock
-  const cart = myUser?.cart
+  const chosenSizeIndex = sizes.findIndex(x => x.name===chosenSize)
+  const stocksLeft = sizes[chosenSizeIndex]?.colors[sizes[chosenSizeIndex].colors.findIndex(x => x.name===chosenColor)]?.stock
   const savedlater = myUser?.savedlater
 
   function removeItem() {
@@ -27,7 +27,7 @@ export default function CartItem(props) {
       } 
     })
     db.collection('users').doc(user.uid).update({
-      userinfo: myUser
+      'userinfo.cart': cart
     })
   }
 

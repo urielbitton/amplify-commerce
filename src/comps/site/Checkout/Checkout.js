@@ -16,10 +16,9 @@ import AppAccordion from "../common/AppAccordion";
 import Loader from "../../common/Loader";
 
 export default function Checkout() {
-  const {showCart, setShowCart, billingState, setBillingState, shippingState, setShippingState,
+  const {showCart, cart, setShowCart, billingState, setBillingState, shippingState, setShippingState,
     myUser, cartSubtotal, currencyFormat, percentFormat, shippingMethods, paymentMethods, 
     provinceChoices, taxRate } = useContext(StoreContext);
-  const cart = myUser?.cart;
   const [chosenShipping, setChosenShipping] = useState({name: "regular", cost: 3.99});
   const [paymentDetails, setPaymentDetails] = useState({method: "stripe", email: "", cardnumber: ""});
   const [successPaid, setSuccessPaid] = useState(false);

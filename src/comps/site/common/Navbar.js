@@ -11,11 +11,10 @@ import {colorConverter} from '../../common/UtilityFuncs'
 
 export default function Navbar() {
 
-  const {allProducts, user, slideNav, showCart, setShowCart, setSlideNav, myUser, cartSubtotal, 
+  const {allProducts, cart, user, slideNav, showCart, setShowCart, setSlideNav, myUser, cartSubtotal, 
     currencyFormat, setShowSearch} = useContext(StoreContext)
   const [dealBar, setDealBar] = useState(true)
   const [fixNav, setFixNav] = useState(false)
-  const cart = myUser?.cart
   const savedlater = myUser?.savedlater
   let prevScrollpos = window.pageYOffset
   
@@ -64,7 +63,7 @@ export default function Navbar() {
   function clearCart() {
     let confirm = window.confirm('Are you sure you want to remove all items from your cart?')
     if(confirm) {
-      myUser.cart = []
+      cart.splice(0,cart.length)
       db.collection('users').doc(user.uid).update({
         userinfo: myUser
       })

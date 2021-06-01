@@ -12,13 +12,14 @@ const StoreContextProvider = (props) => {
 
   const user = firebase.auth().currentUser
   const [allProducts, setAllProducts] = useState([])
-  const [myUser, setMyUser] = useState([])
+  const [myUser, setMyUser] = useState({})
+  const [cart, setCart] = useState([])
   const [auser, setAUser] = useState('')
 
   const currencyFormat = new Intl.NumberFormat('en-CA', {style: 'currency', currency: 'CAD'})
   const percentFormat = new Intl.NumberFormat('en-CA', {style: 'percent'})
   const numberFormat = new Intl.NumberFormat('en-CA')
-  const cartSubtotal = myUser?.cart?.reduce((a, b) => a + (refProd(allProducts,b.id).price*b.units), 0)
+  const cartSubtotal = cart?.length?cart?.reduce((a, b) => a + (refProd(allProducts,b?.id)?.price*b?.units), 0):0
 
   const [locateUser, setLocateUser] = useState(false)
   const [userLocation, setUserLocation] = useState({})
@@ -97,13 +98,26 @@ const StoreContextProvider = (props) => {
     })
   },[auser]) 
   useEffect(() => {
-    user&&db.collection('users').doc(user.uid).onSnapshot(snap => {
-      setMyUser(snap?.data()?.userinfo)
-    })
-    user&&db.collection('orders').doc(user.uid).onSnapshot(snap => {
-      setMyOrders(snap?.data()?.allorders) 
-    })
+    if(user) {
+      db.collection('users').doc(user.uid).onSnapshot(snap => {
+        setMyUser(snap?.data()?.userinfo)
+      })
+      db.collection('users').doc(user.uid).onSnapshot(snap => {
+        setCart(snap?.data()?.userinfo.cart)
+      })
+      db.collection('orders').doc(user.uid).onSnapshot(snap => {
+        setMyOrders(snap?.data()?.allorders) 
+      })
+    }
+    else {
+      localStorage.getItem('cart')
+      setCart(JSON.parse(localStorage.getItem('cart')) || [])
+    }
   },[user])
+  
+  useEffect(() => {
+    localStorage.setItem('cart', JSON.stringify(cart))
+  },[cart])
   useEffect(() => {
     if(locateUser) {
       axios({
@@ -135,7 +149,7 @@ const StoreContextProvider = (props) => {
       myOrders, setMyOrders, trackingDetails, setTrackingDetails, showTrackCont, setShowTrackCont, 
       provinceChoices, setProvinceChoices, taxRate, setTaxRate, selectedProvince, setSelectedProvince,
       selectedCountry, setSelectedCountry, expiryMonths, expiryYears, numberFormat, allOrders, setAllOrders,
-      showSearch, setShowSearch
+      showSearch, setShowSearch, cart, setCart
     }}>
       {props.children}  
     </StoreContext.Provider>

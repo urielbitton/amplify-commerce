@@ -6,12 +6,11 @@ import {colorConverter} from '../../common/UtilityFuncs'
 
 export default function SaveLaterItem(props) {
 
-  const {currencyFormat, myUser, user, allProducts} = useContext(StoreContext)
+  const {currencyFormat, myUser, cart, user, allProducts} = useContext(StoreContext)
   const {id, name, imgs, price} = refProd(allProducts,props.el.id)
   const {subid, chosenColor, chosenSize, units} = props.el
   const [showOpts, setShowOpts] = useState(false)
   const savedlater = myUser?.savedlater
-  const cart = myUser?.cart
 
   function removeItem() {
     savedlater.forEach(el => {

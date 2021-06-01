@@ -10,10 +10,9 @@ import SaveLaterItem from "./SaveLaterItem"
 import {sizeConverter, colorConverter} from '../../common/UtilityFuncs'
  
 export default function CartPage() {
-  const {myUser, user, cartSubtotal, shippingMethods, currencyFormat, showCart, setShowCart,
+  const {myUser, user, cart, cartSubtotal, shippingMethods, currencyFormat, showCart, setShowCart,
     editProduct, setEditProduct, showEditProd, setShowEditProd
   } = useContext(StoreContext)
-  const cart = myUser?.cart
   const savedlater = myUser?.savedlater
   const [chosenShipping, setChosenShipping] = useState({name: "regular",cost: 3.99})
   const [couponCode, setCouponCode] = useState("")
@@ -54,9 +53,9 @@ export default function CartPage() {
   function clearCart() {
     let confirm = window.confirm("Are you sure you want to remove all the items from your cart?")
     if (confirm) {
-      myUser.cart = []
+      cart.splice(0,cart.length)
       db.collection("users").doc(user.uid).update({
-        userinfo: myUser
+        'userinfo.cart': cart
       })
     } 
   }

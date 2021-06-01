@@ -3,56 +3,93 @@ import { StoreContext } from '../../common/StoreContext'
 import {db} from '../../common/Fire'
 import './styles/AddToCart.css'
 import refProd from '../../common/referProduct'
+import firebase from 'firebase'
 
 export default function AddToCart(props) {  
   
-  const {myUser, setShowCart, user, allProducts} = useContext(StoreContext)
+  const {myUser, cart, setCart, setShowCart, user, allProducts} = useContext(StoreContext)
   const {id} = refProd(allProducts,props.el.id)
   const {stocksLeft, subid, chosenColor, chosenSize, className, small, dropdown=true} = props
-  const cart = myUser?.cart
   const productunits = cart?.find(el => el.subid === subid)?.units
   const cartitem = cart?.find(el => el.subid === subid) 
    
   function addToCart() {
-    if(!cart?.find(el => el.subid === subid)) {
-      cart.push({ 
-        units: 1,  
-        chosenColor,
-        chosenSize,
-        id,
-        subid: id+chosenSize+chosenColor
-      }) 
-      db.collection('users').doc(user.uid).update({ 
-        userinfo: myUser
-      }).then(res => dropdown&&setShowCart(true))
+    const cartObj = { 
+      units: 1,  
+      chosenColor,
+      chosenSize,
+      id,
+      subid: id+chosenSize+chosenColor
     }
-  }
+    if(!cart?.find(el => el.subid === subid)) {
+      if(user) {
+        db.collection('users').doc(user.uid).update({ 
+          'userinfo.cart': firebase.firestore.FieldValue.arrayUnion(cartObj)
+        }).then(res => dropdown&&setShowCart(true))
+      }
+      else {
+        setCart(prev => [...prev,cartObj])
+      } 
+    }
+  } 
   function addUnits() {
     if(cartitem.units < stocksLeft) {
-      cartitem.units = cartitem.units + 1
-      db.collection('users').doc(user.uid).update({
-        userinfo: myUser
-      }).then(res => dropdown&&setShowCart(true))
+      if(user) {
+        cart.forEach(el => {
+          if(el.subid === subid) {
+            let itemindex = cart.indexOf(el)
+            cart[itemindex].units = cartitem.units + 1
+          }
+        })
+        db.collection('users').doc(user.uid).update({
+          'userinfo.cart': cart
+        }).then(res => dropdown&&setShowCart(true))
+      }
+      else {
+        setCart(prev => prev.map(el => {
+          return el.subid === subid? {
+            ...el, units: cartitem.units + 1
+          }: el
+        }))
+      }
     }
-  }
+  } 
   function subUnits() {
     if(cartitem.units <= 1) { 
-      cart.forEach(el => {
-        if(el.subid===subid) {
-          let itemindex = cart.indexOf(el)
-          cart.splice(itemindex,1)
-        } 
-      })
-      db.collection('users').doc(user.uid).update({
-        userinfo: myUser
-      }).then(res => dropdown&&setShowCart(true))
+      if(user) {
+        cart.forEach(el => {
+          if(el.subid===subid) {
+            let itemindex = cart.indexOf(el)
+            cart.splice(itemindex,1)
+          } 
+        })
+      }
+      else {
+        setCart(prev => {
+          return prev.filter(x => !(x.subid === subid))
+        })
+      }
     }
-    else if(cartitem.units > 0) {
-      cartitem.units = cartitem.units - 1
-      db.collection('users').doc(user.uid).update({
-        userinfo: myUser
-      }).then(res => dropdown&&setShowCart(true))
+    else if(cartitem.units > 1) {
+      if(user) {
+        cart.forEach(el => {
+          if(el.subid === subid) {
+            let itemindex = cart.indexOf(el)
+            cart[itemindex].units = cartitem.units - 1
+          }
+        })
+      }
+      else {
+        setCart(prev => prev.map(el => {
+          return el.subid === subid? {
+            ...el, units: cartitem.units - 1
+          }: el
+        }))
+      }
     }
+    user&&db.collection('users').doc(user.uid).update({
+      'userinfo.cart': cart
+    }).then(res => dropdown&&setShowCart(true))
   }
 
   return (
