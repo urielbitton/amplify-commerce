@@ -33,10 +33,7 @@ export default function Navbar() {
 
   const cartitemrow = cart?.map(({id,units,chosenColor,chosenSize,subid}) => {
     return <div className="cartitemcont" key={subid}>
-      <img 
-        src={refProd(allProducts,id).imgs[0]}  
-        alt="" 
-      />
+      <img src={refProd(allProducts,id).imgs[0]} alt="" /> 
       <div className="infocont">
         <div>
           <Link to={`/product/${id}`}><h5>{refProd(allProducts,id).name}</h5></Link>
