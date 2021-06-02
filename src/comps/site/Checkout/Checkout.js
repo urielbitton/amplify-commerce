@@ -192,7 +192,6 @@ export default function Checkout() {
             </h6>
           </div>
         )}
-        {myUser?.addresses?.length ? (
           <div className="checkoutcont">
             <div className="formcont">
               <AppAccordion
@@ -200,17 +199,14 @@ export default function Checkout() {
                 openDefault
                 maxHeight={!defaultForm ? 1100 : 500}
               >
-                <form
-                  className="checkoutform"
-                  onSubmit={(e) => e.preventDefault()}
-                  autoComplete
-                >
-                  {!myUser?.addresses?.length || !defaultForm ? (
+                <form className="checkoutform" onSubmit={(e) => e.preventDefault()} autoComplete>
+                  {!defaultForm ? (
                     <>
                       <div style={{ gridColumn: "1/-1" }}>
                         <AppButton
                           title="Use Saved Address"
                           className="defaultformbtn"
+                          style={{display: myUser?.addresses?.length?"flex":"none"}}
                           onClick={() => setDefaultForm(prev => !prev)}
                         />
                       </div>
@@ -316,9 +312,6 @@ export default function Checkout() {
               </div>
             </div>
           </div>
-        ) : (
-          <Loader />
-        )}
       </div>
     </div>
   );

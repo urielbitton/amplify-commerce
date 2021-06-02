@@ -8,12 +8,12 @@ import OrdersCard from '../client/OrdersCard'
 export default function OrderTracking(props) {
 
   const {allOrders} = useContext(StoreContext)
+  const {title} = props
   const [orderID, setOrderID] = useState('')
   const [billingEmail, setBillingEmail] = useState('')
   const [orderNumGo, setOrderNumGo] = useState('')
   const [emailGo, setEmailGo] = useState('')
   const [message, setMessage] = useState('')
-  console.log(allOrders)
 
   const ordersrow = allOrders?.allorders
   ?.filter(x => x.orderid === orderNumGo && x.billingDetails.email === emailGo)
@@ -42,6 +42,7 @@ export default function OrderTracking(props) {
 
   return (
     <div className="ordertrackingcont">
+      <h3>Track An Order</h3>
       <p>To track an order, please provide the order number found in your confirmation email from Amplify.
         Make sure to check your spam folder as well.
       </p>

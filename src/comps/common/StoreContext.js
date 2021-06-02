@@ -14,8 +14,8 @@ const StoreContextProvider = (props) => {
   const [allProducts, setAllProducts] = useState([])
   const [myUser, setMyUser] = useState({})
   const [cart, setCart] = useState([])
-  const [auser, setAUser] = useState('')
-  //localStorage.setItem('test', 'young fag')
+  const [auser, setAUser] = useState('')  
+
   const currencyFormat = new Intl.NumberFormat('en-CA', {style: 'currency', currency: 'CAD'})
   const percentFormat = new Intl.NumberFormat('en-CA', {style: 'percent'})
   const numberFormat = new Intl.NumberFormat('en-CA')
@@ -100,21 +100,21 @@ const StoreContextProvider = (props) => {
   useEffect(() => {
     if(user) {
       db.collection('users').doc(user.uid).onSnapshot(snap => {
-        setMyUser(snap?.data()?.userinfo)
+        setMyUser(snap.data()?.userinfo)
       })
       db.collection('users').doc(user.uid).onSnapshot(snap => {
-        setCart(snap?.data()?.userinfo.cart)
+        setCart(snap.data()?.userinfo.cart)
       })
       db.collection('orders').doc(user.uid).onSnapshot(snap => {
-        setMyOrders(snap?.data()?.allorders) 
+        setMyOrders(snap.data()?.allorders) 
       })
     }
-  },[user])
+    else {
+      //setCart(JSON.parse(localStorage.getItem('cart')))
+    }
+  },[user]) 
   useEffect(() => {
-    //!user&&setCart(JSON.parse(localStorage.getItem('cart')) || [])
-  },[])
-  useEffect(() => {
-    //cart.length&&localStorage.setItem('cart', JSON.stringify(cart))
+    //!user&&localStorage.setItem('cart', JSON.stringify(cart))
   },[cart])
   useEffect(() => {
     if(locateUser) {

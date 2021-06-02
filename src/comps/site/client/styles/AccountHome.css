@@ -49,6 +49,9 @@
   align-items: center;
   padding: 12px 0;
 }
+.accounthomepage .hometable .content .orderrow img {
+  width: 60px;
+}
 .accounthomepage .hometable .content .orderrow h6 {
   flex-basis: 20%;
   color: #555;
@@ -81,4 +84,7 @@
   font-weight: 500;
   color: #333;
   font-size: 13px;
+}
+.accounthomepage .ordertrackingcont {
+  grid-column: 1/-1;
 }

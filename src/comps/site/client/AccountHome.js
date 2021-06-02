@@ -1,13 +1,19 @@
-import React, { useContext } from 'react'
+import React, { useContext, useEffect } from 'react'
 import './styles/AccountHome.css'
 import {StoreContext} from '../../common/StoreContext'
 import { Link } from 'react-router-dom'
 import OrderProgress from '../common/OrderProgress'
+import OrderTracking from '../common/OrderTracking'
+import refProd from '../../common/referProduct'
 
 export default function AccountHome()  {
 
-  const {myOrders, currencyFormat} = useContext(StoreContext)
+  const {myOrders, currencyFormat, allProducts} = useContext(StoreContext)
+  const recentPurchases = []
 
+  myOrders.forEach(el => { 
+    recentPurchases.push(...el.products) 
+  })
   const ordersrow = myOrders?.slice(0,4).map(el => {
     return <div className="orderrow" key={el.orderid}>
       <h6><Link to={`/my-account/order-details/${el.orderid}`}>{el.orderid.slice(0,5)}...</Link></h6>
@@ -20,6 +26,17 @@ export default function AccountHome()  {
         {el.orderDateCreated.toDate().toString().split(' ')[1]}&nbsp; 
         {el.orderDateCreated.toDate().toString().split(' ')[2]}&nbsp; 
         {el.orderDateCreated.toDate().toString().split(' ')[3]}
+      </h6>
+    </div>
+  })
+  const purchasesrow = recentPurchases?.slice(0,5).map(el => {
+    return <div className="orderrow" key={el.subid}>
+      <h6><img src={refProd(allProducts,el.id).imgs[0]} alt=""/></h6>
+      <h6><Link to={`/product/${el.id}`}>{refProd(allProducts,el.id).name}</Link></h6>
+      <h6>{currencyFormat.format(refProd(allProducts,el.id).price)}</h6>
+      <h6>{el.units}</h6>
+      <h6>
+        {/*add instead orderDate on checkouted item - simpler */}
       </h6>
     </div>
   })
@@ -59,10 +76,20 @@ export default function AccountHome()  {
       }
       <div className="homebox full">
         <h4>Recent Purchases</h4>
+        <div className="hometable purchasestable">
+          <div className="header">
+            <h6>Image</h6>
+            <h6>Product</h6>
+            <h6>Price</h6>
+            <h6>Units</h6>
+            <h6 style={{flexBasis:105}}>Date Purchased</h6>
+          </div>
+          <div className="content">
+            {purchasesrow}
+          </div>
+        </div>
       </div>
-      <div className="homebox">
-        <h4>Find an Order</h4>
-      </div>
+      <OrderTracking />
     </div>
   )
 }

@@ -34,7 +34,7 @@ export default function Navbar() {
   const cartitemrow = cart?.map(({id,units,chosenColor,chosenSize,subid}) => {
     return <div className="cartitemcont" key={subid}>
       <img src={refProd(allProducts,id).imgs[0]} alt="" /> 
-      <div className="infocont">
+      <div className="infocont"> 
         <div>
           <Link to={`/product/${id}`}><h5>{refProd(allProducts,id).name}</h5></Link>
           <h6>Size: {chosenSize?.toUpperCase()}, Color: {colorConverter(chosenColor)}</h6>
@@ -54,7 +54,7 @@ export default function Navbar() {
       }
     })
     db.collection('users').doc(user.uid).update({
-      userinfo: myUser
+      'userinfo.cart': cart
     })
   }
   function clearCart() {
