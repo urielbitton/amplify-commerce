@@ -16,9 +16,12 @@ export default function Login(props) {
   const [passError, setPassError] = useState('')
   const history = useHistory()
 
-  const handleLogin = () => { 
+  function handleLogin() { 
     clearErrors()
     firebase.auth().signInWithEmailAndPassword(email, password)
+    .then(() => {
+      authListener()
+    })
     .catch(err => {
       switch(err.code) {
         case "auth/invalid-email":
@@ -32,10 +35,9 @@ export default function Login(props) {
         break
         default:
       }  
-    })
-    authListener()
+    }) 
   } 
-  const authListener = () => {
+  function authListener() {
     firebase.auth().onAuthStateChanged(user => {
       if(user) {
         setAUser(user)
@@ -103,8 +105,8 @@ export default function Login(props) {
 
   useEffect(() => { 
     clearInputs()
-    //authListener()
-  },[])
+    authListener() 
+  },[]) 
  
   return (
     <div className="loginpage">

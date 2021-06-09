@@ -12,6 +12,7 @@ body {
 :root { 
   --color: #3bc1ff;
   --admincolor: #386aff;
+  --adminbg: #fbfcfe;
   --lightblue: #e2f1f4;
   --graytxt: #696e93;
   --red: #ff384c;
@@ -70,8 +71,6 @@ button {
   cursor: pointer;
   border: none;
   transition: all 0.2s;
-  background: #333;
-  color: #fff;
 }
 a { 
   text-decoration: none;

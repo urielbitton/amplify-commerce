@@ -9,17 +9,17 @@ import { StoreContext } from '../../common/StoreContext'
 
 export default function AppContainer() {
 
-  const {showSearch} = useContext(StoreContext)
+  const {showSearch, myUser, user} = useContext(StoreContext)
   const location = useLocation()
 
   useEffect(() => {
     window.scrollTo(0,0) 
   },[location])
-
+ 
   return ( 
     <div className={`appcontainer ${showSearch?"noscroll":""}`}>
       <Switch>
-        <Route path="/admin">
+        <Route exact path="/admin">
           <AdminApp />
         </Route>
         <Route path="/">
