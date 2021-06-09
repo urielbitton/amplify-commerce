@@ -1,0 +1,12 @@
+.adminhomecont {
+  background: #fbfcfe;
+  background: red;
+  padding: 30px;
+  padding-top: 70px;
+  width: 100%;
+  height: 100vh;
+}
+.maincontent {
+  width: 100%;
+  height: 100%;
+}

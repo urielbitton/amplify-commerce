@@ -1,12 +1,11 @@
 import React from 'react'
 import AdminHomecont from './AdminHomecont'
-import Navbar from '../common/Navbar'
 import Sidebar from '../common/Sidebar'
+import './styles/AdminApp.css'
 
 export default function AdminApp() {
   return (
     <div className="adminapp">
-      <Navbar />
       <Sidebar />
       <AdminHomecont />
     </div>

@@ -1,0 +1,6 @@
+.adminnavbar {
+  position: fixed;
+  top: 0;
+  width: calc(100% - 300px);
+  height: 70px;
+}
