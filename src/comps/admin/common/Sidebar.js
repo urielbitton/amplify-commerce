@@ -7,13 +7,23 @@ export default function Sidebar() {
 
   const menulinksrow = menuLinks?.map(({name,icon,url,exact,sublinks}) => {
     return <div className="adminlink">
-      <NavLink exact={exact} to={url} activeClassName="activemenulink">
+      <NavLink exact={exact} to={url} className="menulink" activeClassName="activemenulink">
         <span>
           <i className={icon}></i>
           {name}
         </span>
         {sublinks&&<i className="fal fa-angle-up"></i>}
       </NavLink>
+      {
+        sublinks?.map(({name,icon,url,exact}) => {
+          return <NavLink exact={exact} to={url} className="menulink" activeClassName="activemenulink">
+            <span>
+              <i className={icon}></i>
+              {name}
+            </span>
+          </NavLink>
+        })
+      }
     </div>
   })
 
