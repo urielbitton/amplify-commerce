@@ -16,7 +16,7 @@ export default function AppContainer() {
     window.scrollTo(0,0) 
   },[location])
 
-  return (
+  return ( 
     <div className={`appcontainer ${showSearch?"noscroll":""}`}>
       <Switch>
         <Route path="/admin">

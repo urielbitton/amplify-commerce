@@ -24,7 +24,7 @@ import Search from '../common/Search'
 
 export default function HomeCont() {
 
-  const {slideNav, allProducts} = useContext(StoreContext)
+  const {slideNav, allProducts, myUser} = useContext(StoreContext)
 
   const productpagerow = allProducts?.map(el => {
     return <Route exact path={`/product/${el.id}`}>
@@ -75,11 +75,9 @@ export default function HomeCont() {
         <Route path="/order-tracking">
           <OrderTrackingPage />
         </Route>
-        {
-          allProducts?.length?productpagerow:<Loader height="70vh" />
-        }
+        { allProducts?.length?productpagerow:<Loader height="70vh" /> }
         <Route path="/my-account">
-          <MyAccount />
+          {myUser&&<MyAccount />}
         </Route>
         <Route>
           <Error />
