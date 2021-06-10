@@ -31,7 +31,7 @@
 .adminsidebar .logodiv hr {
   height: 20px;
   width: 2px;
-  background: var(--admincolor);
+  background: rgba(56, 106, 255,0.2);
   margin: 3px;
 }
 .adminsidebar .logodiv hr:first-child {
@@ -49,25 +49,40 @@
   gap: 2px;
 }
 .adminsidebar .menu .menulink {
-  color: #333;
+  color: var(--graytxt);
   font-weight: 500;
-  opacity: 0.5;
+  opacity: 0.7;
   padding: 10px;
   width: 100%;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  font-size: 15px;
+  font-size: 14px;
   border-radius: 10px;
   transition: all 0.2s;
   text-transform: capitalize;
 }
-.adminsidebar .menu .menulink i {
+.adminsidebar .menu .sublinkcont {
+  max-height: 0;
+  overflow: hidden;
+  padding: 0 5px;
+}
+.adminsidebar .menu .sublinkcont.open {
+  max-height: 300px;
+  padding: 5px;
+  transition: all 0.4s ease-in-out;
+}
+.adminsidebar .menu .menulink span i {
   margin-right: 8px;
   width: 20px;
 }
 .adminsidebar .menu .menulink i.fa-angle-up {
   font-size: 22px;
+  transform: rotate(0);
+  transition: all 0.3s;
+}
+.adminsidebar .menu .activemenulink i.fa-angle-up {
+  transform: rotate(180deg);
 }
 .adminsidebar .menu .adminlink {
   border-radius: 10px;
@@ -80,4 +95,19 @@
 }
 .adminsidebar .menu .activemenulink, .adminsidebar .menu .menulink:hover {
   background: rgba(56, 106, 255,0.1);
+}
+
+.adminsidebar .addnewbtn {
+  margin: auto;
+  margin-top: 50px;
+  width: 90%;
+  padding: 20px;
+  border-radius: 10px;
+  border: 1px solid #eee;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+.adminsidebar .addnewbtn img {
+  width: 30px;
 }
