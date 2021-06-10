@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react'
 import './styles/Sidebar.css'
 import {menuLinks} from './arrays/links'
-import { NavLink, useLocation } from 'react-router-dom'
+import { Link, NavLink, useLocation } from 'react-router-dom'
 
 export default function Sidebar() {
 
   const [openTab, setOpenTab] = useState(0)
+  const [openNew, setOpenNew] = useState(false)
   const location = useLocation()
 
   const menulinksrow = menuLinks?.map(({name,icon,sublinks},i) => {
@@ -47,6 +48,12 @@ export default function Sidebar() {
       setOpenTab(0)
   },[])
 
+  useEffect(() => {
+    window.onclick = () => {
+      openNew&&setOpenNew(false)
+    }
+  },[openNew])
+
   return (
     <div className="adminsidebar">
       <div className="logocont">
@@ -58,9 +65,23 @@ export default function Sidebar() {
       <div className="menu">
         {menulinksrow}
       </div>
-      <div className="addnewbtn">
-        <img src="" alt=""/>
-        <h4>Add New</h4>
+      <div 
+        className={`addnewbtn ${openNew?"open":""}`} 
+        onClick={(e) => {e.stopPropagation();setOpenNew(prev => !prev)}}
+      >
+        <div className="button">
+          <i className="fad fa-plus"></i>
+          <div className="infotxt">
+            <h4>Add New</h4>
+            <h6>Add products, orders, users</h6>
+          </div>
+          <i className="fal fa-angle-up"></i>
+        </div>
+        <div className="slidecont">
+          <Link to="/admin/add-product"><i className="fal fa-plus"></i>Create Product</Link>
+          <Link to="/admin/add-order"><i className="fal fa-plus"></i>Create Order</Link>
+          <Link to="/admin/add-customer"><i className="fal fa-plus"></i>Create Customer</Link>
+        </div>
       </div>
     </div> 
   )
