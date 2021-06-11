@@ -150,7 +150,7 @@ export default function Navbar() {
               </div>
             </div>
             <div>
-              <Link to={user?myUser.admin?"/admin":"/my-account":"/login"}><i className="fal fa-user"></i></Link>
+              <Link to={user?myUser?.admin?"/admin":"/my-account":"/login"}><i className="fal fa-user"></i></Link>
             </div>
             <div className={`mobbtn ${slideNav&&"active"}`} onClick={() => setSlideNav(prev => !prev)}>
               <hr/><hr/><hr/>

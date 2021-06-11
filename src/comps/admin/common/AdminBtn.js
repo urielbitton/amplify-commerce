@@ -6,9 +6,11 @@ export default function AdminBtn(props) {
   const {title, icon, url, className} = props
 
   return (
-    <div className={`adminbtn ${className}`}>
-      <i className={icon}></i>
-      <Link to={url}>{title}</Link>
-    </div>
+    <Link to={url}>
+      <div className={`adminbtn ${className}`}>
+        <i className={icon}></i>
+        <span>{title}</span>
+      </div>
+    </Link>
   )
 }

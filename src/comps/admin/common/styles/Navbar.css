@@ -10,6 +10,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  z-index: 990;
 }
 .adminnav > div {
   display: flex;
@@ -102,5 +103,54 @@
 }
 .adminnav .profcont i {
   font-size: 20px;
+  color: var(--graytxt);
+  transition: all 0.2s;
+}
+.adminnav .profcont i.open {
+  transform: rotate(180deg);
+}
+
+.profslidecont {
+  position: absolute;
+  top: 58px;
+  right: 0;
+  padding: 5px 0 10px 0;
+  background: #fff;
+  box-shadow: var(--shadow);
+  border-radius: 5px;
+  min-width: 200px;
+  display: flex;
+  flex-direction: column;
+  z-index: 999;
+  transition: all 0.3s;
+  overflow: hidden;
+  visibility: hidden;
+  opacity: 0;
+  color: var(--graytxt);
+}
+.profslidecont.open {
+  visibility: visible;
+  opacity: 1;
+  top: 48px;
+}
+.profslidecont a, .profslidecont small {
+  font-size: 12.5px;
+  padding: 10px 15px;
+  font-weight: 600;
+  transition: all 0.3s;
+  color: var(--graytxt);
+  opacity: 0.8;
+  cursor: pointer;
+}
+.profslidecont a:hover, .profslidecont small:hover {
+  background: var(--pale);
+  color: var(--admincolor)
+}
+.profslidecont a i, .profslidecont small i {
+  margin-right: 7px;
+}
+.profslidecont h6 {
+  padding: 10px;
+  font-weight: 800;
   color: var(--graytxt);
 }

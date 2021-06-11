@@ -124,10 +124,10 @@ hr {
 .adminbtn:hover {
   background: var(--admincolor);
 }
-.adminbtn:hover a, .adminbtn:hover h6, .adminbtn:hover i {
+.adminbtn:hover span, .adminbtn:hover h6, .adminbtn:hover i {
   color: #fff;
 }
-.adminbtn a, .adminbtn h6 {
+.adminbtn span, .adminbtn h6 {
   color: var(--graytxt);
   font-size: 14px;
 }
