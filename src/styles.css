@@ -19,6 +19,10 @@ body {
   --green: #88c200;
   --orange: #f5c136;
   --shadow: 0 0 6px rgba(0,0,0,0.1);
+  --white1: #fff;
+  --white2: #fff;
+  --dark1: #141719;
+  --dark2: #191e22;
 }  
 .grid {
   width: 1320px; 
@@ -105,6 +109,30 @@ hr {
 .appcontainer.noscroll {
   overflow-y: hidden;
   height: 100vh;
+}
+.adminbtn {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border: 1px solid #eee;
+  border-radius: 10px;
+  padding: 7px 10px;
+  height: 40px;
+  transition: all 0.2s;
+  cursor: pointer;
+}
+.adminbtn:hover {
+  background: var(--admincolor);
+}
+.adminbtn:hover a, .adminbtn:hover h6, .adminbtn:hover i {
+  color: #fff;
+}
+.adminbtn a, .adminbtn h6 {
+  color: var(--graytxt);
+  font-size: 14px;
+}
+.adminbtn i {
+  color: var(--graytxt);
 }
 
 @media (max-width: 1400px) {

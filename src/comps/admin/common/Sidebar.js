@@ -18,7 +18,7 @@ export default function Sidebar() {
         </span>
         {sublinks&&<i className="fal fa-angle-up"></i>}
       </h6>
-      <div className={`sublinkcont ${i===openTab?"open":""}`}>
+      <div className={sublinks&&`sublinkcont ${i===openTab?"open":""}`}>
         {
           sublinks?.map(({name,icon,url,exact}) => {
             return <NavLink exact={exact} to={url} className="menulink" activeClassName="activemenulink">

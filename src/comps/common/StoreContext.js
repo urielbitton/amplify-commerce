@@ -40,6 +40,7 @@ const StoreContextProvider = (props) => {
   const [selectedCountry, setSelectedCountry] = useState('')
   const [taxRate, setTaxRate] = useState(0)
   const [showSearch, setShowSearch] = useState(false)
+  const [darkMode, setDarkMode] = useState(false)
 
   const [quickProduct, setQuickProduct] = useState({
     id: '', 
@@ -147,7 +148,7 @@ const StoreContextProvider = (props) => {
       myOrders, setMyOrders, trackingDetails, setTrackingDetails, showTrackCont, setShowTrackCont, 
       provinceChoices, setProvinceChoices, taxRate, setTaxRate, selectedProvince, setSelectedProvince,
       selectedCountry, setSelectedCountry, expiryMonths, expiryYears, numberFormat, allOrders, setAllOrders,
-      showSearch, setShowSearch, cart, setCart
+      showSearch, setShowSearch, cart, setCart, darkMode, setDarkMode
     }}>
       {props.children}  
     </StoreContext.Provider>
