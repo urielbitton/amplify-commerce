@@ -1,0 +1,47 @@
+.dashbox {
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: var(--shadow);
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 20px;
+  height: 135px;
+}
+.dashbox > div {
+  display: flex;
+  flex-direction: column;
+}
+.dashbox .iconcont {
+  width: 55px;
+  height: 55px;
+  border-radius: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: var(--lightblue);
+}
+.dashbox .iconcont i {
+  color: var(--admincolor);
+  font-size: 22px;
+}
+.dashbox h1 {
+  color: var(--graytxt)
+}
+.dashbox h5 {
+  font-size: 14px;
+  color: var(--graytxt);
+  font-weight: 500;
+}
+.dashbox h6 {
+  color: var(--green);
+  font-size: 13px;
+  margin-top: 10px;
+}
+.dashbox h6.down {
+  color: var(--red)
+}
+.dashbox small {
+  color: #aaa;
+  font-size: 11px;
+}

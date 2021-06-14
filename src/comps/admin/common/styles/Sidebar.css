@@ -94,7 +94,7 @@
   opacity: 1;
 }
 .adminsidebar .menu .activemenulink, .adminsidebar .menu .menulink:hover {
-  background: rgba(56, 106, 255,0.1);
+  background: var(--lightblue);
 }
 
 .adminsidebar .addnewbtn {
@@ -156,11 +156,15 @@
   max-height: 0;
   display: flex;
   flex-direction: column;
-  transition: all 0.2s;
+  transition: all 0.4s;
   overflow: hidden;
 }
+.adminsidebar .addnewbtn.open .slidecont {
+  max-height: 200px;
+  box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+}
 .adminsidebar .addnewbtn .slidecont a {
-  font-size: 14px;
+  font-size: 13px;
   display: flex;
   align-items: center;
   gap: 10px;
@@ -169,10 +173,6 @@
 }
 .adminsidebar .addnewbtn .slidecont a i {
   font-size: 15px;
-}
-.adminsidebar .addnewbtn.open .slidecont {
-  max-height: 200px;
-  box-shadow: 0 3px 10px rgba(0,0,0,0.1);
 }
 .adminsidebar .addnewbtn .slidecont a:hover {
   background: var(--admincolor);

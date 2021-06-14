@@ -106,7 +106,7 @@
   color: var(--graytxt);
   transition: all 0.2s;
 }
-.adminnav .profcont i.open {
+.adminnav .profcont i.down {
   transform: rotate(180deg);
 }
 
@@ -143,7 +143,7 @@
   cursor: pointer;
 }
 .profslidecont a:hover, .profslidecont small:hover {
-  background: var(--pale);
+  background: var(--lightblue);
   color: var(--admincolor)
 }
 .profslidecont a i, .profslidecont small i {
