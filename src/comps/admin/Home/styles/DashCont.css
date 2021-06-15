@@ -1,12 +1,27 @@
-.dashbox {
+.dashcont {
   background: #fff;
   border-radius: 10px;
   box-shadow: var(--shadow);
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
+  flex-direction: column;
   padding: 20px;
+}
+.dashcont .titlesrow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+.dashcont .titlesrow h4 {
+  color: var(--graytxt);
+  font-size: 16px;
+}
+.dashbox {
   height: 135px;
+  flex-direction: row;
 }
 .dashbox > div {
   display: flex;
