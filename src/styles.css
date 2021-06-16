@@ -23,6 +23,10 @@ body {
   --white2: #fff;
   --dark1: #141719;
   --dark2: #191e22;
+  --theme1: #584053;
+  --theme2: #f97b4f ;
+  --theme3: #fcbc66;
+  --theme4: #8dc6bf;
 }  
 .grid {
   width: 1320px; 

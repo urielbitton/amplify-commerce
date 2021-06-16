@@ -93,7 +93,7 @@ const StoreContextProvider = (props) => {
       let allorders = []
       snap.forEach(el => {
         if(el.data().allorders.length)
-          allorders.push(el.data())
+          allorders.push(el.data().allorders)
       })
       setAllOrders(...allorders)
     })

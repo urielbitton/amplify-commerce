@@ -3,7 +3,7 @@ import ApexCharts from "react-apexcharts"
 
 export function ApexChart(props) {
 
-  const {type, title1, title2, options:opts, options2, series: serie, height, legendPos="top", legendAlign="center"} = props
+  const {type, dataarray, series: serie, height, legendPos="top", legendAlign="center"} = props
 
   const options = {
     chart: {
@@ -19,10 +19,10 @@ export function ApexChart(props) {
         opacity: 0.2
       }
     },
-    colors: ['#386aff', '#fcc81c'],
+    colors: ['var(--theme2)', 'var(--theme3)', 'var(--theme4)'],
     fill: {
       type: 'solid',
-      opacity: type==='area'|type==='bar'?[0.1,0.1]:[1,1]
+      opacity: 1
     },
     stroke: {
       show: true,
@@ -58,16 +58,7 @@ export function ApexChart(props) {
       }
     }]
   }
-  const series = [
-    {
-      name: title1,
-      data: opts,
-    },
-    {
-      name: title2,
-      data: options2,
-    }
-  ] 
+  const series = dataarray
 
   return (
     <ApexCharts
@@ -91,7 +82,7 @@ export function ApexChartPie(props) {
         position: legendPos,
         horizontalAlign: legendAlign
       },
-      colors: ['#386aff', '#fcc81c'],
+      colors: ['var(--theme2)', 'var(--theme3)', 'var(--theme4)'],
       fill: {
         type: 'solid',
         opacity: [1,1,1]

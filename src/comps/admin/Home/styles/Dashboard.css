@@ -9,3 +9,10 @@
 .dashboardpage .chartcont {
   width: 100%;
 }
+.dashboardpage .chartcont.piecont {
+  height: 320px;
+}
+.dashboardpage .chartcont h6 {
+  color: var(--graytxt);
+  font-size: 12px;
+} 

@@ -48,9 +48,9 @@ export default function Navbar() {
         </div>
         <div className={`profslidecont ${openProf?"open":""}`}>
           <h6>Account</h6>
-          <Link to="/admin/settings/?query=5"><i className="far fa-user"></i>My Account</Link>
-          <Link to="/admin/settings/general/?query=5"><i className="far fa-sliders-h"></i>Preferences</Link>
-          <Link to="/admin/settings/support/?query=5"><i className="far fa-question-circle"></i>Support</Link>
+          <Link to="/admin/settings"><i className="far fa-user"></i>My Account</Link>
+          <Link to="/admin/settings/general"><i className="far fa-sliders-h"></i>Preferences</Link>
+          <Link to="/admin/settings/support"><i className="far fa-question-circle"></i>Support</Link>
           <h6>Actions</h6>
           <small onClick={() => firebase.auth().signOut().then(() => history.push('/'))}>
             <i className="far fa-sign-out"></i>
