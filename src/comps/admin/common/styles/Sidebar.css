@@ -23,7 +23,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  box-shadow: 0 0 4px rgba(211, 215, 222,0.8);
+  box-shadow: 0 0 4px var(--light);
   width: 32px;
   height: 32px;
   border-radius: 5px;
@@ -31,8 +31,9 @@
 .adminsidebar .logodiv hr {
   height: 20px;
   width: 2px;
-  background: rgba(56, 106, 255,0.3);
+  background: var(--admincolor);
   margin: 3px;
+  opacity: 0.7;
 }
 .adminsidebar .logodiv hr:first-child {
   transform: rotate(25deg)
@@ -94,7 +95,7 @@
   opacity: 1;
 }
 .adminsidebar .menu .activemenulink, .adminsidebar .menu .menulink:hover {
-  background: var(--lightblue);
+  background: var(--light);
 }
 
 .adminsidebar .addnewbtn {

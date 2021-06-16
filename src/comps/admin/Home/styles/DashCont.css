@@ -34,7 +34,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  background: var(--lightblue);
+  background: var(--light);
 }
 .dashbox .iconcont i {
   color: var(--admincolor);

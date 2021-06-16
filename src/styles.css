@@ -11,9 +11,9 @@ body {
   
 :root { 
   --color: #3bc1ff;
-  --admincolor: #386aff;
+  --admincolor: #f97b4f;
   --adminbg: #fbfcfe;
-  --lightblue: rgba(56, 106, 255,0.1);
+  --light: #f97c4f3d;
   --graytxt: #696e93;
   --red: #ff384c;
   --green: #8eec00;
@@ -24,7 +24,7 @@ body {
   --dark1: #141719;
   --dark2: #191e22;
   --theme1: #584053;
-  --theme2: #f97b4f ;
+  --theme2: #f97b4f;
   --theme3: #fcbc66;
   --theme4: #8dc6bf;
 }  

@@ -69,7 +69,7 @@
   transition: all 0.2s;
 }
 .adminnav .right .iconcont:hover {
-  background: rgba(56, 106, 255,0.1); 
+  background: var(--light); 
 }
 .adminnav .right .iconcont:hover i {
   color: var(--admincolor);
@@ -143,7 +143,7 @@
   cursor: pointer;
 }
 .profslidecont a:hover, .profslidecont small:hover {
-  background: var(--lightblue);
+  background: var(--light);
   color: var(--admincolor)
 }
 .profslidecont a i, .profslidecont small i {
