@@ -3,6 +3,18 @@
   grid-template-columns: repeat(auto-fit,minmax(280px,1fr));
   grid-gap: 20px;
 }
+.dashboardpage .dashboxcont {
+  grid-column: 1/-1;
+  display: grid;
+  grid-template-columns: repeat(auto-fit,minmax(280px,1fr));
+  grid-gap: 20px;
+}
+.dashboardpage .salesgrid {
+  grid-column: 1/-1;
+  display: grid;
+  grid-template-columns: repeat(auto-fit,minmax(280px,1fr));
+  grid-gap: 20px; 
+}
 .dashboardpage .saleschart {
   grid-column: 1/4
 }
@@ -10,9 +22,56 @@
   width: 100%;
 }
 .dashboardpage .chartcont.piecont {
-  height: 320px;
+  height: 350px;
 }
 .dashboardpage .chartcont h6 {
   color: var(--graytxt);
   font-size: 12px;
 } 
+.dashtable {
+  grid-column: 1/-1;
+  padding: 30px;
+}
+.producttable.dashtable > .header h5 {
+  font-size: 13px;
+}
+.producttable > .content h5 {
+  font-weight: 500;
+}
+.producttable > .content h5 span {
+  font-size: 13px;
+  color: #111;
+}
+.producttable > .content h5 small {
+  color: #888;
+  font-size: 13px;
+}
+.producttable > .content h5.labels div {
+  margin: 3px 0;
+  display: flex;
+  align-items: center;
+}
+.producttable > .content h5.labels span {
+  margin-right: 5px;
+}
+.producttable.dashtable > .content img {
+  width: 60px;
+}
+.dashtable .content .proditem {
+  padding: 10px 0;
+}
+.dashtable .foot {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  padding: 25px 0 10px 0;
+}
+.dashtable .foot h5 {
+  font-weight: 500;
+  color: #555;
+}
+.dashtable .foot h5 span {
+  font-weight: 600;
+}

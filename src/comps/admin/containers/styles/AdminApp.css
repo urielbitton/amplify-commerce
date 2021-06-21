@@ -3,5 +3,9 @@
   grid-template-columns: 270px auto;  
 }
 .adminapp ::selection {
-  background: var(--admincolor)
+  background: var(--admincolor) 
+}
+.adminapp ::-webkit-scrollbar-thumb {
+  background: var(--admincolor);
+  border-radius: 10px;
 }

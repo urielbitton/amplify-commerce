@@ -3,7 +3,7 @@ import ApexCharts from "react-apexcharts"
 
 export function ApexChart(props) {
 
-  const {type, dataarray, series: serie, height, legendPos="top", legendAlign="center"} = props
+  const {type, dataArray, series: serie, height, legendPos="top", legendAlign="center"} = props
 
   const options = {
     chart: {
@@ -58,7 +58,7 @@ export function ApexChart(props) {
       }
     }]
   }
-  const series = dataarray
+  const series = dataArray
 
   return (
     <ApexCharts

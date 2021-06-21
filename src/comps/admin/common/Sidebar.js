@@ -83,6 +83,9 @@ export default function Sidebar() {
           <Link to="/admin/add-customer"><i className="fal fa-plus"></i>Create Customer</Link>
         </div>
       </div>
+      <div className="sidefooter">
+        <small>© 2021 Amplify Commerce by Atomics Digital. Version : 2.3.0</small> 
+      </div>
     </div> 
   )
 }

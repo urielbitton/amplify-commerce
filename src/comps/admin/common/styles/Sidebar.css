@@ -179,3 +179,14 @@
   background: var(--admincolor);
   color: #fff;
 }
+.adminsidebar .sidefooter {
+  width: 100%;
+  padding: 15px;
+  text-align: center;
+}
+.adminsidebar .sidefooter small {
+  color: #aaa;
+  font-size: 11px;
+  line-height: 1.3;
+  display: block;
+}
