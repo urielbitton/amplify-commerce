@@ -20,7 +20,10 @@ export default function Dashbox(props) {
         <div className="iconcont">
           <i className={icon}></i>
         </div>
-        <h6 className={thismonth>=lastmonth?"up":"down"}>
+        <h6 
+          className={thismonth>=lastmonth?"up":"down"} 
+          title={`Last Month: ${format==='number'?numberFormat.format(lastmonth):currencyFormat.format(lastmonth)}`}
+        >
           <i className={`far fa-arrow-${thismonth>=lastmonth?"up":"down"}`}></i>&nbsp;
           {format==='number'?numberFormat.format(thismonth):currencyFormat.format(thismonth)}
         </h6>

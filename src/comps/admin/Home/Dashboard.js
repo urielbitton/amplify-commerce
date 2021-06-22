@@ -12,20 +12,30 @@ export default function Dashboard() {
   const {allOrders, allProducts, currencyFormat, allStats} = useContext(StoreContext)
   const {productsSold, totalSales} = allStats
   const salescategories = ['January','February','March','April','May','June','July','August','September','October','November','December']
-  const totalsalesnumbers = [670,900,1200,880,999,899,1399,875,905,1099,978,1545]
-  const netprofitnumbers = [570,875,1100,830,929,769,1139,765,569,1020,865,900]
+  const totalsalesnumbers = totalSales.map(el => el.value)
+  const netprofitnumbers = totalSales.map(el => el.value + (el.value * 0.15))
   const lossnumbers = [70,75,10,30,9,69,139,65,69,20,5,0]
-  const ordernumbers = [45,65,14]
+  const orderstats = [45,65,14]
   const tableheaders = ['Product','Name','Style','Unit Price','Qty Sold','Date Sold Last','Earnings']
   const filterQtySold = (x,qty) => x.sizes.find(x => x.colors.find(x => x.qtySold > qty))
   const topproducts = allProducts?.filter(x => x.sizes.find(x => x.colors.find(x => x.qtySold > 6)))
   const recentproducts = allProducts?.filter(x => getDaysAgo(filterQtySold(x,0)?.colors.find(x => x.qtySold > 0).dateSold.toDate()) <= 30)
-  const totalProductsSold = productsSold.reduce((a,b) => a + b.value,0)
-  const allTotalSales = totalSales.reduce((a,b) => a + b.value,0)
+  const totalProductsSold = productsSold?.reduce((a,b) => a + b.value,0)
+  const allTotalSales = totalSales?.reduce((a,b) => a + b.value,0)
+  const allTotalProfits = allTotalSales - (allTotalSales * 0.15)
+  const thisMonth = new Date().getUTCMonth() + 1
+  const lastMonth = ((thisMonth - 2) % 12 + 1)
+  const thisMonthProdSold = productsSold[thisMonth-1].value
+  const lastMonthProdSold = productsSold[lastMonth-1].value
+  const thisMonthSales = totalSales[thisMonth-1].value
+  const lastMonthSales = totalSales[lastMonth-1].value
+  const thisMonthProfit = totalSales[thisMonth-1].value + (totalSales[thisMonth-1].value * 0.15)
+  const lastMonthProfit = totalSales[lastMonth-1].value + (totalSales[lastMonth-1].value * 0.15)
+
   const dashboxarr = [
-    {title: 'Products Sold', icon: 'far fa-box-open', total: totalProductsSold, thismonth: 0, lastmonth: 0, format: 'number'},
-    {title: 'Total Sales', icon: 'far fa-chart-line', total: allTotalSales, thismonth: 0, lastmonth: 0, format: 'currency'},
-    {title: 'Net Profit', icon: 'far fa-dollar-sign', total: (allTotalSales - (allTotalSales * 0.15)), thismonth: 0, lastmonth: 0, format: 'currency'},
+    {title: 'Products Sold', icon: 'far fa-box-open', total: totalProductsSold, thismonth: thisMonthProdSold, lastmonth: lastMonthProdSold, format: 'number'},
+    {title: 'Total Sales', icon: 'far fa-chart-line', total: allTotalSales, thismonth: thisMonthSales, lastmonth: lastMonthSales, format: 'currency'},
+    {title: 'Net Profit', icon: 'far fa-dollar-sign', total: allTotalProfits, thismonth: thisMonthProfit, lastmonth: lastMonthProfit, format: 'currency'},
     {title: 'Total Orders', icon: 'far fa-print', total: allOrders.length, thismonth: 0, lastmonth: 0, format: 'number'},
   ]
 
@@ -116,7 +126,7 @@ export default function Dashboard() {
         <div className="chartcont piecont">
           <ApexChartPie 
             type="pie" 
-            series={ordernumbers}
+            series={orderstats}
             labels={['Active','Processed','Cancelled']}
             legendAlign="left"
           />

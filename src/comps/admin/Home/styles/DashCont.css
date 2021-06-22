@@ -33,7 +33,7 @@
   height: 55px;
   border-radius: 100%;
   display: flex;
-  justify-content: center;
+  justify-content: center; 
   align-items: center;
   background: var(--light);
 }
@@ -42,7 +42,8 @@
   font-size: 22px;
 }
 .dashbox h1 {
-  color: var(--graytxt)
+  color: var(--graytxt);
+  font-size: 30px;
 }
 .dashbox h5 {
   font-size: 14px;
