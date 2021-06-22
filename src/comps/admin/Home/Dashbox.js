@@ -4,8 +4,8 @@ import DashCont from './DashCont'
 
 export default function Dashbox(props) {
 
-  const {percentFormat, currencyFormat, numberFormat} = useContext(StoreContext)
-  const {number, title, icon, newNum, total, format} = props.el
+  const {currencyFormat, numberFormat} = useContext(StoreContext)
+  const {total, title, icon, thismonth, lastmonth, format} = props.el
   const {compareTitle} = props 
 
   function percentChange(v1, v2) {
@@ -20,16 +20,15 @@ export default function Dashbox(props) {
         <div className="iconcont">
           <i className={icon}></i>
         </div>
-        <h6 className={newNum>=number?"up":"down"}>
-          <i className={`far fa-arrow-${newNum>=number?"up":"down"}`}></i>&nbsp;
-          {percentFormat.format(percentChange(number, newNum))}
+        <h6 className={thismonth>=lastmonth?"up":"down"}>
+          <i className={`far fa-arrow-${thismonth>=lastmonth?"up":"down"}`}></i>&nbsp;
+          {format==='number'?numberFormat.format(thismonth):currencyFormat.format(thismonth)}
         </h6>
         <small>{compareTitle}</small>
       </div> 
       <div>
-        <h1>{format==='number'?numberFormat.format(number):currencyFormat.format(number)}</h1>
+        <h1>{format==='number'?numberFormat.format(total):currencyFormat.format(total)}</h1>
         <h5>{title}</h5>
-        <small>Total: {total}</small>
       </div>
     </DashCont>
   )

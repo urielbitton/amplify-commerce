@@ -7,24 +7,26 @@ import { StoreContext } from '../../common/StoreContext'
 import {colorConverter, sizeConverter} from '../../common/UtilityFuncs'
 import '../../site/common/styles/ProductTable.css'
 
-export default function Dashboard() {
+export default function Dashboard() { 
 
-  const {allOrders, allProducts, currencyFormat} = useContext(StoreContext)
+  const {allOrders, allProducts, currencyFormat, allStats} = useContext(StoreContext)
+  const {productsSold, totalSales} = allStats
   const salescategories = ['January','February','March','April','May','June','July','August','September','October','November','December']
   const totalsalesnumbers = [670,900,1200,880,999,899,1399,875,905,1099,978,1545]
   const netprofitnumbers = [570,875,1100,830,929,769,1139,765,569,1020,865,900]
   const lossnumbers = [70,75,10,30,9,69,139,65,69,20,5,0]
   const ordernumbers = [45,65,14]
   const tableheaders = ['Product','Name','Style','Unit Price','Qty Sold','Date Sold Last','Earnings']
-  const filterQtySold = (x, qty) => x.sizes.find(x => x.colors.find(x => x.qtySold > qty))
+  const filterQtySold = (x,qty) => x.sizes.find(x => x.colors.find(x => x.qtySold > qty))
   const topproducts = allProducts?.filter(x => x.sizes.find(x => x.colors.find(x => x.qtySold > 6)))
   const recentproducts = allProducts?.filter(x => getDaysAgo(filterQtySold(x,0)?.colors.find(x => x.qtySold > 0).dateSold.toDate()) <= 30)
-  const totalprodsold = allProducts?.reduce((a,b) => a + filterQtySold(b,0)?.colors.find(x => x.qtySold > 0).qtySold,0)
+  const totalProductsSold = productsSold.reduce((a,b) => a + b.value,0)
+  const allTotalSales = totalSales.reduce((a,b) => a + b.value,0)
   const dashboxarr = [
-    {title: 'Products Sold', icon: 'far fa-box-open', number: 21, newNum: 26, total: totalprodsold, format: 'number'},
-    {title: 'Total Sales', icon: 'far fa-chart-line', number: 3900, newNum: 4100, format: 'currency'},
-    {title: 'Net Profit', icon: 'far fa-dollar-sign', number: 3250, newNum: 3100, format: 'currency'},
-    {title: 'Total Orders', icon: 'far fa-print', number: allOrders.length, newNum: allOrders.length, format: 'number'},
+    {title: 'Products Sold', icon: 'far fa-box-open', total: totalProductsSold, thismonth: 0, lastmonth: 0, format: 'number'},
+    {title: 'Total Sales', icon: 'far fa-chart-line', total: allTotalSales, thismonth: 0, lastmonth: 0, format: 'currency'},
+    {title: 'Net Profit', icon: 'far fa-dollar-sign', total: (allTotalSales - (allTotalSales * 0.15)), thismonth: 0, lastmonth: 0, format: 'currency'},
+    {title: 'Total Orders', icon: 'far fa-print', total: allOrders.length, thismonth: 0, lastmonth: 0, format: 'number'},
   ]
 
   const dashboxrow = dashboxarr?.map(el => {

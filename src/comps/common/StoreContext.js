@@ -27,6 +27,7 @@ const StoreContextProvider = (props) => {
   const [showCart, setShowCart] = useState(false)
   const [myOrders, setMyOrders] = useState([])
   const [allOrders, setAllOrders] = useState([])
+  const [allStats, setAllStats] = useState({})
   const [showQuickShop, setShowQuickShop] = useState(false)
   const [showEditProd, setShowEditProd] = useState(false)
   const [colorFilter, setColorFilter] = useState('all')
@@ -98,6 +99,7 @@ const StoreContextProvider = (props) => {
       setAllOrders(...allorders)
     })
   },[auser]) 
+
   useEffect(() => {
     if(user) {
       db.collection('users').doc(user.uid).onSnapshot(snap => {
@@ -114,9 +116,17 @@ const StoreContextProvider = (props) => {
       //setCart(JSON.parse(localStorage.getItem('cart')))
     }
   },[user]) 
+
   useEffect(() => {
     //!user&&localStorage.setItem('cart', JSON.stringify(cart))
   },[cart])
+
+  useEffect(() => {
+    db.collection('stats').doc('allstats').onSnapshot(snap => {
+      setAllStats(snap.data().allstats)
+    })
+  },[])
+
   useEffect(() => {
     if(locateUser) {
       axios({
@@ -127,9 +137,11 @@ const StoreContextProvider = (props) => {
       })  
     }
   },[locateUser])
+
   useEffect(() => { 
     setProvinceChoices(csc.getStatesOfCountry(selectedCountry))
   },[selectedCountry, userLocation]) 
+  
   useEffect(() => { 
     SalesTax.getSalesTax(selectedCountry,provinceChoices?.find(x => x.name===selectedProvince || x.isoCode===selectedProvince)?.isoCode).then(tax=>{
       setTaxRate(tax.rate)
@@ -148,7 +160,7 @@ const StoreContextProvider = (props) => {
       myOrders, setMyOrders, trackingDetails, setTrackingDetails, showTrackCont, setShowTrackCont, 
       provinceChoices, setProvinceChoices, taxRate, setTaxRate, selectedProvince, setSelectedProvince,
       selectedCountry, setSelectedCountry, expiryMonths, expiryYears, numberFormat, allOrders, setAllOrders,
-      showSearch, setShowSearch, cart, setCart, darkMode, setDarkMode
+      showSearch, setShowSearch, cart, setCart, darkMode, setDarkMode, allStats
     }}>
       {props.children}  
     </StoreContext.Provider>
