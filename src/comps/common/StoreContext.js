@@ -42,6 +42,9 @@ const StoreContextProvider = (props) => {
   const [taxRate, setTaxRate] = useState(0)
   const [showSearch, setShowSearch] = useState(false)
   const [darkMode, setDarkMode] = useState(false)
+  const [highSellersLimit, setHighSellersLimit] = useState(5)
+  const [recentSellersLimit, setRecentSellersLimit] = useState(5)
+  const [recentOrdersLimit, setRecentOrdersLimit] = useState(5)
 
   const [quickProduct, setQuickProduct] = useState({
     id: '', 
@@ -123,7 +126,7 @@ const StoreContextProvider = (props) => {
 
   useEffect(() => {
     db.collection('stats').doc('allstats').onSnapshot(snap => {
-      setAllStats(snap.data().allstats)
+      setAllStats(snap.data()?.allstats)
     })
   },[])
 
@@ -160,7 +163,9 @@ const StoreContextProvider = (props) => {
       myOrders, setMyOrders, trackingDetails, setTrackingDetails, showTrackCont, setShowTrackCont, 
       provinceChoices, setProvinceChoices, taxRate, setTaxRate, selectedProvince, setSelectedProvince,
       selectedCountry, setSelectedCountry, expiryMonths, expiryYears, numberFormat, allOrders, setAllOrders,
-      showSearch, setShowSearch, cart, setCart, darkMode, setDarkMode, allStats
+      showSearch, setShowSearch, cart, setCart, darkMode, setDarkMode, allStats, 
+      highSellersLimit, setHighSellersLimit, recentSellersLimit, setRecentSellersLimit, 
+      recentOrdersLimit, setRecentOrdersLimit
     }}>
       {props.children}  
     </StoreContext.Provider>

@@ -26,7 +26,7 @@ export default function AppContainer() {
   return ( 
     <div className={`appcontainer ${showSearch?"noscroll":""}`}>
       <Switch>
-        <Route exact path="/admin">
+        <Route path="/admin">
           <AdminApp />
         </Route>
         <Route path="/">

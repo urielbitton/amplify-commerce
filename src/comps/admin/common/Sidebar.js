@@ -1,17 +1,21 @@
 import React, { useEffect, useState } from 'react'
 import './styles/Sidebar.css'
 import {menuLinks} from './arrays/links'
-import { Link, NavLink, useLocation } from 'react-router-dom'
+import { Link, NavLink, useHistory, useLocation } from 'react-router-dom'
 
 export default function Sidebar() {
 
   const [openTab, setOpenTab] = useState(0)
   const [openNew, setOpenNew] = useState(false)
   const location = useLocation()
+  const history = useHistory()
 
   const menulinksrow = menuLinks?.map(({name,icon,sublinks},i) => {
     return <div className="adminlink">
-      <h6 className={`menulink ${i===openTab?"activemenulink":""}`} onClick={() => setOpenTab(i===openTab?-1:i)}> 
+      <h6 
+        className={`menulink ${i===openTab?"activemenulink":""}`} 
+        onClick={() => {setOpenTab(i===openTab?-1:i);i===0&&history.push('/admin/')}}
+      > 
         <span>
           <i className={icon}></i>
           {name}

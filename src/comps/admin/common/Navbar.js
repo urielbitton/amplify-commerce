@@ -10,13 +10,20 @@ export default function Navbar() {
 
   const {myUser, darkMode, setDarkMode} = useContext(StoreContext)
   const [openProf, setOpenProf] = useState(false)
+  const [openUpdates, setOpenUpdates] = useState(false)
   const history = useHistory()
 
   useEffect(() => {
     window.onclick = () => {
       openProf&&setOpenProf(false)
     } 
-  },[openProf]) 
+  },[openProf])
+
+  useEffect(() => {
+    window.onclick = () => {
+      openUpdates&&setOpenUpdates(false)
+    } 
+  },[openUpdates]) 
 
   return (
     <div className="adminnav">
@@ -34,8 +41,11 @@ export default function Navbar() {
       </div>
       <div className="right">
         <div className="toolbar">
-          <div className="iconcont">
+          <div className="iconcont" onClick={() => setOpenUpdates(prev => !prev)}>
             <i className="far fa-bell"></i>
+          </div>
+          <div className={`updatescont ${openUpdates?"open":""}`}>
+            <h4>Updates</h4>
           </div>
           <div className="iconcont" onClick={() => setDarkMode(prev => !prev)}>
             <i className={`fa${darkMode?"s":"r"} fa-eclipse`}></i>
@@ -52,7 +62,7 @@ export default function Navbar() {
           <Link to="/admin/settings/general"><i className="far fa-sliders-h"></i>Preferences</Link>
           <Link to="/admin/settings/support"><i className="far fa-question-circle"></i>Support</Link>
           <h6>Actions</h6>
-          <small onClick={() => firebase.auth().signOut().then(() => history.push('/'))}>
+          <small onClick={() => firebase.auth().signOut().then(() => {history.push('/');window.location.reload()})}>
             <i className="far fa-sign-out"></i>
             Log Out
             </small>

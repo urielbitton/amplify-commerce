@@ -1,0 +1,50 @@
+.productspage .producttable > .header h5 {
+  display: flex;
+  align-items: center;
+  font-size: 14px;
+  gap: 20px;
+  cursor: pointer;
+  transition: all 0.2s;
+  user-select: none;
+}
+.productspage .producttable .header, .producttable .proditem {
+  gap: 4px;
+}
+.productspage .producttable .header h5:hover,
+.productspage .producttable .header h5:hover i,
+.productspage .producttable .header h5.active,
+.productspage .producttable .header h5.active i {
+  color: var(--admincolor)
+}
+.productspage .producttable .header h5 i {
+  color: #555;
+  transition: all 0.2s;
+}
+.productspage .producttable .header h5:last-child:hover {
+  color: inherit;
+}
+.productspage .producttable .content img {
+  width: 60px;
+}
+.productspage .producttable .content h5:first-child,
+.productspage .producttable .header h5:first-child {
+  flex-basis: 100px;
+}
+.productspage .producttable .content h5.stockcont span {
+  padding: 5px 10px;
+  background: var(--admincolor);
+  border-radius: 5px;
+  color: #fff;
+}
+.productspage .producttable .content h5.stockcont.nostock span {
+  background: var(--red);
+}
+.productspage .producttable .content h5 .actionsicon {
+  cursor: pointer;
+  font-size: 18px;
+  color: #555;
+  transition: all 0.2s;
+}
+.productspage .producttable .content h5 .actionsicon:hover {
+  color: var(--admincolor);
+}

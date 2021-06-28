@@ -48,6 +48,7 @@
   margin-top: 70px;
   padding: 0 20px;
   gap: 2px;
+  user-select: none;
 }
 .adminsidebar .menu .menulink {
   color: var(--graytxt);

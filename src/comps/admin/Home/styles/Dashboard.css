@@ -3,17 +3,11 @@
   grid-template-columns: repeat(auto-fit,minmax(280px,1fr));
   grid-gap: 20px;
 }
-.dashboardpage .dashboxcont {
+.dashboardpage .dashboxcont, .dashboardpage .salesgrid {
   grid-column: 1/-1;
   display: grid;
   grid-template-columns: repeat(auto-fit,minmax(280px,1fr));
   grid-gap: 20px;
-}
-.dashboardpage .salesgrid {
-  grid-column: 1/-1;
-  display: grid;
-  grid-template-columns: repeat(auto-fit,minmax(280px,1fr));
-  grid-gap: 20px; 
 }
 .dashboardpage .saleschart {
   grid-column: 1/4
@@ -37,6 +31,12 @@
 }
 .producttable > .content h5 {
   font-weight: 500;
+  text-transform: capitalize;
+  flex-basis: 20%;
+}
+.producttable.dashtable > .header h5:last-child,
+.producttable.dashtable > .content h5:last-child {
+  flex-basis: 110px;
 }
 .producttable > .content h5 span {
   font-size: 13px;
@@ -54,11 +54,15 @@
 .producttable > .content h5.labels span {
   margin-right: 5px;
 }
-.producttable.dashtable > .content img {
+.producttable > .content .imgcell {
+  flex-basis: 20%;
+}
+.producttable > .content img {
   width: 60px;
 }
 .dashtable .content .proditem {
   padding: 10px 0;
+  gap: 10px;
 }
 .dashtable .foot {
   width: 100%;
@@ -74,4 +78,15 @@
 }
 .dashtable .foot h5 span {
   font-weight: 600;
+}
+.orderstable.producttable .proditem h5:first-child {
+  text-transform: uppercase;
+}
+.orderstable.producttable .proditem h5:first-child:hover {
+  text-decoration: underline;
+  cursor: pointer;
+  color: var(--admincolor);
+}
+.updatesbox {
+  grid-column: span 2;
 }

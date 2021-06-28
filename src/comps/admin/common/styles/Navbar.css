@@ -124,13 +124,13 @@
   z-index: 999;
   transition: all 0.3s;
   overflow: hidden;
-  visibility: hidden;
   opacity: 0;
+  visibility: hidden;
   color: var(--graytxt);
 }
 .profslidecont.open {
-  visibility: visible;
   opacity: 1;
+  visibility: visible;
   top: 48px;
 }
 .profslidecont a, .profslidecont small {
@@ -153,4 +153,25 @@
   padding: 10px;
   font-weight: 800;
   color: var(--graytxt);
+}
+.updatescont {
+  position: absolute;
+  top: 58px;
+  padding: 20px;
+  background: #fff;
+  box-shadow: var(--shadow);
+  border-radius: 5px;
+  min-width: 200px;
+  display: flex;
+  flex-direction: column;
+  z-index: 999;
+  transition: all 0.3s;
+  overflow: hidden;
+  visibility: hidden;
+  opacity: 0;
+}
+.updatescont.open {
+  opacity: 1;
+  visibility: visible;
+  top: 48px;
 }

@@ -6,17 +6,22 @@ import {ApexChart, ApexChartPie} from '../../common/Charts'
 import { StoreContext } from '../../common/StoreContext'
 import {colorConverter, sizeConverter} from '../../common/UtilityFuncs'
 import '../../site/common/styles/ProductTable.css'
+import {AppSelect} from '../../common/AppInputs'
+import refProd from '../../common/referProduct'
 
 export default function Dashboard() { 
 
-  const {allOrders, allProducts, currencyFormat, allStats} = useContext(StoreContext)
+  const {allOrders, allProducts, currencyFormat, allStats, 
+    highSellersLimit, setHighSellersLimit, recentSellersLimit, setRecentSellersLimit, recentOrdersLimit, setRecentOrdersLimit
+  } = useContext(StoreContext)
   const {productsSold, totalSales} = allStats
   const salescategories = ['January','February','March','April','May','June','July','August','September','October','November','December']
-  const totalsalesnumbers = totalSales.map(el => el.value)
-  const netprofitnumbers = totalSales.map(el => el.value + (el.value * 0.15))
-  const lossnumbers = [70,75,10,30,9,69,139,65,69,20,5,0]
+  const totalsalesnumbers = totalSales?.map(el => el.value)
+  const netprofitnumbers = totalSales?.map(el => el.value - (el.value * 0.15))
+  const lossnumbers = [70,75,410,230,9,69,139,65,69,20,5,0]
   const orderstats = [45,65,14]
   const tableheaders = ['Product','Name','Style','Unit Price','Qty Sold','Date Sold Last','Earnings']
+  const ordersheaders = ['Order Number','Products','Order Date','Order Total','Order Status']
   const filterQtySold = (x,qty) => x.sizes.find(x => x.colors.find(x => x.qtySold > qty))
   const topproducts = allProducts?.filter(x => x.sizes.find(x => x.colors.find(x => x.qtySold > 6)))
   const recentproducts = allProducts?.filter(x => getDaysAgo(filterQtySold(x,0)?.colors.find(x => x.qtySold > 0).dateSold.toDate()) <= 30)
@@ -25,12 +30,13 @@ export default function Dashboard() {
   const allTotalProfits = allTotalSales - (allTotalSales * 0.15)
   const thisMonth = new Date().getUTCMonth() + 1
   const lastMonth = ((thisMonth - 2) % 12 + 1)
-  const thisMonthProdSold = productsSold[thisMonth-1].value
-  const lastMonthProdSold = productsSold[lastMonth-1].value
+  const thisMonthProdSold = productsSold&&productsSold[thisMonth-1]?.value
+  const lastMonthProdSold = productsSold&&productsSold[lastMonth-1]?.value
   const thisMonthSales = totalSales[thisMonth-1].value
   const lastMonthSales = totalSales[lastMonth-1].value
   const thisMonthProfit = totalSales[thisMonth-1].value + (totalSales[thisMonth-1].value * 0.15)
   const lastMonthProfit = totalSales[lastMonth-1].value + (totalSales[lastMonth-1].value * 0.15)
+  const tableFilterOpts = [{name: '3',value: 3},{name: '5',value: 5},{name: '10',value: 10},{name: '15',value: 15},{name: '20',value: 20}]
 
   const dashboxarr = [
     {title: 'Products Sold', icon: 'far fa-box-open', total: totalProductsSold, thismonth: thisMonthProdSold, lastmonth: lastMonthProdSold, format: 'number'},
@@ -45,12 +51,15 @@ export default function Dashboard() {
   const headersrows = tableheaders?.map(el => {
     return <h5>{el}</h5>
   })
+  const orderheadersrow = ordersheaders?.map(el => {
+    return <h5>{el}</h5>
+  })
   const highsellers = allProducts
   ?.filter(x => x.sizes.find(x => x.colors.find(x => x.qtySold > 6)))
-  .slice(0,10)
+  .slice(0,highSellersLimit)
   .map(el => {
     return <div className="proditem">
-      <img src={el.imgs[0]} alt=""/>
+      <div className="imgcell"><img src={el.imgs[0]} alt=""/></div>
       <h5>{el.name}</h5>
       <h5 className="labels">
         <div>
@@ -68,10 +77,10 @@ export default function Dashboard() {
   })
   const recentsellers = allProducts
   ?.filter(x => getDaysAgo(filterQtySold(x,0)?.colors.find(x => x.qtySold > 0).dateSold.toDate()) <= 30) 
-  .slice(0,10)
+  .slice(0,recentSellersLimit)
   .map(el => {
     return <div className="proditem">
-      <img src={el.imgs[0]} alt=""/> 
+      <div className="imgcell"><img src={el.imgs[0]} alt=""/></div>
       <h5>{el.name}</h5>
       <h5 className="labels">
         <div>
@@ -86,6 +95,18 @@ export default function Dashboard() {
       <h5>{convertDate(filterQtySold(el,0)?.colors.find(x => x.qtySold > 0).dateSold)}</h5>
       <h5>{currencyFormat.format(el.price * filterQtySold(el,0)?.colors.find(x => x.qtySold > 0).qtySold)}</h5>
     </div>
+  })
+  const recentorders = allOrders
+  ?.filter(x => getDaysAgo(x.orderDateCreated.toDate()) <= 31)
+  .slice(0,5)
+  .map(el => {
+    return <div className="proditem">
+      <h5>#{el.orderid.slice(0,8)}...</h5>
+      <h5>{refProd(allProducts, el.products[0].id).name} + {el.products.length-1}</h5> 
+      <h5>{convertDate(el.orderDateCreated)}</h5>
+      <h5>{el.orderTotal}</h5>
+      <h5>{el.orderStatus}</h5>
+    </div>  
   })
 
   function convertDate(date) {
@@ -134,7 +155,11 @@ export default function Dashboard() {
         </div>
         </DashCont>
       </div>
-      <DashCont className="dashtable producttable" title="Highest Selling Products">
+      <DashCont 
+        className="dashtable producttable" 
+        title="Highest Selling Products" 
+        filter={<AppSelect title="Products" options={tableFilterOpts} onChange={(e) => setHighSellersLimit(e.target.value)} value={highSellersLimit}/>}
+      > 
         <div className="header">
           {headersrows}
         </div>
@@ -144,16 +169,20 @@ export default function Dashboard() {
         <div className="foot">
           <h5><span>{highsellers.length}</span> products</h5>
           <h5>
-            <span>{topproducts.reduce((a,b) => a + filterQtySold(b,0)?.colors.find(x => x.qtySold > 0).qtySold,0)}</span> 
+            <span>{topproducts.slice(0,highSellersLimit).reduce((a,b) => a + filterQtySold(b,0)?.colors.find(x => x.qtySold > 0).qtySold,0)}</span> 
             &nbsp;Quantities Sold
           </h5>
           <h5>
-            <span>{currencyFormat.format(topproducts.reduce((a,b) => a + (filterQtySold(b,0)?.colors.find(x => x.qtySold > 0).qtySold * b.price),0))}</span>
+            <span>{currencyFormat.format(topproducts.slice(0,highSellersLimit).reduce((a,b) => a + (filterQtySold(b,0)?.colors.find(x => x.qtySold > 0).qtySold * b.price),0))}</span>
             &nbsp;Total Earnings
           </h5>
         </div>
       </DashCont>
-      <DashCont className="dashtable producttable" title="Recenty Sold Products">
+      <DashCont 
+        className="dashtable producttable" 
+        title="Recently Sold Products"
+        filter={<AppSelect title="Products" options={tableFilterOpts} onChange={(e) => setRecentSellersLimit(e.target.value)} value={recentSellersLimit}/>}
+      >
         <div className="header">
           {headersrows}
         </div>
@@ -163,14 +192,34 @@ export default function Dashboard() {
         <div className="foot">
           <h5><span>{recentsellers.length}</span> products</h5>
           <h5>
-            <span>{recentproducts.reduce((a,b) => a + filterQtySold(b,0)?.colors.find(x => x.qtySold > 0).qtySold,0)}</span> 
+            <span>{recentproducts.slice(0,recentSellersLimit).reduce((a,b) => a + filterQtySold(b,0)?.colors.find(x => x.qtySold > 0).qtySold,0)}</span> 
             &nbsp;Quantities Sold
           </h5>
           <h5>
-            <span>{currencyFormat.format(recentproducts.reduce((a,b) => a + (filterQtySold(b,0)?.colors.find(x => x.qtySold > 0).qtySold * b.price),0))}</span>
+            <span>{currencyFormat.format(recentproducts.slice(0,recentSellersLimit).reduce((a,b) => a + (filterQtySold(b,0)?.colors.find(x => x.qtySold > 0).qtySold * b.price),0))}</span>
             &nbsp;Total Earnings
           </h5>
         </div>
+      </DashCont>
+      <DashCont 
+        className="dashtable producttable orderstable"
+        title="Recent Orders"
+        filter={<AppSelect title="Products" options={tableFilterOpts} onChange={(e) => setRecentOrdersLimit(e.target.value)} value={recentOrdersLimit}/>}
+        >
+          <div className="header">
+          {orderheadersrow}
+          </div>
+          <div className="content">
+            {recentorders}
+          </div>
+          <div className="foot">
+            <h5><span>{allOrders.length}</span> Orders</h5>
+            <h5><span>{currencyFormat.format(allOrders.reduce((a,b) => a + b.orderTotal,0))}</span> Orders Total</h5>
+            <h5><span>{allOrders.reduce((a,b) => a + b.products.length,0)}</span> Products</h5>
+          </div>
+      </DashCont>
+      <DashCont title="Updates" className="updatesbox">
+
       </DashCont>
     </div>
   )
