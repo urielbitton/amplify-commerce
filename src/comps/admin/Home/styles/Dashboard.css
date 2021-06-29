@@ -57,7 +57,7 @@
 .producttable > .content .imgcell {
   flex-basis: 20%;
 }
-.producttable > .content img {
+.dashboardpage .producttable > .content img {
   width: 60px;
 }
 .dashtable .content .proditem {

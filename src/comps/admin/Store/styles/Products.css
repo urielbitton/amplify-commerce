@@ -10,6 +10,14 @@
 .productspage .producttable .header, .producttable .proditem {
   gap: 4px;
 }
+.productspage .proditem .fa-badge-check {
+  position: absolute;
+  left: 50px;
+  font-size: 18px;
+}
+.productspage .proditem .fa-badge-check.hot {
+  color: var(--admincolor);
+}
 .productspage .producttable .header h5:hover,
 .productspage .producttable .header h5:hover i,
 .productspage .producttable .header h5.active,
@@ -102,4 +110,19 @@
 .productspage .producttable .optscont > div i {
   font-size: 14px;
   color: var(--graytxt);
+}
+.productspage .foot {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  padding: 25px 0 10px 0;
+}
+.productspage .foot h5 {
+  font-weight: 500;
+  color: #555;
+}
+.productspage .foot h5 span {
+  font-weight: 600;
 }

@@ -169,11 +169,11 @@ export default function Dashboard() {
         <div className="foot">
           <h5><span>{highsellers.length}</span> products</h5>
           <h5>
-            <span>{topproducts.slice(0,highSellersLimit).reduce((a,b) => a + filterQtySold(b,0)?.colors.find(x => x.qtySold > 0).qtySold,0)}</span> 
+            <span>{topproducts.slice(0,highSellersLimit).reduce((a,b) => a + filterQtySold(b,0)?.colors.find(x => x.qtySold > 6).qtySold,0)}</span> 
             &nbsp;Quantities Sold
           </h5>
           <h5>
-            <span>{currencyFormat.format(topproducts.slice(0,highSellersLimit).reduce((a,b) => a + (filterQtySold(b,0)?.colors.find(x => x.qtySold > 0).qtySold * b.price),0))}</span>
+            <span>{currencyFormat.format(topproducts.slice(0,highSellersLimit).reduce((a,b) => a + (filterQtySold(b,0)?.colors.find(x => x.qtySold > 6).qtySold * b.price),0))}</span>
             &nbsp;Total Earnings
           </h5>
         </div>
