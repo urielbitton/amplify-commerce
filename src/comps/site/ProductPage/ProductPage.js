@@ -138,7 +138,7 @@ export default function ProductPage(props) {
                 <h6>Rating</h6><span><Ratings rating={rating} /><small>({ratingsarr.length})</small></span>
               </div>
               <div className="accordioncont">
-                <AppAccordion title="Product Description" className="proddescript">
+                <AppAccordion title="Product Composiiton" className="proddescript">
                 <div>
                   <p>Product dimensions: length - 67 cm, width - 20 cm, height - 14 cm.</p>
                   <p>Material: Cotton (20%) and Synthetic Wool (75%) Fiber (5%)</p>

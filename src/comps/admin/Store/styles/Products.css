@@ -126,3 +126,122 @@
 .productspage .foot h5 span {
   font-weight: 600;
 }
+
+.editproductpage .editheader {
+  width: 100%;
+  padding: 30px 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  gap: 20px;
+}
+.editproductpage .editimgcont {
+  width: 200px;
+  height: 200px;
+  box-shadow: 0 3px 7px 5px rgba(0,0,0,0.08);
+  border-radius: 100%;
+  cursor: pointer;
+}
+.editproductpage .editimgcont img {
+  width: 100%;
+  height: 100%;
+  border-radius: 100%;
+}
+.editproductpage .editimgcont:hover .editimgicon {
+  opacity: 1;
+}
+.editproductpage .editheader .editimgicon {
+  position: absolute;
+  bottom: 10px;
+  right: 20px;
+  width: 30px;
+  height: 30px;
+  border-radius: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: var(--admincolor);
+  z-index: 10;
+  cursor: pointer;
+  opacity: 0.5;
+  transition: all 0.2s;
+}
+.editproductpage .editheader .editimgicon i {
+  color: #fff;
+}
+.editproductpage .edittitle input {
+  font-size: 20px;
+  color: var(--graytxt);
+  border:none;
+  border-bottom: 1px solid #eee;
+  text-align: center;
+  transition: all 0.2s;
+}
+.editproductpage .edittitle input:focus {
+  border-bottom: 1px solid var(--admincolor);
+  transition: all 0.2s;
+}
+.editproductpage .tabsbar {
+  width: 100;
+}
+.editproductpage .tabstitles {
+  display: flex;
+  justify-content: flex-start;
+  gap: 30px;
+  align-items: center;
+}
+.editproductpage .tabsbar h5 {
+  color: #aaa;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+  padding: 8px 0;
+}
+.editproductpage .tabsbar h5:hover,
+.editproductpage .tabsbar h5.active {
+  color: var(--admincolor);
+}
+.editproductpage .tabsbar h5 hr {
+  position: absolute;
+  width: 0;
+  height: 2px;
+  background: var(--admincolor);
+  bottom: -1px;
+  opacity: 0;
+  transition: all 0.3s;
+  z-index: 10;
+  margin: auto;
+  left: 0;
+  right: 0;
+}
+.editproductpage .tabsbar h5.active hr {
+  opacity: 1;
+  width: 100%;
+}
+.editproductpage .tabsbar .tabline {
+  width: 100%;
+  height: 1px;
+  background: #eee;
+}
+.editproductpage .editcontent {
+  width: 100%;
+  padding: 20px 0;
+}
+.editproductpage .editsection {
+  display: none;
+  width: 100%;
+  padding-top: 20px;
+}
+.editproductpage .editsection.show {
+  display: block;
+}
+.editproductpage .editsection .editgrid {
+  display: grid;
+  grid-template-columns: 50% 50%;
+}
+.editproductpage .editcontent input,
+.editproductpage .editcontent select,
+.editproductpage .editcontent textarea {
+  max-width: 400px;
+}
