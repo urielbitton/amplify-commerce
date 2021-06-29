@@ -99,7 +99,6 @@ export default function Products() {
   useEffect(() => {
     window.onclick = () => setShowOpts(0)
   },[])
-  console.log(allProdsFilter)
 
   return (
     <div className="productspage">

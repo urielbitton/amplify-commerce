@@ -3,7 +3,7 @@ import './styles/AppAccordion.css'
 
 export default function AppAccordion(props) {
 
-  const {title, children, className, openDefault=false, maxHeight=500} = props
+  const {title, subtitle, children, className, openDefault=false, maxHeight=500} = props
   const [open, setOpen] = useState(openDefault)
 
   useEffect(() => {
@@ -14,7 +14,10 @@ export default function AppAccordion(props) {
     <div className={`appaccordion ${className} ${open?"open":"closed"}`}>
       <div className="header" onClick={() => setOpen(prev => !prev)}>
         <h5>{title}</h5>
-        <i className={`far fa-angle-down ${open?"up":""}`}></i>
+        <div className="right">
+          <small>{subtitle}</small>
+          <i className={`far fa-angle-down ${open?"up":""}`}></i>
+        </div>
       </div>
       <div className="content" style={{maxHeight: open?maxHeight:'0'}}> 
         {children}

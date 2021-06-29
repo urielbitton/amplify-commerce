@@ -127,9 +127,13 @@
   font-weight: 600;
 }
 
+.editproductpage .pagetitle {
+  font-size: 18px;
+  color: #555;
+}
 .editproductpage .editheader {
   width: 100%;
-  padding: 30px 0;
+  padding: 10px 0 30px 0;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -177,10 +181,21 @@
   border-bottom: 1px solid #eee;
   text-align: center;
   transition: all 0.2s;
+  padding: 10px;
 }
 .editproductpage .edittitle input:focus {
   border-bottom: 1px solid var(--admincolor);
   transition: all 0.2s;
+}
+.editproductpage .editheader h6 {
+  font-size: 12px;
+  color: var(--graytxt);
+  font-weight: 500;
+  color: #aaa;
+}
+.editproductpage .editheader h6 span {
+  font-weight: 600;
+  color: #555;
 }
 .editproductpage .tabsbar {
   width: 100;
@@ -238,10 +253,91 @@
 }
 .editproductpage .editsection .editgrid {
   display: grid;
-  grid-template-columns: 50% 50%;
+  grid-template-columns: repeat(2, 1fr);
+  grid-gap: 30px 50px;
+}
+.editproductpage .editcontent .inprow {
+  display: flex;
+  justify-content: flex-start;
+}
+.editproductpage .editcontent .inprow h6 {
+  font-size: 13px;
+  color: #777;
+  opacity: 0.8;
+}
+.editproductpage .editcontent .appinput,
+.editproductpage .editcontent .appselect,
+.editproductpage .editcontent .apptextarea {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+  width: 100%;
+}
+.editproductpage .editcontent .apptextarea {
+  align-items: flex-start;
 }
 .editproductpage .editcontent input,
 .editproductpage .editcontent select,
 .editproductpage .editcontent textarea {
   max-width: 400px;
+  border-radius: 10px;
+  border: 1px solid #eee;
+  background: #f5f5f5;
+}
+.editproductpage .editcontent textarea {
+  min-height: 100px;
+}
+.editproductpage .appinput.numberinp::after {
+  content: '$';
+  position: absolute;
+  right: 350px;
+  width: 50px;
+  height: 50px;
+  background: #e5e5e5;
+  border-radius: 10px 0 0 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 18px;
+}
+.editproductpage .appinput.numberinp input {
+  padding-left: 60px;
+  font-size: 15px;
+}
+.editproductpage .actionscontent {
+  padding: 30px 0;
+  margin-top: 30px;
+  width: 100%;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  border-top: 1px solid #eee;
+  gap: 20px;
+}
+
+.editsection.stylessection > h4 {
+  color: var(--graytxt);
+  padding-bottom: 20px;
+}
+.editsection .stylescontent {
+  padding-bottom: 40px;
+  width: 500px;
+}
+.editsection.stylessection .stylesactions {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 30px;
+}
+.editsection .appaccordion .header {
+  padding: 10px;
+  border-radius: 10px 10px 0 0;
+}
+.editsection .appaccordion .header:hover {
+  background: #f5f5f5;
+}
+.editsection .appaccordion .header .right {
+  color: #aaa;
+  font-weight: 500;
 }

@@ -33,6 +33,11 @@
 .appaccordion .header h5 img {
   width: 40px;
 }
+.appaccordion .header .right {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
 .appaccordion .header i {
   color: #aaa;
   transition: all 0.2s;
