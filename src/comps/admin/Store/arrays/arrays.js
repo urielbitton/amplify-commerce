@@ -9,3 +9,14 @@ export const headers = [
   {name: 'Stock Status', val: 6},
   {name: 'Actions', val: -1}
 ]
+
+export const colorsOpts = [
+  {name: 'Black', value: '#222'},
+  {name: 'Red', value: '#ff174d'},
+  {name: 'Green', value: '#47d400'},
+  {name: 'Blue', value: '#00a2ff'},
+  {name: 'Orange', value: '#ff9100'},
+  {name: 'Yellow', value: '#ffea05'},
+  {name: 'Pink', value: '#edb5ff'},
+  {name: 'Gray', value: '#2bdc6c722'}
+]
