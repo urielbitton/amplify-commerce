@@ -8,7 +8,7 @@ import { useHistory } from 'react-router-dom'
 
 export default function Products() {
   
-  const {allProducts, currencyFormat} = useContext(StoreContext)
+  const {allProducts, currencyFormat, setEditProdMode} = useContext(StoreContext)
   const [sort, setSort] = useState(0)
   const [asc, setAsc] = useState(true)
   const [showOpts, setShowOpts] = useState(0)
@@ -84,6 +84,7 @@ export default function Products() {
   })
 
   function editProduct(prodid) {
+    setEditProdMode(true)
     history.push(`/admin/store/edit-product/${prodid}`)
   }
   function deleteProduct() {

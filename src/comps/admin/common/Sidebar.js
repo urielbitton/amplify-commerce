@@ -1,10 +1,12 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import './styles/Sidebar.css'
 import {menuLinks} from './arrays/links'
 import { Link, NavLink, useHistory, useLocation } from 'react-router-dom'
+import { StoreContext } from '../../common/StoreContext'
 
 export default function Sidebar() {
 
+  const {setEditProdMode} = useContext(StoreContext)
   const [openTab, setOpenTab] = useState(0)
   const [openNew, setOpenNew] = useState(false)
   const location = useLocation()
@@ -66,6 +68,7 @@ export default function Sidebar() {
         </div>
         <h4>Atomics.</h4>
       </div>
+      <div className="sidebarcontent hidescroll">
       <div className="menu">
         {menulinksrow}
       </div>
@@ -82,13 +85,14 @@ export default function Sidebar() {
           <i className="fal fa-angle-up"></i>
         </div>
         <div className="slidecont">
-          <Link to="/admin/add-product"><i className="fal fa-plus"></i>Create Product</Link>
-          <Link to="/admin/add-order"><i className="fal fa-plus"></i>Create Order</Link>
-          <Link to="/admin/add-customer"><i className="fal fa-plus"></i>Create Customer</Link>
+          <Link to="/admin/store/add-product" onClick={() => setEditProdMode(false)}><i className="fal fa-plus"></i>Create Product</Link>
+          <Link to="/admin/orders/add-order"><i className="fal fa-plus"></i>Create Order</Link>
+          <Link to="/admin/customers/add-customer"><i className="fal fa-plus"></i>Create Customer</Link>
         </div>
       </div>
       <div className="sidefooter">
         <small>© 2021 Amplify Commerce by Atomics Digital. Version : 2.3.0</small> 
+      </div>
       </div>
     </div> 
   )

@@ -14,6 +14,7 @@
   justify-content: center;
   align-items: center;
   gap: 8px;
+  padding-bottom: 10px;
 }
 .adminsidebar .logocont h4 {
   color: var(--graytxt);
@@ -41,11 +42,14 @@
 .adminsidebar .logodiv hr:last-child {
   transform: rotate(-25deg)
 }
+.adminsidebar .sidebarcontent {
+  overflow-y: scroll;
+  margin-top: 20px;
+}
 .adminsidebar .menu {
   width: 100%;
   display: flex;
   flex-direction: column;
-  margin-top: 70px;
   padding: 0 20px;
   gap: 2px;
   user-select: none;
@@ -184,6 +188,7 @@
   width: 100%;
   padding: 15px;
   text-align: center;
+  margin-top: 20px;
 }
 .adminsidebar .sidefooter small {
   color: #aaa;

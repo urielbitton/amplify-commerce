@@ -9,12 +9,12 @@ import { StoreContext } from '../../common/StoreContext'
 
 export default function AdminHomecont() {
  
-  const {allProducts} = useContext(StoreContext)
+  const {allProducts, editProdMode} = useContext(StoreContext)
   
   const editprodpages = allProducts?.map(el => {
     return <Route path={`/admin/store/edit-product/${el.id}`}>
       <EditProduct el={el} />
-    </Route>
+    </Route> 
   })
 
   return (
@@ -29,6 +29,9 @@ export default function AdminHomecont() {
             <Products />
           </Route>
           {editprodpages}
+          <Route path="/admin/store/add-product">
+            <EditProduct /> 
+          </Route>
         </Switch> 
       </div>
     </div> 

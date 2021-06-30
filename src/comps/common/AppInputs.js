@@ -36,6 +36,19 @@ export function AppSelect(props) {
     </label>
   )
 } 
+
+export function AppTextarea(props) {
+ 
+  const {title, iconclass, className} = props
+   
+  return ( 
+    <label className={`apptextarea ${className}`}> 
+      <h6>{title}</h6>
+      <i className={iconclass}></i> 
+      <textarea style={{paddingRight: iconclass?"40px":"10px"}} {...props} />
+    </label>
+  )   
+} 
  
 export function AppSwitch(props) { 
 

@@ -45,6 +45,7 @@ const StoreContextProvider = (props) => {
   const [highSellersLimit, setHighSellersLimit] = useState(5)
   const [recentSellersLimit, setRecentSellersLimit] = useState(5)
   const [recentOrdersLimit, setRecentOrdersLimit] = useState(5)
+  const [editProdMode, setEditProdMode] = useState(false)
 
   const [quickProduct, setQuickProduct] = useState({
     id: '', 
@@ -165,7 +166,7 @@ const StoreContextProvider = (props) => {
       selectedCountry, setSelectedCountry, expiryMonths, expiryYears, numberFormat, allOrders, setAllOrders,
       showSearch, setShowSearch, cart, setCart, darkMode, setDarkMode, allStats, 
       highSellersLimit, setHighSellersLimit, recentSellersLimit, setRecentSellersLimit, 
-      recentOrdersLimit, setRecentOrdersLimit
+      recentOrdersLimit, setRecentOrdersLimit, editProdMode, setEditProdMode
     }}>
       {props.children}  
     </StoreContext.Provider>

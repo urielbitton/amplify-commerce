@@ -11,6 +11,7 @@ export const headers = [
 ]
 
 export const colorsOpts = [
+  {name:'Choose a Color', value: ''},
   {name: 'Black', value: '#222'},
   {name: 'Red', value: '#ff174d'},
   {name: 'Green', value: '#47d400'},
@@ -19,4 +20,13 @@ export const colorsOpts = [
   {name: 'Yellow', value: '#ffea05'},
   {name: 'Pink', value: '#edb5ff'},
   {name: 'Gray', value: '#2bdc6c722'}
+]
+
+export const sizeOpts = [
+  {name:'Choose a Size', value: ''},
+  {name: 'Extra Small', value: 'xs'},
+  {name: 'Small', value: 's'},
+  {name: 'Medium', value: 'm'},
+  {name: 'Large', value: 'l'},
+  {name: 'Extra Large', value: 'xl'},
 ]
