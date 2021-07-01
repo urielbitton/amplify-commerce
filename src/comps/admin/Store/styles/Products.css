@@ -396,7 +396,7 @@
   transform: scale(0.92) rotate(180deg);
 }
 .editsection .coloradder.save {
-  width: 70px;
+  width: auto;
   height: 30px;
   border-radius: 5px;
   transform: inherit;

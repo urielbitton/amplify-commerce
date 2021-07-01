@@ -75,9 +75,9 @@ export default function Products() {
           <i className="far fa-ellipsis-h actionsicon"></i>
         </div>
         <div className={`optscont ${el.id===showOpts?"show":""}`}> 
-          <div title="edit product" onClick={() => editProduct(el.id)}><i className="far fa-edit"></i></div>
-          <div title="deelte product" onClick={() => deleteProduct()}><i className="far fa-trash-alt"></i></div>
-          <div title="product info" onClick={() => infoProduct()}><i className="far fa-info"></i></div>
+          <div title="Edit Product" onClick={() => editProduct(el.id)}><i className="far fa-edit"></i></div>
+          <div title="Delete Product" onClick={() => deleteProduct()}><i className="far fa-trash-alt"></i></div>
+          <div title="Product Info" onClick={() => infoProduct()}><i className="far fa-info"></i></div>
         </div>
       </h5>
     </div>

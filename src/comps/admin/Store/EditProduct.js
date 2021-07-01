@@ -6,21 +6,22 @@ import AppAccordion from '../../site/common/AppAccordion'
 import {sizeConverter, colorConverter} from '../../common/UtilityFuncs'
 import {colorsOpts, sizeOpts} from './arrays/arrays'
 import {db} from '../../common/Fire'
+import firebase from 'firebase'
 import {StoreContext} from '../../common/StoreContext'
-import { useLocation } from 'react-router-dom'
+import { useHistory, useLocation } from 'react-router-dom'
 
 export default function EditProduct(props) {
 
   const {allProducts, editProdMode, setEditProdMode} = useContext(StoreContext)
   const {id, name, imgs, price, brand, belongs, categories, collection, descript, sku, sizes,
-    composition, shippingReturns} = editProdMode&&props.el
+    composition, shippingReturns, rating, ratingsarr, reviews} = editProdMode&&props.el
   const [tabPos, setTabPos] = useState(0)
   const [addingStyle, setAddingStyle] = useState(false)
   const [addingColor, setAddingColor] = useState(false)
   const [prodName, setProdName] = useState(editProdMode?name:"")
-  const [prodImg, setProdImg] = useState(editProdMode?imgs[0]:"https://i.imgur.com/IxUNUm5.png")
+  const [prodImg, setProdImg] = useState(editProdMode?imgs[0]:["https://i.imgur.com/IxUNUm5.png"])
   const [prodPrice, setProdPrice] = useState(editProdMode?price:"")
-  const [prodBelongs, setProdBelongs] = useState(editProdMode?belongs:"")
+  const [prodBelongs, setProdBelongs] = useState(editProdMode?belongs:"Men")
   const [prodBrand, setProdBrand] = useState(editProdMode?brand:"")
   const [prodCategs, setProdCategs] = useState(editProdMode?categories:"")
   const [prodCollection, setProdCollection] = useState(editProdMode?collection:"")
@@ -31,13 +32,34 @@ export default function EditProduct(props) {
   const [newSize, setNewSize] = useState('')
   const [newColorName, setNewColorName] = useState('#222')
   const [newColorStock, setNewColorStock] = useState(0)
-  const [prodStylesArr, setProdStylesArr] = useState([])
-  const [sizeChoose, setSizeChoose] = useState(false)
+  const [prodSizes, setProdSizes] = useState([])
+  const [sizeChoose, setSizeChoose] = useState(false) 
   const location = useLocation()
-  const allowAdd = prodName && prodImg && prodPrice && prodBelongs && prodBrand && prodCategs.length &&
-    prodCollection.length && prodDescription && prodSku && prodComposition && prodShipReturns
+  const history = useHistory()
+  const allowAddSave = prodName && prodImg && prodPrice && prodBelongs && prodBrand && prodCategs &&
+    prodCollection && prodDescription && prodSku && prodComposition && prodShipReturns
+  const [newColorsArr, setNewColorsArr] = useState([])
 
   const tabshead = ['General', 'Styles', 'Additional Info', 'Product Reviews']
+
+  const productObj = {
+    id: editProdMode?id:db.collection('products').doc().id,
+    name: prodName,
+    imgs: prodImg,
+    price: +prodPrice,
+    brand: prodBrand,
+    belongs: prodBelongs,
+    categories: editProdMode?prodCategs:prodCategs.split(','),
+    collection: editProdMode?prodCollection:prodCollection.split(','),
+    descript: prodDescription,
+    sku: prodSku,
+    sizes: prodSizes,
+    composition: prodComposition,
+    shippingReturns: prodShipReturns,
+    rating: editProdMode?rating:0, 
+    ratingsarr: editProdMode?ratingsarr:[],
+    reviews: editProdMode?reviews:[]
+  }
 
   const tabsheadrow = tabshead?.map((el,i) => {
     return <h5
@@ -45,7 +67,7 @@ export default function EditProduct(props) {
       onClick={() => setTabPos(i)}
     >{el}<hr/></h5>
   })
-  const prodstylesrow = (editProdMode?sizes:prodStylesArr)?.map(el => {
+  const prodstylesrow = (editProdMode?sizes:prodSizes)?.map(el => {
     return <AppAccordion title={sizeConverter(el.name)} subtitle={`${el.colors?.length} colors`}>
         {
           el.colors?.map(el => {
@@ -90,6 +112,26 @@ export default function EditProduct(props) {
     </AppAccordion>
   })
 
+  const addedcolorsrow = newColorsArr?.map(el => {
+    return <div className="colorsrow">
+    <div className="inprow">
+      <AppInput 
+        title="Color" 
+        value={colorConverter(el.name)}
+        disabled
+      />
+    </div>
+    <div className="inprow">
+      <AppInput 
+        title="Stock" 
+        value={el.stock}
+        type="number"
+        disabled
+      />
+    </div>
+  </div>
+  })
+
   function addColor(sizeindex) {
     if(newColorName && newColorStock) {
       const colorObj = {
@@ -97,7 +139,7 @@ export default function EditProduct(props) {
         stock: +newColorStock,
         qtySold: 0
       }
-      sizes[sizeindex].colors.push(colorObj)
+      sizes[sizeindex].colors.push(colorObj) 
       db.collection('products').doc('allproducts').update({
         allproducts: allProducts
       }).then(res => {
@@ -108,16 +150,55 @@ export default function EditProduct(props) {
       .catch(err => window.alert('An error occured. Please try again.'))
     }
   }
+  function newAddColor() {
+    setNewColorsArr(prev => [...prev, {name:newColorName,stock:newColorStock, qtySold:0}])
+    setNewColorName('')
+    setNewColorStock(0)
+  }
+  function createStyle() {
+    setProdSizes(prev => [...prev,{name:newSize,colors:newColorsArr}])
+    setAddingColor(false)
+    setNewColorName('')
+    setNewColorStock(0)
+  }
   function cancelAddColor() {
     setAddingColor(false)
     setNewColorName('')
     setNewColorStock(0)
   }
   function addProduct() {
-
+    if(!!allowAddSave) {
+      db.collection('products').doc('allproducts').update({
+        allproducts: firebase.firestore.FieldValue.arrayUnion(productObj)
+      }).then(res => {
+        window.alert('The product was successfully added to your store.')
+        history.push('/admin/store/products')
+      }).catch(err => window.alert('An error occured while adding product. Please try again.'))
+    }
+    else {
+      window.alert('Please fill in all required fields.')
+    }
   }
   function cancelAdd() {
 
+  }
+  function deleteProduct() {
+
+  }
+  function saveProduct() {
+    if(!!allowAddSave) {
+      const productindex = allProducts.findIndex(x => x.id === id)
+      allProducts[productindex] = productObj
+      db.collection('products').doc('allproducts').update({
+        allproducts: allProducts
+      }).then(res => {
+        window.alert('The product was successfully saved.')
+        history.push('/admin/store/products')
+      }).catch(err => window.alert('An error occured while saving product. Please try again.'))
+    }
+    else {
+      window.alert('Please fill in all required fields.')
+    }
   }
 
   useEffect(() => {
@@ -129,12 +210,12 @@ export default function EditProduct(props) {
   useEffect(() => {
     if(!editProdMode) {
       setProdName('')
-      setProdImg('https://i.imgur.com/IxUNUm5.png')
+      setProdImg(['https://i.imgur.com/IxUNUm5.png'])
       setProdPrice('')
       setProdBelongs('')
       setProdBrand('')
-      setProdCategs([])
-      setProdCollection([])
+      setProdCategs('')
+      setProdCollection('')
       setProdDescription('')
       setProdSku('')
       setProdComposition('')
@@ -205,14 +286,14 @@ export default function EditProduct(props) {
               <div className="inprow">
                 <AppInput 
                   title="Categories"
-                  onChange={(e) => setProdCategs(e.target.value)}
+                  onChange={(e) => setProdCategs(e.target.value.replaceAll(' ',''))}
                   value={prodCategs}
                 />
               </div>
               <div className="inprow">
                 <AppInput 
                   title="Collection"
-                  onChange={(e) => setProdCollection(e.target.value)}
+                  onChange={(e) => setProdCollection(e.target.value.replaceAll(' ',''))}
                   value={prodCollection}
                 />
               </div>
@@ -248,19 +329,21 @@ export default function EditProduct(props) {
                     namebased
                   />
                 </div>
+                {addedcolorsrow}
                 {
                   addingColor&&
                   <div className="colorsrow">
                     <div className="inprow">
                       <AppSelect 
-                        title="Product Color" 
+                        title="Color" 
                         options={colorsOpts} 
                         onChange={(e) => setNewColorName(e.target.value)}
+                        namebased
                       />
                     </div>
                     <div className="inprow">
                       <AppInput 
-                        title="Product Stock" 
+                        title="Stock" 
                         onChange={(e) => setNewColorStock(e.target.value)}
                         type="number"
                       />
@@ -271,11 +354,11 @@ export default function EditProduct(props) {
                   sizeChoose&&
                   <div className="addcoloractions">
                     <AdminBtn
-                      title={addingColor?"Add":<i className="fal fa-plus"></i>} 
+                      title={addingColor?"Add Color":<i className="fal fa-plus"></i>} 
                       className={`coloradder ${addingColor?"save":"round"} ${addingColor && !newColorName && !newColorStock?"disabled":""}`}
-                      onClick={() => {setAddingColor(prev => !prev);addingColor&&addColor(sizes.indexOf(sizeOpts.indexOf(newSize)))}}
+                      onClick={() => addingColor&&newAddColor()}
                       nourl
-                      solid
+                      solid 
                     />
                     {
                       addingColor&&
@@ -288,8 +371,18 @@ export default function EditProduct(props) {
                   </div>
                 }
                 <div className="newstylesaction">
-                  <AdminBtn title="Add" solid className={!newSize?"disabled":""} />
-                  <AdminBtn title="Cancel" nourl onClick={() => setAddingStyle(false)}/>
+                  <AdminBtn 
+                    title="Create" 
+                    solid 
+                    nourl
+                    className={!newSize?"disabled":""} 
+                    onClick={() => createStyle()}
+                  />
+                  <AdminBtn 
+                    title="Cancel" 
+                    nourl 
+                    onClick={() => setAddingStyle(false)}
+                  />
                 </div>
               </div>
               }
@@ -312,8 +405,8 @@ export default function EditProduct(props) {
               <div className="inprow">
                 <AppTextarea 
                   title="Shipping & Returns Policies"
-                  onChange={(e) => setProdComposition(e.target.value)}
-                  value={prodComposition}
+                  onChange={(e) => setProdShipReturns(e.target.value)}
+                  value={prodShipReturns}
                 />
               </div>
               <div className="inprow">
@@ -333,13 +426,13 @@ export default function EditProduct(props) {
             nourl 
             className="savebtn" 
             solid
-            onClick={() => addProduct()}
+            onClick={() => editProdMode?saveProduct():addProduct()}
           />
           <AdminBtn 
             title={editProdMode?"Delete Product":"Cancel"} 
             nourl 
             className="deletebtn" 
-            onClick={() => cancelAdd()}
+            onClick={() => editProdMode?deleteProduct():cancelAdd()}
           />
         </div>
       </div>

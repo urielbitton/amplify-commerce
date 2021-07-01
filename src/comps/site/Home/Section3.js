@@ -19,7 +19,7 @@ export default function Section3() {
   ]
 
   const newarrivals = allProducts
-  ?.filter(x => x.collection?.includes('newarrivals') && x.belongs)
+  ?.filter(x => x.collection?.includes('newarrivals'))
   .slice(0,8)
   .map(el => {
     return <ProductBox 
