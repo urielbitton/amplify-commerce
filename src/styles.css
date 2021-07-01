@@ -147,6 +147,10 @@ hr {
 .adminbtn.solid span, .adminbtn.solid i {
   color: #fff;
 }
+.adminbtn.disabled {
+  pointer-events: none;
+  opacity: 0.5;
+}
 
 @media (max-width: 1400px) {
   .grid {
