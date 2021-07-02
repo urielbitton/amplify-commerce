@@ -17,7 +17,7 @@ export default function ProductPage(props) {
 
   const {allProducts, currencyFormat, setShowQuickShop, setShowCart} = useContext(StoreContext)
   const {id, name, price, rating, ratingsarr, imgs, belongs, sizes, collection, descript, 
-    reviews, categories, brand } = props.el
+    reviews, categories, brand, shippingReturns, composition} = props.el
   const [activeImg, setActiveImg] = useState(imgs[0])
   const [chosenSize, setChosenSize] = useState(sizes[0]?.name)
   const [chosenColor, setChosenColor] = useState(sizes[0]?.colors[0]?.name)
@@ -138,20 +138,14 @@ export default function ProductPage(props) {
                 <h6>Rating</h6><span><Ratings rating={rating} /><small>({ratingsarr.length})</small></span>
               </div>
               <div className="accordioncont">
-                <AppAccordion title="Product Composiiton" className="proddescript">
-                <div>
-                  <p>Product dimensions: length - 67 cm, width - 20 cm, height - 14 cm.</p>
-                  <p>Material: Cotton (20%) and Synthetic Wool (75%) Fiber (5%)</p>
-                  <p>Instruction: Washable in machine, use hot water. 30 minute machine dry. Material stretched</p>
-                  <p>*Made from high quality material in the U.S.</p>
-                </div>
-                </AppAccordion>
-                <AppAccordion title="Shipping & Returns" className="prodshipping">
+                <AppAccordion title="Product Composiiton" className="proddescript productaccordions">
                   <div>
-                    <p>Express and regular shipping is available for this product. </p>
-                    <p>Free shipping is offered on all orders of $50 or more</p>
-                    <p>This product is fully refundable within 30 days of purchase</p>
-                    <p>We will handle all return and shipping fees.</p>
+                    <p>{composition}</p>
+                  </div>
+                </AppAccordion>
+                <AppAccordion title="Shipping & Returns" className="prodshipping productaccordions">
+                  <div>
+                    <p>{shippingReturns}</p>
                   </div>
                 </AppAccordion>
               </div>

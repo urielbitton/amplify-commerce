@@ -134,6 +134,7 @@
   width: 95%;
   color: #444;
   margin-bottom: 10px;
+  white-space: pre-wrap;
 }
 .productpage .infocont > hr {
   width: 100%;
@@ -250,38 +251,8 @@
   flex-wrap: wrap;
   gap: 20px;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+.productaccordions > div p {
+  white-space: pre-wrap;
+}
 
 

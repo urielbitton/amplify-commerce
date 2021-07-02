@@ -16,10 +16,9 @@ export default function AccountProfile()  {
   const [lname, setLname] = useState(myUser?.fullname?.split(' ')[1])
   const [email, setEmail] = useState(myUser?.email)
   const [password, setPassword] = useState()
-  const [profilePic, setProfilePic] = useState('')
   const [url, setUrl] = useState('')
   const [loading, setLoading] = useState(false)
-  var storageRef = firebase.storage().ref(`${user.uid}/images`).child('profilepic')
+  const storageRef = firebase.storage().ref(`${user.uid}/images`).child('profilepic')
   const loadingRef = useRef()
 
   function updateInfo() {
