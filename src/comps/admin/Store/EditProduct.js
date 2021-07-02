@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react'
-import './styles/Products.css'
+import './styles/EditProduct.css'
 import {AppInput, AppSelect, AppTextarea} from '../../common/AppInputs'
 import AdminBtn from '../common/AdminBtn'
 import {db} from '../../common/Fire'
@@ -7,7 +7,6 @@ import firebase from 'firebase'
 import {StoreContext} from '../../common/StoreContext'
 import { useHistory, useLocation } from 'react-router-dom'
 import AddStyles from './AddStyles'
-import EditStyles from './EditStyles'
 
 export default function EditProduct(props) {
 
@@ -27,6 +26,9 @@ export default function EditProduct(props) {
   const [prodComposition, setProdComposition] = useState(editProdMode?composition:"")
   const [prodShipReturns, setProdShipReturns] = useState(editProdMode?shippingReturns:"")
   const [prodSizes, setProdSizes] = useState([])
+  const [imgUrl, setImgUrl] = useState('')
+  const generateid = db.collection('products').doc().id
+  const storageRef = firebase.storage().ref('admin/products').child(`product-${generateid}`) 
   const location = useLocation()
   const history = useHistory()
   const allowAddSave = prodName && prodImg && prodPrice && prodBelongs && prodBrand && prodCategs &&
@@ -35,7 +37,7 @@ export default function EditProduct(props) {
   const tabshead = ['General', 'Styles', 'Additional Info', 'Product Reviews']
 
   const productObj = {
-    id: editProdMode?id:db.collection('products').doc().id,
+    id: editProdMode?id:generateid,
     name: prodName,
     imgs: prodImg,
     price: +prodPrice,
@@ -94,6 +96,31 @@ export default function EditProduct(props) {
       window.alert('Please fill in all required fields.')
     }
   }
+  function uploadImg(e) {
+    const file = e.target.files[0]
+    if(file) {
+      const task = storageRef.put(file)
+      task.on("stat_changes", 
+        function progress(snap) {
+          //setLoading(true)
+          //const percent = (snap.bytesTransferred / snap.totalBytes) * 100
+          //loadingRef.current.style.width = percent + '%'
+        },
+        function error() {
+          window.alert('An error has occured. Please try again later.')
+        },
+        function complete() {
+          //setLoading(false)
+          storageRef.getDownloadURL().then(url => {
+            setImgUrl(url)
+            db.collection('products').doc('allproducts').update({
+              allproducts: allProducts
+            })
+          })
+        }
+      )
+    }
+  }
 
   useEffect(() => {
     if(location.pathname.includes('/edit-product')) {
@@ -117,16 +144,29 @@ export default function EditProduct(props) {
     }
   },[editProdMode])
 
+  useEffect(() => {
+    if(imgUrl.length) {
+      setProdImg([imgUrl])
+    }
+  },[imgUrl])
+
   return (
     <div className="editproductpage">
       <div className="pagecont">
         <h3 className="pagetitle">{editProdMode?"Edit Product":"Add Product"}</h3>
         <div className="editheader">
           <div className="editimgcont">
-            <img src={prodImg} alt={name}/>
-            <div className="editimgicon">
-              <i className="fal fa-camera"></i>
-            </div>
+              <label>
+                <input 
+                  style={{display:'none'}} 
+                  type="file" 
+                  onChange={(e) => uploadImg(e)}
+                />
+                <img src={imgUrl.length?imgUrl:prodImg} alt={name}/>
+                <div className="editimgicon">
+                  <i className="fal fa-camera"></i>
+                </div>
+              </label>
           </div>
           <AppInput 
             className="edittitle" 
@@ -203,9 +243,7 @@ export default function EditProduct(props) {
           {/*Styles Section*/}
           <div className={`editsection stylessection ${tabPos===1?"show":""}`}>
             <h4>Manage product styles</h4>
-            {
-              editProdMode?<EditStyles />:<AddStyles />
-            }
+            <AddStyles setProdSizes={setProdSizes} prodSizes={prodSizes} sizes={sizes} />
           </div>
           {/*Additional Info Section*/}
           <div className={`editsection additionalsection ${tabPos===2?"show":""}`}>

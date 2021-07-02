@@ -1,20 +1,21 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import AdminBtn from '../common/AdminBtn'
 import {colorsOpts, sizeOpts} from './arrays/arrays'
 import {colorConverter, sizeConverter} from '../../common/UtilityFuncs'
 import {AppInput, AppSelect} from '../../common/AppInputs'
 import AppAccordion from '../../site/common/AppAccordion'
 import './styles/AddStyles.css'
+import { db } from '../../common/Fire'
 
 export default function AddStyles(props) {
 
-  const {} = props
+  const {prodSizes, setProdSizes, sizes} = props
   const [newSize, setNewSize] = useState('')
   const [newColorName, setNewColorName] = useState('')
   const [newColorStock, setNewColorStock] = useState(0) 
   const [showNewSize, setShowNewSize] = useState(false)
   const [showColorRow, setShowColorRow] = useState(false)
-  const [sizesArr, setSizesArr] = useState([])
+  //const [sizesArr, setSizesArr] = useState([])
   const [colorsArr, setColorsArr] = useState([])
 
   const colorsrows = colorsArr?.map(el => {
@@ -27,7 +28,12 @@ export default function AddStyles(props) {
       </div>
     </div>
   })
-  const sizesrows = sizesArr?.map(el => {
+  const sizesrows = prodSizes?.map(el => {
+    return <AppAccordion title={sizeConverter(el.name)}>
+      
+    </AppAccordion>
+  })
+  const prevsizesrows = sizes?.map(el => {
     return <AppAccordion title={sizeConverter(el.name)}>
       
     </AppAccordion>
@@ -40,9 +46,9 @@ export default function AddStyles(props) {
       setNewColorStock(0)
     }
   }
-  function addStyle() {
+  function addStyle() { 
     if(colorsArr.length) {
-      setSizesArr(prev => [...prev, {colors:colorsArr, name:newSize}])
+      setProdSizes(prev => [...prev, {colors:colorsArr, name:newSize}])
       setColorsArr([])
       setNewSize('')
       setShowColorRow(false)
@@ -66,6 +72,7 @@ export default function AddStyles(props) {
     <>
       <div className="stylescontent">
         {sizesrows}
+        {sizes.length&&prevsizesrows}
         <div className={`newstylecont ${showNewSize?"show":""}`}>
         <div className="inprow">
           <AppSelect 
@@ -109,7 +116,7 @@ export default function AddStyles(props) {
       </div>
       <div className="stylesactions">
         <AdminBtn 
-          title={showNewSize?"Cancel":"Add Style"} 
+          title={showNewSize?"Cancel":"New Style"} 
           nourl 
           onClick={() => {setShowNewSize(prev => !prev);setNewSize(prev => !prev)}}
         />
