@@ -5,6 +5,7 @@ import {AppInput} from '../../common/AppInputs'
 import {StoreContext} from '../../common/StoreContext'
 import {headers} from './arrays/arrays'
 import { useHistory } from 'react-router-dom'
+import AdminBtn from '../common/AdminBtn'
 
 export default function Products() {
   
@@ -106,11 +107,14 @@ export default function Products() {
       <div className="pagecont">
         <div className="titlesrow">
           <h4>Products</h4>
-          <AppInput 
-            placeholder="Find a Product" 
-            iconclass="fal fa-search" 
-            onChange={(e) => setKeyword(e.target.value)}
-          />
+          <div className="flex">
+            <AdminBtn title="New Product" url="/admin/store/add-product" onClick={() => setEditProdMode(false)}/>
+            <AppInput 
+              placeholder="Find a Product" 
+              iconclass="fal fa-search" 
+              onChange={(e) => setKeyword(e.target.value)}
+            />
+          </div>
         </div>
         <div className="productstablecont">
           <div className="producttable">

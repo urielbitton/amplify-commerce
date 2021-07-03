@@ -43,8 +43,8 @@ export default function EditProduct(props) {
     price: +prodPrice,
     brand: prodBrand,
     belongs: prodBelongs,
-    categories: editProdMode?prodCategs:prodCategs.split(','),
-    collection: editProdMode?prodCollection:prodCollection.split(','),
+    categories: prodCategs,
+    collection: prodCollection,
     descript: prodDescription,
     sku: prodSku,
     sizes: prodSizes,
@@ -64,6 +64,8 @@ export default function EditProduct(props) {
 
   function addProduct() {
     if(!!allowAddSave) {
+      productObj.categories = prodCategs.split(',')
+      productObj.collection = prodCollection.split(',')
       db.collection('products').doc('allproducts').update({
         allproducts: firebase.firestore.FieldValue.arrayUnion(productObj)
       }).then(res => {
@@ -123,9 +125,8 @@ export default function EditProduct(props) {
   }
 
   useEffect(() => {
-    if(location.pathname.includes('/edit-product')) {
+    if(location.pathname.includes('/edit-product'))
       setEditProdMode(true)
-    }
   },[])
 
   useEffect(() => {

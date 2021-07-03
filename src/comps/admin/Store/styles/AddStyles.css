@@ -124,6 +124,9 @@
 .editsection .newstylecont.show {
   display: flex;
 }
+.editsection .newstylecont.hide {
+  display: none;
+}
 .editsection .newstylecont .newstylesaction {
   display: flex;
   align-items: center;
@@ -142,4 +145,33 @@
 }
 .editsection .newstylecont .colorsrow {
   margin-top: 20px;
+}
+.editsection .appaccordion .header i.deleteicon {
+  opacity: 0;
+  cursor: pointer;
+}
+.editsection .appaccordion .header:hover i.deleteicon {
+  opacity: 1;
+}
+.editsection .appaccordion .header i.deleteicon:hover {
+  color: var(--admincolor)
+}
+.editsection .inprow {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+.editsection .inprow.nested select,
+.editsection .inprow.nested input
+{
+  padding: 10px 5px;
+  background: none;
+  border: none;
+  border-radius: 0;
+  border-bottom: 1px solid #ddd;
+}
+.editsection .appaccordion.sizesrow .content {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
 }

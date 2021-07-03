@@ -21,6 +21,20 @@
   align-items: center;
   margin-bottom: 30px;
 }
+.pagecont .titlesrow .flex {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+.pagecont .titlesrow .flex .adminbtn {
+  background: #f5f5f5;
+}
+.pagecont .titlesrow .flex .adminbtn:hover {
+  background: #eee;
+}
+.pagecont .titlesrow .flex .adminbtn:hover span {
+  color: var(--graytxt);
+}
 .pagecont .titlesrow > h4 {
   color: var(--graytxt)
 }

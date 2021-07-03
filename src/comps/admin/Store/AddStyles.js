@@ -15,8 +15,8 @@ export default function AddStyles(props) {
   const [newColorStock, setNewColorStock] = useState(0) 
   const [showNewSize, setShowNewSize] = useState(false)
   const [showColorRow, setShowColorRow] = useState(false)
-  //const [sizesArr, setSizesArr] = useState([])
   const [colorsArr, setColorsArr] = useState([])
+  const [savedSizes, setSavedSizes] = useState([])
 
   const colorsrows = colorsArr?.map(el => {
     return <div className={`colorsrow ${showColorRow?"show":""}`}>
@@ -28,14 +28,21 @@ export default function AddStyles(props) {
       </div>
     </div>
   })
-  const sizesrows = prodSizes?.map(el => {
-    return <AppAccordion title={sizeConverter(el.name)}>
-      
-    </AppAccordion>
-  })
-  const prevsizesrows = sizes?.map(el => {
-    return <AppAccordion title={sizeConverter(el.name)}>
-      
+
+  const allsizesrows = prodSizes?.map(el => {
+    return <AppAccordion 
+      title={sizeConverter(el.name)} 
+      subtitle={<i className="fal fa-trash-alt deleteicon" onClick={(e) => deleteStyle(el,e)}></i>}
+      className="sizesrow"
+    >
+      {
+        el.colors.map(x => {
+          return <div className="inprow nested">
+            <AppSelect title="Color" options={colorsOpts} value={x.name}/>
+            <AppInput title="Stock" value={x.stock}/>
+          </div>
+        })
+      }
     </AppAccordion>
   })
 
@@ -49,10 +56,23 @@ export default function AddStyles(props) {
   function addStyle() { 
     if(colorsArr.length) {
       setProdSizes(prev => [...prev, {colors:colorsArr, name:newSize}])
+      setSavedSizes(prev => [...prev, newSize])
       setColorsArr([])
       setNewSize('')
       setShowColorRow(false)
     }
+  }
+  function deleteStyle(el, e) {
+    e.stopPropagation()
+    let itemindex = prodSizes.findIndex(x => x.name===el.name)
+    const savedindex = savedSizes.findIndex(x => x===el.name)
+    const confirm = window.confirm('Are you sure you want to delete this style?')
+    if(confirm) {
+      savedSizes.splice(savedindex,1)
+      prodSizes.splice(itemindex,1)
+      setProdSizes(prev => [...prev])
+      setSavedSizes(prev => [...prev]) 
+    } 
   }
 
   useEffect(() => {
@@ -68,16 +88,27 @@ export default function AddStyles(props) {
     }
   },[newSize])
 
+  useEffect(() => {
+    if(sizes) {
+      sizes.forEach(el => {
+        setSavedSizes(prev => [...prev, el.name])
+      })
+    }
+  },[sizes])
+
+  useEffect(() => {
+    sizes&&setProdSizes(sizes.flat(2))
+  },[])
+
   return (
     <>
       <div className="stylescontent">
-        {sizesrows}
-        {sizes.length&&prevsizesrows}
-        <div className={`newstylecont ${showNewSize?"show":""}`}>
+        {allsizesrows}
+        <div className={`newstylecont ${showNewSize?"show":"hide"}`}>
         <div className="inprow">
           <AppSelect 
             title="Product Size" 
-            options={sizeOpts} 
+            options={sizeOpts.filter(x => !savedSizes.includes(x.value))} 
             onChange={(e) => setNewSize(e.target.value)}
             value={newSize}
             namebased
