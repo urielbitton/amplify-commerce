@@ -17,6 +17,8 @@ export default function AddStyles(props) {
   const [showColorRow, setShowColorRow] = useState(false)
   const [colorsArr, setColorsArr] = useState([])
   const [savedSizes, setSavedSizes] = useState([])
+  const [savedColors, setSavedColors] = useState([])
+  const [showExtraAdd, setShowExtraAdd] = useState(false)
 
   const colorsrows = colorsArr?.map(el => {
     return <div className={`colorsrow ${showColorRow?"show":""}`}>
@@ -38,20 +40,35 @@ export default function AddStyles(props) {
       {
         el.colors.map(x => {
           return <div className="inprow nested">
-            <AppSelect title="Color" options={colorsOpts} value={x.name}/>
+            <AppSelect title="Color" options={colorsOpts} value={x.name} namebased/>
             <AppInput title="Stock" value={x.stock}/>
           </div>
         })
       }
+      { showExtraAdd&&
+        <div className="inprow nested extraadds"> 
+          <AppSelect title="Color" options={colorsOpts.filter(x => !el.colors.find(y => y.name === x.value))} onChange={(e) => setNewColorName(e.target.value)} value={newColorName} namebased/>
+          <AppInput title="Stock" value={newColorStock} onChange={(e) => setNewColorStock(e.target.value)}/>
+        </div> 
+      }
+      <div className="addcoloractions show" style={{padding:0}}>
+        <AdminBtn title="Save" solid disabled={!newColorName || !newColorStock} nourl onClick={() => saveExtraColor(el)}/>
+        <AdminBtn title={showExtraAdd?"Done":"Add"} solid={!showExtraAdd} nourl onClick={() => setShowExtraAdd(prev => !prev)}/>
+      </div>
     </AppAccordion>
   })
 
   function addColor() {
     if(newSize && newColorName && newColorStock) {
       setColorsArr(prev => [...prev, {name:newColorName,stock:+newColorStock, qtySold:0}])
+      setSavedColors(prev => [...prev, newColorName])
       setNewColorName('')
       setNewColorStock(0)
     }
+  }
+  function saveExtraColor(size) {
+    const itemindex = prodSizes.indexOf(size)
+    console.log(itemindex)
   }
   function addStyle() { 
     if(colorsArr.length) {
@@ -60,6 +77,8 @@ export default function AddStyles(props) {
       setColorsArr([])
       setNewSize('')
       setShowColorRow(false)
+      setSavedColors([])
+      setShowNewSize(false)
     }
   }
   function deleteStyle(el, e) {
@@ -73,6 +92,11 @@ export default function AddStyles(props) {
       setProdSizes(prev => [...prev])
       setSavedSizes(prev => [...prev]) 
     } 
+  }
+  function newStyleActions() {
+    setShowNewSize(prev => !prev)
+    setNewSize(prev => !prev)
+    setShowExtraAdd(false)
   }
 
   useEffect(() => {
@@ -100,6 +124,12 @@ export default function AddStyles(props) {
     sizes&&setProdSizes(sizes.flat(2))
   },[])
 
+  useEffect(() => {
+    setShowNewSize(false)
+    setNewColorName('')
+    setNewColorStock('')
+  },[showExtraAdd])
+
   return (
     <>
       <div className="stylescontent">
@@ -119,7 +149,7 @@ export default function AddStyles(props) {
           <div className="inprow">
             <AppSelect 
               title="Color" 
-              options={colorsOpts} 
+              options={colorsOpts.filter(x => !savedColors.includes(x.value))} 
               onChange={(e) => setNewColorName(e.target.value)}
               value={newColorName}
               namebased
@@ -149,7 +179,7 @@ export default function AddStyles(props) {
         <AdminBtn 
           title={showNewSize?"Cancel":"New Style"} 
           nourl 
-          onClick={() => {setShowNewSize(prev => !prev);setNewSize(prev => !prev)}}
+          onClick={() => newStyleActions()}
         />
       </div>
     </>
