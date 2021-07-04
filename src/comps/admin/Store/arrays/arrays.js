@@ -19,7 +19,7 @@ export const colorsOpts = [
   {name: 'Orange', value: '#ff9100'},
   {name: 'Yellow', value: '#ffea05'},
   {name: 'Pink', value: '#edb5ff'},
-  {name: 'Gray', value: '#2bdc6c'}
+  {name: 'Gray', value: '#b5b5b5'}
 ]
 
 export const sizeOpts = [

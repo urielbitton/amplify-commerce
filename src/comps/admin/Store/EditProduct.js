@@ -78,10 +78,20 @@ export default function EditProduct(props) {
     }
   }
   function cancelAdd() {
-
+    const confirm = window.confirm('Are you sure you want to cancel adding a new product?')
+    if(confirm) {
+      history.push('/admin/store/products')
+    }
   }
   function deleteProduct() {
-
+    const confirm = window.confirm('Are you sure you want to delete this product?')
+    if(confirm) {
+      let itemindex = allProducts.findIndex(x => x.id === id)
+      allProducts.splice(itemindex,1)
+      db.collection('products').doc('allproducts').update({
+        allproducts: allProducts
+      }).then(() => history.push('/admin/store/products'))
+    }
   }
   function saveProduct() {
     if(!!allowAddSave) {
@@ -125,9 +135,9 @@ export default function EditProduct(props) {
   }
 
   useEffect(() => {
-    if(location.pathname.includes('/edit-product'))
+    if(location.pathname.includes('edit-product'))
       setEditProdMode(true)
-  },[])
+  },[location])
 
   useEffect(() => {
     if(!editProdMode) {

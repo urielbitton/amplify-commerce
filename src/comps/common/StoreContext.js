@@ -89,6 +89,8 @@ const StoreContextProvider = (props) => {
   const expiryYears =  Array.apply(null, {length: 15}).map((el,i) => {
     return new Date().getFullYear() + i
   })
+  const [sizesOpts, setSizesOpts] = useState([])
+  const [colorsOpts, setColorsOpts] = useState([])
 
   useEffect(() => {
     db.collection('products').doc('allproducts').onSnapshot(snap => {
@@ -102,7 +104,13 @@ const StoreContextProvider = (props) => {
       })
       setAllOrders(...allorders)
     })
-  },[auser]) 
+    db.collection('admin').doc('storeSettings').onSnapshot(snap => {
+      setSizesOpts(snap.data()?.storesettings.sizeopts) 
+    })
+    db.collection('admin').doc('storeSettings').onSnapshot(snap => {
+      setColorsOpts(snap.data()?.storesettings.coloropts) 
+    })
+  },[auser, user]) 
 
   useEffect(() => {
     if(user) {
@@ -166,7 +174,7 @@ const StoreContextProvider = (props) => {
       selectedCountry, setSelectedCountry, expiryMonths, expiryYears, numberFormat, allOrders, setAllOrders,
       showSearch, setShowSearch, cart, setCart, darkMode, setDarkMode, allStats, 
       highSellersLimit, setHighSellersLimit, recentSellersLimit, setRecentSellersLimit, 
-      recentOrdersLimit, setRecentOrdersLimit, editProdMode, setEditProdMode
+      recentOrdersLimit, setRecentOrdersLimit, editProdMode, setEditProdMode, sizesOpts, colorsOpts
     }}>
       {props.children}  
     </StoreContext.Provider>

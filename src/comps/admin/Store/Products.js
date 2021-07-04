@@ -6,6 +6,7 @@ import {StoreContext} from '../../common/StoreContext'
 import {headers} from './arrays/arrays'
 import { useHistory } from 'react-router-dom'
 import AdminBtn from '../common/AdminBtn'
+import {db} from '../../common/Fire'
 
 export default function Products() {
   
@@ -77,7 +78,7 @@ export default function Products() {
         </div>
         <div className={`optscont ${el.id===showOpts?"show":""}`}> 
           <div title="Edit Product" onClick={() => editProduct(el.id)}><i className="far fa-edit"></i></div>
-          <div title="Delete Product" onClick={() => deleteProduct()}><i className="far fa-trash-alt"></i></div>
+          <div title="Delete Product" onClick={() => deleteProduct(el.id)}><i className="far fa-trash-alt"></i></div>
           <div title="Product Info" onClick={() => infoProduct()}><i className="far fa-info"></i></div>
         </div>
       </h5>
@@ -88,10 +89,14 @@ export default function Products() {
     setEditProdMode(true)
     history.push(`/admin/store/edit-product/${prodid}`)
   }
-  function deleteProduct() {
-    const confirm = window.confirm('Are you sure you want to remove this product? This will remove the product from customers cart and wishlist.')
+  function deleteProduct(id) {
+    const confirm = window.confirm('Are you sure you want to remove this product? This will remove the product from customers cart and wishlists.')
     if(confirm) {
-      window.alert('Product was removed from your store.')
+      let itemindex = allProducts.findIndex(x => x.id === id)
+      allProducts.splice(itemindex,1)
+      db.collection('products').doc('allproducts').update({
+        allproducts: allProducts
+      }).then(() => window.confirm('The product was successfully deleted from your store.'))
     }
   }
   function infoProduct() {

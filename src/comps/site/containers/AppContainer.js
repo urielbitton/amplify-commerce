@@ -18,9 +18,12 @@ export default function AppContainer() {
   },[location])
 
   useEffect(() => {
+    /*
     myUser?.admin === undefined&&!myUser?.admin?
     history.push('/'):
-    history.push('/admin')
+    history.push('/admin') 
+    */
+   //**remove when done developing**
   },[myUser])
  
   return ( 

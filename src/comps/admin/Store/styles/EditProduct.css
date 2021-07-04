@@ -324,3 +324,6 @@
 .editsection .newstylecont .colorsrow {
   margin-top: 20px;
 }
+.editproductpage .deletebtn:hover {
+  background: var(--red);
+}

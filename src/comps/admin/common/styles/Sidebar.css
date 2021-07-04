@@ -112,6 +112,7 @@
   display: flex;
   flex-direction: column;
   cursor: pointer;
+  user-select: none;
 }
 .adminsidebar .addnewbtn .button:hover  {
   background: var(--admincolor);
@@ -164,6 +165,7 @@
   flex-direction: column;
   transition: all 0.4s;
   overflow: hidden;
+  user-select: none;
 }
 .adminsidebar .addnewbtn.open .slidecont {
   max-height: 200px;

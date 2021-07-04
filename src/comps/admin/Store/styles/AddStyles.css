@@ -161,6 +161,16 @@
   align-items: center;
   gap: 20px;
 }
+.editsection .inprow.active {
+  /*animation: flash 1s linear;*/
+  border-radius: 5px;
+  transition: all 0.3s;
+}
+@keyframes flash {
+  0% {background: var(--light)}
+  50% {background: var(--light)}
+  100% {background: none}
+}
 .editsection .inprow.nested select,
 .editsection .inprow.nested input
 {

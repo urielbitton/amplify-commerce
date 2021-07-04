@@ -14,7 +14,7 @@ export function colorConverter(color) {
   if(color==='#ff9100') return 'Orange'
   if(color==='#ffea05') return 'Yellow'
   if(color==='#edb5ff') return 'Pink'
-  if(color==='#bdc6c7') return 'Gray'
+  if(color==='#b5b5b5') return 'Gray'
 }
 
 export function convertTime(time) { 

@@ -1,14 +1,14 @@
 import React, { useContext, useEffect, useState } from 'react'
 import AdminBtn from '../common/AdminBtn'
-import {colorsOpts, sizeOpts} from './arrays/arrays'
 import {colorConverter, sizeConverter} from '../../common/UtilityFuncs'
 import {AppInput, AppSelect} from '../../common/AppInputs'
 import AppAccordion from '../../site/common/AppAccordion'
 import './styles/AddStyles.css'
-import { db } from '../../common/Fire'
+import {StoreContext} from '../../common/StoreContext'
 
 export default function AddStyles(props) {
 
+  const {colorsOpts, sizesOpts} = useContext(StoreContext)
   const {prodSizes, setProdSizes, sizes} = props
   const [newSize, setNewSize] = useState('')
   const [newColorName, setNewColorName] = useState('')
@@ -19,11 +19,13 @@ export default function AddStyles(props) {
   const [savedSizes, setSavedSizes] = useState([])
   const [savedColors, setSavedColors] = useState([])
   const [showExtraAdd, setShowExtraAdd] = useState(false)
+  const [extraEdit, setExtraEdit] = useState(-1)
+  const [colorIndex, setColorIndex] = useState(-1)
 
   const colorsrows = colorsArr?.map(el => {
     return <div className={`colorsrow ${showColorRow?"show":""}`}>
       <div className="inprow">
-        <AppSelect title="Color" options={colorsOpts} value={el.name} namebased />
+        <AppSelect title="Color" options={[{name:'Choose a color',value:''},...colorsOpts]} value={el.name} namebased />
       </div>
       <div className="inprow">
         <AppInput title="Stock" value={el.stock}/>
@@ -38,22 +40,22 @@ export default function AddStyles(props) {
       className="sizesrow"
     >
       {
-        el.colors.map(x => {
-          return <div className="inprow nested">
-            <AppSelect title="Color" options={colorsOpts} value={x.name} namebased/>
-            <AppInput title="Stock" value={x.stock}/>
+        el.colors.map((el2,i) => {
+          return <div className={`inprow nested ${extraEdit===i?"active":""}`} onClick={(e) => extraEditActions(el.colors, el2, e, i)}>
+            <AppSelect title="Color" options={[{name:'Choose a color',value:''},...colorsOpts]} value={extraEdit===i?newColorName:el2.name} onChange={(e) => setNewColorName(e.target.value)} namebased/>
+            <AppInput title="Stock" value={extraEdit===i?newColorStock:el2.stock} onChange={(e) => setNewColorStock(e.target.value)}/>
           </div>
         })
       }
       { showExtraAdd&&
         <div className="inprow nested extraadds"> 
-          <AppSelect title="Color" options={colorsOpts.filter(x => !el.colors.find(y => y.name === x.value))} onChange={(e) => setNewColorName(e.target.value)} value={newColorName} namebased/>
+          <AppSelect title="Color" options={{name:'Choose a Color',value:''},[...colorsOpts.filter(x => !el.colors.find(y => y.name === x.value))]} onChange={(e) => setNewColorName(e.target.value)} value={newColorName} namebased/>
           <AppInput title="Stock" value={newColorStock} onChange={(e) => setNewColorStock(e.target.value)}/>
         </div> 
       }
-      <div className="addcoloractions show" style={{padding:0}}>
+      <div className="addcoloractions show" style={{padding:0}} onClick={(e) => e.stopPropagation()}>
         <AdminBtn title="Save" solid disabled={!newColorName || !newColorStock} nourl onClick={() => saveExtraColor(el)}/>
-        <AdminBtn title={showExtraAdd?"Done":"Add"} solid={!showExtraAdd} nourl onClick={() => setShowExtraAdd(prev => !prev)}/>
+        <AdminBtn title={showExtraAdd?"Done":"Add"} disabled={extraEdit>-1} solid={!showExtraAdd} nourl onClick={() => setShowExtraAdd(prev => !prev)}/>
       </div>
     </AppAccordion>
   })
@@ -66,9 +68,16 @@ export default function AddStyles(props) {
       setNewColorStock(0)
     }
   }
+  function extraEditActions(colorsarr, el2, e, i) {
+    e.stopPropagation()
+    setExtraEdit(i)
+    setColorIndex(colorsarr.indexOf(el2))
+  }
   function saveExtraColor(size) {
-    const itemindex = prodSizes.indexOf(size)
-    console.log(itemindex)
+    const sizeindex = prodSizes.indexOf(size)
+    console.log(sizeindex, colorIndex)
+    prodSizes[sizeindex].colors[colorIndex] = {name: newColorName, stock: +newColorStock, qtySold: 0}
+    setProdSizes(prev => [...prev])
   }
   function addStyle() { 
     if(colorsArr.length) {
@@ -98,6 +107,12 @@ export default function AddStyles(props) {
     setNewSize(prev => !prev)
     setShowExtraAdd(false)
   }
+
+  useEffect(() => {
+    window.onclick = () => {
+      extraEdit>-1&&setExtraEdit(-1)
+    }
+  },[extraEdit])
 
   useEffect(() => {
     if(newSize.length) {
@@ -138,7 +153,7 @@ export default function AddStyles(props) {
         <div className="inprow">
           <AppSelect 
             title="Product Size" 
-            options={sizeOpts.filter(x => !savedSizes.includes(x.value))} 
+            options={[{name:'Choose a Size',value:''},...sizesOpts?.filter(x => !savedSizes.includes(x.value))]}  
             onChange={(e) => setNewSize(e.target.value)}
             value={newSize}
             namebased
@@ -149,10 +164,10 @@ export default function AddStyles(props) {
           <div className="inprow">
             <AppSelect 
               title="Color" 
-              options={colorsOpts.filter(x => !savedColors.includes(x.value))} 
+              options={colorsOpts?.filter(x => !savedColors.includes(x.value))} 
               onChange={(e) => setNewColorName(e.target.value)}
               value={newColorName}
-              namebased
+              namebased 
             />
           </div>
           <div className="inprow">
