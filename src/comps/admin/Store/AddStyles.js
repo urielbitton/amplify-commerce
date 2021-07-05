@@ -8,7 +8,7 @@ import {StoreContext} from '../../common/StoreContext'
 
 export default function AddStyles(props) {
 
-  const {colorsOpts, sizesOpts} = useContext(StoreContext)
+  const {colorsOpts, sizesOpts, editProdMode} = useContext(StoreContext)
   const {prodSizes, setProdSizes, sizes} = props
   const [newSize, setNewSize] = useState('')
   const [newColorName, setNewColorName] = useState('')
@@ -81,6 +81,8 @@ export default function AddStyles(props) {
     prodSizes[sizeindex].colors[colorIndex] = {name: newColorName, stock: +newColorStock, qtySold: 0}
     setProdSizes(prev => [...prev])
     setExtraEdit(-1)
+    setNewColorName('')
+    setNewColorStock('')
   }
   function addExtraColor(size) {
     const sizeindex = prodSizes.indexOf(size)
@@ -152,6 +154,13 @@ export default function AddStyles(props) {
     setNewColorName('')
     setNewColorStock('')
   },[showExtraAdd])
+
+  useEffect(() => {
+    if(!editProdMode) {
+      setSavedSizes([])
+      setSavedColors([])
+    }
+  },[editProdMode])
 
   return (
     <>
