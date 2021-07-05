@@ -147,6 +147,7 @@ export default function EditProduct(props) {
       setProdBelongs('')
       setProdBrand('')
       setProdCategs('')
+      setProdSizes([])
       setProdCollection('')
       setProdDescription('')
       setProdSku('')
@@ -202,14 +203,15 @@ export default function EditProduct(props) {
                   title="Price"
                   className="numberinp"
                   onChange={(e) => setProdPrice(e.target.value)}
-                  value={prodPrice}
+                  value={prodPrice>=0?prodPrice:0}
                   type="number"
+                  min={0}
                 />
               </div>
               <div className="inprow">
                 <AppSelect 
                   title="Belong Type" 
-                  options={[{name:'Men'},{name:'Women'},{name:'Kids'},{name:'All'}]}
+                  options={[{name:'Choose One...'},{name:'Men'},{name:'Women'},{name:'Kids'},{name:'All'}]}
                   onChange={(e) => setProdBelongs(e.target.value)}
                   value={prodBelongs} 
                 />

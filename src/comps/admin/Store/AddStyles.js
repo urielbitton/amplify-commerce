@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react'
 import AdminBtn from '../common/AdminBtn'
-import {colorConverter, sizeConverter} from '../../common/UtilityFuncs'
+import {sizeConverter} from '../../common/UtilityFuncs'
 import {AppInput, AppSelect} from '../../common/AppInputs'
 import AppAccordion from '../../site/common/AppAccordion'
 import './styles/AddStyles.css'
@@ -21,6 +21,7 @@ export default function AddStyles(props) {
   const [showExtraAdd, setShowExtraAdd] = useState(false)
   const [extraEdit, setExtraEdit] = useState(-1)
   const [colorIndex, setColorIndex] = useState(-1)
+  const [addMode, setAddMode] = useState(false)
 
   const colorsrows = colorsArr?.map(el => {
     return <div className={`colorsrow ${showColorRow?"show":""}`}>
@@ -49,14 +50,14 @@ export default function AddStyles(props) {
       }
       { showExtraAdd&&
         <div className="inprow nested extraadds"> 
-          <AppSelect title="Color" options={{name:'Choose a Color',value:''},[...colorsOpts.filter(x => !el.colors.find(y => y.name === x.value))]} onChange={(e) => setNewColorName(e.target.value)} value={newColorName} namebased/>
+          <AppSelect title="Color" options={[{name:'Choose a Color',value:''},...colorsOpts.filter(x => !el.colors.find(y => y.name === x.value))]} onChange={(e) => setNewColorName(e.target.value)} value={newColorName} namebased/>
           <AppInput title="Stock" value={newColorStock} onChange={(e) => setNewColorStock(e.target.value)}/>
         </div> 
       }
       <div className="addcoloractions show" style={{padding:0}} onClick={(e) => e.stopPropagation()}>
-        <AdminBtn title="Save" solid disabled={!newColorName || !newColorStock} nourl onClick={() => saveExtraColor(el)}/>
-        <AdminBtn title={showExtraAdd?"Done":"Add"} disabled={extraEdit>-1} solid={!showExtraAdd} nourl onClick={() => setShowExtraAdd(prev => !prev)}/>
-      </div>
+        <AdminBtn title={addMode?"Add":"Save"} solid disabled={!newColorName || !newColorStock} nourl onClick={() => addMode?addExtraColor(el):saveExtraColor(el)}/>
+        <AdminBtn title={showExtraAdd?"Done":"New Color"} disabled={extraEdit>-1} solid={!showExtraAdd} nourl onClick={() => {setShowExtraAdd(prev => !prev);!showExtraAdd&&setAddMode(true)}}/>
+      </div> 
     </AppAccordion>
   })
 
@@ -72,11 +73,18 @@ export default function AddStyles(props) {
     e.stopPropagation()
     setExtraEdit(i)
     setColorIndex(colorsarr.indexOf(el2))
+    setAddMode(false)
+    setShowExtraAdd(false)
   }
   function saveExtraColor(size) {
     const sizeindex = prodSizes.indexOf(size)
-    console.log(sizeindex, colorIndex)
     prodSizes[sizeindex].colors[colorIndex] = {name: newColorName, stock: +newColorStock, qtySold: 0}
+    setProdSizes(prev => [...prev])
+    setExtraEdit(-1)
+  }
+  function addExtraColor(size) {
+    const sizeindex = prodSizes.indexOf(size)
+    prodSizes[sizeindex].colors.push({name:newColorName,stock:newColorStock,qtySold:0})
     setProdSizes(prev => [...prev])
   }
   function addStyle() { 
@@ -164,7 +172,7 @@ export default function AddStyles(props) {
           <div className="inprow">
             <AppSelect 
               title="Color" 
-              options={colorsOpts?.filter(x => !savedColors.includes(x.value))} 
+              options={[{name:"Choose a Color",value:''},...colorsOpts?.filter(x => !savedColors.includes(x.value))]} 
               onChange={(e) => setNewColorName(e.target.value)}
               value={newColorName}
               namebased 
