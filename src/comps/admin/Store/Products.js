@@ -1,9 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react'
-import './styles/Products.css'
-import '../../site/common/styles/ProductTable.css'
 import {AppInput} from '../../common/AppInputs'
 import {StoreContext} from '../../common/StoreContext'
-import {headers} from './arrays/arrays'
+import {prodHeaders} from './arrays/arrays'
 import { useHistory } from 'react-router-dom'
 import AdminBtn from '../common/AdminBtn'
 import {db} from '../../common/Fire'
@@ -23,12 +21,13 @@ export default function Products() {
   const allProdsFilter = allProducts?.filter(x => (pattern.test(clean(x.name)) || pattern.test(x.price) || x.id === keyword || 
   x.categories.some(x => x===keyword) || x.collection.some(x => x===keyword) || pattern.test(x.belongs)))
  
-  const headersrow = headers?.map((el,i) => {
+  const headersrow = prodHeaders?.map((el,i) => {
     return <h5 className={el.val===sort?"active":""} onClick={() => {setSort(el.val);setAsc(el.val===sort && asc?false:true)}}>
       {el.name}
       {i!==8&&<i className={sort===el.val && asc?"fad fa-sort-up":sort===el.val && !asc?"fad fa-sort-down":"fas fa-sort"}></i>}
     </h5>
   }) 
+
   const allprodsrow = allProdsFilter.sort((a,b) => {
     if(sort === 1) {
       if(a.name > b.name && asc) return 1 
@@ -130,7 +129,7 @@ export default function Products() {
               {allprodsrow}
             </div>
             <div className="foot">
-              <h5><span>{allProdsFilter.length}</span> products</h5>
+              <h5><span>{allProdsFilter.length}</span> product{allProdsFilter.length>1?"s":""}</h5>
               <h5>
                 <span>{allProdsFilter?.reduce((a,b) => a + b.sizes.reduce((a,b) => a + b.colors.reduce((a,b) => a + b.qtySold>0&&b.qtySold,0),0),0)}</span> quantities sold
               </h5>
