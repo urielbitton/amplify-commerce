@@ -17,7 +17,7 @@ export default function Coupons() {
   const clean = text => text.replace(/[^a-zA-Z0-9 ]/g, "")
   let pattern = new RegExp('\\b' + clean(keyword), 'i')
   const allCouponsFilter = allCoupons?.filter(x => (pattern.test((x.name)) || pattern.test((x.amount)) || pattern.test((x.type))))
-  const reducedAmounts = allCouponsFilter.reduce((a,b) => a + b.amount,0)
+  const reducedAmounts = allCouponsFilter.reduce((a,b) => a + (b.type==='flat'&& +b.amount),0)
   const history = useHistory()
 
   const headersrow = couponHeaders?.map((el,i) => {
@@ -32,10 +32,10 @@ export default function Coupons() {
   }).map((el,i) => {
     return <div className="proditem">
       <h5>{i+1}</h5>
-      <h5>{el.name}</h5>
+      <h5 className="boxed"><span>{el.name}</span></h5>
       <h5>{el.type}</h5>
       <h5>{el.type==='flat'?currencyFormat.format(el.amount):percentFormat.format(el.amount/100)}</h5>
-      <h5 className="expdate">{convertDate(el.expiryDate)}</h5>
+      <h5 className="expdate">{el.expiryDate}</h5>
       <h5>
         <div className="actionsdiv" onClick={(e) => {setShowOpts(showOpts===el.id?0:el.id);e.stopPropagation()}}>
           <i className="far fa-ellipsis-h actionsicon"></i>

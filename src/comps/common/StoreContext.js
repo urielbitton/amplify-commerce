@@ -46,6 +46,8 @@ const StoreContextProvider = (props) => {
   const [recentSellersLimit, setRecentSellersLimit] = useState(5)
   const [recentOrdersLimit, setRecentOrdersLimit] = useState(5)
   const [editProdMode, setEditProdMode] = useState(false)
+  const [editCoupMode, setEditCoupMode] = useState(false)
+  const [allCoupons, setAllCoupons] = useState([])
 
   const [quickProduct, setQuickProduct] = useState({
     id: '', 
@@ -106,9 +108,10 @@ const StoreContextProvider = (props) => {
     })
     db.collection('admin').doc('storeSettings').onSnapshot(snap => {
       setSizesOpts(snap.data()?.storesettings.sizeopts) 
-    })
-    db.collection('admin').doc('storeSettings').onSnapshot(snap => {
       setColorsOpts(snap.data()?.storesettings.coloropts) 
+    })
+    db.collection('coupons').doc('allcoupons').onSnapshot(snap => {
+      setAllCoupons(snap.data()?.allcoupons)
     })
   },[auser, user]) 
 
@@ -174,7 +177,8 @@ const StoreContextProvider = (props) => {
       selectedCountry, setSelectedCountry, expiryMonths, expiryYears, numberFormat, allOrders, setAllOrders,
       showSearch, setShowSearch, cart, setCart, darkMode, setDarkMode, allStats, 
       highSellersLimit, setHighSellersLimit, recentSellersLimit, setRecentSellersLimit, 
-      recentOrdersLimit, setRecentOrdersLimit, editProdMode, setEditProdMode, sizesOpts, colorsOpts
+      recentOrdersLimit, setRecentOrdersLimit, editProdMode, setEditProdMode, sizesOpts, colorsOpts,
+      editCoupMode, setEditCoupMode, allCoupons, setAllCoupons
     }}>
       {props.children}  
     </StoreContext.Provider>

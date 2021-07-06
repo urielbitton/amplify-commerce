@@ -5,14 +5,14 @@ import './styles/Dashboard.css'
 import {ApexChart, ApexChartPie} from '../../common/Charts'
 import { StoreContext } from '../../common/StoreContext'
 import {colorConverter, sizeConverter} from '../../common/UtilityFuncs'
-import '../../site/common/styles/ProductTable.css'
 import {AppSelect} from '../../common/AppInputs'
 import refProd from '../../common/referProduct'
+import convertDate from '../utilities/convertDate'
 
 export default function Dashboard() { 
 
-  const {allOrders, allProducts, currencyFormat, allStats, 
-    highSellersLimit, setHighSellersLimit, recentSellersLimit, setRecentSellersLimit, recentOrdersLimit, setRecentOrdersLimit
+  const {allOrders, allProducts, currencyFormat, allStats, highSellersLimit, setHighSellersLimit, 
+    recentSellersLimit, setRecentSellersLimit, recentOrdersLimit, setRecentOrdersLimit
   } = useContext(StoreContext)
   const {productsSold, totalSales} = allStats
   const salescategories = ['January','February','March','April','May','June','July','August','September','October','November','December']
@@ -109,12 +109,6 @@ export default function Dashboard() {
     </div>  
   })
 
-  function convertDate(date) {
-    return `
-      ${date?.toDate().toString().split(' ')[1]} 
-      ${date?.toDate().toString().split(' ')[2]} 
-      ${date?.toDate().toString().split(' ')[3]}`
-  }
   function msToDays(ms) {
     return (ms / (60*60*24*1000))
   }
@@ -167,7 +161,7 @@ export default function Dashboard() {
           {highsellers}
         </div>
         <div className="foot">
-          <h5><span>{highsellers.length}</span> products</h5>
+          <h5><span>{highsellers.length}</span> product{highsellers.length>1?"s":""}</h5>
           <h5>
             <span>{topproducts.slice(0,highSellersLimit).reduce((a,b) => a + filterQtySold(b,0)?.colors.find(x => x.qtySold > 6).qtySold,0)}</span> 
             &nbsp;Quantities Sold
@@ -190,7 +184,7 @@ export default function Dashboard() {
           {recentsellers}
         </div>
         <div className="foot">
-          <h5><span>{recentsellers.length}</span> products</h5>
+          <h5><span>{recentsellers.length}</span> product{recentsellers.length>1?"s":""}</h5>
           <h5>
             <span>{recentproducts.slice(0,recentSellersLimit).reduce((a,b) => a + filterQtySold(b,0)?.colors.find(x => x.qtySold > 0).qtySold,0)}</span> 
             &nbsp;Quantities Sold
@@ -213,7 +207,7 @@ export default function Dashboard() {
             {recentorders}
           </div>
           <div className="foot">
-            <h5><span>{allOrders.length}</span> Orders</h5>
+            <h5><span>{allOrders.length}</span> Order{allOrders.length>1?"s":""}</h5>
             <h5><span>{currencyFormat.format(allOrders.reduce((a,b) => a + b.orderTotal,0))}</span> Orders Total</h5>
             <h5><span>{allOrders.reduce((a,b) => a + b.products.length,0)}</span> Products</h5>
           </div>

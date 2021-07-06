@@ -3,13 +3,16 @@ import { Route, Switch } from 'react-router-dom'
 import Navbar from '../common/Navbar'
 import Dashboard from '../Home/Dashboard'
 import './styles/AdminHomecont.css'
+import '../../site/common/styles/ProductTable.css'
 import Products from '../Store/Products'
 import EditProduct from '../Store/EditProduct'
 import { StoreContext } from '../../common/StoreContext'
+import Coupons from '../Store/Coupons'
+import EditCoupon from '../Store/EditCoupon'
 
 export default function AdminHomecont() {
  
-  const {allProducts, editProdMode} = useContext(StoreContext)
+  const {allProducts} = useContext(StoreContext)
   
   const editprodpages = allProducts?.map(el => {
     return <Route path={`/admin/store/edit-product/${el.id}`}>
@@ -31,6 +34,12 @@ export default function AdminHomecont() {
           {editprodpages}
           <Route path="/admin/store/add-product">
             <EditProduct /> 
+          </Route>
+          <Route path="/admin/store/coupons">
+            <Coupons />
+          </Route>
+          <Route path="/admin/store/add-coupon">
+            <EditCoupon />
           </Route>
         </Switch> 
       </div>

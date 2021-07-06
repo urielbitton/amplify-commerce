@@ -6,7 +6,7 @@ export function AppInput(props) {
   const {title, iconclass, className} = props
    
   return ( 
-    <label className={`appinput ${className}`}> 
+    <label className={`appinput commoninput ${className}`}> 
       <h6>{title}</h6>
       <i className={iconclass}></i> 
       <input style={{paddingRight: iconclass?"40px":"10px"}} {...props} />
@@ -15,14 +15,14 @@ export function AppInput(props) {
 }     
 
 export function AppSelect(props) {
-  const {multiple, options, namebased, title, onChange, value, defaultValue} = props
+  const {multiple, options, namebased, title, onChange, value, defaultValue, className} = props
   let optionsdata = options?.map((data) =>
     <option key={data.id} selected={data.selected} disabled={data.disabled} value={namebased?data.value:data.name?data.name.toLowerCase().replaceAll(' ',''):data.name} name={namebased?data.name:null}>  
         {data.name}
     </option>
   )  
   return ( 
-    <label className="appselect">
+    <label className={`appselect commoninput ${className}`}>
       <h6>{title}</h6>
       {
         multiple?
@@ -42,7 +42,7 @@ export function AppTextarea(props) {
   const {title, iconclass, className} = props
    
   return ( 
-    <label className={`apptextarea ${className}`}> 
+    <label className={`apptextarea commoninput ${className}`}> 
       <h6>{title}</h6>
       <i className={iconclass}></i> 
       <textarea style={{paddingRight: iconclass?"40px":"10px"}} {...props} />

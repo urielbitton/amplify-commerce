@@ -4,4 +4,4 @@ export default function convertDate(date) {
     ${date?.toDate().toString().split(' ')[2]} 
     ${date?.toDate().toString().split(' ')[3]}
   `
-}
+} 
