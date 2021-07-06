@@ -137,6 +137,8 @@ export default function EditProduct(props) {
   useEffect(() => {
     if(location.pathname.includes('edit-product'))
       setEditProdMode(true)
+    else 
+    setEditProdMode(false)
   },[location])
 
   useEffect(() => {
@@ -154,6 +156,7 @@ export default function EditProduct(props) {
       setProdComposition('')
       setProdShipReturns('')
     }
+    return() => setEditProdMode(false)
   },[editProdMode])
 
   useEffect(() => {

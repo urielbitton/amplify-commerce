@@ -12,11 +12,16 @@ import EditCoupon from '../Store/EditCoupon'
 
 export default function AdminHomecont() {
  
-  const {allProducts} = useContext(StoreContext)
+  const {allProducts, allCoupons} = useContext(StoreContext)
   
   const editprodpages = allProducts?.map(el => {
     return <Route path={`/admin/store/edit-product/${el.id}`}>
       <EditProduct el={el} />
+    </Route> 
+  })
+  const editcouponpages = allCoupons?.map(el => {
+    return <Route path={`/admin/store/edit-coupon/${el.id}`}>
+      <EditCoupon el={el} />
     </Route> 
   })
 
@@ -38,6 +43,7 @@ export default function AdminHomecont() {
           <Route path="/admin/store/coupons">
             <Coupons />
           </Route>
+          {editcouponpages}
           <Route path="/admin/store/add-coupon">
             <EditCoupon />
           </Route>

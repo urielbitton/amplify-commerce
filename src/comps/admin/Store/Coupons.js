@@ -2,8 +2,7 @@ import React, {useContext, useState} from 'react'
 import AdminBtn from '../common/AdminBtn'
 import {AppInput} from '../../common/AppInputs'
 import {StoreContext} from '../../common/StoreContext'
-import {couponHeaders} from './arrays/arrays'
-import convertDate from '../utilities/convertDate'
+import {couponHeaders} from './arrays/arrays' 
 import { useHistory } from 'react-router'
 import {db} from '../../common/Fire'
 
@@ -51,7 +50,7 @@ export default function Coupons() {
 
   function editCoupon(couponid) {
     setEditCoupMode(true)
-    history.push(`/admin/store/edit-product/${couponid}`)
+    history.push(`/admin/store/edit-coupon/${couponid}`)
   }
   function deleteCoupon(couponid) {
     const confirm = window.confirm('Are you sure you want to remove this coupon?')
@@ -73,7 +72,7 @@ export default function Coupons() {
         <div className="titlesrow">
           <h4>Coupons</h4>
           <div className="flex">
-            <AdminBtn title="New Coupon" url="/admin/store/add-coupon" onClick={() => setEditCoupMode(false)}/>
+            <AdminBtn title="New Coupon" onClick={() => setEditCoupMode(false)} url="/admin/store/add-coupon" />
             <AppInput 
               placeholder="Find a Coupon" 
               iconclass="fal fa-search" 

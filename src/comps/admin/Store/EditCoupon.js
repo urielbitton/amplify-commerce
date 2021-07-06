@@ -1,25 +1,27 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useState, useEffect } from 'react'
 import { StoreContext } from '../../common/StoreContext'
 import './styles/EditCoupon.css'
 import {AppInput, AppSelect, AppTextarea} from '../../common/AppInputs'
 import AdminBtn from '../common/AdminBtn'
 import {db} from '../../common/Fire'
 import firebase from 'firebase'
-import { useHistory } from 'react-router'
+import { useHistory, useLocation } from 'react-router'
 
 export default function EditCoupon(props) {
 
-  const {editCoupMode, setEditCoupMode, allCoupons, setAllCoupons} = useContext(StoreContext)
-  const {id, name, amount, description, type, expiryDate} = editCoupMode&&props.el
-  const [coupName, setCoupName] = useState(Math.random().toString(36).substring(7))
-  const [coupAmount, setCoupAmount] = useState(0)
-  const [coupType, setCoupType] = useState('')
-  const [coupDescript, setCoupDescript] = useState('')
+  const {editCoupMode, setEditCoupMode, allCoupons} = useContext(StoreContext)
+  const {id, name, amount, description, type, expiryDate, timesUsed} = editCoupMode&&props.el 
+  let coupongen = Math.random().toString(36).substring(7)
+  const [coupName, setCoupName] = useState(editCoupMode?name:coupongen)
+  const [coupAmount, setCoupAmount] = useState(editCoupMode?amount:0)
+  const [coupType, setCoupType] = useState(editCoupMode?type:'')
+  const [coupDescript, setCoupDescript] = useState(editCoupMode?description:'')
   const date = new Date()
   const nowDate = `${date.getFullYear()}-${date.getMonth()<10?'0'+(date.getMonth()+1):(date.getMonth()+1)}-${date.getDate()<10?'0'+(date.getDate()):(date.getDate())}`
-  const [coupExpiry, setCoupExpiry] = useState(nowDate)
+  const [coupExpiry, setCoupExpiry] = useState(editCoupMode?expiryDate:nowDate)
   const allowAccess = coupName && coupAmount && coupType && coupExpiry
   const history = useHistory()
+  const location = useLocation()
 
   const coupontypeOpts = [
     {name: 'Choose An Option', value: ''},
@@ -27,20 +29,17 @@ export default function EditCoupon(props) {
     {name: 'Percentage', value: 'percent'},
   ]
 
-  function generateCode() {
-    let coupongen = Math.random().toString(36).substring(7)
-    setCoupName(coupongen)
+  const coupObj = {
+    id: editCoupMode?id:db.collection('coupons').doc().id,
+    name: coupName,
+    amount: coupAmount,
+    description: coupDescript,
+    expiryDate: coupExpiry,
+    type: coupType,
+    timesUsed: editCoupMode?timesUsed:0
   }
+
   function createCoupon() {
-    const coupObj = {
-      id: db.collection('coupons').doc().id,
-      name: coupName,
-      amount: coupAmount,
-      description: coupDescript,
-      expiryDate: coupExpiry,
-      type: coupType,
-      timesUsed: 0
-    }
     if(allowAccess) {
       db.collection('coupons').doc('allcoupons').update({
         allcoupons: firebase.firestore.FieldValue.arrayUnion(coupObj)
@@ -54,8 +53,35 @@ export default function EditCoupon(props) {
     }
   }
   function editCoupon() {
-
+    if(allowAccess) {
+      let itemindex = allCoupons?.findIndex(x => x.id === id)
+      allCoupons[itemindex] = coupObj
+      db.collection('coupons').doc('allcoupons').update({
+        allcoupons: allCoupons
+      }).then(() => {
+        window.alert('Your coupon has been successfully edited.')
+        history.push('/admin/store/coupons')
+      })
+    }
   }
+  
+  useEffect(() => {
+    if(location.pathname.includes('edit-coupon'))
+      setEditCoupMode(true)
+    else 
+      setEditCoupMode(false)
+  },[location]) 
+
+  useEffect(() => {
+    if(!editCoupMode) {
+      setCoupName(coupongen)
+      setCoupAmount('')
+      setCoupType('')
+      setCoupDescript('')
+      setCoupExpiry(nowDate)
+    }
+    return() => setEditCoupMode(false)
+  },[editCoupMode])
 
   return (
     <div className="addcouponpage">
@@ -64,7 +90,7 @@ export default function EditCoupon(props) {
         <div className="couponcontent">
           <div>
             <AppInput title="Coupon Code" className="couponcode" onChange={(e) => setCoupName(e.target.value)} value={coupName} />
-            <AdminBtn title="Generate Code" solid nourl onClick={() => generateCode()}/>
+            <AdminBtn title="Generate Code" solid nourl onClick={() => setCoupName(coupongen)}/>
           </div>
           <AppTextarea title="Description (Optional)" onChange={(e) => setCoupDescript(e.target.value)} value={coupDescript} />
           <h4>Coupon Data</h4>
