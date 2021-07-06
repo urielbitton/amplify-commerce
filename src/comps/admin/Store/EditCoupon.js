@@ -1,7 +1,7 @@
 import React, { useContext, useState, useEffect } from 'react'
 import { StoreContext } from '../../common/StoreContext'
 import './styles/EditCoupon.css'
-import {AppInput, AppSelect, AppTextarea} from '../../common/AppInputs'
+import {AppInput, AppSelect, AppSwitch, AppTextarea} from '../../common/AppInputs'
 import AdminBtn from '../common/AdminBtn'
 import {db} from '../../common/Fire'
 import firebase from 'firebase'
@@ -10,12 +10,13 @@ import { useHistory, useLocation } from 'react-router'
 export default function EditCoupon(props) {
 
   const {editCoupMode, setEditCoupMode, allCoupons} = useContext(StoreContext)
-  const {id, name, amount, description, type, expiryDate, timesUsed} = editCoupMode&&props.el 
+  const {id, name, amount, description, type, expiryDate, timesUsed, isActive} = editCoupMode&&props.el 
   let coupongen = Math.random().toString(36).substring(7)
   const [coupName, setCoupName] = useState(editCoupMode?name:coupongen)
   const [coupAmount, setCoupAmount] = useState(editCoupMode?amount:0)
   const [coupType, setCoupType] = useState(editCoupMode?type:'')
   const [coupDescript, setCoupDescript] = useState(editCoupMode?description:'')
+  const [coupActive, setCoupActive] = useState(editCoupMode?isActive:true)
   const date = new Date()
   const nowDate = `${date.getFullYear()}-${date.getMonth()<10?'0'+(date.getMonth()+1):(date.getMonth()+1)}-${date.getDate()<10?'0'+(date.getDate()):(date.getDate())}`
   const [coupExpiry, setCoupExpiry] = useState(editCoupMode?expiryDate:nowDate)
@@ -36,7 +37,8 @@ export default function EditCoupon(props) {
     description: coupDescript,
     expiryDate: coupExpiry,
     type: coupType,
-    timesUsed: editCoupMode?timesUsed:0
+    timesUsed: editCoupMode?timesUsed:0,
+    isActive: coupActive
   }
 
   function createCoupon() {
@@ -79,6 +81,7 @@ export default function EditCoupon(props) {
       setCoupType('')
       setCoupDescript('')
       setCoupExpiry(nowDate)
+      setCoupActive(true)
     }
     return() => setEditCoupMode(false)
   },[editCoupMode])
@@ -97,6 +100,7 @@ export default function EditCoupon(props) {
           <AppSelect title="Coupon Type" className="inprow" options={coupontypeOpts} onChange={(e) => setCoupType(e.target.value)} value={coupType} namebased />
           <AppInput title="Coupon Amount" className="inprow" onChange={(e) => setCoupAmount(e.target.value)} value={coupAmount} />
           <AppInput title="Expiry Date" className="inprow" type="date" onChange={(e) => setCoupExpiry(e.target.value)} value={coupExpiry} />
+          <AppSwitch title="Activate Coupon" className="inprow" onChange={(e) => setCoupActive(e.target.checked)} checked={coupActive}/> 
           <AdminBtn 
             title={editCoupMode?"Edit Coupon":"Create Coupon"} 
             solid 

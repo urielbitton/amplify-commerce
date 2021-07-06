@@ -34,6 +34,7 @@ export default function Coupons() {
       <h5 className="boxed"><span>{el.name}</span></h5>
       <h5>{el.type}</h5>
       <h5>{el.type==='flat'?currencyFormat.format(el.amount):percentFormat.format(el.amount/100)}</h5>
+      <h5>{el.isActive?"Active":"Not Active"}</h5>
       <h5 className="expdate">{el.expiryDate}</h5>
       <h5>
         <div className="actionsdiv" onClick={(e) => {setShowOpts(showOpts===el.id?0:el.id);e.stopPropagation()}}>

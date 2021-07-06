@@ -27,7 +27,7 @@
   max-width: 100%;
   min-width: 100%;
 }
-.couponcontent > div {
+.couponcontent > div:not(.appswitch) {
   display: flex;
   flex-direction: column;
   gap: 10px;
