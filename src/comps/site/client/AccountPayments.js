@@ -1,7 +1,7 @@
 import React from 'react'
 import { NavLink, Route } from 'react-router-dom'
 import './styles/AccountPayments.css'
-import '../common/styles/ProductTable.css'
+import '../../common/styles/ProductTable.css'
 import AccountWallet from './AccountWallet'
 import AccountTransactions from './AccountTransaction'
 

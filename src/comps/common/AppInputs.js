@@ -52,10 +52,10 @@ export function AppTextarea(props) {
  
 export function AppSwitch(props) { 
 
-  const {iconclass,title,onChange,checked} = props
+  const {iconclass,title,onChange,checked, className} = props
 
   return (   
-    <div className="appswitch">  
+    <div className={`appswitch commoninput ${className}`}>  
     <h6><i className={iconclass}></i>{title}</h6> 
     <label className="form-switch">
         <input type="checkbox" onChange={(e) => onChange(e)} checked={checked}/>

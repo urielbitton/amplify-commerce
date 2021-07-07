@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react'
-import '../common/styles/ProductTable.css'
+import '../../common/styles/ProductTable.css'
 import AddToCart from '../common/AddToCart'
 import { StoreContext } from '../../common/StoreContext'
 import {db} from '../../common/Fire'

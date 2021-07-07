@@ -21,7 +21,7 @@ export const menuLinks = [
     url: '/admin/orders/',
     sublinks: [
       {name: 'orders', icon: 'far fa-shopping-bag', url: '/admin/orders/'},
-      {name: 'revenue', icon: 'far fa-wallet', url: '/admin/orders/revenue'},
+      {name: 'transactions', icon: 'far fa-wallet', url: '/admin/orders/transactions'},
     ]
   },
   {

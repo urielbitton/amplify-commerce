@@ -95,7 +95,7 @@ export default function EditCoupon(props) {
             <AdminBtn title="Generate Code" solid clickEvent onClick={() => setCoupName(coupongen)}/>
           </div>
           <AppTextarea title="Description (Optional)" onChange={(e) => setCoupDescript(e.target.value)} value={coupDescript} />
-          <h4>Coupon Data</h4>
+          <h4>Coupon Options</h4>
           <AppSelect title="Coupon Type" className="inprow" options={coupontypeOpts} onChange={(e) => setCoupType(e.target.value)} value={coupType} namebased />
           <AppInput title="Coupon Amount" className="inprow" onChange={(e) => setCoupAmount(e.target.value)} value={coupAmount} />
           <AppInput title="Expiry Date" className="inprow" type="date" onChange={(e) => setCoupExpiry(e.target.value)} value={coupExpiry} />

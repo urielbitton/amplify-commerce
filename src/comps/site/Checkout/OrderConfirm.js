@@ -1,7 +1,7 @@
 import React, { useContext } from 'react'
 import PageBanner from '../common/PageBanner'
 import './styles/OrderConfirm.css'
-import '../common/styles/ProductTable.css'
+import '../../common/styles/ProductTable.css'
 import AppButton from '../common/AppButton'
 import {StoreContext} from '../../common/StoreContext'
 import Loader from '../../common/Loader'

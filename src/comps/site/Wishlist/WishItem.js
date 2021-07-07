@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import {db} from '../../common/Fire'
 import referProduct from '../../common/referProduct'
 import { StoreContext } from '../../common/StoreContext'
-import '../common/styles/ProductTable.css'
+import '../../common/styles/ProductTable.css'
 
 export default function WishItem(props) {
 

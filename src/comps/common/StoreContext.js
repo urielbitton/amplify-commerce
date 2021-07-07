@@ -47,7 +47,9 @@ const StoreContextProvider = (props) => {
   const [recentOrdersLimit, setRecentOrdersLimit] = useState(5)
   const [editProdMode, setEditProdMode] = useState(false)
   const [editCoupMode, setEditCoupMode] = useState(false)
+  const [editShipMode, setEditShipMode] = useState(false)
   const [allCoupons, setAllCoupons] = useState([])
+  const [allShipping, setAllShipping] = useState([])
 
   const [quickProduct, setQuickProduct] = useState({
     id: '', 
@@ -112,6 +114,9 @@ const StoreContextProvider = (props) => {
     })
     db.collection('coupons').doc('allcoupons').onSnapshot(snap => {
       setAllCoupons(snap.data()?.allcoupons)
+    })
+    db.collection('shipping').doc('allshipping').onSnapshot(snap => {
+      setAllShipping(snap.data()?.allshipping)
     })
   },[auser, user]) 
 
@@ -178,7 +183,8 @@ const StoreContextProvider = (props) => {
       showSearch, setShowSearch, cart, setCart, darkMode, setDarkMode, allStats, 
       highSellersLimit, setHighSellersLimit, recentSellersLimit, setRecentSellersLimit, 
       recentOrdersLimit, setRecentOrdersLimit, editProdMode, setEditProdMode, sizesOpts, colorsOpts,
-      editCoupMode, setEditCoupMode, allCoupons, setAllCoupons
+      editCoupMode, setEditCoupMode, editShipMode, setEditShipMode, allCoupons, setAllCoupons,
+      allShipping, setAllShipping
     }}>
       {props.children}  
     </StoreContext.Provider>

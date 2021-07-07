@@ -50,15 +50,6 @@
   top: 10px;
   right: 15px;
 }
-.pagecont .producttable > .header h5 {
-  display: flex;
-  align-items: center;
-  font-size: 14px;
-  gap: 20px;
-  cursor: pointer;
-  transition: all 0.2s;
-  user-select: none;
-}
 .pagecont .producttable .header, .producttable .proditem {
   gap: 4px;
 }
@@ -70,8 +61,19 @@
 .pagecont .proditem .fa-badge-check.hot {
   color: var(--admincolor);
 }
-.pagecont .producttable .header h5:hover,
-.pagecont .producttable .header h5:hover i,
+.pagecont .producttable > .header h5 {
+  display: flex;
+  align-items: center;
+  font-size: 14px;
+  gap: 20px;
+  transition: all 0.2s;
+  user-select: none;
+}
+.pagecont .producttable > .header h5 span {
+  cursor: pointer;
+}
+.pagecont .producttable .header span:hover,
+.pagecont .producttable .header span:hover + i,
 .pagecont .producttable .header h5.active,
 .pagecont .producttable .header h5.active i {
   color: var(--admincolor)
@@ -79,6 +81,10 @@
 .pagecont .producttable .header h5 i {
   color: #555;
   transition: all 0.2s;
+}
+.pagecont .producttable .header h5:last-child,
+.pagecont .producttable .content h5:last-child {
+  flex-basis: 110px;
 }
 .pagecont .producttable .header h5:last-child:hover {
   color: inherit;
@@ -132,7 +138,7 @@
 .pagecont .producttable .optscont {
   position: absolute;
   top: -3px;
-  right: 30px;
+  left: -90px;
   padding: 3px;
   display: flex;
   justify-content: space-between;
@@ -147,7 +153,7 @@
   visibility: hidden;
 }
 .pagecont .producttable .optscont.show {
-  right: 50px;
+  left: -110px;
   visibility: visible;
   opacity: 1;
 }
@@ -187,7 +193,71 @@
 .pagecont .foot h5 span {
   font-weight: 600;
 }
+.adminhomecont .pagetitle {
+  font-size: 18px;
+  color: #555;
+}
 
+.pagecont .pagemaincontent .commoninput h6 {
+  margin-bottom: 8px;
+  font-size: 13px;
+  color: var(--graytxt);
+}
+.pagecont .pagemaincontent {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  margin-top: 50px;
+  width: 600px;
+}
+.pagecont .pagemaincontent input,
+.pagecont .pagemaincontent select,
+.pagecont .pagemaincontent textarea {
+  border-radius: 10px;
+  border: 1px solid #eee;
+  background: #f5f5f5;
+}
+.pagecont .pagemaincontent textarea {
+  min-height: 90px;
+  max-height: 150px;
+  max-width: 100%;
+  min-width: 100%;
+}
+.pagecont .generatecont {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.pagemaincontent .adminbtn {
+  display: inline-flex;
+}
+.pagemaincontent .adminbtn span {
+  font-size: 13px;
+}
+
+.pagemaincontent .appinput.couponcode input {
+  text-transform: uppercase;
+  font-size: 17px;
+  font-weight: 600;
+  padding: 10px;
+}
+.pagemaincontent > h4 {
+  color: var(--graytxt);
+  margin-bottom: 20px;
+  margin-top: 10px;
+}
+.pagemaincontent .inprow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.pagemaincontent .inprow input,
+.pagemaincontent .inprow select {
+  width: 400px;
+}
+.pagemaincontent .adminbtn.createbtn {
+  margin: 20px 0;
+}
 
 /*Dark mode styles */
 .adminapp.darkmode .adminhomecont {

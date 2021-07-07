@@ -15,8 +15,19 @@ export const couponHeaders = [
   {name: 'Coupon Name', val: 1},
   {name: 'Type', val: 2},
   {name: 'Amount', val: 3},
-  {name: 'Expiry', val: 4},
+  {name: 'Status', val: 4},
+  {name: 'Expiry Date', val: 5},
   {name: 'Actions', val: -1}
+]
+
+export const shipHeaders = [
+  {name: 'No.', val: 0},
+  {name: 'Shipping Method', val: 1},
+  {name: 'Company', val: 2},
+  {name: 'Price', val: 3},
+  {name: 'Countries', val: 4},
+  {name: 'Status', val: 5},
+  {name: 'Actions', val: -1},
 ]
 
 export const colorsOpts = [
@@ -38,4 +49,13 @@ export const sizeOpts = [
   {name: 'Medium', value: 'm'},
   {name: 'Large', value: 'l'},
   {name: 'Extra Large', value: 'xl'},
+]
+
+export const courrierOpts = [
+  {name: 'Fedex', value: 'fedex'},
+  {name: 'Canada Post', value: 'canadapost'},
+  {name: 'Uhaul', value: 'uhaul'},
+  {name: 'UPS', value: 'ups'},
+  {name: 'Purolator', value: 'purolator'},
+  {name: 'DHL', value: 'dhl'},
 ]
