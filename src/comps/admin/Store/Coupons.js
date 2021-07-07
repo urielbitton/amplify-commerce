@@ -1,4 +1,4 @@
-import React, {useContext, useState} from 'react'
+import React, {useContext, useEffect, useState} from 'react'
 import AdminBtn from '../common/AdminBtn'
 import {AppInput} from '../../common/AppInputs'
 import {StoreContext} from '../../common/StoreContext'
@@ -17,12 +17,13 @@ export default function Coupons() {
   let pattern = new RegExp('\\b' + clean(keyword), 'i')
   const allCouponsFilter = allCoupons?.filter(x => (pattern.test((x.name)) || pattern.test((x.amount)) || pattern.test((x.type))))
   const reducedAmounts = allCouponsFilter.reduce((a,b) => a + (b.type==='flat'&& +b.amount),0)
+  const reduceActive = allCouponsFilter.reduce((a,b) => a + (b.isActive&& 1),0)
   const history = useHistory()
 
   const headersrow = couponHeaders?.map((el,i) => {
-    return <h5 className={el.val===sort?"active":""} onClick={() => {setSort(el.val);setAsc(el.val===sort && asc?false:true)}}>
-      {el.name}
-      {i!==5&&<i className={sort===el.val && asc?"fad fa-sort-up":sort===el.val && !asc?"fad fa-sort-down":"fas fa-sort"}></i>}
+    return <h5 className={el.val===sort?"active":""}>
+      <span onClick={() => {setSort(el.val);setAsc(el.val===sort && asc?false:true)}}>{el.name}</span>
+      {i!==6&&<i className={sort===el.val && asc?"fad fa-sort-up":sort===el.val && !asc?"fad fa-sort-down":"fas fa-sort"}></i>}
     </h5>
   }) 
 
@@ -67,13 +68,17 @@ export default function Coupons() {
     
   }
 
+  useEffect(() => {
+    window.onclick = () => setShowOpts(0)
+  },[])
+
   return (
     <div className="couponspage">
       <div className="pagecont">
         <div className="titlesrow">
           <h4>Coupons</h4>
           <div className="flex">
-            <AdminBtn title="New Coupon" onClick={() => setEditCoupMode(false)} url="/admin/store/add-coupon" />
+            <AdminBtn title="New Coupon" clickEvent onClick={() => setEditCoupMode(false)} url="/admin/store/add-coupon" />
             <AppInput 
               placeholder="Find a Coupon" 
               iconclass="fal fa-search" 
@@ -92,6 +97,7 @@ export default function Coupons() {
             <div className="foot">
               <h5><span>{allCouponsFilter.length}</span> Coupon{allCouponsFilter.length>1?"s":""}</h5>
               <h5><span>{currencyFormat.format(reducedAmounts)}</span> Total Coupons Amount</h5>
+              <h5><span>{reduceActive}</span> Active Coupons</h5>
             </div>
           </div>
         </div>

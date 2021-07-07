@@ -293,14 +293,14 @@ export default function EditProduct(props) {
         <div className="actionscontent">
           <AdminBtn 
             title={editProdMode?"Save Product":"Add Product"} 
-            nourl 
+            clickEvent 
             className="savebtn" 
             solid
             onClick={() => editProdMode?saveProduct():addProduct()}
           />
-          <AdminBtn 
+          <AdminBtn  
             title={editProdMode?"Delete Product":"Cancel"} 
-            nourl 
+            clickEvent 
             className="deletebtn" 
             onClick={() => editProdMode?deleteProduct():cancelAdd()}
           />

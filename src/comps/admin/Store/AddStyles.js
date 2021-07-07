@@ -55,8 +55,8 @@ export default function AddStyles(props) {
         </div> 
       }
       <div className="addcoloractions show" style={{padding:0}} onClick={(e) => e.stopPropagation()}>
-        <AdminBtn title={addMode?"Add":"Save"} solid disabled={!newColorName || !newColorStock} nourl onClick={() => addMode?addExtraColor(el):saveExtraColor(el)}/>
-        <AdminBtn title={showExtraAdd?"Done":"New Color"} disabled={extraEdit>-1} solid={!showExtraAdd} nourl onClick={() => {setShowExtraAdd(prev => !prev);!showExtraAdd&&setAddMode(true)}}/>
+        <AdminBtn title={addMode?"Add":"Save"} solid disabled={!newColorName || !newColorStock} clickEvent onClick={() => addMode?addExtraColor(el):saveExtraColor(el)}/>
+        <AdminBtn title={showExtraAdd?"Done":"New Color"} disabled={extraEdit>-1} solid={!showExtraAdd} clickEvent onClick={() => {setShowExtraAdd(prev => !prev);!showExtraAdd&&setAddMode(true)}}/>
       </div> 
     </AppAccordion>
   })
@@ -198,19 +198,19 @@ export default function AddStyles(props) {
           </div>
         </div>
         <div className={`addcoloractions ${showColorRow?"show":""}`}>
-          <AdminBtn title="Add Color" solid nourl disabled={!newColorName||!newColorStock} onClick={() => addColor()}/>
-          <AdminBtn title="Cancel" nourl onClick={() => setNewSize('')}/>
+          <AdminBtn title="Add Color" solid clickEvent disabled={!newColorName||!newColorStock} onClick={() => addColor()}/>
+          <AdminBtn title="Cancel" clickEvent onClick={() => setNewSize('')}/>
         </div>
         <div className={`addcoloractions ${showColorRow?"show":""} forsize`}>
-          <AdminBtn title="Add Style" solid nourl disabled={!colorsArr.length} onClick={() => addStyle()}/>
-          <AdminBtn title="Cancel" nourl onClick={() => setNewSize('')}/>
+          <AdminBtn title="Add Style" solid clickEvent disabled={!colorsArr.length} onClick={() => addStyle()}/>
+          <AdminBtn title="Cancel" clickEvent onClick={() => setNewSize('')}/>
         </div>
         </div>
       </div>
       <div className="stylesactions">
         <AdminBtn 
           title={showNewSize?"Cancel":"New Style"} 
-          nourl 
+          clickEvent 
           onClick={() => newStyleActions()}
         />
       </div>

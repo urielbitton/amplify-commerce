@@ -22,8 +22,8 @@ export default function Products() {
   x.categories.some(x => x===keyword) || x.collection.some(x => x===keyword) || pattern.test(x.belongs)))
  
   const headersrow = prodHeaders?.map((el,i) => {
-    return <h5 className={el.val===sort?"active":""} onClick={() => {setSort(el.val);setAsc(el.val===sort && asc?false:true)}}>
-      {el.name}
+    return <h5 className={el.val===sort?"active":""}>
+      <span onClick={() => {setSort(el.val);setAsc(el.val===sort && asc?false:true)}}>{el.name}</span>
       {i!==8&&<i className={sort===el.val && asc?"fad fa-sort-up":sort===el.val && !asc?"fad fa-sort-down":"fas fa-sort"}></i>}
     </h5>
   }) 
@@ -54,8 +54,8 @@ export default function Products() {
       else return reduceStock(a) - reduceStock(b)
     }
   })
-  .map((el,i) => {
-    return <div className="proditem">
+  .map((el,i) => (
+    <div className="proditem">
       <h5>{i+1}</h5>
       <h5>
         <img src={el.imgs[0]} alt={el.name}/>
@@ -82,7 +82,7 @@ export default function Products() {
         </div>
       </h5>
     </div>
-  })
+  ))
 
   function editProduct(prodid) {
     setEditProdMode(true)
@@ -103,7 +103,7 @@ export default function Products() {
   }
 
   useEffect(() => {
-    window.onclick = () => setShowOpts(0)
+    window.onclick = () => showOpts>0&&setShowOpts(0)
   },[])
 
   return (
@@ -112,7 +112,7 @@ export default function Products() {
         <div className="titlesrow">
           <h4>Products</h4>
           <div className="flex">
-            <AdminBtn title="New Product" url="/admin/store/add-product" onClick={() => setEditProdMode(false)}/>
+            <AdminBtn title="New Product" url="/admin/store/add-product"/>
             <AppInput 
               placeholder="Find a Product" 
               iconclass="fal fa-search" 
@@ -130,12 +130,9 @@ export default function Products() {
             </div>
             <div className="foot">
               <h5><span>{allProdsFilter.length}</span> product{allProdsFilter.length>1?"s":""}</h5>
-              <h5>
-                <span>{allProdsFilter?.reduce((a,b) => a + b.sizes.reduce((a,b) => a + b.colors.reduce((a,b) => a + b.qtySold>0&&b.qtySold,0),0),0)}</span> quantities sold
-              </h5>
-              <h5>
-                <span>{currencyFormat.format(allProdsFilter?.reduce((x,y) => x + y.sizes.reduce((a,b) => a + b.colors.reduce((a,b) => a + b.qtySold>0&&b.qtySold*y.price,0),0),0))}</span> total earnings
-              </h5>
+              <h5><span>{allProdsFilter?.reduce((a,b) => a + b.sizes.reduce((a,b) => a + b.colors.reduce((a,b) => a + b.qtySold>0&&b.qtySold,0),0),0)}</span> quantities sold</h5>
+              <h5><span>{currencyFormat.format(allProdsFilter?.reduce((x,y) => x + y.sizes.reduce((a,b) => a + b.colors.reduce((a,b) => a + b.qtySold>0&&b.qtySold*y.price,0),0),0))}</span> total earnings</h5>
+              <h5><span>{allProdsFilter?.reduce((a,b) => a + b.sizes.reduce((a,b) => a + b.colors.reduce((a,b) => a + b.stock>0&&0.5,0),0),0)}</span> Products In Stock</h5>
             </div>
           </div>
         </div>

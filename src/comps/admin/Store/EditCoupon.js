@@ -1,14 +1,13 @@
 import React, { useContext, useState, useEffect } from 'react'
 import { StoreContext } from '../../common/StoreContext'
-import './styles/EditCoupon.css'
 import {AppInput, AppSelect, AppSwitch, AppTextarea} from '../../common/AppInputs'
 import AdminBtn from '../common/AdminBtn'
 import {db} from '../../common/Fire'
 import firebase from 'firebase'
 import { useHistory, useLocation } from 'react-router'
-
-export default function EditCoupon(props) {
-
+ 
+export default function EditCoupon(props) { 
+ 
   const {editCoupMode, setEditCoupMode, allCoupons} = useContext(StoreContext)
   const {id, name, amount, description, type, expiryDate, timesUsed, isActive} = editCoupMode&&props.el 
   let coupongen = Math.random().toString(36).substring(7)
@@ -90,10 +89,10 @@ export default function EditCoupon(props) {
     <div className="addcouponpage">
       <div className="pagecont">
         <h3 className="pagetitle">{editCoupMode?"Edit Coupon":"Add Coupon"}</h3>
-        <div className="couponcontent">
-          <div>
+        <div className="couponcontent pagemaincontent">
+          <div className="generatecont">
             <AppInput title="Coupon Code" className="couponcode" onChange={(e) => setCoupName(e.target.value)} value={coupName} />
-            <AdminBtn title="Generate Code" solid nourl onClick={() => setCoupName(coupongen)}/>
+            <AdminBtn title="Generate Code" solid clickEvent onClick={() => setCoupName(coupongen)}/>
           </div>
           <AppTextarea title="Description (Optional)" onChange={(e) => setCoupDescript(e.target.value)} value={coupDescript} />
           <h4>Coupon Data</h4>
@@ -105,10 +104,10 @@ export default function EditCoupon(props) {
             title={editCoupMode?"Edit Coupon":"Create Coupon"} 
             solid 
             className="createbtn" 
-            nourl
+            clickEvent
             onClick={() => editCoupMode?editCoupon():createCoupon()}
           />
-      </div>
+        </div>
       </div>
     </div>
   )
