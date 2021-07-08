@@ -45,6 +45,7 @@ export default function AddStyles(props) {
           return <div className={`inprow nested ${extraEdit===i?"active":""}`} onClick={(e) => extraEditActions(el.colors, el2, e, i)}>
             <AppSelect title="Color" options={[{name:'Choose a color',value:''},...colorsOpts]} value={extraEdit===i?newColorName:el2.name} onChange={(e) => setNewColorName(e.target.value)} namebased/>
             <AppInput title="Stock" value={extraEdit===i?newColorStock:el2.stock} onChange={(e) => setNewColorStock(e.target.value)}/>
+            <AdminBtn title={<i className="far fa-trash-alt"></i>} className="deletebtn" clickEvent onClick={(e) => deleteColor(el.colors, el, el2, e)}/>
           </div>
         })
       }
@@ -88,6 +89,8 @@ export default function AddStyles(props) {
     const sizeindex = prodSizes.indexOf(size)
     prodSizes[sizeindex].colors.push({name:newColorName,stock:newColorStock,qtySold:0})
     setProdSizes(prev => [...prev])
+    setNewColorName('')
+    setNewColorStock('')
   }
   function addStyle() { 
     if(colorsArr.length) {
@@ -111,6 +114,13 @@ export default function AddStyles(props) {
       setProdSizes(prev => [...prev])
       setSavedSizes(prev => [...prev]) 
     } 
+  }
+  function deleteColor(colorsarr, el, el2, e) {
+    e.stopPropagation()
+    let sizeindex = prodSizes.indexOf(el)
+    let colorsindex = colorsarr.indexOf(el2)
+    prodSizes[sizeindex].colors.splice(colorsindex,1)
+    setExtraEdit(-0.5)
   }
   function newStyleActions() {
     setShowNewSize(prev => !prev)

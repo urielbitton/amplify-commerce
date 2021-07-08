@@ -8,7 +8,7 @@ import { db } from '../../common/Fire'
 
 export default function Shipping() {
 
-  const {editShipMode, setEditShipMode, allShipping} = useContext(StoreContext)
+  const {editShipMode, setEditShipMode, allShipping, currencyFormat} = useContext(StoreContext)
   const [sort, setSort] = useState(0)
   const [asc, setAsc] = useState(true)
   const [showOpts, setShowOpts] = useState(0)
@@ -35,8 +35,8 @@ export default function Shipping() {
       <h5>{i+1}</h5>
       <h5>{el.name}</h5>
       <h5>{el.company}</h5>
-      <h5>{el.price}</h5>
-      <h5>{el.countries?.slice(0,2).map(el => el.name).join(', ')} {el.countries.length>2&&`+ ${(el.countries.length-2)} more`}</h5>
+      <h5>{currencyFormat.format(el.price)}</h5>
+      <h5>{el.countries?.slice(0,2).join(', ')} {el.countries.length>2&&`+ ${(el.countries.length-2)} more`}</h5>
       <h5>{el.isActive?"Active":"Not Active"}</h5>
       <h5> 
         <div className="actionsdiv" onClick={(e) => {setShowOpts(showOpts===el.id?0:el.id);e.stopPropagation()}}>

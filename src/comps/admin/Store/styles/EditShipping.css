@@ -1,0 +1,40 @@
+.shipcountriescont {
+  width: 100%;
+}
+.shipcountriescont .inprow {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.shipcountriescont .addbtn {
+  margin-bottom: 20px;
+}
+.shipcountriescont .appaccordion {
+  margin-bottom: 20px;
+  display: none;
+}
+.shipcountriescont .appaccordion.show {
+  display: flex;
+}
+.shipcountriescont .appaccordion .header {
+  border-radius: 10px 10px 0 0;
+  padding: 10px;
+}
+.shipcountriescont .appaccordion .header:hover,
+.shipcountriescont .appaccordion.open .header {
+  background: #f1f1f1;
+}
+.shipcountriescont .appaccordion .inprow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 10px;
+}
+.shipcountriescont .appaccordion select {
+  background: none;
+  border: none;
+  border-bottom: 1px solid #ddd;
+  border-radius: 0;
+  padding: 10px;
+}
