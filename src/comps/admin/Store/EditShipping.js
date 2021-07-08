@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { useLocation } from 'react-router-dom'
+import { useHistory, useLocation } from 'react-router-dom'
 import { AppInput, AppSelect, AppSwitch, AppTextarea } from '../../common/AppInputs'
 import { db } from '../../common/Fire'
 import { StoreContext } from '../../common/StoreContext'
@@ -8,10 +8,11 @@ import AdminBtn from '../common/AdminBtn'
 import {countries as countriesOpts} from '../../common/Lists'
 import './styles/EditShipping.css'
 import AppAccordion from '../../site/common/AppAccordion'
+import firebase from 'firebase'
 
 export default function EditShipping(props) {
 
-  const {editShipMode, setEditShipMode} = useContext(StoreContext)
+  const {editShipMode, setEditShipMode, allShipping} = useContext(StoreContext)
   const {id, name, company, price, value,  isActive, description, countries} = editShipMode&&props.el
   const [shipName, setShipName] = useState(editShipMode?name:'')
   const [shipCompany, setShipCompany] = useState(editShipMode?company:'')
@@ -20,16 +21,18 @@ export default function EditShipping(props) {
   const [shipDescript, setShipDescript] = useState(editShipMode?description:'')
   const [newCountry, setNewCountry] = useState('')
   const [showAdd, setShowAdd] = useState(false)
-  const [countriesArr, setCountriesArr] = useState([])
+  const [countriesArr, setCountriesArr] = useState(editShipMode?countries:[])
   const [editIndex, setEditIndex] = useState(-1)
   const location = useLocation()
-  const hasCountries = countriesArr.length || (editShipMode&&countries.length)
+  const history= useHistory()
+  const hasCountries = countriesArr.length
 
   const shipObj = {
     id: editShipMode?id:db.collection('coupons').doc().id,
     name: shipName,
     company: shipCompany,
     price: shipPrice,
+    countries: countriesArr,
     isActive: shipActive,
     value: editShipMode?value: shipName.split(' ')[0].toLowerCase(),
     description: shipDescript
@@ -49,7 +52,12 @@ export default function EditShipping(props) {
   })
 
   function createShipping() {
-    
+    db.collection('shipping').doc('allshipping').update({
+      allshipping: firebase.firestore.FieldValue.arrayUnion(shipObj)
+    }).then(() => {
+      window.alert('The shipping method has been successfully added to your store.')
+      history.push('/admin/store/shipping')
+    })
   }
   function editShipping() {
 
@@ -105,7 +113,7 @@ export default function EditShipping(props) {
               <AppSelect 
               title="Choose Country" 
               className={`inprow countryselect`} 
-              options={[{name:'Choose a Country',value:''},...countriesOpts]} 
+              options={[{name:'Choose a Country',value:''},...countriesOpts.filter(x => !countriesArr.includes(x.name))]} 
               onChange={(e) => setNewCountry(e.target.value)} 
               value={newCountry} 
               namebased
