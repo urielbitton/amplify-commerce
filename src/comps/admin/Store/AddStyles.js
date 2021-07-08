@@ -94,7 +94,7 @@ export default function AddStyles(props) {
   }
   function addStyle() { 
     if(colorsArr.length) {
-      setProdSizes(prev => [...prev, {colors:colorsArr, name:newSize}])
+      setProdSizes(prev => [...prev, {colors:[...new Set(colorsArr)], name:newSize}]) //new Set removes possible duplicates
       setSavedSizes(prev => [...prev, newSize])
       setColorsArr([])
       setNewSize('')

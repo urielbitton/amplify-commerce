@@ -20,9 +20,11 @@ export default function EditShipping(props) {
   const [shipActive, setShipActive] = useState(editShipMode?isActive:'')
   const [shipDescript, setShipDescript] = useState(editShipMode?description:'')
   const [newCountry, setNewCountry] = useState('')
+  const [extraCountry, setExtraCountry] = useState('')
   const [showAdd, setShowAdd] = useState(false)
   const [countriesArr, setCountriesArr] = useState(editShipMode?countries:[])
   const [editIndex, setEditIndex] = useState(-1)
+  const [addMode, setAddMode] = useState(false)
   const location = useLocation()
   const history= useHistory()
   const hasCountries = countriesArr.length
@@ -32,22 +34,24 @@ export default function EditShipping(props) {
     name: shipName,
     company: shipCompany,
     price: shipPrice,
-    countries: countriesArr,
+    countries: [...new Set(countriesArr)], //removes duplicates
     isActive: shipActive,
     value: editShipMode?value: shipName.split(' ')[0].toLowerCase(),
     description: shipDescript
   }
 
   const shipcountriesrow = countriesArr?.map((el,i) => {
-    return <div className="inprow" onClick={() => setEditIndex(i)}>
+    return <div className="inprow" onClick={(e) => {setEditIndex(i);e.stopPropagation()}}>
       <AppSelect 
         title="Country" 
         className="inprow" 
-        options={countriesOpts} 
+        options={[{name:'Choose a Country',value:''},...countriesOpts]} 
         onChange={(e) => setNewCountry(e.target.value)} 
+        onClick={() => setAddMode(false)}
         value={editIndex===i?newCountry:el} 
         namebased 
       />
+      <AdminBtn title={<i className="far fa-trash-alt"></i>} className="deletebtn" clickEvent onClick={() => deleteCountry(el)}/>
     </div>
   })
 
@@ -63,8 +67,17 @@ export default function EditShipping(props) {
 
   }
   function addCountry() {
-    setCountriesArr(prev => [...prev, newCountry])
-    setNewCountry('')
+    setCountriesArr(prev => [...prev, extraCountry])
+    setExtraCountry('')
+  }
+  function saveCountry() {
+    countriesArr[editIndex] = newCountry
+    setCountriesArr(prev => [...prev])
+  }
+  function deleteCountry(el) {
+    const itemindex = countriesArr.indexOf(el)
+    countriesArr.splice(itemindex,1)
+    setCountriesArr(prev => [...prev]) 
   }
 
   useEffect(() => {
@@ -88,11 +101,16 @@ export default function EditShipping(props) {
   useEffect(() => {
     if(!showAdd) {
       setNewCountry('')
+      setExtraCountry('')
     }
   },[showAdd])
 
   useEffect(() => {
-    setShowAdd(false)
+    window.onclick = () => {
+      if(editIndex > -1) {
+        setEditIndex(-1)
+      }
+    }
   },[editIndex])
 
   return (
@@ -105,24 +123,28 @@ export default function EditShipping(props) {
           {/*Shipping Country Select*/}
           <h4>Shipping Countries</h4>
           <div className="shipcountriescont">
-            <AppAccordion title="Countries" className={`${hasCountries?"show":""} `}>
+            <AppAccordion title="Countries" className={`${hasCountries?"show":""} ${showAdd?"hidden":""} `}>
               {shipcountriesrow}
+              <div className="actionsdiv">
+                <AdminBtn title="Save" disabled={!extraCountry || addMode} solid clickEvent onClick={() => saveCountry()}/>
+              </div>
             </AppAccordion>
             {
-              showAdd&&<>
+              showAdd&&<div className="addrow">
               <AppSelect 
               title="Choose Country" 
               className={`inprow countryselect`} 
               options={[{name:'Choose a Country',value:''},...countriesOpts.filter(x => !countriesArr.includes(x.name))]} 
-              onChange={(e) => setNewCountry(e.target.value)} 
-              value={newCountry} 
+              onChange={(e) => setExtraCountry(e.target.value)} 
+              onClick={() => setAddMode(true)}
+              value={extraCountry} 
               namebased
               />
-              <AdminBtn title="Add" className="addbtn" disabled={!newCountry} clickEvent onClick={() => addCountry()}/>
-              </>
+              <AdminBtn title="Add" solid className="addbtn" disabled={!extraCountry} clickEvent onClick={() => addCountry()}/>
+              </div>
             }
             <br/>
-            <AdminBtn title={showAdd?"Hide":"New Country"} className="newcountrybtn" solid clickEvent onClick={() => setShowAdd(prev => !prev)}/>
+            <AdminBtn title={showAdd?"Hide":"New Country"} className="newcountrybtn" solid={!showAdd} clickEvent onClick={() => setShowAdd(prev => !prev)}/>
           </div>
           <h4>Shipping Options</h4>
           <AppSelect title="Courier Company" className="inprow" options={[{name:'Choose one...',value:''},...courrierOpts]} onChange={(e) => setShipCompany(e.target.value)} value={shipCompany}/>

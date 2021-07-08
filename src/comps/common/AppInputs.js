@@ -15,14 +15,14 @@ export function AppInput(props) {
 }     
 
 export function AppSelect(props) {
-  const {multiple, options, namebased, title, onChange, value, defaultValue, className} = props
+  const {multiple, options, namebased, title, onChange, onClick, value, defaultValue, className} = props
   let optionsdata = options?.map((data) =>
     <option key={data.id} selected={data.selected} disabled={data.disabled} value={namebased?data.value:data.name?data.name.toLowerCase().replaceAll(' ',''):data.name} name={namebased?data.name:null}>  
         {data.name}
     </option>
   )  
   return ( 
-    <label className={`appselect commoninput ${className}`}>
+    <label className={`appselect commoninput ${className}`} onClick={(e) => onClick&&onClick(e)}>
       <h6>{title}</h6>
       {
         multiple?

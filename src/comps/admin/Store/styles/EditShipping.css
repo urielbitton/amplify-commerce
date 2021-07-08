@@ -6,6 +6,13 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+  padding: 0 10px;
+}
+.shipcountriescont .inprow .deletebtn {
+  height: 35px;
+}
+.shipcountriescont .inprow .deletebtn:hover {
+  background: var(--red);
 }
 .shipcountriescont .addbtn {
   margin-bottom: 20px;

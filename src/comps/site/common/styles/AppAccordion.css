@@ -8,6 +8,9 @@
 .appaccordion.open .content {
   padding-bottom: 40px;
 }
+.appaccordion.closed .content {
+  padding-bottom: 0;
+} 
 .appaccordion .space-between {
   width: 100%;
   display: flex;
