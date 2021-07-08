@@ -51,7 +51,7 @@ export default function EditShipping(props) {
         value={editIndex===i?newCountry:el} 
         namebased 
       />
-      <AdminBtn title={<i className="far fa-trash-alt"></i>} className="deletebtn" clickEvent onClick={() => deleteCountry(el)}/>
+      <AdminBtn title={<i className="far fa-trash-alt"></i>} className="deletebtn" clickEvent onClick={(e) => deleteCountry(el, e)}/>
     </div>
   })
 
@@ -73,8 +73,10 @@ export default function EditShipping(props) {
   function saveCountry() {
     countriesArr[editIndex] = newCountry
     setCountriesArr(prev => [...prev])
+    setNewCountry('')
   }
-  function deleteCountry(el) {
+  function deleteCountry(el, e) {
+    e.stopPropagation()
     const itemindex = countriesArr.indexOf(el)
     countriesArr.splice(itemindex,1)
     setCountriesArr(prev => [...prev]) 
@@ -126,7 +128,7 @@ export default function EditShipping(props) {
             <AppAccordion title="Countries" className={`${hasCountries?"show":""} ${showAdd?"hidden":""} `}>
               {shipcountriesrow}
               <div className="actionsdiv">
-                <AdminBtn title="Save" disabled={!extraCountry || addMode} solid clickEvent onClick={() => saveCountry()}/>
+                <AdminBtn title="Save" disabled={!newCountry || addMode} solid clickEvent onClick={() => saveCountry()}/>
               </div>
             </AppAccordion>
             {
