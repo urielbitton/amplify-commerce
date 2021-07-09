@@ -11,10 +11,12 @@ import Coupons from '../Store/Coupons'
 import EditCoupon from '../Store/EditCoupon'
 import EditShipping from '../Store/EditShipping'
 import Shipping from '../Store/Shipping'
+import Orders from '../Orders/Orders'
+import EditOrder from '../Orders/EditOrder'
 
 export default function AdminHomecont() {
  
-  const {allProducts, allCoupons, allShipping} = useContext(StoreContext)
+  const {allProducts, allCoupons, allShipping, allOrders} = useContext(StoreContext)
   
   const editprodpages = allProducts?.map(el => {
     return <Route path={`/admin/store/edit-product/${el.id}`}>
@@ -29,6 +31,11 @@ export default function AdminHomecont() {
   const editshippingpages = allShipping?.map(el => {
     return <Route path={`/admin/store/edit-shipping/${el.id}`}>
       <EditShipping el={el} />
+    </Route> 
+  })
+  const editorderspages = allOrders?.map(el => {
+    return <Route path={`/admin/orders/edit-orders/${el.orderid}`}>
+      <EditOrder el={el} />
     </Route> 
   })
 
@@ -61,6 +68,13 @@ export default function AdminHomecont() {
             <EditShipping />
           </Route>
           {editshippingpages}
+          <Route exact path="/admin/orders">
+            <Orders />
+          </Route>
+          <Route path="/admin/orders/add-order">
+            <EditOrder />
+          </Route>
+          {editorderspages}
         </Switch> 
       </div>
     </div> 

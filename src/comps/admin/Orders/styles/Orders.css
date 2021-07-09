@@ -1,0 +1,55 @@
+.orderspage .producttable > .header h5:first-child,
+.orderspage .producttable > .content h5:first-child {
+  flex-basis: 180px;
+}
+.orderspage .producttable > .content h5:first-child {
+  text-transform: uppercase;
+}
+.orderspage .producttable > .content h5:first-child:hover {
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.editorderspage .tabsbar {
+  width: 100;
+  margin-top: 40px;
+}
+.editorderspage .tabstitles {
+  display: flex;
+  justify-content: flex-start;
+  gap: 30px;
+  align-items: center;
+}
+.editorderspage .tabsbar h5 {
+  color: #aaa;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+  padding: 8px 0;
+}
+.editorderspage .tabsbar h5:hover,
+.editorderspage .tabsbar h5.active {
+  color: var(--admincolor);
+}
+.editorderspage .tabsbar h5 hr {
+  position: absolute;
+  width: 0;
+  height: 2px;
+  background: var(--admincolor);
+  bottom: -1px;
+  opacity: 0;
+  transition: all 0.3s;
+  z-index: 10;
+  margin: auto;
+  left: 0;
+  right: 0;
+}
+.editorderspage .tabsbar h5.active hr {
+  opacity: 1;
+  width: 100%;
+}
+.editorderspage .tabsbar .tabline {
+  width: 100%;
+  height: 1px;
+  background: #eee;
+}

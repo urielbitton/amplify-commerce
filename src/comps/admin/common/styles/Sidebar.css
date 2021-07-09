@@ -164,11 +164,15 @@
   display: flex;
   flex-direction: column;
   transition: all 0.4s;
-  overflow: hidden;
+  overflow-y: scroll;
   user-select: none;
+  border-radius: 10px;
+}
+.adminsidebar .addnewbtn .slidecont::-webkit-scrollbar {
+  width: 5px;
 }
 .adminsidebar .addnewbtn.open .slidecont {
-  max-height: 200px;
+  max-height: 176px;
   box-shadow: 0 3px 10px rgba(0,0,0,0.1);
 }
 .adminsidebar .addnewbtn .slidecont a {

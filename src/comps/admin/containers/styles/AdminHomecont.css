@@ -223,6 +223,15 @@
   max-width: 100%;
   min-width: 100%;
 }
+.pagecont .pagemaincontent .editsection {
+  width: 100%;
+  display: none;
+  flex-direction: column;
+  gap: 20px;
+}
+.pagecont .pagemaincontent .editsection.show {
+  display: flex;
+}
 .pagecont .generatecont {
   display: flex;
   flex-direction: column;

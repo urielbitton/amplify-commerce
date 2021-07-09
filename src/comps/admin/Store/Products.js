@@ -7,7 +7,7 @@ import AdminBtn from '../common/AdminBtn'
 import {db} from '../../common/Fire'
 
 export default function Products() {
-  
+   
   const {allProducts, currencyFormat, setEditProdMode} = useContext(StoreContext)
   const [sort, setSort] = useState(0)
   const [asc, setAsc] = useState(true)

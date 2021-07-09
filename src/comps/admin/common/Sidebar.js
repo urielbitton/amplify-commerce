@@ -6,7 +6,7 @@ import { StoreContext } from '../../common/StoreContext'
 
 export default function Sidebar() {
 
-  const {setEditProdMode} = useContext(StoreContext)
+  const {setEditProdMode, setEditCoupMode, setEditShipMode, setEditOrdMode} = useContext(StoreContext)
   const [openTab, setOpenTab] = useState(0)
   const [openNew, setOpenNew] = useState(false)
   const location = useLocation()
@@ -86,8 +86,11 @@ export default function Sidebar() {
         </div>
         <div className="slidecont">
           <Link to="/admin/store/add-product" onClick={() => setEditProdMode(false)}><i className="fal fa-plus"></i>Create Product</Link>
-          <Link to="/admin/orders/add-order"><i className="fal fa-plus"></i>Create Order</Link>
+          <Link to="/admin/store/add-coupon" onClick={() => setEditCoupMode(false)}><i className="fal fa-plus"></i>Create Coupon</Link>
+          <Link to="/admin/store/add-shipping" onClick={() => setEditShipMode(false)}><i className="fal fa-plus"></i>Create Shipping</Link>
+          <Link to="/admin/orders/add-order" onClick={() => setEditOrdMode(false)}><i className="fal fa-plus"></i>Create Order</Link>
           <Link to="/admin/customers/add-customer"><i className="fal fa-plus"></i>Create Customer</Link>
+          <Link to="/admin/settings/users/add-user"><i className="fal fa-plus"></i>Create User</Link>
         </div>
       </div>
       <div className="sidefooter">

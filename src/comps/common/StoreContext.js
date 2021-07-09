@@ -48,6 +48,7 @@ const StoreContextProvider = (props) => {
   const [editProdMode, setEditProdMode] = useState(false)
   const [editCoupMode, setEditCoupMode] = useState(false)
   const [editShipMode, setEditShipMode] = useState(false)
+  const [editOrdMode, setEditOrdMode] = useState(false)
   const [allCoupons, setAllCoupons] = useState([])
   const [allShipping, setAllShipping] = useState([])
 
@@ -184,7 +185,7 @@ const StoreContextProvider = (props) => {
       highSellersLimit, setHighSellersLimit, recentSellersLimit, setRecentSellersLimit, 
       recentOrdersLimit, setRecentOrdersLimit, editProdMode, setEditProdMode, sizesOpts, colorsOpts,
       editCoupMode, setEditCoupMode, editShipMode, setEditShipMode, allCoupons, setAllCoupons,
-      allShipping, setAllShipping
+      allShipping, setAllShipping, editOrdMode, setEditOrdMode
     }}>
       {props.children}  
     </StoreContext.Provider>

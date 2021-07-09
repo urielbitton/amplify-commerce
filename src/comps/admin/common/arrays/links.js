@@ -20,7 +20,7 @@ export const menuLinks = [
     icon: 'far fa-shopping-bag',
     url: '/admin/orders/',
     sublinks: [
-      {name: 'orders', icon: 'far fa-shopping-bag', url: '/admin/orders/'},
+      {name: 'orders', icon: 'far fa-shopping-bag', url: '/admin/orders/', exact:true},
       {name: 'transactions', icon: 'far fa-wallet', url: '/admin/orders/transactions'},
     ]
   },
@@ -29,7 +29,7 @@ export const menuLinks = [
     icon: 'far fa-user-tag',
     url: '/admin/customers/',
     sublinks: [
-      {name: 'customers', icon: 'far fa-user-friends', url: '/admin/customers/'},
+      {name: 'customers', icon: 'far fa-user-friends', url: '/admin/customers/', exact: true},
       {name: 'reviews', icon: 'far fa-star-half-alt', url: '/admin/customers/reviews'},
       {name: 'marketing', icon: 'fad fa-mail-bulk', url: '/admin/customers/marketing'},
       {name: 'users', icon: 'far fa-users-cog', url: '/admin/customers/users'},

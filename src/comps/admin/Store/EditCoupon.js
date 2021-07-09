@@ -101,7 +101,7 @@ export default function EditCoupon(props) {
           <AppInput title="Expiry Date" className="inprow" type="date" onChange={(e) => setCoupExpiry(e.target.value)} value={coupExpiry} />
           <AppSwitch title="Activate Coupon" className="inprow" onChange={(e) => setCoupActive(e.target.checked)} checked={coupActive}/> 
           <AdminBtn 
-            title={editCoupMode?"Edit Coupon":"Create Coupon"} 
+            title={editCoupMode?"Save Coupon":"Create Coupon"} 
             solid 
             className="createbtn" 
             clickEvent

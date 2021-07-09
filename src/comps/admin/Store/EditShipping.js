@@ -64,7 +64,14 @@ export default function EditShipping(props) {
     })
   }
   function editShipping() {
-
+    const itemindex = allShipping.findIndex(x => x.id === id)
+    allShipping[itemindex] = shipObj
+    db.collection('shipping').doc('allshipping').update({
+      allshipping: allShipping
+    }).then(() => {
+      window.alert('The shipping method has been successfully saved.')
+      history.push('/admin/store/shipping')
+    })
   }
   function addCountry() {
     setCountriesArr(prev => [...prev, extraCountry])
@@ -153,7 +160,7 @@ export default function EditShipping(props) {
           <AppInput title="Price" className="inprow" type="number" onChange={(e) => setShipPrice(e.target.value)} value={shipPrice}/>
           <AppSwitch title="Activate Method" className="inprow" onChange={(e) => setShipActive(e.target.checked)} checked={shipActive}/> 
           <AdminBtn 
-            title={editShipMode?"Edit Shipping":"Create Shipping"} 
+            title={editShipMode?"Save Shipping":"Create Shipping"} 
             solid 
             className="createbtn"  
             clickEvent
