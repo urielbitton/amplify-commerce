@@ -116,7 +116,7 @@ export default function AccountAddresses()  {
       <h3 className="accounttitle">
         My Addresses
         <AppButton 
-          className="adminbtn"
+          className="userbtn"
           title="Add Address" 
           onClick={() => addAddressSet()}
         />

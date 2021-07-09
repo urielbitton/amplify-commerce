@@ -8,6 +8,7 @@ Features to add:
 - guest add to cart and checkout features
 - add newarrivals, about + contact pages
 - let admin create users!
+- add chat app inside customer support page (link to client support in site)
 
 Bugs tracking:
 - when reloading on coupons-shipping-products edit page, state of edit variable is false,

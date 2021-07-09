@@ -121,7 +121,7 @@ export default function AccountWallet() {
       <h4 className="titlerow">
         Cards
         <AppButton 
-          className="adminbtn"
+          className="userbtn"
           title="Add Card"
           onClick={() => {setEditMode(false);setShowAdd(true)}}
         />
@@ -131,7 +131,7 @@ export default function AccountWallet() {
       <h4 className="titlerow">
         Gift Cards
         <AppButton 
-          className="adminbtn"
+          className="userbtn"
           title="Add Gift Card"
           onClick={() => null}
         />
@@ -194,16 +194,16 @@ export default function AccountWallet() {
             <AppButton 
               onClick={() => addEditCard()}
               title={!editMode?"Add Card":"Edit Card"} 
-              className="adminbtn"
+              className="userbtn"
             />
             <AppButton 
               title="Clear" 
-              className="adminbtn cancelbtn"
+              className="userbtn cancelbtn"
               onClick={() => resetForm()}
             />
             <AppButton 
               title="Cancel" 
-              className="adminbtn cancelbtn"
+              className="userbtn cancelbtn"
               onClick={() => {setShowAdd(false);resetForm()}}
             />
           </div>

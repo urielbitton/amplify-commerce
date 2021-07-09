@@ -11,6 +11,7 @@ import AccountAddresses from './AccountAddresses'
 import AccountPayments from './AccountPayments'
 import AccountProfile from './AccountProfile'
 import OrderDetails from './OrderDetails'
+import Support from './Support'
 
 export default function MyAccount() {
 
@@ -23,6 +24,7 @@ export default function MyAccount() {
     {name: 'my reviews', url: '/my-account/reviews/', icon: 'fal fa-star-half-alt'},
     {name: 'my addresses', url: '/my-account/addresses/', icon: 'fal fa-map-marker-alt'},
     {name: 'my payments', url: '/my-account/payments/', icon: 'fal fa-credit-card-front'},
+    {name: 'customer support', url: '/my-account/customer-support/', icon: 'fal fa-headphones'},
     {name: 'profile', url: '/my-account/profile/', icon: 'fal fa-user'},
   ]
   const accountlinksrow = accountlinks.map(({name,url,icon,exact}) => {
@@ -83,6 +85,9 @@ export default function MyAccount() {
               </Route>
               <Route path="/my-account/profile">
                 <AccountProfile />
+              </Route>
+              <Route path="/my-account/customer-support">
+                <Support />
               </Route>
               {orderdetailspage}
             </Switch>
