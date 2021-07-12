@@ -198,17 +198,17 @@
   color: #555;
 }
 
-.pagecont .pagemaincontent .commoninput h6 {
-  margin-bottom: 8px;
-  font-size: 13px;
-  color: var(--graytxt);
-}
 .pagecont .pagemaincontent {
   display: flex;
   flex-direction: column;
   gap: 20px;
   margin-top: 50px;
-  width: 600px;
+  width: 600px; 
+}
+.pagecont .pagemaincontent .commoninput h6 {
+  margin-bottom: 8px;
+  font-size: 13px;
+  color: var(--graytxt);
 }
 .pagecont .pagemaincontent input,
 .pagecont .pagemaincontent select,

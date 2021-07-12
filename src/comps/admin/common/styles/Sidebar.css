@@ -71,12 +71,14 @@
 .adminsidebar .menu .sublinkcont {
   max-height: 0;
   overflow: hidden;
-  padding: 0 5px;
+  padding: 0 10px;
+  border-left: 1px solid transparent;
+  transition: all 0.4s;
 }
 .adminsidebar .menu .sublinkcont.open {
   max-height: 300px;
-  padding: 5px;
-  transition: all 0.4s ease-in-out;
+  padding: 5px 10px;
+  border-left: 1px solid var(--light);
 }
 .adminsidebar .menu .menulink span i {
   margin-right: 8px;

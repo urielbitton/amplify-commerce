@@ -151,6 +151,16 @@ hr {
   pointer-events: none;
   opacity: 0.5;
 }
+.adminbtn.iconbtn {
+  justify-content: center;
+  padding: 0;
+  width: 30px;
+  height: 30px;
+  border-radius: 7px;
+}
+.adminbtn.iconbtn.delete:hover {
+  background: var(--red);
+}
 .commoninput h6 {
   cursor: auto;
 }

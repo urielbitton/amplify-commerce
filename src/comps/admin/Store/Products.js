@@ -16,7 +16,7 @@ export default function Products() {
   const clean = text => text.replace(/[^a-zA-Z0-9 ]/g, "")
   let pattern = new RegExp('\\b' + clean(keyword), 'i')
   const reduceStock = (el) => el.sizes?.reduce((a,b) => a + b.colors.reduce((a,b) => a + b.stock,0),0)
-  const reduceSold = (el) => el.sizes?.reduce((a,b) => a + b.colors.reduce((a,b) => a + b.qtySold>0&&b.qtySold,0),0)
+  const reduceSold = (el) => el.sizes?.reduce((a,b) => a + b.colors.reduce((a,b) => a + b.qtySold,0),0)
   const history = useHistory()
   const allProdsFilter = allProducts?.filter(x => (pattern.test(clean(x.name)) || pattern.test(x.price) || x.id === keyword || 
   x.categories.some(x => x===keyword) || x.collection.some(x => x===keyword) || pattern.test(x.belongs)))
