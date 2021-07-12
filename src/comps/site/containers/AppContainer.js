@@ -16,15 +16,6 @@ export default function AppContainer() {
   useEffect(() => {
     window.scrollTo(0,0) 
   },[location])
-
-  useEffect(() => {
-    /*
-    myUser?.admin === undefined&&!myUser?.admin?
-    history.push('/'):
-    history.push('/admin') 
-    */
-   //**remove when done developing**
-  },[myUser])
  
   return ( 
     <div className={`appcontainer ${showSearch?"noscroll":""}`}>

@@ -9,7 +9,7 @@ import {StoreContext} from '../../common/StoreContext'
 
 export default function Login(props) {
 
-  const {setAUser} = useContext(StoreContext)
+  const {setAUser, myUser} = useContext(StoreContext)
   const [email, setEmail] = useState('') 
   const [password, setPassword] = useState('') 
   const [emailError, setEmailError] = useState('') 
@@ -107,6 +107,12 @@ export default function Login(props) {
     clearInputs()
     authListener() 
   },[]) 
+
+  useEffect(() => {
+    if(myUser.admin) {
+      history.push('/admin')
+    }
+  },[myUser])
  
   return (
     <div className="loginpage">
