@@ -128,10 +128,20 @@
 .editorderspage .savedprodscont .prodsrow {
   width: 100%;
   display: flex;
+  justify-content: space-between;
   align-items: center;
   gap: 20px;
+  flex-wrap: wrap; 
   border-bottom: 1px solid #eee;
   padding-bottom: 10px;
+}
+.editorderspage .savedprodscont .prodsrow.active {
+  background: var(--light);
+}
+.editorderspage .savedprodscont .prodsrow .left {
+  display: flex;
+  align-items: center;
+  gap: 20px;
 }
 .editorderspage .savedprodscont .prodsrow img {
   height: 40px;

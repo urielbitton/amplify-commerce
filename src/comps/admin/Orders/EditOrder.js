@@ -23,12 +23,22 @@ export default function EditOrder(props) {
   const [chosenSize, setChosenSize] = useState('')
   const [chosenColor, setChosenColor] = useState('')
   const [chosenQty, setChosenQty] = useState(1)
-  const allowAddNew = chosenProd && chosenSize && chosenColor && chosenQty>0
+  const [chosenSubId, setChosenSubId] = useState('')
+  const allowAddNew = !!chosenProd && !!chosenSize && !!chosenColor && !!chosenQty>0
+  const newSubId = chosenProd+chosenSize+chosenColor
+  const [editStyleMode, setEditStyleMode] = useState(false)
 
   const tabshead = ['General', 'Products', 'Customer', 'Billing & Payment', 'Shipping']
   const statusOpts = [
     {name:'Received'},{name:'Processing'},{name:'Shipped'},{name:'Delivered'},{name:'Delayed'}
   ]
+  const newOrdObj = {
+    id:chosenProd,
+    subid:newSubId,
+    chosenSize,
+    chosenColor,
+    units:chosenQty
+  }
 
   const orderProductsOpts = allProducts?.map(el => {
     return {name:el.name, value: el.id}
@@ -40,14 +50,16 @@ export default function EditOrder(props) {
     >{el}<hr/></h5>
   })
   const productsrow = ordProducts?.map((el) => {
-    return <div className="prodsrow">
-      <img src={refProd(allProducts,el.id).imgs[0]} alt=""/>
-      <h6>{refProd(allProducts,el.id).name}</h6>
-      <span>(Size: {sizeConverter(el.chosenSize)}, Color: {colorConverter(el.chosenColor)})</span>
-      <span>Qty: {el.units}</span>
+    return <div className={`prodsrow ${chosenSubId===(el.id+el.chosenSize+el.chosenColor) && editStyleMode?"active":""}`}>
+      <div className="left">
+        <img src={refProd(allProducts,el.id).imgs[0]} alt=""/>
+        <h6>{refProd(allProducts,el.id).name}</h6>
+        <span>(Size: {sizeConverter(el.chosenSize)}, Color: {colorConverter(el.chosenColor)})</span>
+        <span>Qty: {el.units}</span>
+      </div>
       <span className="actionsrow">
-        <AdminBtn title={<i className="fal fa-edit"></i>} className="iconbtn" />
-        <AdminBtn title={<i className="fal fa-trash-alt"></i>} className="iconbtn delete" />
+        <AdminBtn title={<i className="fal fa-edit"></i>} className="iconbtn" clickEvent onClick={() => editStyle(el)} />
+        <AdminBtn title={<i className="fal fa-trash-alt"></i>} className="iconbtn delete" clickEvent onClick={() => deleteStyle(el)} />
       </span>
     </div>
   })
@@ -56,15 +68,9 @@ export default function EditOrder(props) {
     setGenNum(`${db.collection('orders').doc().id.slice(0,amount1)}-${db.collection('orders').doc().id.slice(0,amount2)}`)
   }
   function addNewProduct() {
-    if(allowAddNew) {
-      if(!ordProducts.filter(x => x.subid.includes(chosenProd+chosenSize+chosenColor))) {
-        setOrdProducts(prev => [...prev, {
-          id:chosenProd,
-          subid:chosenProd+chosenSize+chosenColor,
-          chosenSize,
-          chosenColor,
-          units:chosenQty
-        }])
+    if(allowAddNew) { 
+      if(ordProducts.findIndex(x => x.subid.includes(newSubId)) < 0) {
+        setOrdProducts(prev => [...prev, newOrdObj])
         setChosenProd('')
         setChosenSize('')
         setChosenColor('')
@@ -76,15 +82,42 @@ export default function EditOrder(props) {
     else 
       window.alert('Please fill in all required fields before adding a product to an order.')
   }
+  function editNewProduct() {
+    let itemindex = ordProducts.findIndex(x => x.subid === chosenSubId)
+    ordProducts[itemindex] = newOrdObj
+    setOrdProducts(prev => [...prev])
+    setEditStyleMode(false)
+    setChosenProd('')
+    setChosenSubId('')
+  }
+  function deleteStyle(el) {
+    let itemindex = ordProducts.findIndex(x => x.subid === el.subid)
+    ordProducts.splice(itemindex, 1)
+    setOrdProducts(prev => [...prev])
+  }
+  function editStyle(el) {
+    setEditStyleMode(true)
+    setChosenSubId(el.id+el.chosenSize+el.chosenColor)
+    setChosenProd(el.id)
+    setChosenSize(el.chosenSize)
+    setChosenColor(el.chosenColor)
+    setChosenQty(el.units)
+  }
+  function cancelChoose() {
+    setChosenProd('')
+    setEditStyleMode(false)
+  }
 
   useEffect(() => {
     generateId(3,7)
   },[])
 
   useEffect(() => {
-    setChosenSize('')
-    setChosenColor('')
-    setChosenQty(1)
+    if(!editStyleMode) {
+      setChosenSize('')
+      setChosenColor('')
+      setChosenQty(1)
+    }
   },[chosenProd])
  
   return (
@@ -122,7 +155,8 @@ export default function EditOrder(props) {
                 <AppInput title="Quantity" type="number" min={0} onChange={(e) => setChosenQty(e.target.value)} value={chosenQty<0?0:chosenQty} />
               </div>
               <div className="actionbtns">
-                <AdminBtn title="Add Product" disabled={!allowAddNew} clickEvent onClick={() => addNewProduct()}/>
+                <AdminBtn title={editStyleMode?"Edit Product":"Add Product"} disabled={!allowAddNew} clickEvent onClick={() => editStyleMode?editNewProduct():addNewProduct()}/>
+                <AdminBtn title="Cancel" disabled={!chosenProd.length} clickEvent onClick={() => cancelChoose()}/>
               </div>
               <div className={`savedprodscont ${ordProducts.length?"show":"hide"}`}>
                 <h4>Products in your Order:</h4>
