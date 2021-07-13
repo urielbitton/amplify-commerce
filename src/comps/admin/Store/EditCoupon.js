@@ -5,6 +5,7 @@ import AdminBtn from '../common/AdminBtn'
 import {db} from '../../common/Fire'
 import firebase from 'firebase'
 import { useHistory, useLocation } from 'react-router'
+import PageTitle from '../common/PageTitle'
  
 export default function EditCoupon(props) { 
  
@@ -87,6 +88,7 @@ export default function EditCoupon(props) {
 
   return (
     <div className="addcouponpage">
+      <PageTitle title={editCoupMode?"Edit A Coupon":"Create A Coupon"}/>
       <div className="pagecont">
         <h3 className="pagetitle">{editCoupMode?"Edit Coupon":"Add Coupon"}</h3>
         <div className="couponcontent pagemaincontent">

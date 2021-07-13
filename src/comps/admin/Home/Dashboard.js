@@ -8,6 +8,7 @@ import {colorConverter, sizeConverter} from '../../common/UtilityFuncs'
 import {AppSelect} from '../../common/AppInputs'
 import refProd from '../../common/referProduct'
 import convertDate from '../utilities/convertDate'
+import PageTitle from '../common/PageTitle'
 
 export default function Dashboard() { 
 
@@ -118,6 +119,7 @@ export default function Dashboard() {
  
   return ( 
     <div className="dashboardpage">
+      <PageTitle title="Dashboard"/>
       <div className="dashboxcont">
         {dashboxrow}
       </div>

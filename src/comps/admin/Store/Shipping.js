@@ -5,6 +5,7 @@ import { StoreContext } from '../../common/StoreContext'
 import {shipHeaders} from './arrays/arrays'
 import { useHistory } from 'react-router-dom'
 import { db } from '../../common/Fire'
+import PageTitle from '../common/PageTitle'
 
 export default function Shipping() {
 
@@ -75,6 +76,7 @@ export default function Shipping() {
 
   return (
     <div className="shippingpage">
+      <PageTitle title="Shipping"/>
       <div className="pagecont">
         <div className="titlesrow">
           <h4>Shipping</h4>

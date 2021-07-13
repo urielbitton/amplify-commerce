@@ -5,6 +5,7 @@ import {prodHeaders} from './arrays/arrays'
 import { useHistory } from 'react-router-dom'
 import AdminBtn from '../common/AdminBtn'
 import {db} from '../../common/Fire'
+import PageTitle from '../common/PageTitle'
 
 export default function Products() {
    
@@ -108,6 +109,7 @@ export default function Products() {
 
   return (
     <div className="productspage">
+      <PageTitle title="Products"/>
       <div className="pagecont">
         <div className="titlesrow">
           <h4>Products</h4>

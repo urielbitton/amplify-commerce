@@ -7,6 +7,7 @@ import './styles/Orders.css'
 import { useHistory } from 'react-router-dom'
 import refProd from '../../common/referProduct'
 import convertDate from '../utilities/convertDate'
+import PageTitle from '../common/PageTitle'
 
 export default function Orders() {
 
@@ -68,6 +69,7 @@ export default function Orders() {
 
   return (
     <div className="orderspage">
+      <PageTitle title="Orders"/>
       <div className="pagecont">
         <div className="titlesrow">
           <h4>Orders</h4>

@@ -13,6 +13,7 @@ import EditShipping from '../Store/EditShipping'
 import Shipping from '../Store/Shipping'
 import Orders from '../Orders/Orders'
 import EditOrder from '../Orders/EditOrder'
+import Transactions from '../Orders/Transactions'
 
 export default function AdminHomecont() {
  
@@ -75,6 +76,9 @@ export default function AdminHomecont() {
             <EditOrder />
           </Route>
           {editorderspages}
+          <Route path="/admin/orders/transactions">
+            <Transactions />
+          </Route>
         </Switch> 
       </div>
     </div> 

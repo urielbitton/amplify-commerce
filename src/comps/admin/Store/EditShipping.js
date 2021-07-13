@@ -9,6 +9,7 @@ import {countries as countriesOpts} from '../../common/Lists'
 import './styles/EditShipping.css'
 import AppAccordion from '../../site/common/AppAccordion'
 import firebase from 'firebase'
+import PageTitle from '../common/PageTitle'
 
 export default function EditShipping(props) {
 
@@ -125,6 +126,7 @@ export default function EditShipping(props) {
 
   return (
     <div className="editshippingpage">
+      <PageTitle title={editShipMode?"Edit A Shipping Method":"Create A Shipping Method"}/>
       <div className="pagecont">
         <h3 className="pagetitle">{editShipMode?"Edit Shipping":"Add Shipping"}</h3>
         <div className="shippingcontent pagemaincontent">

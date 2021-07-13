@@ -7,6 +7,7 @@ import firebase from 'firebase'
 import {StoreContext} from '../../common/StoreContext'
 import { useHistory, useLocation } from 'react-router-dom'
 import AddStyles from './AddStyles'
+import PageTitle from '../common/PageTitle'
 
 export default function EditProduct(props) {
 
@@ -167,6 +168,7 @@ export default function EditProduct(props) {
 
   return (
     <div className="editproductpage">
+      <PageTitle title={editProdMode?"Edit A Product":"Create A Product"}/>
       <div className="pagecont">
         <h3 className="pagetitle">{editProdMode?"Edit Product":"Add Product"}</h3>
         <div className="editheader">

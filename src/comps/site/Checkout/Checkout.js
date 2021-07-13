@@ -13,7 +13,6 @@ import firebase from "firebase";
 import AddressBox from "../client/AddressBox";
 import ProvinceCountry from "../../common/ProvinceCountry";
 import AppAccordion from "../common/AppAccordion";
-import Loader from "../../common/Loader";
 
 export default function Checkout() {
   const {showCart, cart, setShowCart, billingState, setBillingState, shippingState, setShippingState,
@@ -30,9 +29,9 @@ export default function Checkout() {
   const clientid = "ASTQpkv9Y3mQ5-YBd20q0jMb9-SJr_TvUl_nhXu5h3C7xl0wumYgdqpSYIL6Vd__56oB7Slag0n2HA_r"
   const history = useHistory();
   const user = firebase.auth().currentUser;
-  const primaryAddress = myUser?.addresses?.find((x) => x.primary);
+  const primaryAddress = myUser?.addresses?.find((x) => x.primary)
 
-  const billingarr = [
+  const inputFieldsArr = [
     { title: "First Name *", name: "fname", halfwidth: true },
     { title: "Last Name *", name: "lname", halfwidth: true },
     { title: "Company Name", name: "company" },
@@ -43,12 +42,22 @@ export default function Checkout() {
     { title: "Phone Number *", name: "phone" },
     { title: "Email Address *", name: "email" }
   ];
-  const billingInputs = billingarr.map(({ title, name, halfwidth }) => {
+  const billingInputs = inputFieldsArr?.map(({ title, name, halfwidth }) => {
     return (
       <AppInput
         title={title}
         name={name}
-        onChange={(e) => handleChange(e)}
+        onChange={(e) => handleChange(e, 'bill')}
+        className={halfwidth ? "halfwidth" : ""}
+      />
+    );
+  });
+  const shippingInputs = inputFieldsArr?.map(({ title, name, halfwidth }) => {
+    return (
+      <AppInput
+        title={title}
+        name={name}
+        onChange={(e) => handleChange(e, 'ship')}
         className={halfwidth ? "halfwidth" : ""}
       />
     );
@@ -105,12 +114,20 @@ export default function Checkout() {
       return <AddressBox el={el} showAddCont={false} />;
     });
 
-  function handleChange(event) {
+  function handleChange(event, choice) {
     const { name, value } = event.target;
-    setBillingState((prev) => ({
-      ...prev,
-      [name]: value
-    }));
+    if(choice === 'bill') {
+      setBillingState((prev) => ({
+        ...prev,
+        [name]: value
+      }));
+    }
+    else {
+      setShippingState((prev) => ({
+        ...prev,
+        [name]: value
+      }));
+    }
   }  
   function allowOrder() {
     if(billingState.fname &&  billingState.lname && billingState.address && billingState.city && 
@@ -126,6 +143,7 @@ export default function Checkout() {
   }
   function startOrder() {
     const orderid = db.collection("orders").doc().id;
+    const orderNum = `${db.collection('orders').doc().id.slice(0,3)}-${db.collection('orders').doc().id.slice(0,7)}`
     const customer = {
       id: user.uid,
       name: myUser.fullname,
@@ -138,6 +156,7 @@ export default function Checkout() {
     };
     CreateOrder(
       orderid,
+      orderNum,
       cart,
       customer,
       cartSubtotal,
@@ -240,7 +259,7 @@ export default function Checkout() {
                   )}
                 </form>
               </AppAccordion>
-              <AppAccordion title="Shipping Details">
+              <AppAccordion title="Shipping Details" maxHeight={1100}>
                 <div>
                   <AppInput
                     title="Different Shipping Adress"
@@ -252,7 +271,9 @@ export default function Checkout() {
                 </div>
                 {altShipAddress && (
                   <div className="shippingformcont">
-                    <AppInput title="First Name" />
+                    {shippingInputs.slice(0, 6)}
+                    <ProvinceCountry setState={setShippingState} />
+                    {shippingInputs.slice(6)}
                   </div>
                 )}
                 <label className="apptextarea">

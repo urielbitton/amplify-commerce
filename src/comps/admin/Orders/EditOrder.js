@@ -9,10 +9,13 @@ import {sizeConverter, colorConverter} from '../../common/UtilityFuncs'
 import ProvinceCountry from '../../common/ProvinceCountry'
 import BillingShippingFields from './BillingShippingFields'
 import { Link } from 'react-router-dom'
+import PageTitle from '../common/PageTitle'
+import OrderUpdates from './OrderUpdates'
 
 export default function EditOrder(props) {
 
-  const {editOrdMode, allProducts, allShipping, sizesOpts, colorsOpts, currencyFormat, setEditShipMode} = useContext(StoreContext)
+  const {editOrdMode, allProducts, allShipping, sizesOpts, colorsOpts, currencyFormat, setEditShipMode,
+  billingState, setBillingState, shippingState, setShippingState} = useContext(StoreContext)
   const {orderid} = editOrdMode&&props.el
   const date = new Date()
   const nowDateTime = `${date.getFullYear()}-${date.getMonth()<10?'0'+(date.getMonth()+1):(date.getMonth()+1)}-${date.getDate()<10?'0'+(date.getDate()):(date.getDate())}T${date.getHours()<10?"0"+date.getHours():date.getHours()}:${date.getMinutes()<10?"0"+date.getMinutes():date.getMinutes()}`
@@ -39,31 +42,7 @@ export default function EditOrder(props) {
   const [trackingNum, setTrackingNum] = useState('')
   const [sameAsShipping, setSameAsShipping] = useState(false)
   const [selectedShip, setSelectedShip] = useState(-1)
-  const [billingState, setBillingState] = useState({
-    fname: '',
-    lname: '',
-    email: '',
-    phone: '',
-    address: '',
-    aptUnit: '',
-    company: '',
-    postcode: '',
-    city: '',
-    provCountry: ''
-  })
-  const [shippingState, setShippingState] = useState({
-    fname: '',
-    lname: '',
-    email: '',
-    phone: '',
-    address: '',
-    aptUnit: '',
-    company: '',
-    postcode: '',
-    city: '',
-    provCountry: ''
-  })
-
+  
   const tabshead = ['General', 'Products', 'Customer', 'Shipping', 'Billing & Payment', 'Updates']
   const statusOpts = [
     {name:'Received'},{name:'Processing'},{name:'Shipped'},{name:'Delivered'},{name:'Delayed'}
@@ -212,6 +191,7 @@ export default function EditOrder(props) {
  
   return (
     <div className="editorderspage">
+      <PageTitle title={editOrdMode?"Edit An Order":"Create An Order"}/>
       <div className="pagecont">
         <h3 className="pagetitle">{editOrdMode?"Edit Order":"Create Order"}</h3>
         <div className="tabsbar">
@@ -284,7 +264,7 @@ export default function EditOrder(props) {
             </div>
             <div className={`editsection ${tabPos===5?"show":""}`}>
               <h4>Order Updates</h4>
-              
+              <OrderUpdates />
             </div>
             <div className="final actionbtns">
               <AdminBtn title="Create Order" solid/>

@@ -5,6 +5,7 @@ import {StoreContext} from '../../common/StoreContext'
 import {couponHeaders} from './arrays/arrays' 
 import { useHistory } from 'react-router'
 import {db} from '../../common/Fire'
+import PageTitle from '../common/PageTitle'
 
 export default function Coupons() {
 
@@ -74,6 +75,7 @@ export default function Coupons() {
 
   return (
     <div className="couponspage">
+      <PageTitle title="Coupons"/>
       <div className="pagecont">
         <div className="titlesrow">
           <h4>Coupons</h4>
