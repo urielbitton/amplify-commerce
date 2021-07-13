@@ -31,7 +31,6 @@ export default function ProvinceCountry(props) {
     setState({ country: userLocation?.country })
     return () => setLocateUser(false)
   }, [userLocation]) 
-  console.log(selectedCountry)
 
   return ( 
     <>

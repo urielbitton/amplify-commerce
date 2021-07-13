@@ -33,10 +33,11 @@ export default function EditShipping(props) {
     id: editShipMode?id:db.collection('coupons').doc().id,
     name: shipName,
     company: shipCompany,
+    companyName: shipCompany,
     price: shipPrice,
     countries: [...new Set(countriesArr)], //removes duplicates
     isActive: shipActive,
-    value: editShipMode?value: shipName.split(' ')[0].toLowerCase(),
+    value: editShipMode ? value: shipName.split(' ')[0].toLowerCase(),
     description: shipDescript
   }
 

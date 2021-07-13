@@ -1,15 +1,18 @@
 import React, { useContext, useEffect, useState } from 'react'
 import './styles/Orders.css'
 import {StoreContext} from '../../common/StoreContext'
-import {AppInput, AppSelect} from '../../common/AppInputs'
+import {AppInput, AppSelect, AppSwitch} from '../../common/AppInputs'
 import AdminBtn from '../common/AdminBtn'
 import {db} from '../../common/Fire'
 import refProd from '../../common/referProduct'
 import {sizeConverter, colorConverter} from '../../common/UtilityFuncs'
+import ProvinceCountry from '../../common/ProvinceCountry'
+import BillingShippingFields from './BillingShippingFields'
+import { Link } from 'react-router-dom'
 
 export default function EditOrder(props) {
 
-  const {editOrdMode, allProducts, sizesOpts, colorsOpts, currencyFormat} = useContext(StoreContext)
+  const {editOrdMode, allProducts, allShipping, sizesOpts, colorsOpts, currencyFormat, setEditShipMode} = useContext(StoreContext)
   const {orderid} = editOrdMode&&props.el
   const date = new Date()
   const nowDateTime = `${date.getFullYear()}-${date.getMonth()<10?'0'+(date.getMonth()+1):(date.getMonth()+1)}-${date.getDate()<10?'0'+(date.getDate()):(date.getDate())}T${date.getHours()<10?"0"+date.getHours():date.getHours()}:${date.getMinutes()<10?"0"+date.getMinutes():date.getMinutes()}`
@@ -17,6 +20,7 @@ export default function EditOrder(props) {
   const [genNum, setGenNum] = useState('') 
   const [orderDate, setOrderDate] = useState(nowDateTime)
   const [ordTotal, setOrdTotal] = useState(0)
+  const [ordSubTotal, setOrdSubTotal] = useState(0)
   const [ordStatus, setOrdStatus] = useState('')
   const [ordProducts, setOrdProducts] = useState([])
   const [chosenProd, setChosenProd] = useState('')
@@ -27,11 +31,78 @@ export default function EditOrder(props) {
   const allowAddNew = !!chosenProd && !!chosenSize && !!chosenColor && !!chosenQty>0
   const newSubId = chosenProd+chosenSize+chosenColor
   const [editStyleMode, setEditStyleMode] = useState(false)
+  const [custName, setCustName] = useState('')
+  const [custEmail, setCustEmail] = useState('')
+  const [custPhone, setCustPhone] = useState('')
+  const [custCity, setCustCity] = useState('')
+  const [custProvinceCountry, setCustProvinceCountry] = useState({})
+  const [trackingNum, setTrackingNum] = useState('')
+  const [sameAsShipping, setSameAsShipping] = useState(false)
+  const [selectedShip, setSelectedShip] = useState(-1)
+  const [billingState, setBillingState] = useState({
+    fname: '',
+    lname: '',
+    email: '',
+    phone: '',
+    address: '',
+    aptUnit: '',
+    company: '',
+    postcode: '',
+    city: '',
+    provCountry: ''
+  })
+  const [shippingState, setShippingState] = useState({
+    fname: '',
+    lname: '',
+    email: '',
+    phone: '',
+    address: '',
+    aptUnit: '',
+    company: '',
+    postcode: '',
+    city: '',
+    provCountry: ''
+  })
 
-  const tabshead = ['General', 'Products', 'Customer', 'Billing & Payment', 'Shipping']
+  const tabshead = ['General', 'Products', 'Customer', 'Shipping', 'Billing & Payment', 'Updates']
   const statusOpts = [
     {name:'Received'},{name:'Processing'},{name:'Shipped'},{name:'Delivered'},{name:'Delayed'}
   ]
+
+  const entireOrder = {
+    orderid: editOrdMode?orderid:db.collection('orders').doc().id,
+    orderNumber: genNum,
+    orderDateCreated: orderDate,
+    orderTotal: ordTotal,
+    orderStatus: ordStatus,
+    taxAmount: 0.15,
+    trackingNum,
+    products: ordProducts,
+    updates: [{
+      action: 'order received',
+      date: new Date(),
+      location: 'Montreal, Quebec',
+      status: 'processing'
+    }],
+    customer: {
+      id: db.collection('users').doc().id,
+      name: custName,
+      email: custEmail,
+      phone: custPhone,
+      profimg: 'https://i.imgur.com/1OKoctC.jpg',
+      city: custCity,
+      provstate: custProvinceCountry.provstate,
+      country: custProvinceCountry.country,
+    },
+    shippingDetails: shippingState,
+    billingDetails: sameAsShipping ? shippingState : billingState,
+    paymentDetails: {
+
+    },
+    shippingMethod: {
+
+    }
+  }
   const newOrdObj = {
     id:chosenProd,
     subid:newSubId,
@@ -61,6 +132,25 @@ export default function EditOrder(props) {
         <AdminBtn title={<i className="fal fa-edit"></i>} className="iconbtn" clickEvent onClick={() => editStyle(el)} />
         <AdminBtn title={<i className="fal fa-trash-alt"></i>} className="iconbtn delete" clickEvent onClick={() => deleteStyle(el)} />
       </span>
+    </div>
+  })
+
+  const shippingMethodOpts = allShipping?.map((el,i) => {
+    return <div className={`shippingoptbox ${selectedShip===i?"active":""}`}>
+      <div>
+        <h4>
+        {el.name} 
+        {selectedShip===i&&<small className="activebadge">Active</small>}
+        </h4>
+      </div>
+      <div>
+        <h6><span>Fee:</span> {currencyFormat.format(el.price)}</h6>
+        <h6 className="upper"><span>Courrier:</span> {el.company}</h6>
+        <h6><span>Ships to:</span> {el.countries.length>2?<small className="morecountries" title={el.countries.join(', ')}>{el.countries.slice(0,2).join(', ')+" + "+(el.countries.length-2)+" more"}</small>:el.countries.join(', ')}</h6>
+      </div>
+      <div>
+        <AdminBtn title={selectedShip!==i?"Select":"Unselect"} solid clickEvent onClick={() => selectedShip!==i?setSelectedShip(i):setSelectedShip(-1)}/>
+      </div>
     </div>
   })
 
@@ -165,17 +255,37 @@ export default function EditOrder(props) {
             </div>
             <div className={`editsection ${tabPos===2?"show":""}`}>
               <h4>Customer Info</h4>
-              <AppInput title="Name"/>
+              <AppInput title="Name" onChange={(e) => setCustName(e.target.value)} value={custName} />
+              <AppInput title="Email" onChange={(e) => setCustEmail(e.target.value)} value={custEmail}/>
+              <AppInput title="Phone" onChange={(e) => setCustPhone(e.target.value)} value={custPhone}/>
+              <AppInput title="City" onChange={(e) => setCustCity(e.target.value)} value={custCity}/>
+              <ProvinceCountry setState={setCustProvinceCountry} />
             </div>
             <div className={`editsection ${tabPos===3?"show":""}`}>
-              <h4>Billing & Payment</h4>
-              <AppInput title="Name"/>
+              <h4>Shipping Address</h4>
+              <BillingShippingFields setBillShipState={setShippingState} />
+              <h4>Shipping Methods</h4>
+              <div className="shippingmethods">
+                {shippingMethodOpts}
+                <Link to="/admin/store/add-shipping/" onClick={() => setEditShipMode(false)}>Create More Shipping Method Here</Link>
+              </div>
+              <h4>Tracking</h4>
+              <AppInput title="Tracking Number *" onChange={(e) => setTrackingNum(e.target.value)} value={trackingNum}/>
+              <AppInput title="Tracking Return Code" onChange={(e) => null} />
             </div>
             <div className={`editsection ${tabPos===4?"show":""}`}>
-              <h4>Shipping Details</h4>
-              <AppInput title="Tracking Number" type="number"/>
+              <h4>Billing Details</h4>
+              <AppSwitch title="Same As Shipping Details?" className="inprow show" onChange={(e) => setSameAsShipping(e.target.checked)}/>
+              { !sameAsShipping?
+                <BillingShippingFields setBillShipState={setBillingState} />:
+                <h5 className="note">Billing Details: Same as shipping details</h5>
+              }
+              <h4>Payment Information</h4>
             </div>
-
+            <div className={`editsection ${tabPos===5?"show":""}`}>
+              <h4>Order Updates</h4>
+              
+            </div>
             <div className="final actionbtns">
               <AdminBtn title="Create Order" solid/>
               <AdminBtn title="Cancel"/>
@@ -187,6 +297,7 @@ export default function EditOrder(props) {
               <h5><span>Order Number</span><span className="ordernuminp">#{genNum}</span></h5>
               <h5><span>Order Date</span><span>{orderDate.replace('T',' ')}</span></h5>
               <h5><span>Products</span><span>{ordProducts.length}</span></h5>
+              <h5><span>Order Subtotal</span><span>{currencyFormat.format(ordSubTotal)}</span></h5>
               <h5><span>Order Total</span><span>{currencyFormat.format(ordTotal)}</span></h5>
             </div>
           </div>

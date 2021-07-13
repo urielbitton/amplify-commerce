@@ -34,7 +34,7 @@ export default function Shipping() {
     <div className="proditem">
       <h5>{i+1}</h5>
       <h5>{el.name}</h5>
-      <h5>{el.company}</h5>
+      <h5>{el.companyName}</h5>
       <h5>{currencyFormat.format(el.price)}</h5>
       <h5>{el.countries?.slice(0,2).join(', ')} {el.countries.length>2&&`+ ${(el.countries.length-2)} more`}</h5>
       <h5>{el.isActive?"Active":"Not Active"}</h5>

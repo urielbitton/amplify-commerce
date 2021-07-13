@@ -173,3 +173,73 @@
   align-items: center;
   gap: 5px;
 }
+.editorderspage h5.note {
+  color: var(--admincolor);
+  font-weight: 500;
+  font-size: 15px;
+}
+.editorderspage .shippingmethods {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 100%;
+}
+.editorderspage .shippingmethods > a {
+  font-size: 13px;
+  color: var(--admincolor);
+  margin: 20px 0;
+}
+.editorderspage .shippingmethods > a:hover {
+  text-decoration: underline;
+}
+.shippingoptbox {
+  width: 100%;
+  border: 1px solid #eee;
+  border-radius: 10px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  transition: all 0.2s;
+}
+.shippingoptbox.active {
+  background: var(--light);
+}
+.shippingoptbox .activebadge {
+  font-size: 11px;
+  margin-left: 10px;
+  padding: 5px;
+  border-radius: 5px;
+  background: var(--admincolor);
+  color: #fff;
+}
+.shippingoptbox > div {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 20px;
+}
+.shippingoptbox h4 {
+  font-size: 15px;
+  color: #333;
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+.shippingoptbox h6 {
+  color: #333;
+  font-size: 13px;
+}
+.shippingoptbox h6 span {
+  font-weight: 500;
+}
+.shippingoptbox h6.upper {
+  text-transform: capitalize;
+}
+.shippingoptbox .morecountries {
+  font-size: 13px;
+}
+.shippingoptbox .morecountries:hover {
+  text-decoration: underline;
+  cursor: pointer;
+}
