@@ -13,6 +13,7 @@ import { Link, useHistory } from 'react-router-dom'
 import PageTitle from '../common/PageTitle'
 import OrderUpdates from './OrderUpdates'
 import {nowDateTime} from '../../common/UtilityFuncs'
+import CustomerPicker from './CustomerPicker'
 
 export default function EditOrder(props) {
 
@@ -49,6 +50,7 @@ export default function EditOrder(props) {
   const [payMethod, setPayMethod] = useState('')
   const [payEmail, setPayEmail] = useState('')
   const [showCustomerPicker, setShowCustomerPicker] = useState(false)
+  const [selectCustIndex, setSelectCustIndex] = useState(-1)
   const allowCreate = genNum && orderDate && ordProducts.length && payEmail
   const history = useHistory()
    
@@ -342,18 +344,12 @@ export default function EditOrder(props) {
           </div>
         </div> 
       </div>
-      <div className={`customerpickercover ${showCustomerPicker?"show":""}`}>
-        <div className="customerpickercont">
-            <div className="titles">
-              <h5>Find a Customer</h5>
-              <i className="fal fa-times"></i>
-            </div>
-            <AppInput title="" iconclass="fal fa-search" placeholder="Enter a customer name..."/>
-            <div className="resultscont">
-
-            </div>
-        </div>
-      </div>
+      <CustomerPicker 
+        setShowCustomerPicker={setShowCustomerPicker} 
+        showCustomerPicker={showCustomerPicker} 
+        selectCustIndex={selectCustIndex}
+        setSelectCustIndex={setSelectCustIndex}
+      />
     </div>
   )
 }

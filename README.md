@@ -13,3 +13,6 @@ Features to add:
 Bugs tracking:
 - when reloading on coupons-shipping-products edit page, state of edit variable is false,
 find a way to set to true
+- push picked dates to firestore as a timestamp value
+
+At end of project, configure firestore rules!
