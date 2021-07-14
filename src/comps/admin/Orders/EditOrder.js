@@ -4,26 +4,26 @@ import {StoreContext} from '../../common/StoreContext'
 import {AppInput, AppSelect, AppSwitch} from '../../common/AppInputs'
 import AdminBtn from '../common/AdminBtn'
 import {db} from '../../common/Fire'
+import firebase from 'firebase'
 import refProd from '../../common/referProduct'
 import {sizeConverter, colorConverter} from '../../common/UtilityFuncs'
 import ProvinceCountry from '../../common/ProvinceCountry'
 import BillingShippingFields from './BillingShippingFields'
-import { Link } from 'react-router-dom'
+import { Link, useHistory } from 'react-router-dom'
 import PageTitle from '../common/PageTitle'
 import OrderUpdates from './OrderUpdates'
+import {nowDateTime} from '../../common/UtilityFuncs'
 
 export default function EditOrder(props) {
 
   const {editOrdMode, allProducts, allShipping, sizesOpts, colorsOpts, currencyFormat, setEditShipMode,
-  billingState, setBillingState, shippingState, setShippingState} = useContext(StoreContext)
+  billingState, setBillingState, shippingState, setShippingState, taxRate} = useContext(StoreContext)
   const {orderid} = editOrdMode&&props.el
-  const date = new Date()
-  const nowDateTime = `${date.getFullYear()}-${date.getMonth()<10?'0'+(date.getMonth()+1):(date.getMonth()+1)}-${date.getDate()<10?'0'+(date.getDate()):(date.getDate())}T${date.getHours()<10?"0"+date.getHours():date.getHours()}:${date.getMinutes()<10?"0"+date.getMinutes():date.getMinutes()}`
   const [tabPos, setTabPos] = useState(0)
   const [genNum, setGenNum] = useState('') 
   const [orderDate, setOrderDate] = useState(nowDateTime)
-  const [ordTotal, setOrdTotal] = useState(0)
   const [ordSubTotal, setOrdSubTotal] = useState(0)
+  const [ordTotal, setOrdTotal] = useState(0)
   const [ordStatus, setOrdStatus] = useState('')
   const [ordProducts, setOrdProducts] = useState([])
   const [chosenProd, setChosenProd] = useState('')
@@ -34,6 +34,7 @@ export default function EditOrder(props) {
   const allowAddNew = !!chosenProd && !!chosenSize && !!chosenColor && !!chosenQty>0
   const newSubId = chosenProd+chosenSize+chosenColor
   const [editStyleMode, setEditStyleMode] = useState(false)
+  const [customerId, setCustomerId] = useState('')
   const [custName, setCustName] = useState('')
   const [custEmail, setCustEmail] = useState('')
   const [custPhone, setCustPhone] = useState('')
@@ -42,10 +43,20 @@ export default function EditOrder(props) {
   const [trackingNum, setTrackingNum] = useState('')
   const [sameAsShipping, setSameAsShipping] = useState(false)
   const [selectedShip, setSelectedShip] = useState(-1)
-  
+  const [ordUpdates, setOrdUpdates] = useState([])
+  const [paypalOn, setPaypalOn] = useState(false)
+  const [payCardNum, setPayCardNum] = useState('')
+  const [payMethod, setPayMethod] = useState('')
+  const [payEmail, setPayEmail] = useState('')
+  const allowCreate = genNum && orderDate && ordProducts.length && payEmail
+  const history = useHistory()
+   
   const tabshead = ['General', 'Products', 'Customer', 'Shipping', 'Billing & Payment', 'Updates']
   const statusOpts = [
     {name:'Received'},{name:'Processing'},{name:'Shipped'},{name:'Delivered'},{name:'Delayed'}
+  ]
+  const payMethodOpts = [
+    {name:'PayPal'},{name:'Visa'},{name:'Master Card'},{name:'Debit'},{name:'American Express'}
   ]
 
   const entireOrder = {
@@ -57,14 +68,9 @@ export default function EditOrder(props) {
     taxAmount: 0.15,
     trackingNum,
     products: ordProducts,
-    updates: [{
-      action: 'order received',
-      date: new Date(),
-      location: 'Montreal, Quebec',
-      status: 'processing'
-    }],
+    updates: ordUpdates,
     customer: {
-      id: db.collection('users').doc().id,
+      id: customerId.length?customerId:db.collection('users').doc().id,
       name: custName,
       email: custEmail,
       phone: custPhone,
@@ -76,12 +82,14 @@ export default function EditOrder(props) {
     shippingDetails: shippingState,
     billingDetails: sameAsShipping ? shippingState : billingState,
     paymentDetails: {
-
+      cardnumber: payCardNum,
+      email: payEmail,
+      method: payMethod,
+      paymentId: db.collection('orders').doc().id
     },
-    shippingMethod: {
-
-    }
+    shippingMethod: allShipping[selectedShip??0]
   }
+  console.log(entireOrder)
   const newOrdObj = {
     id:chosenProd,
     subid:newSubId,
@@ -160,9 +168,12 @@ export default function EditOrder(props) {
     setChosenSubId('')
   }
   function deleteStyle(el) {
-    let itemindex = ordProducts.findIndex(x => x.subid === el.subid)
-    ordProducts.splice(itemindex, 1)
-    setOrdProducts(prev => [...prev])
+    const confirm = window.confirm('Are you sure you want to delete this product?')
+    if(confirm) {
+      let itemindex = ordProducts.findIndex(x => x.subid === el.subid)
+      ordProducts.splice(itemindex, 1)
+      setOrdProducts(prev => [...prev])
+    }
   }
   function editStyle(el) {
     setEditStyleMode(true)
@@ -176,6 +187,19 @@ export default function EditOrder(props) {
     setChosenProd('')
     setEditStyleMode(false)
   }
+  function createOrder() {
+    if(allowCreate) {
+      db.collection('orders').doc(customerId).update({
+        allorders: firebase.firestore.FieldValue.arrayUnion(entireOrder)
+      }).then(() => {
+        window.alert('The order has been successfully created.')
+        history.push('/admin/orders')
+      })
+    }
+    else {
+      window.alert('Please fill in all the required fields (denoted by *)')
+    }
+  }
 
   useEffect(() => {
     generateId(3,7)
@@ -188,6 +212,21 @@ export default function EditOrder(props) {
       setChosenQty(1)
     }
   },[chosenProd])
+
+  useEffect(() => {
+    setOrdSubTotal(ordProducts?.reduce((a,b) => a + (refProd(allProducts, b.id).price * b.units),0))
+  },[ordProducts])
+  useEffect(() => {
+    setOrdTotal(ordSubTotal + (ordSubTotal*taxRate))
+  },[ordSubTotal])
+
+  useEffect(() => {
+      setPayMethod(paypalOn?'PayPal':'')
+      setPayCardNum('')
+  },[paypalOn])
+  useEffect(() => {
+    setPaypalOn(payMethod==='PayPal')
+  },[payMethod])
  
   return (
     <div className="editorderspage">
@@ -235,11 +274,22 @@ export default function EditOrder(props) {
             </div>
             <div className={`editsection ${tabPos===2?"show":""}`}>
               <h4>Customer Info</h4>
-              <AppInput title="Name" onChange={(e) => setCustName(e.target.value)} value={custName} />
-              <AppInput title="Email" onChange={(e) => setCustEmail(e.target.value)} value={custEmail}/>
-              <AppInput title="Phone" onChange={(e) => setCustPhone(e.target.value)} value={custPhone}/>
-              <AppInput title="City" onChange={(e) => setCustCity(e.target.value)} value={custCity}/>
-              <ProvinceCountry setState={setCustProvinceCountry} />
+              <h6 className="cusidmsg">
+                If you have the customer's ID and want to create an order for them, enter it here
+              </h6>
+              <AppInput title="Customer ID" onChange={(e) => setCustomerId(e.target.value)} value={customerId} />
+              <h5 style={{color: '#777'}}>-OR-</h5>
+              <h6 className="cusidmsg">Manually enter a customer's information (a customer ID will automatically gen assigned.)</h6>
+              {
+                !customerId.length&&
+                <>
+                  <AppInput title="Full Name" onChange={(e) => setCustName(e.target.value)} value={custName} />
+                  <AppInput title="Email" onChange={(e) => setCustEmail(e.target.value)} value={custEmail}/>
+                  <AppInput title="Phone" onChange={(e) => setCustPhone(e.target.value)} value={custPhone}/>
+                  <AppInput title="City" onChange={(e) => setCustCity(e.target.value)} value={custCity}/>
+                  <ProvinceCountry setState={setCustProvinceCountry} />
+                </>
+              }
             </div>
             <div className={`editsection ${tabPos===3?"show":""}`}>
               <h4>Shipping Address</h4>
@@ -261,24 +311,30 @@ export default function EditOrder(props) {
                 <h5 className="note">Billing Details: Same as shipping details</h5>
               }
               <h4>Payment Information</h4>
+              <div className="ordpaymentsform">
+                <AppSwitch title="PayPal" onChange={(e) => setPaypalOn(e.target.checked)} checked={paypalOn}/>
+                <AppInput title="Card Number" className="cardnum" disabled={paypalOn} onChange={(e) => setPayCardNum(e.target.value)} value={payCardNum}/>
+                <AppSelect title="Payment Method" options={[{name:'Choose a Method',value:''},...payMethodOpts]} onChange={(e) => setPayMethod(e.target.value)} value={payMethod} namebased/>
+                <AppInput title="Email" onChange={(e) => setPayEmail(e.target.value)} value={payEmail} />
+              </div>
             </div>
             <div className={`editsection ${tabPos===5?"show":""}`}>
-              <h4>Order Updates</h4>
-              <OrderUpdates />
+              <OrderUpdates statusOpts={statusOpts} ordUpdates={ordUpdates} setOrdUpdates={setOrdUpdates} />
             </div>
             <div className="final actionbtns">
-              <AdminBtn title="Create Order" solid/>
-              <AdminBtn title="Cancel"/>
+              <AdminBtn title="Create Order" disabled={!allowCreate} solid clickEvent onClick={() => createOrder()}/>
+              <AdminBtn title="Cancel" url="/admin/orders"/>
             </div>
           </div>
           <div className="ordercontent-details">
             <div className="detailscontent">
               <h4>Order Details</h4>
               <h5><span>Order Number</span><span className="ordernuminp">#{genNum}</span></h5>
-              <h5><span>Order Date</span><span>{orderDate.replace('T',' ')}</span></h5>
+              <h5><span>Order Date</span><span>{orderDate.replace('T',', ')}</span></h5>
               <h5><span>Products</span><span>{ordProducts.length}</span></h5>
               <h5><span>Order Subtotal</span><span>{currencyFormat.format(ordSubTotal)}</span></h5>
               <h5><span>Order Total</span><span>{currencyFormat.format(ordTotal)}</span></h5>
+              <h5><span>Order Updates</span>{ordUpdates.length}</h5>
             </div>
           </div>
         </div>

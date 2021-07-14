@@ -6,6 +6,7 @@ import {db} from '../../common/Fire'
 import firebase from 'firebase'
 import { useHistory, useLocation } from 'react-router'
 import PageTitle from '../common/PageTitle'
+import { nowDate } from '../../common/UtilityFuncs'
  
 export default function EditCoupon(props) { 
  
@@ -17,8 +18,6 @@ export default function EditCoupon(props) {
   const [coupType, setCoupType] = useState(editCoupMode?type:'')
   const [coupDescript, setCoupDescript] = useState(editCoupMode?description:'')
   const [coupActive, setCoupActive] = useState(editCoupMode?isActive:true)
-  const date = new Date()
-  const nowDate = `${date.getFullYear()}-${date.getMonth()<10?'0'+(date.getMonth()+1):(date.getMonth()+1)}-${date.getDate()<10?'0'+(date.getDate()):(date.getDate())}`
   const [coupExpiry, setCoupExpiry] = useState(editCoupMode?expiryDate:nowDate)
   const allowAccess = coupName && coupAmount && coupType && coupExpiry
   const history = useHistory()

@@ -43,11 +43,11 @@ export default function Orders() {
     return
   }).map((el,i) => {
     return <div className="proditem">
-      <h5>#{el.orderid.slice(0,8)}</h5>
+      <h5>#{el.orderNumber}</h5>
       <h5>{el.customer.name}</h5>
       <h5>{refProd(allProducts, el.products[0].id).name} {el.products.length>1&&`+ ${el.products.length-1} more`}</h5>  
       <h5>#{el.trackingNum}</h5>
-      <h5>{convertDate(el.orderDateCreated)}</h5>
+      <h5>{el.orderDateCreated}</h5>
       <h5>{currencyFormat.format(el.orderTotal)}</h5>
       <h5>{el.orderStatus}</h5>
       <h5>
