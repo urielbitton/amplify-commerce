@@ -12,6 +12,7 @@ const StoreContextProvider = (props) => {
 
   const user = firebase.auth().currentUser
   const [allProducts, setAllProducts] = useState([])
+  const [allCustomers, setAllCustomers] = useState([])
   const [myUser, setMyUser] = useState({})
   const [cart, setCart] = useState([])
   const [auser, setAUser] = useState('')  
@@ -119,7 +120,19 @@ const StoreContextProvider = (props) => {
     db.collection('shipping').doc('allshipping').onSnapshot(snap => {
       setAllShipping(snap.data()?.allshipping)
     })
-  },[auser, user]) 
+    db.collection('stats').doc('allstats').onSnapshot(snap => {
+      setAllStats(snap.data()?.allstats)
+    })
+    db.collection('customers').onSnapshot(snap => {
+      snap.forEach(el => {
+        let allcustomers = []
+        snap.forEach(el => {
+          allcustomers.push(el.data())
+        })
+        setAllCustomers([...allcustomers])
+      }) 
+    }) 
+  },[])   
 
   useEffect(() => {
     if(user) {
@@ -143,12 +156,6 @@ const StoreContextProvider = (props) => {
   },[cart])
 
   useEffect(() => {
-    db.collection('stats').doc('allstats').onSnapshot(snap => {
-      setAllStats(snap.data()?.allstats)
-    })
-  },[])
-
-  useEffect(() => {
     if(locateUser) {
       axios({
         method: 'get', 
@@ -168,7 +175,6 @@ const StoreContextProvider = (props) => {
       setTaxRate(tax.rate)
      })
   },[selectedProvince, selectedCountry]) 
-  
  
   return (
     <StoreContext.Provider value={{ 
@@ -185,7 +191,7 @@ const StoreContextProvider = (props) => {
       highSellersLimit, setHighSellersLimit, recentSellersLimit, setRecentSellersLimit, 
       recentOrdersLimit, setRecentOrdersLimit, editProdMode, setEditProdMode, sizesOpts, colorsOpts,
       editCoupMode, setEditCoupMode, editShipMode, setEditShipMode, allCoupons, setAllCoupons,
-      allShipping, setAllShipping, editOrdMode, setEditOrdMode
+      allShipping, setAllShipping, editOrdMode, setEditOrdMode, allCustomers, setAllCustomers
     }}>
       {props.children}  
     </StoreContext.Provider>

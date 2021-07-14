@@ -6,7 +6,7 @@ import AdminBtn from '../common/AdminBtn'
 import {db} from '../../common/Fire'
 import firebase from 'firebase'
 import refProd from '../../common/referProduct'
-import {sizeConverter, colorConverter} from '../../common/UtilityFuncs'
+import {sizeConverter, colorConverter, getCustomerById} from '../../common/UtilityFuncs'
 import ProvinceCountry from '../../common/ProvinceCountry'
 import BillingShippingFields from './BillingShippingFields'
 import { Link, useHistory } from 'react-router-dom'
@@ -17,7 +17,7 @@ import {nowDateTime} from '../../common/UtilityFuncs'
 export default function EditOrder(props) {
 
   const {editOrdMode, allProducts, allShipping, sizesOpts, colorsOpts, currencyFormat, setEditShipMode,
-  billingState, setBillingState, shippingState, setShippingState, taxRate} = useContext(StoreContext)
+  billingState, setBillingState, shippingState, setShippingState, taxRate, allCustomers} = useContext(StoreContext)
   const {orderid} = editOrdMode&&props.el
   const [tabPos, setTabPos] = useState(0)
   const [genNum, setGenNum] = useState('') 
@@ -58,7 +58,7 @@ export default function EditOrder(props) {
   const payMethodOpts = [
     {name:'PayPal'},{name:'Visa'},{name:'Master Card'},{name:'Debit'},{name:'American Express'}
   ]
-
+  
   const entireOrder = {
     orderid: editOrdMode?orderid:db.collection('orders').doc().id,
     orderNumber: genNum,
@@ -71,13 +71,13 @@ export default function EditOrder(props) {
     updates: ordUpdates,
     customer: {
       id: customerId.length?customerId:db.collection('users').doc().id,
-      name: custName,
-      email: custEmail,
-      phone: custPhone,
+      name: custName??getCustomerById(allCustomers, customerId)?.name,
+      email: custEmail??getCustomerById(allCustomers, customerId)?.email,
+      phone: custPhone??getCustomerById(allCustomers, customerId)?.phone,
       profimg: 'https://i.imgur.com/1OKoctC.jpg',
-      city: custCity,
-      provstate: custProvinceCountry.provstate,
-      country: custProvinceCountry.country,
+      city: custCity??getCustomerById(allCustomers, customerId).city??getCustomerById(allCustomers, customerId)?.city,
+      provstate: custProvinceCountry.provstate??getCustomerById(allCustomers, customerId)?.provstate,
+      country: custProvinceCountry.country??getCustomerById(allCustomers, customerId)?.country,
     },
     shippingDetails: shippingState,
     billingDetails: sameAsShipping ? shippingState : billingState,
@@ -89,7 +89,7 @@ export default function EditOrder(props) {
     },
     shippingMethod: allShipping[selectedShip??0]
   }
-  console.log(entireOrder)
+
   const newOrdObj = {
     id:chosenProd,
     subid:newSubId,

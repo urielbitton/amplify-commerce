@@ -47,7 +47,7 @@ export default function Orders() {
       <h5>{el.customer.name}</h5>
       <h5>{refProd(allProducts, el.products[0].id).name} {el.products.length>1&&`+ ${el.products.length-1} more`}</h5>  
       <h5>#{el.trackingNum}</h5>
-      <h5>{el.orderDateCreated}</h5>
+      <h5>{convertDate(el.orderDateCreated)}</h5>
       <h5>{currencyFormat.format(el.orderTotal)}</h5>
       <h5>{el.orderStatus}</h5>
       <h5>
@@ -55,8 +55,8 @@ export default function Orders() {
           <i className="far fa-ellipsis-h actionsicon"></i>
         </div>
         <div className={`optscont ${el.id===showOpts?"show":""}`}> 
-          <div title="Edit Order" onClick={() => editOrder(el.id)}><i className="far fa-edit"></i></div>
-          <div title="Delete Order" onClick={() => deleteOrder(el.id)}><i className="far fa-trash-alt"></i></div>
+          <div title="Edit Order" onClick={() => editOrder(el.orderid)}><i className="far fa-edit"></i></div>
+          <div title="Delete Order" onClick={() => deleteOrder(el.orderid)}><i className="far fa-trash-alt"></i></div>
           <div title="Order Info" onClick={() => infoOrder()}><i className="far fa-info"></i></div>
         </div>
       </h5>
@@ -64,7 +64,7 @@ export default function Orders() {
   }) 
 
   useEffect(() => {
-    window.onclick = () => setShowOpts(0)
+    window.onclick = () => showOpts>0&&setShowOpts(0)
   },[])
 
   return (
