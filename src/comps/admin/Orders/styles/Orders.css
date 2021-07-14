@@ -347,3 +347,49 @@
   color: #777;
   font-weight: 500;
 }
+
+.customerpickercover {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  z-index: 999;
+  background: rgba(0,0,0,0.8);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  visibility: hidden;
+  opacity: 0;
+  transition: all 0.2s;
+}
+.customerpickercover.show {
+  visibility: visible;
+  opacity: 1;
+}
+.customerpickercont {
+  width: 600px;
+  height: 70%;
+  background: #fff;
+  box-shadow: 0 0 20px rgba(0,0,0,0.1);
+  border-radius: 10px;
+  padding: 30px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+.customerpickercont .titles {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.customerpickercont .titles h5 {
+  font-size: 15px;
+  color: var(--graytxt);
+}
+.customerpickercont .titles i {
+  font-size: 30px;
+  color: var(--graytxt);
+  cursor: pointer;
+}

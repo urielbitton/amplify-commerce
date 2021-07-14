@@ -48,6 +48,7 @@ export default function EditOrder(props) {
   const [payCardNum, setPayCardNum] = useState('')
   const [payMethod, setPayMethod] = useState('')
   const [payEmail, setPayEmail] = useState('')
+  const [showCustomerPicker, setShowCustomerPicker] = useState(false)
   const allowCreate = genNum && orderDate && ordProducts.length && payEmail
   const history = useHistory()
    
@@ -71,18 +72,18 @@ export default function EditOrder(props) {
     updates: ordUpdates,
     customer: {
       id: customerId.length?customerId:db.collection('users').doc().id,
-      name: custName??getCustomerById(allCustomers, customerId)?.name,
-      email: custEmail??getCustomerById(allCustomers, customerId)?.email,
-      phone: custPhone??getCustomerById(allCustomers, customerId)?.phone,
+      name: custName??getCustomerById(allCustomers, customerId)?.name??"",
+      email: custEmail??getCustomerById(allCustomers, customerId)?.email??"",
+      phone: custPhone??getCustomerById(allCustomers, customerId)?.phone??"",
       profimg: 'https://i.imgur.com/1OKoctC.jpg',
-      city: custCity??getCustomerById(allCustomers, customerId).city??getCustomerById(allCustomers, customerId)?.city,
-      provstate: custProvinceCountry.provstate??getCustomerById(allCustomers, customerId)?.provstate,
-      country: custProvinceCountry.country??getCustomerById(allCustomers, customerId)?.country,
+      city: custCity??getCustomerById(allCustomers, customerId).city??getCustomerById(allCustomers, customerId)?.city??"",
+      provstate: custProvinceCountry.provstate??getCustomerById(allCustomers, customerId)?.provstate??"",
+      country: custProvinceCountry.country??getCustomerById(allCustomers, customerId)?.country??"",
     },
     shippingDetails: shippingState,
     billingDetails: sameAsShipping ? shippingState : billingState,
     paymentDetails: {
-      cardnumber: payCardNum,
+      cardnumber: payCardNum??"",
       email: payEmail,
       method: payMethod,
       paymentId: db.collection('orders').doc().id
@@ -279,6 +280,8 @@ export default function EditOrder(props) {
               </h6>
               <AppInput title="Customer ID" onChange={(e) => setCustomerId(e.target.value)} value={customerId} />
               <h5 style={{color: '#777'}}>-OR-</h5>
+              <AdminBtn title="Find Customer" solid clickEvent onClick={() => setShowCustomerPicker(prev => !prev)}/>
+              <h5 style={{color: '#777'}}>-OR-</h5>
               <h6 className="cusidmsg">Manually enter a customer's information (a customer ID will automatically gen assigned.)</h6>
               {
                 !customerId.length&&
@@ -337,6 +340,18 @@ export default function EditOrder(props) {
               <h5><span>Order Updates</span>{ordUpdates.length}</h5>
             </div>
           </div>
+        </div> 
+      </div>
+      <div className={`customerpickercover ${showCustomerPicker?"show":""}`}>
+        <div className="customerpickercont">
+            <div className="titles">
+              <h5>Find a Customer</h5>
+              <i className="fal fa-times"></i>
+            </div>
+            <AppInput title="" iconclass="fal fa-search" placeholder="Enter a customer name..."/>
+            <div className="resultscont">
+
+            </div>
         </div>
       </div>
     </div>

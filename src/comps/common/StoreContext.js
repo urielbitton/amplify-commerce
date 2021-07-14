@@ -103,12 +103,12 @@ const StoreContextProvider = (props) => {
       setAllProducts(snap?.data()?.allproducts) 
     })  
     db.collection('orders').onSnapshot(snap => {
-      let allorders = []
+      const ordersArr = []
       snap.forEach(el => {
         if(el.data().allorders.length)
-          allorders.push(el.data().allorders)
-      })
-      setAllOrders(...allorders)
+          ordersArr.push(el.data().allorders)
+      }) 
+      setAllOrders(ordersArr.flat())
     })
     db.collection('admin').doc('storeSettings').onSnapshot(snap => {
       setSizesOpts(snap.data()?.storesettings.sizeopts) 
@@ -124,14 +124,12 @@ const StoreContextProvider = (props) => {
       setAllStats(snap.data()?.allstats)
     })
     db.collection('customers').onSnapshot(snap => {
+      const custArr = []
       snap.forEach(el => {
-        let allcustomers = []
-        snap.forEach(el => {
-          allcustomers.push(el.data())
-        })
-        setAllCustomers([...allcustomers])
+        custArr.push(el.data())
       }) 
-    }) 
+      setAllCustomers(custArr.flat())
+    })  
   },[])   
 
   useEffect(() => {
