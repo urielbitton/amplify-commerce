@@ -75,7 +75,7 @@ export default function HomeCont() {
         <Route path="/order-tracking">
           <OrderTrackingPage />
         </Route>
-        { allProducts?.length?productpagerow:<Loader height="70vh" /> }
+        {productpagerow}
         <Route path="/my-account">
           {myUser&&<MyAccount />}
         </Route>

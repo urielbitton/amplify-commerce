@@ -158,6 +158,9 @@ hr {
   height: 30px;
   border-radius: 7px;
 }
+.adminbtn.solid.deletebtn {
+  background: var(--red);
+}
 .adminbtn.iconbtn.delete:hover {
   background: var(--red);
 }

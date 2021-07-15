@@ -60,7 +60,10 @@ export default function OrderUpdates(props) {
           <AppInput title="Date" type="datetime-local" onChange={(e) => setDate(e.target.value)} value={date} />
           <AppInput title="Tracking Location" onChange={(e) => setLocation(e.target.value)} value={location} placeholder="Package tracked location" />
           <AppTextarea title="Update Event" onChange={(e) => setAction(e.target.value)} value={action} placeholder="Enter a brief update message" />
-          <AdminBtn title="Add" solid disabled={!allowAdd} clickEvent onClick={() => addAnUpdate()}/>
+          <div className="actionbtns">
+            <AdminBtn title="Add" solid disabled={!allowAdd} clickEvent onClick={() => addAnUpdate()}/>
+            <AdminBtn title="Cancel" clickEvent onClick={() => setShowAdder(false)}/>
+          </div>
         </div>
       </div>
       <h4>Order Updates</h4>

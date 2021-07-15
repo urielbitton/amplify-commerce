@@ -14,7 +14,7 @@ export default function Products() {
   const [asc, setAsc] = useState(true)
   const [showOpts, setShowOpts] = useState(0)
   const [keyword, setKeyword] = useState('')
-  const clean = text => text.replace(/[^a-zA-Z0-9 ]/g, "")
+  const clean = text => text?.replace(/[^a-zA-Z0-9 ]/g, "")
   let pattern = new RegExp('\\b' + clean(keyword), 'i')
   const reduceStock = (el) => el.sizes?.reduce((a,b) => a + b.colors.reduce((a,b) => a + b.stock,0),0)
   const reduceSold = (el) => el.sizes?.reduce((a,b) => a + b.colors.reduce((a,b) => a + b.qtySold,0),0)
@@ -29,7 +29,7 @@ export default function Products() {
     </h5>
   }) 
 
-  const allprodsrow = allProdsFilter.sort((a,b) => {
+  const allprodsrow = allProdsFilter?.sort((a,b) => {
     if(sort === 1) {
       if(a.name > b.name && asc) return 1 
       else return -1
@@ -55,12 +55,13 @@ export default function Products() {
       else return reduceStock(a) - reduceStock(b)
     }
   })
-  .map((el,i) => (
-    <div className="proditem">
+  .map((el,i) => {console.log(el)
+    return <div className="proditem">
       <h5>{i+1}</h5>
       <h5>
         <img src={el.imgs[0]} alt={el.name}/>
-        { reduceSold(el)>10&&
+        { 
+          reduceSold(el)>10&&
           <i title="hot selling product" className={`fas fa-badge-check ${reduceSold(el)> 10?"hot":""}`}></i>
         } 
       </h5>
@@ -83,7 +84,7 @@ export default function Products() {
         </div>
       </h5>
     </div>
-  ))
+  })
 
   function editProduct(prodid) {
     setEditProdMode(true)
@@ -131,7 +132,7 @@ export default function Products() {
               {allprodsrow}
             </div>
             <div className="foot">
-              <h5><span>{allProdsFilter.length}</span> product{allProdsFilter.length>1?"s":""}</h5>
+              <h5><span>{allProdsFilter?.length}</span> product{allProdsFilter?.length>1?"s":""}</h5>
               <h5><span>{allProdsFilter?.reduce((a,b) => a + b.sizes.reduce((a,b) => a + b.colors.reduce((a,b) => a + b.qtySold>0&&b.qtySold,0),0),0)}</span> quantities sold</h5>
               <h5><span>{currencyFormat.format(allProdsFilter?.reduce((x,y) => x + y.sizes.reduce((a,b) => a + b.colors.reduce((a,b) => a + b.qtySold>0&&b.qtySold*y.price,0),0),0))}</span> total earnings</h5>
               <h5><span>{allProdsFilter?.reduce((a,b) => a + b.sizes.reduce((a,b) => a + b.colors.reduce((a,b) => a + b.stock>0&&0.5,0),0),0)}</span> Products In Stock</h5>

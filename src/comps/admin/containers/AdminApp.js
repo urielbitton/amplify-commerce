@@ -10,7 +10,7 @@ export default function AdminApp() {
   const {darkMode, myUser} = useContext(StoreContext)
 
   return (
-    myUser?.admin?
+    myUser&&myUser?.admin?
     <div className={`adminapp ${darkMode?"darkmode":""}`}>
       <Sidebar />
       <AdminHomecont />

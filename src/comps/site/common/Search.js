@@ -1,14 +1,14 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useContext, useState } from 'react'
 import {StoreContext} from '../../common/StoreContext'
 import './styles/Search.css'
 import {AppInput} from '../../common/AppInputs'
-import { Link, useHistory, useLocation } from 'react-router-dom'
+import { Link, useHistory } from 'react-router-dom'
 
 export default function Search() {
 
   const {showSearch, setShowSearch, allProducts, currencyFormat} = useContext(StoreContext)
   const [keyword, setKeyword] = useState('')
-  const clean = text => text.replace(/[^a-zA-Z0-9 ]/g, "")
+  const clean = text => text?.replace(/[^a-zA-Z0-9 ]/g, "")
   let pattern = new RegExp('\\b' + clean(keyword), 'i')
   const history = useHistory()
 

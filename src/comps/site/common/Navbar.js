@@ -33,12 +33,12 @@ export default function Navbar() {
 
   const cartitemrow = cart?.map(({id,units,chosenColor,chosenSize,subid}) => {
     return <div className="cartitemcont" key={subid}>
-      <img src={refProd(allProducts,id).imgs[0]} alt="" /> 
+      <img src={refProd(allProducts,id)?.imgs[0]} alt="" /> 
       <div className="infocont"> 
         <div>
-          <Link to={`/product/${id}`}><h5>{refProd(allProducts,id).name}</h5></Link>
+          <Link to={`/product/${id}`}><h5>{refProd(allProducts,id)?.name}</h5></Link>
           <h6>Size: {chosenSize?.toUpperCase()}, Color: {colorConverter(chosenColor)}</h6>
-          <h6>Price: ${refProd(allProducts,id).price.toFixed(2)}</h6>
+          <h6>Price: ${refProd(allProducts,id)?.price.toFixed(2)}</h6>
           <h6>Units: {units}</h6>
         </div>
         <i className="fal fa-times" onClick={() => removeCartItem(subid)}></i>

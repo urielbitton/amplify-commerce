@@ -15,10 +15,9 @@ export default function Login(props) {
   const [password, setPassword] = useState('') 
   const [emailError, setEmailError] = useState('') 
   const [passError, setPassError] = useState('')
-  const [authFlag, setAuthFlag] = useState(false)
   const history = useHistory()
 
-  const authListener = () => {
+  function authListener() {
     firebase.auth().onAuthStateChanged(user => {
       if(user) {
         clearInputs()
@@ -29,17 +28,16 @@ export default function Login(props) {
       }
     })
   } 
-  const clearErrors = () => {
+  function clearErrors() {
     setEmailError('')
     setPassError('')
   }
-  const clearInputs = () => {
+  function clearInputs() {
     setEmail('')
     setPassword('')
   }
-  const handleSignup = () => {
-    setAuthFlag(true)
-    clearErrors()
+
+  function handleSignup() {
     firebase.auth().createUserWithEmailAndPassword(email, password).catch(err => {
       switch(err.code) {
         case "auth/email-already-in-use":
@@ -53,53 +51,48 @@ export default function Login(props) {
       }
     })
     firebase.auth().onAuthStateChanged(user => {
-      if(authFlag) {
-        if(user) {
-          user.updateProfile({
-            displayName: name,
-            photoURL: 'https://i.imgur.com/1OKoctC.jpg'
-          })
-          const userinfo = {
-            fullname: name,
-            usertype: 'client', 
-            email: email,
-            password,
-            phone: "", 
-            city: "", 
-            provstate: "",
-            country: "",
-            profimg: "https://i.imgur.com/1OKoctC.jpg",
-            admin: false,
-            cart: [],
-            savedlater: [],
-            wishlist: [],
-            orders: [],
-            settings: {
-              
-            } 
-          }
-          db.collection('users').doc(user.uid).set({
-            userinfo
-          }).then(res => {
-            db.collection('orders').doc(user.uid).set({
-              allorders: []
-            })  
-            db.collection('customers').doc(user.uid).set({
-              id:user.uid,name: name??'',email:'',phone:'',city:'',
-              provstate:'',provstateCode:'',country:'',countryCode:''
-            }) 
-            setAUser(user)
-            history.push('/')
-          })
+      if(user) {
+        user.updateProfile({
+          displayName: name,
+          photoURL: 'https://i.imgur.com/1OKoctC.jpg'
+        })
+        const userinfo = {
+          fullname: name,
+          usertype: 'client', 
+          email: email,
+          password,
+          phone: "", 
+          city: "", 
+          provstate: "",
+          country: "",
+          profimg: "https://i.imgur.com/1OKoctC.jpg",
+          admin: false,
+          cart: [],
+          savedlater: [],
+          wishlist: [],
+          orders: [],
+          settings: {
+            
+          } 
         }
-        else {
-          setAUser(null)
-        } 
+        db.collection('users').doc(user.uid).set({
+          userinfo
+        }).then(res => { 
+          db.collection('customers').doc(user.uid).set({
+            id:user.uid,name: name??'',email:'',phone:'',city:'',
+            provstate:'',provstateCode:'',country:'',countryCode:''
+          }) 
+          setAUser(user)
+          history.push('/')
+        })
       }
+      else {
+        setAUser(null)
+      } 
     })
+    clearErrors()
   }
   function loginWithGoogle() {
-    setAuthFlag(false)
     const provider = new firebase.auth.GoogleAuthProvider()
     provider.addScope('email')
     firebase.auth().signInWithPopup(provider)
@@ -129,9 +122,6 @@ export default function Login(props) {
             db.collection('users').doc(user.uid).set({
               userinfo
             }).then(res => {
-              db.collection('orders').doc(user.uid).set({
-                allorders: []
-              })
               db.collection('customers').doc(user.uid).set({
                 id:user.uid,name: name??'',email:'',phone:'',city:'',
                 provstate:'',provstateCode:'',country:'',countryCode:''

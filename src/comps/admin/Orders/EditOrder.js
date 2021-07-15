@@ -17,8 +17,9 @@ import convertDate from '../utilities/convertDate'
 
 export default function EditOrder(props) {
 
-  const {editOrdMode, setEditOrdMode, allProducts, allShipping, sizesOpts, colorsOpts, currencyFormat, setEditShipMode,
-      billingState, setBillingState, shippingState, setShippingState, taxRate, allCustomers
+  const {editOrdMode, setEditOrdMode, allProducts, allShipping, sizesOpts, colorsOpts, currencyFormat, 
+    setEditShipMode, billingState, setBillingState, shippingState, setShippingState, taxRate, allCustomers,
+    allOrders 
   } = useContext(StoreContext)
   const {orderid, orderNumber, orderDateCreated, orderStatus, products, customer,
     trackingNum, shippingDetails, billingDetails, shippingMethod, paymentDetails, updates} = editOrdMode&&props.el
@@ -134,17 +135,17 @@ export default function EditOrder(props) {
     return <div className={`shippingoptbox ${selectedShip===i?"active":""}`}>
       <div>
         <h4>
-        {el.name} 
-        {selectedShip===i&&<small className="activebadge">Active</small>}
+          {el.name}
+          {selectedShip === i && <small className="activebadge">Active</small>}
         </h4>
       </div>
       <div>
         <h6><span>Fee:</span> {currencyFormat.format(el.price)}</h6>
         <h6 className="upper"><span>Courrier:</span> {el.company}</h6>
-        <h6><span>Ships to:</span> {el.countries.length>2?<small className="morecountries" title={el.countries.join(', ')}>{el.countries.slice(0,2).join(', ')+" + "+(el.countries.length-2)+" more"}</small>:el.countries.join(', ')}</h6>
+        <h6><span>Ships to:</span> {el.countries.length > 2 ? <small className="morecountries" title={el.countries.join(', ')}>{el.countries.slice(0, 2).join(', ') + " + " + (el.countries.length - 2) + " more"}</small> : el.countries.join(', ')}</h6>
       </div>
       <div>
-        <AdminBtn title={selectedShip!==i?"Select":"Unselect"} solid clickEvent onClick={() => selectedShip!==i?setSelectedShip(i):setSelectedShip(-1)}/>
+        <AdminBtn title={selectedShip !== i ? "Select" : "Unselect"} solid clickEvent onClick={() => selectedShip !== i ? setSelectedShip(i) : setSelectedShip(-1)} />
       </div>
     </div>
   })
@@ -210,6 +211,12 @@ export default function EditOrder(props) {
   }
   function editOrder() {
 
+  }
+  function deleteOrder() {
+    let confirm = window.confirm('Are you sure you wish to delete this order?')
+    if(confirm) {
+
+    }
   }
   function simpleDateConvert(date) {
     return `${date.toString().split(' ')[1]}
@@ -336,6 +343,7 @@ export default function EditOrder(props) {
             </div>
             <div className="final actionbtns">
               <AdminBtn title={editOrdMode?"Edit Order":"Create Order"} disabled={!allowCreate} solid clickEvent onClick={() => !editOrdMode?createOrder():editOrder()}/>
+              {editOrdMode&&<AdminBtn title="Delete Order" solid className="deletebtn" clickEvent onClick={() => deleteOrder()}/>}
               <AdminBtn title="Cancel" url="/admin/orders"/>
             </div>
           </div>

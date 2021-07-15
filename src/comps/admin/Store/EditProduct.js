@@ -67,9 +67,9 @@ export default function EditProduct(props) {
     if(!!allowAddSave) {
       productObj.categories = prodCategs.split(',')
       productObj.collection = prodCollection.split(',')
-      db.collection('products').doc('allproducts').update({
-        allproducts: firebase.firestore.FieldValue.arrayUnion(productObj)
-      }).then(res => {
+      db.collection('products').doc(generateid).set(
+        productObj
+      ).then(res => {
         window.alert('The product was successfully added to your store.')
         history.push('/admin/store/products')
       }).catch(err => window.alert('An error occured while adding product. Please try again.'))
@@ -98,7 +98,7 @@ export default function EditProduct(props) {
     if(!!allowAddSave) {
       const productindex = allProducts.findIndex(x => x.id === id)
       allProducts[productindex] = productObj
-      db.collection('products').doc('allproducts').update({
+      db.collection('products').doc(id).update({
         allproducts: allProducts
       }).then(res => {
         window.alert('The product was successfully saved.')
@@ -127,7 +127,7 @@ export default function EditProduct(props) {
           storageRef.getDownloadURL().then(url => {
             setImgUrl(url)
             db.collection('products').doc('allproducts').update({
-              allproducts: allProducts
+              
             })
           })
         }

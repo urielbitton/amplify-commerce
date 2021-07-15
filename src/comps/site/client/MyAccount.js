@@ -25,7 +25,7 @@ export default function MyAccount() {
     {name: 'my addresses', url: '/my-account/addresses/', icon: 'fal fa-map-marker-alt'},
     {name: 'my payments', url: '/my-account/payments/', icon: 'fal fa-credit-card-front'},
     {name: 'customer support', url: '/my-account/customer-support/', icon: 'fal fa-headphones'},
-    {name: 'profile', url: '/my-account/profile/', icon: 'fal fa-user'},
+    {name: 'profile', url: '/my-account/profile/', icon: 'fal fa-user'}
   ]
   const accountlinksrow = accountlinks.map(({name,url,icon,exact}) => {
     return <NavLink to={url} exact={exact} key={url} activeClassName="activemenulink">

@@ -8,6 +8,7 @@ import { useHistory } from 'react-router-dom'
 import refProd from '../../common/referProduct'
 import convertDate from '../utilities/convertDate'
 import PageTitle from '../common/PageTitle'
+import { db } from '../../common/Fire'
 
 export default function Orders() {
 
@@ -33,8 +34,11 @@ export default function Orders() {
     setEditOrdMode(true)
     history.push(`/admin/orders/edit-order/${orderid}`)
   }
-  function deleteOrder() {
+  function deleteOrder(orderid) {
+    let confirm = window.confirm('Are you sure you wish to delete this order?')
+    if(confirm) {
 
+    }
   }
   function infoOrder() {
 
