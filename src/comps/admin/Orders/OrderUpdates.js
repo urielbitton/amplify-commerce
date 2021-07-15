@@ -1,10 +1,12 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import { AppInput, AppSelect, AppTextarea } from '../../common/AppInputs'
 import { db } from '../../common/Fire'
+import { StoreContext } from '../../common/StoreContext'
 import AdminBtn from '../common/AdminBtn'
 
 export default function OrderUpdates(props) {
 
+  const {editOrdMode} = useContext(StoreContext)
   const {statusOpts, ordUpdates, setOrdUpdates} = props
   const [showAdder, setShowAdder] = useState(false)
   const [status, setStatus] = useState('')
@@ -17,8 +19,8 @@ export default function OrderUpdates(props) {
     return <div className="orderupdaterow">
       <h4>{el.status}</h4>
       <div>
-        <h6><span>Date:</span> {el.date.split('T')[0]}</h6>
-        <h6><span>Time:</span> {el.date.split('T')[1]}</h6>
+        <h6><span>Date:</span> {!editOrdMode&&el.date.split('T')[0]}</h6>
+        <h6><span>Time:</span> {!editOrdMode&&el.date.split('T')[1]}</h6>
         <h6><span>Tracking Location:</span> {el.location}</h6>
       </div>
       <small><span>Event</span> {el.action}</small>

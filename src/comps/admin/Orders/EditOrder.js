@@ -18,9 +18,10 @@ import convertDate from '../utilities/convertDate'
 export default function EditOrder(props) {
 
   const {editOrdMode, setEditOrdMode, allProducts, allShipping, sizesOpts, colorsOpts, currencyFormat, setEditShipMode,
-    billingState, setBillingState, shippingState, setShippingState, taxRate, allCustomers} = useContext(StoreContext)
+      billingState, setBillingState, shippingState, setShippingState, taxRate, allCustomers
+  } = useContext(StoreContext)
   const {orderid, orderNumber, orderDateCreated, orderStatus, products, customer,
-    trackingNum} = editOrdMode&&props.el
+    trackingNum, shippingDetails, billingDetails, shippingMethod, paymentDetails, updates} = editOrdMode&&props.el
   const [tabPos, setTabPos] = useState(0)
   const [genNum, setGenNum] = useState(editOrdMode?orderNumber:'')  
   const [orderDate, setOrderDate] = useState(editOrdMode?convertDate(orderDateCreated, true):new Date())  
@@ -44,16 +45,17 @@ export default function EditOrder(props) {
   const [custProvinceCountry, setCustProvinceCountry] = useState({})
   const [trackingNumber, setTrackingNumber] = useState(editOrdMode?trackingNum:'')
   const [sameAsShipping, setSameAsShipping] = useState(false)
-  const [selectedShip, setSelectedShip] = useState(-1)
-  const [ordUpdates, setOrdUpdates] = useState([])
+  const [selectedShip, setSelectedShip] = useState(editOrdMode?allShipping.findIndex(x => x.value===shippingMethod.name):-1)
+  const [ordUpdates, setOrdUpdates] = useState(editOrdMode?updates:[])
   const [paypalOn, setPaypalOn] = useState(false)
-  const [payCardNum, setPayCardNum] = useState('')
-  const [payMethod, setPayMethod] = useState('')
-  const [payEmail, setPayEmail] = useState('')
+  const [payCardNum, setPayCardNum] = useState(editOrdMode?paymentDetails.cardnumber:'')
+  const [payMethod, setPayMethod] = useState(editOrdMode?paymentDetails.method:'')
+  const [payEmail, setPayEmail] = useState(editOrdMode?paymentDetails.email:'')
   const [showCustomerPicker, setShowCustomerPicker] = useState(false)
   const [selectCustIndex, setSelectCustIndex] = useState(-1)
   const [changeType, setChangeType] = useState(false)
   const allowCreate = genNum && orderDate && ordProducts.length && payEmail
+  const formattedValueDate = typeof orderDate !== 'object'?orderDate.replace(/\s\s+/g, ' '):simpleDateConvert(orderDate).replace(/\s\s+/g, ' ')
   const history = useHistory()
   const location = useLocation()
    
@@ -64,8 +66,8 @@ export default function EditOrder(props) {
   const payMethodOpts = [
     {name:'PayPal'},{name:'Visa'},{name:'Master Card'},{name:'Debit'},{name:'American Express'}
   ]
-  
-  const entireOrder = {
+
+  const entireOrder = { 
     orderid: editOrdMode?orderid:db.collection('orders').doc().id,
     orderNumber: genNum,
     orderDateCreated: orderDate,
@@ -244,7 +246,7 @@ export default function EditOrder(props) {
       setPayCardNum('')
   },[paypalOn])
   useEffect(() => {
-    setPaypalOn(payMethod==='PayPal')
+    !editOrdMode&&setPaypalOn(payMethod==='PayPal')
   },[payMethod])
 
   return (
@@ -265,7 +267,7 @@ export default function EditOrder(props) {
                 <AppInput title="Order Number" className="ordernuminp" placeholder="#123456" onChange={(e) => setGenNum(e.target.value)} value={genNum}/>
                 <AdminBtn title="Generate" className="genbtn" solid clickEvent onClick={() => generateId(3,7)}/>
               </div>
-              <AppInput title="Order Date" onFocus={() => setChangeType(true)} onBlur={() => setChangeType(false)} type={editOrdMode&&!changeType?"":"datetime-local"} onChange={(e) => setOrderDate(e.target.value)} value={orderDate.replace(/\s\s+/g, ' ')}/>
+              <AppInput title="Order Date" onFocus={() => setChangeType(true)} onBlur={() => setChangeType(false)} type={editOrdMode&&!changeType?"":"datetime-local"} onChange={(e) => setOrderDate(e.target.value)} value={formattedValueDate}/>
               <AppSelect title="Order Status" options={[{name:'Choose a Status',value:''},...statusOpts]} onChange={(e) => setOrdStatus(e.target.value)} value={ordStatus} namebased />
             </div>
             <div className={`editsection ${tabPos===1?"show":""}`}>
@@ -304,7 +306,7 @@ export default function EditOrder(props) {
             </div>
             <div className={`editsection ${tabPos===3?"show":""}`}>
               <h4>Shipping Address</h4>
-              <BillingShippingFields setBillShipState={setShippingState} />
+              <BillingShippingFields setBillShipState={setShippingState} formDetails={shippingDetails} />
               <h4>Shipping Methods</h4>
               <div className="shippingmethods">
                 {shippingMethodOpts}
@@ -318,7 +320,7 @@ export default function EditOrder(props) {
               <h4>Billing Details</h4>
               <AppSwitch title="Same As Shipping Details?" className="inprow show" onChange={(e) => setSameAsShipping(e.target.checked)}/>
               { !sameAsShipping?
-                <BillingShippingFields setBillShipState={setBillingState} />:
+                <BillingShippingFields setBillShipState={setBillingState} formDetails={billingDetails}/>:
                 <h5 className="note">Billing Details: Same as shipping details</h5>
               }
               <h4>Payment Information</h4>
@@ -347,6 +349,7 @@ export default function EditOrder(props) {
               <h5><span>Order Total</span><span>{currencyFormat.format(ordTotal)}</span></h5>
               <h5><span>Shipping</span>{allShipping[selectedShip<0?0:selectedShip].name} ({currencyFormat.format(allShipping[selectedShip<0?0:selectedShip].price)})</h5>
               <h5><span>Order Updates</span>{ordUpdates.length}</h5>
+              <h5><span>Customer</span>{custName}</h5>
             </div>
           </div>
         </div> 

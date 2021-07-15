@@ -296,6 +296,7 @@
 }
 .orderupdatescont .orderupdaterow h4 {
   color: #333;
+  text-transform: capitalize;
 }
 .orderupdatescont .orderupdaterow > div {
   display: flex;
