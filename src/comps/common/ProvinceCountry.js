@@ -25,7 +25,7 @@ export default function ProvinceCountry(props) {
   },[userLocation,provinceChoices,selectedCountry])
   useEffect(() => {
     setState(prev => ({...prev,provstate:''}))
-    setSelectedProvince('')
+    //setSelectedProvince('')
   },[selectedCountry])
   useEffect(() => {
     setState({ country: userLocation?.country })

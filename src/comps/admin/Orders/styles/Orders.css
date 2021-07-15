@@ -9,6 +9,12 @@
   text-decoration: underline;
   cursor: pointer;
 }
+.orderspage .producttable > .content h5.ordstatus span {
+  background: var(--light);
+  color: var(--admincolor);
+  padding: 5px 8px;
+  border-radius: 5px;
+}
 
 .editorderspage .tabsbar {
   width: 100;
@@ -387,6 +393,12 @@
 .customerpickercont .titles h5 {
   font-size: 16px;
   color: var(--graytxt);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.customerpickercont .titles h5 i {
+  font-size: 19px;
 }
 .customerpickercont .titles i {
   font-size: 30px;
@@ -431,7 +443,7 @@
   color: var(--graytxt);
 }
 .customerpickercont .resultscont .headersrow h5:last-child {
-  flex-basis: auto;
+  flex-basis: 55px;
 }
 .customerpickercont .customerrow {
   width: 100%;

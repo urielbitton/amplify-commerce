@@ -28,13 +28,13 @@ export default function MyAccount() {
     {name: 'profile', url: '/my-account/profile/', icon: 'fal fa-user'},
   ]
   const accountlinksrow = accountlinks.map(({name,url,icon,exact}) => {
-    return <NavLink to={url} exact={exact} activeClassName="activemenulink">
+    return <NavLink to={url} exact={exact} key={url} activeClassName="activemenulink">
       <i className={icon}></i>
       {name}
     </NavLink>
   })
   const orderdetailspage = myOrders?.map(order => {
-    return <Route path={`/my-account/order-details/${order.orderid}`}>
+    return <Route path={`/my-account/order-details/${order.orderid}`} key={order.orderid}>
       <OrderDetails order={order} />
     </Route>
   })

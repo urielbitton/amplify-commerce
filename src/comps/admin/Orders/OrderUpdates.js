@@ -1,16 +1,14 @@
 import React, { useState } from 'react'
 import { AppInput, AppSelect, AppTextarea } from '../../common/AppInputs'
 import { db } from '../../common/Fire'
-import { nowDateTime } from '../../common/UtilityFuncs'
 import AdminBtn from '../common/AdminBtn'
-import convertDate from '../utilities/convertDate'
 
 export default function OrderUpdates(props) {
 
   const {statusOpts, ordUpdates, setOrdUpdates} = props
   const [showAdder, setShowAdder] = useState(false)
   const [status, setStatus] = useState('')
-  const [date, setDate] = useState(nowDateTime)
+  const [date, setDate] = useState(new Date())
   const [location, setLocation] = useState('')
   const [action, setAction] = useState('')
   const allowAdd = status && date && location && action
@@ -27,7 +25,7 @@ export default function OrderUpdates(props) {
       <AdminBtn title={<i className="fal fa-trash-alt"></i>} className="iconbtn delete" solid clickEvent onClick={() => deleteUpdate(el)}/>
     </div>
   })
-
+  
   function addAnUpdate() {
     if(allowAdd) {
       setOrdUpdates(prev => [...prev, {
@@ -38,7 +36,7 @@ export default function OrderUpdates(props) {
         action
       }])
       setStatus('')
-      setDate(nowDateTime)
+      setDate('')
       setLocation('')
       setAction('')
     }

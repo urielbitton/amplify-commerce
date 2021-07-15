@@ -27,7 +27,7 @@ export default function Sidebar() {
       <div className={sublinks&&`sublinkcont ${i===openTab?"open":""}`}>
         {
           sublinks?.map(({name,icon,url,exact}) => {
-            return <NavLink exact={exact} to={url} className="menulink" activeClassName="activemenulink">
+            return <NavLink exact={exact} to={url} className="menulink" activeClassName="activemenulink" key={url}>
               <span>
                 <i className={icon}></i>
                 {name}

@@ -21,8 +21,8 @@ export default function EditOrder(props) {
   billingState, setBillingState, shippingState, setShippingState, taxRate, allCustomers} = useContext(StoreContext)
   const {orderid} = editOrdMode&&props.el
   const [tabPos, setTabPos] = useState(0)
-  const [genNum, setGenNum] = useState('') 
-  const [orderDate, setOrderDate] = useState(nowDateTime)
+  const [genNum, setGenNum] = useState('')  
+  const [orderDate, setOrderDate] = useState(new Date()) 
   const [ordSubTotal, setOrdSubTotal] = useState(0)
   const [ordTotal, setOrdTotal] = useState(0)
   const [ordStatus, setOrdStatus] = useState('')
@@ -67,7 +67,7 @@ export default function EditOrder(props) {
     orderNumber: genNum,
     orderDateCreated: orderDate,
     orderTotal: ordTotal,
-    orderStatus: ordStatus,
+    orderStatus: ordStatus, 
     taxAmount: 0.15,
     trackingNum,
     products: ordProducts,
@@ -90,7 +90,7 @@ export default function EditOrder(props) {
       method: payMethod,
       paymentId: db.collection('orders').doc().id
     },
-    shippingMethod: allShipping[selectedShip??0]
+    shippingMethod: allShipping[selectedShip<0?0:selectedShip]
   }
 
   const newOrdObj = {
@@ -192,9 +192,9 @@ export default function EditOrder(props) {
   }
   function createOrder() {
     if(allowCreate) {
-      db.collection('orders').doc(customerId).update({
+      db.collection('orders').doc(customerId).set({
         allorders: firebase.firestore.FieldValue.arrayUnion(entireOrder)
-      }).then(() => {
+      },{merge:true}).then(() => {
         window.alert('The order has been successfully created.')
         history.push('/admin/orders')
       })
@@ -230,7 +230,7 @@ export default function EditOrder(props) {
   useEffect(() => {
     setPaypalOn(payMethod==='PayPal')
   },[payMethod])
- 
+
   return (
     <div className="editorderspage">
       <PageTitle title={editOrdMode?"Edit An Order":"Create An Order"}/>
@@ -238,7 +238,7 @@ export default function EditOrder(props) {
         <h3 className="pagetitle">{editOrdMode?"Edit Order":"Create Order"}</h3>
         <div className="tabsbar">
           <div className="tabstitles"> 
-            {tabsheadrow}
+            {tabsheadrow} 
           </div>
           <hr className="tabline"/>
         </div>
@@ -277,24 +277,14 @@ export default function EditOrder(props) {
             </div>
             <div className={`editsection ${tabPos===2?"show":""}`}>
               <h4>Customer Info</h4>
-              <h6 className="cusidmsg">
-                If you have the customer's ID and want to create an order for them, enter it here
-              </h6>
-              <AppInput title="Customer ID" onChange={(e) => setCustomerId(e.target.value)} value={customerId} />
-              <h5 style={{color: '#777'}}>-OR-</h5>
               <AdminBtn title="Find Customer" solid clickEvent onClick={() => setShowCustomerPicker(prev => !prev)}/>
               <h5 style={{color: '#777'}}>-OR-</h5>
-              <h6 className="cusidmsg">Manually enter a customer's information (a customer ID will automatically gen assigned.)</h6>
-              {
-                !customerId.length&&
-                <>
-                  <AppInput title="Full Name" onChange={(e) => setCustName(e.target.value)} value={custName} />
-                  <AppInput title="Email" onChange={(e) => setCustEmail(e.target.value)} value={custEmail}/>
-                  <AppInput title="Phone" onChange={(e) => setCustPhone(e.target.value)} value={custPhone}/>
-                  <AppInput title="City" onChange={(e) => setCustCity(e.target.value)} value={custCity}/>
-                  <ProvinceCountry setState={setCustProvinceCountry} />
-                </>
-              }
+              <h6 className="cusidmsg">Manually enter a customer's information (a customer ID will automatically be assigned.)</h6>
+              <AppInput title="Full Name" onChange={(e) => setCustName(e.target.value)} value={custName} />
+              <AppInput title="Email" onChange={(e) => setCustEmail(e.target.value)} value={custEmail}/>
+              <AppInput title="Phone" onChange={(e) => setCustPhone(e.target.value)} value={custPhone}/>
+              <AppInput title="City" onChange={(e) => setCustCity(e.target.value)} value={custCity}/>
+              <ProvinceCountry setState={setCustProvinceCountry} />
             </div>
             <div className={`editsection ${tabPos===3?"show":""}`}>
               <h4>Shipping Address</h4>
@@ -335,10 +325,11 @@ export default function EditOrder(props) {
             <div className="detailscontent">
               <h4>Order Details</h4>
               <h5><span>Order Number</span><span className="ordernuminp">#{genNum}</span></h5>
-              <h5><span>Order Date</span><span>{orderDate.replace('T',', ')}</span></h5>
+              <h5><span>Order Date</span><span>{}</span></h5>
               <h5><span>Products</span><span>{ordProducts.length}</span></h5>
               <h5><span>Order Subtotal</span><span>{currencyFormat.format(ordSubTotal)}</span></h5>
               <h5><span>Order Total</span><span>{currencyFormat.format(ordTotal)}</span></h5>
+              <h5><span>Shipping</span>{allShipping[selectedShip<0?0:selectedShip].name} ({currencyFormat.format(allShipping[selectedShip<0?0:selectedShip].price)})</h5>
               <h5><span>Order Updates</span>{ordUpdates.length}</h5>
             </div>
           </div>
@@ -349,6 +340,12 @@ export default function EditOrder(props) {
         showCustomerPicker={showCustomerPicker} 
         selectCustIndex={selectCustIndex}
         setSelectCustIndex={setSelectCustIndex}
+        setCustomerId={setCustomerId}
+        setCustName={setCustName}
+        setCustEmail={setCustEmail}
+        setCustPhone={setCustPhone}
+        setCustCity={setCustCity}
+        setCustProvinceCountry={setCustProvinceCountry}
       />
     </div>
   )

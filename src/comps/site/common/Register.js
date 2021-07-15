@@ -84,6 +84,10 @@ export default function Login(props) {
             db.collection('orders').doc(user.uid).set({
               allorders: []
             })  
+            db.collection('customers').doc(user.uid).set({
+              id:user.uid,name: name??'',email:'',phone:'',city:'',
+              provstate:'',provstateCode:'',country:'',countryCode:''
+            }) 
             setAUser(user)
             history.push('/')
           })
@@ -128,6 +132,10 @@ export default function Login(props) {
               db.collection('orders').doc(user.uid).set({
                 allorders: []
               })
+              db.collection('customers').doc(user.uid).set({
+                id:user.uid,name: name??'',email:'',phone:'',city:'',
+                provstate:'',provstateCode:'',country:'',countryCode:''
+              }) 
               setAUser(user)
               console.log(user)
               history.push('/')

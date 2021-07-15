@@ -1,4 +1,4 @@
-export default function convertDate(date) {
+export default function convertDate(date, withTime) {
   return `
     ${date?.toDate().toString().split(' ')[1]} 
     ${date?.toDate().toString().split(' ')[2]} 

@@ -49,7 +49,7 @@ export default function Orders() {
       <h5>#{el.trackingNum}</h5>
       <h5>{convertDate(el.orderDateCreated)}</h5>
       <h5>{currencyFormat.format(el.orderTotal)}</h5>
-      <h5>{el.orderStatus}</h5>
+      <h5 className="ordstatus"><span>{el.orderStatus}</span></h5>
       <h5>
         <div className="actionsdiv" onClick={(e) => {setShowOpts(showOpts===el.id?0:el.id);e.stopPropagation()}}>
           <i className="far fa-ellipsis-h actionsicon"></i>

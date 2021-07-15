@@ -20,11 +20,11 @@ export default function Navbar() {
   
   const menulinksrow = menuLinks?.map(({name,url,exact,sublinks}) => {
     return <div className="menulink" key={name}>
-      <NavLink exact={exact} to={url} activeClassName="activemenulink">{name}<hr/></NavLink>
+      <NavLink exact={exact} to={url} key={url} activeClassName="activemenulink">{name}<hr/></NavLink>
       {
         sublinks?.map(({name,url}) => {
           return <div className="sublink" key={name}>
-            <NavLink to={url}>{name}</NavLink>
+            <NavLink to={url} key={url}>{name}</NavLink>
           </div>
         }) 
       } 
