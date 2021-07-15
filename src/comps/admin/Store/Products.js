@@ -104,7 +104,7 @@ export default function Products() {
   }
 
   useEffect(() => {
-    window.onclick = () => showOpts>0&&setShowOpts(0)
+    window.onclick = () => setShowOpts(0)
   },[])
 
   return (

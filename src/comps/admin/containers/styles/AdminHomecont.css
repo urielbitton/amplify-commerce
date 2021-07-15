@@ -96,6 +96,10 @@
 .pagecont .producttable .header h5:first-child {
   flex-basis: 100px;
 }
+.orderspage .pagecont .producttable .header h5:first-child,
+.orderspage .pagecont .producttable .content h5:first-child {
+  flex-basis: 220px;
+}
 .productspage .producttable .content h5.stockcont span {
   padding: 5px 10px;
   background: var(--admincolor);

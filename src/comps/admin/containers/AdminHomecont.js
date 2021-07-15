@@ -33,12 +33,12 @@ export default function AdminHomecont() {
     return <Route path={`/admin/store/edit-shipping/${el.id}`}>
       <EditShipping el={el} />
     </Route> 
-  })
+  }) 
   const editorderspages = allOrders?.map(el => {
-    return <Route path={`/admin/orders/edit-orders/${el.orderid}`}>
+    return <Route path={`/admin/orders/edit-order/${el.orderid}`}>
       <EditOrder el={el} />
     </Route> 
-  })
+  }) 
 
   return (
     <div className="adminhomecont">

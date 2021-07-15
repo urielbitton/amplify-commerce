@@ -11,10 +11,10 @@ import PageTitle from '../common/PageTitle'
 
 export default function Orders() {
 
-  const {allOrders, allProducts, currencyFormat} = useContext(StoreContext)
+  const {allOrders, allProducts, currencyFormat, setEditOrdMode} = useContext(StoreContext)
   const [sort, setSort] = useState(0)
   const [asc, setAsc] = useState(true)
-  const [showOpts, setShowOpts] = useState(0)
+  const [showOpts, setShowOpts] = useState(-1)
   const [keyword, setKeyword] = useState('')
   const clean = text => text.replace(/[^a-zA-Z0-9 ]/g, "")
   let pattern = new RegExp('\\b' + clean(keyword), 'i')
@@ -30,6 +30,7 @@ export default function Orders() {
   }) 
 
   function editOrder(orderid) {
+    setEditOrdMode(true)
     history.push(`/admin/orders/edit-order/${orderid}`)
   }
   function deleteOrder() {
@@ -51,10 +52,10 @@ export default function Orders() {
       <h5>{currencyFormat.format(el.orderTotal)}</h5>
       <h5 className="ordstatus"><span>{el.orderStatus}</span></h5>
       <h5>
-        <div className="actionsdiv" onClick={(e) => {setShowOpts(showOpts===el.id?0:el.id);e.stopPropagation()}}>
+        <div className="actionsdiv" onClick={(e) => {setShowOpts(showOpts===i?0:i);e.stopPropagation()}}>
           <i className="far fa-ellipsis-h actionsicon"></i>
         </div>
-        <div className={`optscont ${el.id===showOpts?"show":""}`}> 
+        <div className={`optscont ${i===showOpts?"show":""}`}> 
           <div title="Edit Order" onClick={() => editOrder(el.orderid)}><i className="far fa-edit"></i></div>
           <div title="Delete Order" onClick={() => deleteOrder(el.orderid)}><i className="far fa-trash-alt"></i></div>
           <div title="Order Info" onClick={() => infoOrder()}><i className="far fa-info"></i></div>
@@ -64,7 +65,7 @@ export default function Orders() {
   }) 
 
   useEffect(() => {
-    window.onclick = () => showOpts>0&&setShowOpts(0)
+    window.onclick = () => setShowOpts(-1)
   },[])
 
   return (

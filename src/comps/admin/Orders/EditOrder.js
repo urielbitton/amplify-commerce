@@ -9,24 +9,25 @@ import refProd from '../../common/referProduct'
 import {sizeConverter, colorConverter, getCustomerById} from '../../common/UtilityFuncs'
 import ProvinceCountry from '../../common/ProvinceCountry'
 import BillingShippingFields from './BillingShippingFields'
-import { Link, useHistory } from 'react-router-dom'
+import { Link, useHistory, useLocation } from 'react-router-dom'
 import PageTitle from '../common/PageTitle'
 import OrderUpdates from './OrderUpdates'
-import {nowDateTime} from '../../common/UtilityFuncs'
 import CustomerPicker from './CustomerPicker'
+import convertDate from '../utilities/convertDate'
 
 export default function EditOrder(props) {
 
-  const {editOrdMode, allProducts, allShipping, sizesOpts, colorsOpts, currencyFormat, setEditShipMode,
-  billingState, setBillingState, shippingState, setShippingState, taxRate, allCustomers} = useContext(StoreContext)
-  const {orderid} = editOrdMode&&props.el
+  const {editOrdMode, setEditOrdMode, allProducts, allShipping, sizesOpts, colorsOpts, currencyFormat, setEditShipMode,
+    billingState, setBillingState, shippingState, setShippingState, taxRate, allCustomers} = useContext(StoreContext)
+  const {orderid, orderNumber, orderDateCreated, orderStatus, products, customer,
+    trackingNum} = editOrdMode&&props.el
   const [tabPos, setTabPos] = useState(0)
-  const [genNum, setGenNum] = useState('')  
-  const [orderDate, setOrderDate] = useState(new Date()) 
+  const [genNum, setGenNum] = useState(editOrdMode?orderNumber:'')  
+  const [orderDate, setOrderDate] = useState(editOrdMode?convertDate(orderDateCreated, true):new Date())  
   const [ordSubTotal, setOrdSubTotal] = useState(0)
   const [ordTotal, setOrdTotal] = useState(0)
-  const [ordStatus, setOrdStatus] = useState('')
-  const [ordProducts, setOrdProducts] = useState([])
+  const [ordStatus, setOrdStatus] = useState(editOrdMode?orderStatus:"")
+  const [ordProducts, setOrdProducts] = useState(editOrdMode?products:[])
   const [chosenProd, setChosenProd] = useState('')
   const [chosenSize, setChosenSize] = useState('')
   const [chosenColor, setChosenColor] = useState('')
@@ -35,13 +36,13 @@ export default function EditOrder(props) {
   const allowAddNew = !!chosenProd && !!chosenSize && !!chosenColor && !!chosenQty>0
   const newSubId = chosenProd+chosenSize+chosenColor
   const [editStyleMode, setEditStyleMode] = useState(false)
-  const [customerId, setCustomerId] = useState('')
-  const [custName, setCustName] = useState('')
-  const [custEmail, setCustEmail] = useState('')
-  const [custPhone, setCustPhone] = useState('')
-  const [custCity, setCustCity] = useState('')
+  const [customerId, setCustomerId] = useState(editOrdMode?customer.id:'')
+  const [custName, setCustName] = useState(editOrdMode?customer.name:'')
+  const [custEmail, setCustEmail] = useState(editOrdMode?customer.email:'')
+  const [custPhone, setCustPhone] = useState(editOrdMode?customer.phone:'')
+  const [custCity, setCustCity] = useState(editOrdMode?customer.city:'')
   const [custProvinceCountry, setCustProvinceCountry] = useState({})
-  const [trackingNum, setTrackingNum] = useState('')
+  const [trackingNumber, setTrackingNumber] = useState(editOrdMode?trackingNum:'')
   const [sameAsShipping, setSameAsShipping] = useState(false)
   const [selectedShip, setSelectedShip] = useState(-1)
   const [ordUpdates, setOrdUpdates] = useState([])
@@ -51,8 +52,10 @@ export default function EditOrder(props) {
   const [payEmail, setPayEmail] = useState('')
   const [showCustomerPicker, setShowCustomerPicker] = useState(false)
   const [selectCustIndex, setSelectCustIndex] = useState(-1)
+  const [changeType, setChangeType] = useState(false)
   const allowCreate = genNum && orderDate && ordProducts.length && payEmail
   const history = useHistory()
+  const location = useLocation()
    
   const tabshead = ['General', 'Products', 'Customer', 'Shipping', 'Billing & Payment', 'Updates']
   const statusOpts = [
@@ -69,7 +72,7 @@ export default function EditOrder(props) {
     orderTotal: ordTotal,
     orderStatus: ordStatus, 
     taxAmount: 0.15,
-    trackingNum,
+    trackingNum: trackingNumber,
     products: ordProducts,
     updates: ordUpdates,
     customer: {
@@ -203,16 +206,29 @@ export default function EditOrder(props) {
       window.alert('Please fill in all the required fields (denoted by *)')
     }
   }
+  function editOrder() {
+
+  }
+  function simpleDateConvert(date) {
+    return `${date.toString().split(' ')[1]}
+    ${date.toString().split(' ')[2]}
+    ${date.toString().split(' ')[3]}`
+  }
 
   useEffect(() => {
-    generateId(3,7)
+    !editOrdMode&&generateId(3,7) 
   },[])
-
+  useEffect(() => {
+    if(location.pathname.includes('/edit-order')) 
+      setEditOrdMode(true)
+    else
+      setEditOrdMode(false)
+  },[location])
   useEffect(() => {
     if(!editStyleMode) {
       setChosenSize('')
       setChosenColor('')
-      setChosenQty(1)
+      setChosenQty(1) 
     }
   },[chosenProd])
 
@@ -249,7 +265,7 @@ export default function EditOrder(props) {
                 <AppInput title="Order Number" className="ordernuminp" placeholder="#123456" onChange={(e) => setGenNum(e.target.value)} value={genNum}/>
                 <AdminBtn title="Generate" className="genbtn" solid clickEvent onClick={() => generateId(3,7)}/>
               </div>
-              <AppInput title="Order Date" type="datetime-local" onChange={(e) => setOrderDate(e.target.value)} value={orderDate}/>
+              <AppInput title="Order Date" onFocus={() => setChangeType(true)} onBlur={() => setChangeType(false)} type={editOrdMode&&!changeType?"":"datetime-local"} onChange={(e) => setOrderDate(e.target.value)} value={orderDate.replace(/\s\s+/g, ' ')}/>
               <AppSelect title="Order Status" options={[{name:'Choose a Status',value:''},...statusOpts]} onChange={(e) => setOrdStatus(e.target.value)} value={ordStatus} namebased />
             </div>
             <div className={`editsection ${tabPos===1?"show":""}`}>
@@ -295,7 +311,7 @@ export default function EditOrder(props) {
                 <Link to="/admin/store/add-shipping/" onClick={() => setEditShipMode(false)}>Create More Shipping Method Here</Link>
               </div>
               <h4>Tracking</h4>
-              <AppInput title="Tracking Number *" onChange={(e) => setTrackingNum(e.target.value)} value={trackingNum}/>
+              <AppInput title="Tracking Number *" onChange={(e) => setTrackingNumber(e.target.value)} value={trackingNumber}/>
               <AppInput title="Tracking Return Code" onChange={(e) => null} />
             </div>
             <div className={`editsection ${tabPos===4?"show":""}`}>
@@ -317,15 +333,15 @@ export default function EditOrder(props) {
               <OrderUpdates statusOpts={statusOpts} ordUpdates={ordUpdates} setOrdUpdates={setOrdUpdates} />
             </div>
             <div className="final actionbtns">
-              <AdminBtn title="Create Order" disabled={!allowCreate} solid clickEvent onClick={() => createOrder()}/>
+              <AdminBtn title={editOrdMode?"Edit Order":"Create Order"} disabled={!allowCreate} solid clickEvent onClick={() => !editOrdMode?createOrder():editOrder()}/>
               <AdminBtn title="Cancel" url="/admin/orders"/>
             </div>
           </div>
           <div className="ordercontent-details">
             <div className="detailscontent">
-              <h4>Order Details</h4>
+              <h4>Order Details</h4> 
               <h5><span>Order Number</span><span className="ordernuminp">#{genNum}</span></h5>
-              <h5><span>Order Date</span><span>{}</span></h5>
+              <h5><span>Order Date</span><span>{typeof orderDate === 'object'?simpleDateConvert(orderDate):orderDate.split('T')[0]}</span></h5>
               <h5><span>Products</span><span>{ordProducts.length}</span></h5>
               <h5><span>Order Subtotal</span><span>{currencyFormat.format(ordSubTotal)}</span></h5>
               <h5><span>Order Total</span><span>{currencyFormat.format(ordTotal)}</span></h5>
