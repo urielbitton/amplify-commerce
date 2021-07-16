@@ -11,7 +11,7 @@ import PageTitle from '../common/PageTitle'
 
 export default function EditProduct(props) {
 
-  const {allProducts, editProdMode, setEditProdMode} = useContext(StoreContext)
+  const {editProdMode, setEditProdMode} = useContext(StoreContext)
   const {id, name, imgs, price, brand, belongs, categories, collection, descript, sku, sizes,
     composition, shippingReturns, rating, ratingsarr, reviews} = editProdMode&&props.el
   const [tabPos, setTabPos] = useState(0)
@@ -123,9 +123,6 @@ export default function EditProduct(props) {
           //setLoading(false)
           storageRef.getDownloadURL().then(url => {
             setImgUrl(url)
-            db.collection('products').doc('allproducts').update({
-              
-            })
           })
         }
       )
@@ -290,7 +287,7 @@ export default function EditProduct(props) {
             <small>Remove or sensor reviews</small>
           </div>
         </div>
-        <div className="actionscontent">
+        <div className="actionbtns">
           <AdminBtn 
             title={editProdMode?"Save Product":"Add Product"} 
             clickEvent 
@@ -298,11 +295,18 @@ export default function EditProduct(props) {
             solid
             onClick={() => editProdMode?saveProduct():addProduct()}
           />
-          <AdminBtn  
-            title={editProdMode?"Delete Product":"Cancel"} 
-            clickEvent 
+          <AdminBtn 
+            title="Delete Product" 
+            solid 
             className="deletebtn" 
-            onClick={() => editProdMode?deleteProduct():cancelAdd()}
+            hideBtn={!editProdMode}
+            clickEvent 
+            onClick={() => editProdMode&&deleteProduct()}
+          />
+          <AdminBtn  
+            title="Cancel"
+            clickEvent 
+            onClick={() => cancelAdd()}
           />
         </div>
       </div>

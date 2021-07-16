@@ -167,6 +167,9 @@ hr {
 .commoninput h6 {
   cursor: auto;
 }
+a.hide {
+  display: none;
+}
 
 @media (max-width: 1400px) {
   .grid {

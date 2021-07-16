@@ -14,6 +14,15 @@
   box-shadow: var(--shadow);
   border-radius: 10px;
 }
+.pagecont .actionbtns {
+  border-top: 1px solid #eee;
+  margin: 20px 0;
+  padding-top: 25px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
 .pagecont .titlesrow {
   width: 100%;
   display: flex;
@@ -267,9 +276,6 @@
 .pagemaincontent .inprow input,
 .pagemaincontent .inprow select {
   width: 400px;
-}
-.pagemaincontent .adminbtn.createbtn {
-  margin: 20px 0;
 }
 
 /*Dark mode styles */

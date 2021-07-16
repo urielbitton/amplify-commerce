@@ -15,7 +15,7 @@ const StoreContextProvider = (props) => {
   const [allCustomers, setAllCustomers] = useState([])
   const [myUser, setMyUser] = useState({})
   const [cart, setCart] = useState([])
-  const [auser, setAUser] = useState('')  
+  const [auser, setAUser] = useState('')   
 
   const currencyFormat = new Intl.NumberFormat('en-CA', {style: 'currency', currency: 'CAD'})
   const percentFormat = new Intl.NumberFormat('en-CA', {style: 'percent'})
@@ -109,8 +109,8 @@ const StoreContextProvider = (props) => {
       snap.forEach(doc => { 
         if(doc.data().orderid) 
           ordersArr.push(doc.data())
-      })
-      setAllOrders(ordersArr)  
+      })   
+      setAllOrders(ordersArr)         
     })  
     db.collection('admin').doc('storeSettings').onSnapshot(snap => {
       setSizesOpts(snap.data()?.storesettings.sizeopts)  

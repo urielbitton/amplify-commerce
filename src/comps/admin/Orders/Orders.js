@@ -34,10 +34,11 @@ export default function Orders() {
     setEditOrdMode(true)
     history.push(`/admin/orders/edit-order/${orderid}`)
   }
-  function deleteOrder(orderid) {
+  function deleteOrder(orderid, customerId) {
     let confirm = window.confirm('Are you sure you wish to delete this order?')
     if(confirm) {
-
+      db.collection('orders').doc(customerId).collection('orders').doc(orderid).delete()
+      .then(() => window.alert('The order was successfully deleted from your store.'))
     }
   }
   function infoOrder() {
@@ -61,7 +62,7 @@ export default function Orders() {
         </div>
         <div className={`optscont ${i===showOpts?"show":""}`}> 
           <div title="Edit Order" onClick={() => editOrder(el.orderid)}><i className="far fa-edit"></i></div>
-          <div title="Delete Order" onClick={() => deleteOrder(el.orderid)}><i className="far fa-trash-alt"></i></div>
+          <div title="Delete Order" onClick={() => deleteOrder(el.orderid, el.customer.id)}><i className="far fa-trash-alt"></i></div>
           <div title="Order Info" onClick={() => infoOrder()}><i className="far fa-info"></i></div>
         </div>
       </h5>

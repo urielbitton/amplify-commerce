@@ -69,7 +69,7 @@ export default function EditOrder(props) {
   ]
 
   const entireOrder = { 
-    orderid: editOrdMode?orderid:db.collection('orders').doc().id,
+    orderid: editOrdMode?orderid:genNewOrderId,
     orderNumber: genNum,
     orderDateCreated: orderDate,
     orderTotal: ordTotal,
@@ -226,7 +226,11 @@ export default function EditOrder(props) {
   function deleteOrder() {
     let confirm = window.confirm('Are you sure you wish to delete this order?')
     if(confirm) {
-
+      db.collection('orders').doc(customerId).collection('orders').doc(orderid).delete()
+      .then(() => {
+        window.alert('The order was successfully deleted from your store.')
+        history.push('/admin/orders')
+      })
     }
   }
   function simpleDateConvert(date) {

@@ -9,7 +9,7 @@ import PageTitle from '../common/PageTitle'
 
 export default function Shipping() {
 
-  const {editShipMode, setEditShipMode, allShipping, currencyFormat} = useContext(StoreContext)
+  const {setEditShipMode, allShipping, currencyFormat} = useContext(StoreContext)
   const [sort, setSort] = useState(0)
   const [asc, setAsc] = useState(true)
   const [showOpts, setShowOpts] = useState(0)
@@ -61,9 +61,8 @@ export default function Shipping() {
     if(confirm) {
       let itemindex = allShipping.findIndex(x => x.id === shipid)
       allShipping.splice(itemindex,1)
-      db.collection('coupons').doc('allcoupons').update({
-        allshipping: allShipping
-      }).then(() => window.confirm('The shipping method was successfully deleted from your store.'))
+      db.collection('coupons').doc(shipid).delete()
+      .then(() => window.confirm('The shipping method was successfully deleted from your store.'))
     }
   }
   function infoShipping() {
@@ -79,11 +78,11 @@ export default function Shipping() {
       <PageTitle title="Shipping"/>
       <div className="pagecont">
         <div className="titlesrow">
-          <h4>Shipping</h4>
+          <h4>Shipping Methods</h4>
           <div className="flex">
-            <AdminBtn title="New Method" url="/admin/store/add-shipping" />
+            <AdminBtn title="New Shipping" url="/admin/store/add-shipping" />
             <AppInput 
-              placeholder="Find a Method" 
+              placeholder="Find a Shipping Method" 
               iconclass="fal fa-search" 
               onChange={(e) => setKeyword(e.target.value)}
             />

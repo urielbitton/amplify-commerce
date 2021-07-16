@@ -58,11 +58,8 @@ export default function Coupons() {
   function deleteCoupon(couponid) {
     const confirm = window.confirm('Are you sure you want to remove this coupon?')
     if(confirm) {
-      let itemindex = allCoupons.findIndex(x => x.id === couponid)
-      allCoupons.splice(itemindex,1)
-      db.collection('coupons').doc('allcoupons').update({
-        allcoupons: allCoupons
-      }).then(() => window.confirm('The coupon was successfully deleted from your store.'))
+      db.collection('coupons').doc(couponid).delete()
+      .then(() => window.confirm('The coupon was successfully deleted from your store.'))
     }
   }
   function infoCoupon() {

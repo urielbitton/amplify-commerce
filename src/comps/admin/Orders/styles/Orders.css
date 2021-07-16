@@ -75,16 +75,8 @@
   margin-top: 50px;
   width: 600px;
 }
-.editorderspage .actionbtns {
-  width: 100%;
-  display: flex;
-  align-items: center;
-  gap: 20px;
-}
 .editorderspage .actionbtns.final {
-  margin-top: 20px;
   padding-top: 25px;
-  border-top: 1px solid #eee;
 }
 .editorderspage .ordernuminp {
   text-transform: uppercase;

@@ -35,7 +35,7 @@ export default function EditShipping(props) {
     name: shipName,
     company: shipCompany,
     companyName: shipCompany,
-    price: shipPrice,
+    price: +shipPrice,
     countries: [...new Set(countriesArr)], //removes duplicates
     isActive: shipActive,
     value: editShipMode ? value: shipName.split(' ')[0].toLowerCase(),
@@ -66,14 +66,23 @@ export default function EditShipping(props) {
     })
   }
   function editShipping() {
-    const itemindex = allShipping.findIndex(x => x.id === id)
-    allShipping[itemindex] = shipObj
-    db.collection('shipping').doc('allshipping').update({
-      allshipping: allShipping
-    }).then(() => {
-      window.alert('The shipping method has been successfully saved.')
+    db.collection('shipping').doc(id).update(shipObj).then(res => {
+      window.alert('The shipping method was successfully saved.')
+    }).catch(err => {
+      window.alert('An error occured while saving the shipping method. Please try again.')
       history.push('/admin/store/shipping')
     })
+  }
+  function deleteShipping() {
+    const confirm = window.confirm('Are you sure you want to delete this shipping method?')
+    if(confirm) {
+      db.collection('shipping').doc(id)
+      .delete()
+      .then(() => {
+        window.alert('The shipping method was successfully deleted from your store.')
+        history.push('/admin/store/products')
+      })
+    }
   }
   function addCountry() {
     setCountriesArr(prev => [...prev, extraCountry])
@@ -128,7 +137,7 @@ export default function EditShipping(props) {
     <div className="editshippingpage">
       <PageTitle title={editShipMode?"Edit A Shipping Method":"Create A Shipping Method"}/>
       <div className="pagecont">
-        <h3 className="pagetitle">{editShipMode?"Edit Shipping":"Add Shipping"}</h3>
+        <h3 className="pagetitle">{editShipMode?"Edit Shipping Method":"Add Shipping Method"}</h3>
         <div className="shippingcontent pagemaincontent">
           <AppInput title="Method Name" onChange={(e) => setShipName(e.target.value)} value={shipName}/>
           <AppTextarea title="Description (optional)" onChange={(e) => setShipDescript(e.target.value)} value={shipDescript}/>
@@ -162,13 +171,24 @@ export default function EditShipping(props) {
           <AppSelect title="Courier Company" className="inprow" options={[{name:'Choose one...',value:''},...courrierOpts]} onChange={(e) => setShipCompany(e.target.value)} value={shipCompany}/>
           <AppInput title="Price" className="inprow" type="number" onChange={(e) => setShipPrice(e.target.value)} value={shipPrice}/>
           <AppSwitch title="Activate Method" className="inprow" onChange={(e) => setShipActive(e.target.checked)} checked={shipActive}/> 
-          <AdminBtn 
-            title={editShipMode?"Save Shipping":"Create Shipping"} 
-            solid 
-            className="createbtn"  
-            clickEvent
-            onClick={() => editShipMode?editShipping():createShipping()}
-          />
+          <div className="actionbtns">
+            <AdminBtn 
+              title={editShipMode?"Save Shipping":"Create Shipping"} 
+              solid 
+              className="createbtn"  
+              clickEvent
+              onClick={() => editShipMode?editShipping():createShipping()}
+            />
+            <AdminBtn 
+              title="Delete Shipping" 
+              solid 
+              className="deletebtn" 
+              hideBtn={!editShipMode}
+              clickEvent 
+              onClick={() => editShipMode&&deleteShipping()}
+            />
+            <AdminBtn title="Cancel" clickEvent onClick={() => history.push('/admin/shipping')}/>
+          </div>
         </div>
       </div>
     </div>

@@ -93,8 +93,7 @@ export default function Products() {
   function deleteProduct(id) {
     const confirm = window.confirm('Are you sure you want to remove this product? This will remove the product from customers cart and wishlists.')
     if(confirm) {
-      db.collection('products').doc(id)
-      .delete()
+      db.collection('products').doc(id).delete()
       .then(() => window.alert('The product was successfully deleted from your store.'))
     }
   }

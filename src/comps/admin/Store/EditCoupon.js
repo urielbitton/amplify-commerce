@@ -3,14 +3,13 @@ import { StoreContext } from '../../common/StoreContext'
 import {AppInput, AppSelect, AppSwitch, AppTextarea} from '../../common/AppInputs'
 import AdminBtn from '../common/AdminBtn'
 import {db} from '../../common/Fire'
-import firebase from 'firebase'
 import { useHistory, useLocation } from 'react-router'
 import PageTitle from '../common/PageTitle'
 import { nowDate } from '../../common/UtilityFuncs'
  
 export default function EditCoupon(props) { 
  
-  const {editCoupMode, setEditCoupMode, allCoupons} = useContext(StoreContext)
+  const {editCoupMode, setEditCoupMode} = useContext(StoreContext)
   const {id, name, amount, description, type, expiryDate, timesUsed, isActive} = editCoupMode&&props.el 
   let coupongen = Math.random().toString(36).substring(7)
   const [coupName, setCoupName] = useState(editCoupMode?name:coupongen)
@@ -31,7 +30,7 @@ export default function EditCoupon(props) {
   ]
 
   const coupObj = {
-    id: editCoupMode?id:db.collection('coupons').doc().id,
+    id: editCoupMode?id:genNewId,
     name: coupName,
     amount: +coupAmount,
     description: coupDescript,
@@ -43,9 +42,8 @@ export default function EditCoupon(props) {
 
   function createCoupon() {
     if(allowAccess) {
-      db.collection('coupons').doc(genNewId).set(
-        coupObj
-      ).then(() => {
+      db.collection('coupons').doc(genNewId).set(coupObj)
+      .then(() => {
         window.alert('Your coupon has been created successfully.')
         history.push('/admin/store/coupons')
       })
@@ -56,7 +54,22 @@ export default function EditCoupon(props) {
   }
   function editCoupon() {
     if(allowAccess) {
-      
+      db.collection('coupons').doc(id).update(coupObj).then(res => {
+        window.alert('The coupon was successfully saved.')
+      }).catch(err => {
+        window.alert('An error occured while saving the coupon. Please try again.')
+        history.push('/admin/store/coupons')
+      })
+    }
+  }
+  function deleteCoupon(couponid) {
+    const confirm = window.confirm('Are you sure you want to remove this coupon?')
+    if(confirm) {
+      db.collection('coupons').doc(couponid).delete()
+      .then(() => {
+        window.confirm('The coupon was successfully deleted from your store.')
+        history.push('/admin/coupons')
+      })
     }
   }
   
@@ -95,13 +108,24 @@ export default function EditCoupon(props) {
           <AppInput title="Coupon Amount" className="inprow" onChange={(e) => setCoupAmount(e.target.value)} value={coupAmount} />
           <AppInput title="Expiry Date" className="inprow" type="date" onChange={(e) => setCoupExpiry(e.target.value)} value={coupExpiry} />
           <AppSwitch title="Activate Coupon" className="inprow" onChange={(e) => setCoupActive(e.target.checked)} checked={coupActive}/> 
-          <AdminBtn 
-            title={editCoupMode?"Save Coupon":"Create Coupon"} 
-            solid 
-            className="createbtn" 
-            clickEvent
-            onClick={() => editCoupMode?editCoupon():createCoupon()}
-          />
+          <div className="actionbtns">
+            <AdminBtn 
+              title={editCoupMode?"Save Coupon":"Create Coupon"} 
+              solid 
+              className="createbtn" 
+              clickEvent
+              onClick={() => editCoupMode?editCoupon():createCoupon()}
+            />
+            <AdminBtn 
+              title="Delete Coupon" 
+              solid 
+              className="deletebtn" 
+              hideBtn={!editCoupMode}
+              clickEvent 
+              onClick={() => editCoupMode&&deleteCoupon()}
+            />
+            <AdminBtn title="Cancel" clickEvent onClick={() => history.push('/admin/coupons')}/>
+          </div>
         </div>
       </div>
     </div>
