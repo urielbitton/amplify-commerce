@@ -66,14 +66,11 @@ export default function Login(props) {
           provstate: "",
           country: "",
           profimg: "https://i.imgur.com/1OKoctC.jpg",
-          admin: false,
+          isAdmin: false,
           cart: [],
           savedlater: [],
           wishlist: [],
-          orders: [],
-          settings: {
-            
-          } 
+          settings: {} 
         }
         db.collection('users').doc(user.uid).set({
           userinfo
@@ -112,10 +109,7 @@ export default function Login(props) {
           cart: [],
           savedlater: [],
           wishlist: [],
-          orders: [],
-          settings: {
-            
-          } 
+          settings: {} 
         }
         firebase.auth().onAuthStateChanged(user => {
           if(user) {

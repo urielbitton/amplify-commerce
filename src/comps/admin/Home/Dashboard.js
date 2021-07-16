@@ -100,7 +100,7 @@ export default function Dashboard() {
   const recentorders = allOrders
   ?.filter(x => getDaysAgo(x.orderDateCreated.toDate()) <= 31)
   .slice(0,5)
-  .map(el => {
+  .map(el => { 
     return <div className="proditem">
       <h5>#{el.orderid.slice(0,8)}...</h5>
       <h5>{refProd(allProducts, el.products[0].id).name} + {el.products.length-1}</h5> 

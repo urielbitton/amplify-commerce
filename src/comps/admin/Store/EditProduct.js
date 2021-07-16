@@ -87,20 +87,17 @@ export default function EditProduct(props) {
   function deleteProduct() {
     const confirm = window.confirm('Are you sure you want to delete this product?')
     if(confirm) {
-      let itemindex = allProducts.findIndex(x => x.id === id)
-      allProducts.splice(itemindex,1)
-      db.collection('products').doc('allproducts').update({
-        allproducts: allProducts
-      }).then(() => history.push('/admin/store/products'))
+      db.collection('products').doc(id)
+      .delete()
+      .then(() => {
+        window.alert('The product was successfully deleted from your store.')
+        history.push('/admin/store/products')
+      })
     }
   }
   function saveProduct() {
     if(!!allowAddSave) {
-      const productindex = allProducts.findIndex(x => x.id === id)
-      allProducts[productindex] = productObj
-      db.collection('products').doc(id).update({
-        allproducts: allProducts
-      }).then(res => {
+      db.collection('products').doc(id).update(productObj).then(res => {
         window.alert('The product was successfully saved.')
         history.push('/admin/store/products')
       }).catch(err => window.alert('An error occured while saving product. Please try again.'))
@@ -187,6 +184,7 @@ export default function EditProduct(props) {
           </div>
           <AppInput 
             className="edittitle" 
+            placeholder="Enter Product Name"
             onChange={(e) => setProdName(e.target.value)} 
             value={prodName}
           />

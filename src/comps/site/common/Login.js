@@ -75,20 +75,13 @@ export default function Login(props) {
           cart: [],
           savedlater: [],
           wishlist: [],
-          orders: [],
-          settings: {
-            
-          } 
+          settings: {} 
         }
         firebase.auth().onAuthStateChanged(user => {
           if(user) {
             db.collection('users').doc(user.uid).set({
               userinfo
             }).then(res => { 
-              db.collection('orders').doc(user.uid).set({
-                allorders: []
-              })
-              console.log(user)
               history.push('/')
             }).catch(err => window.alert('An errror occurred with the google login. Please try again.'))
           }
@@ -109,7 +102,7 @@ export default function Login(props) {
   },[]) 
 
   useEffect(() => {
-    if(myUser.admin) {
+    if(myUser.isAdmin) {
       history.push('/admin')
     }
   },[myUser])

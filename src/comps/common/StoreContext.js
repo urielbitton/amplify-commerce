@@ -104,18 +104,27 @@ const StoreContextProvider = (props) => {
       snap.forEach(doc => { prodsArr.push(doc.data()) })
       setAllProducts(prodsArr) 
     })   
-    db.collection('orders').onSnapshot(snap => {
-      
-    })
+    db.collectionGroup('orders').onSnapshot(snap => {
+      let ordersArr = []  
+      snap.forEach(doc => { 
+        if(doc.data().orderid) 
+          ordersArr.push(doc.data())
+      })
+      setAllOrders(ordersArr)  
+    })  
     db.collection('admin').doc('storeSettings').onSnapshot(snap => {
       setSizesOpts(snap.data()?.storesettings.sizeopts)  
       setColorsOpts(snap.data()?.storesettings.coloropts) 
     })
-    db.collection('coupons').doc('allcoupons').onSnapshot(snap => {
-      setAllCoupons()
+    db.collection('coupons').onSnapshot(snap => {
+      let coupsArr = [] 
+      snap.forEach(doc => { coupsArr.push(doc.data()) })
+      setAllCoupons(coupsArr)  
     })
-    db.collection('shipping').doc('allshipping').onSnapshot(snap => {
-      setAllShipping()
+    db.collection('shipping').onSnapshot(snap => {
+      let shipArr = [] 
+      snap.forEach(doc => { shipArr.push(doc.data()) })
+      setAllShipping(shipArr) 
     }) 
     db.collection('stats').doc('allstats').onSnapshot(snap => {
       setAllStats(snap.data()?.allstats)
@@ -125,7 +134,7 @@ const StoreContextProvider = (props) => {
       snap.forEach(el => { custArr.push(el.data()) }) 
       setAllCustomers(custArr.flat())
     })  
-  },[user, auser])   
+  },[user, auser])  
 
   useEffect(() => {
     if(user) {

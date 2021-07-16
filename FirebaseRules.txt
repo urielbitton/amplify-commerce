@@ -1,0 +1,69 @@
+rules_version = '2';
+
+service cloud.firestore {
+
+  match /databases/{database}/documents {
+  
+  	match /admin/{document=**} {
+      allow read, write: if isAdmin();
+    }
+    
+    match /customers/{document=**} {
+      allow read, create;
+      allow delete: if isAdmin();
+    }
+  
+  	match /orders/{document=**} {
+      allow read;
+      allow write: if isAdmin();
+      allow create: if isOrderOwner();
+    }
+  
+    match /products/{document=**} {
+      allow read;
+      allow write: if isAdmin();
+    }
+    
+    match /shipping/{document=**} {
+      allow read;
+      allow write: if isAdmin();
+    }
+    
+    match /coupons/{document=**} {
+      allow read;
+      allow write: if isAdmin();
+    }
+   
+    match /stats/{document=**} {
+      allow read, write: if isAdmin();
+    }
+    
+    match /transactions/{document=**} {
+      allow read, write: if isAdmin();
+    }
+    
+    match /users/{document=**} {
+      allow read, create, delete: if isUserOwner();
+      allow read, write: if isAdmin();
+    }
+    
+    
+    //functions
+    
+    function isAdmin() {
+      return get(/databases/$(database)/documents/users/$(request.auth.uid)).data.userinfo.isAdmin;
+    }
+    
+   	function isOrderOwner() {
+    	return get(/databases/$(database)/documents/orders/$(request.auth.uid)) == request.auth.uid
+    }
+    
+    function isUserOwner() {
+    	return get(/databases/$(database)/documents/users/$(request.auth.uid)) == request.auth.uid
+    }
+    
+    
+  }
+  
+  
+}

@@ -20,6 +20,7 @@ export default function EditCoupon(props) {
   const [coupActive, setCoupActive] = useState(editCoupMode?isActive:true)
   const [coupExpiry, setCoupExpiry] = useState(editCoupMode?expiryDate:nowDate)
   const allowAccess = coupName && coupAmount && coupType && coupExpiry
+  const genNewId = db.collection('coupons').doc().id
   const history = useHistory()
   const location = useLocation()
 
@@ -32,7 +33,7 @@ export default function EditCoupon(props) {
   const coupObj = {
     id: editCoupMode?id:db.collection('coupons').doc().id,
     name: coupName,
-    amount: coupAmount,
+    amount: +coupAmount,
     description: coupDescript,
     expiryDate: coupExpiry,
     type: coupType,
@@ -42,9 +43,9 @@ export default function EditCoupon(props) {
 
   function createCoupon() {
     if(allowAccess) {
-      db.collection('coupons').doc('allcoupons').update({
-        allcoupons: firebase.firestore.FieldValue.arrayUnion(coupObj)
-      }).then(() => {
+      db.collection('coupons').doc(genNewId).set(
+        coupObj
+      ).then(() => {
         window.alert('Your coupon has been created successfully.')
         history.push('/admin/store/coupons')
       })
@@ -55,14 +56,7 @@ export default function EditCoupon(props) {
   }
   function editCoupon() {
     if(allowAccess) {
-      let itemindex = allCoupons?.findIndex(x => x.id === id)
-      allCoupons[itemindex] = coupObj
-      db.collection('coupons').doc('allcoupons').update({
-        allcoupons: allCoupons
-      }).then(() => {
-        window.alert('Your coupon has been successfully edited.')
-        history.push('/admin/store/coupons')
-      })
+      
     }
   }
   

@@ -4,7 +4,6 @@ import {StoreContext} from '../../common/StoreContext'
 import {AppInput, AppSelect, AppSwitch} from '../../common/AppInputs'
 import AdminBtn from '../common/AdminBtn'
 import {db} from '../../common/Fire'
-import firebase from 'firebase'
 import refProd from '../../common/referProduct'
 import {sizeConverter, colorConverter, getCustomerById} from '../../common/UtilityFuncs'
 import ProvinceCountry from '../../common/ProvinceCountry'
@@ -18,11 +17,11 @@ import convertDate from '../utilities/convertDate'
 export default function EditOrder(props) {
 
   const {editOrdMode, setEditOrdMode, allProducts, allShipping, sizesOpts, colorsOpts, currencyFormat, 
-    setEditShipMode, billingState, setBillingState, shippingState, setShippingState, taxRate, allCustomers,
-    allOrders 
+    setEditShipMode, billingState, setBillingState, shippingState, setShippingState, taxRate, allCustomers, 
   } = useContext(StoreContext)
   const {orderid, orderNumber, orderDateCreated, orderStatus, products, customer,
-    trackingNum, shippingDetails, billingDetails, shippingMethod, paymentDetails, updates} = editOrdMode&&props.el
+    trackingNum, shippingDetails, billingDetails, shippingMethod, paymentDetails, updates,
+    trackingReturn} = editOrdMode&&props.el
   const [tabPos, setTabPos] = useState(0)
   const [genNum, setGenNum] = useState(editOrdMode?orderNumber:'')  
   const [orderDate, setOrderDate] = useState(editOrdMode?convertDate(orderDateCreated, true):new Date())  
@@ -59,6 +58,7 @@ export default function EditOrder(props) {
   const formattedValueDate = typeof orderDate !== 'object'?orderDate.replace(/\s\s+/g, ' '):simpleDateConvert(orderDate).replace(/\s\s+/g, ' ')
   const history = useHistory()
   const location = useLocation()
+  const genNewOrderId = db.collection('orders').doc().id
    
   const tabshead = ['General', 'Products', 'Customer', 'Shipping', 'Billing & Payment', 'Updates']
   const statusOpts = [
@@ -76,10 +76,11 @@ export default function EditOrder(props) {
     orderStatus: ordStatus, 
     taxAmount: 0.15,
     trackingNum: trackingNumber,
+    trackingReturn: editOrdMode?trackingReturn:'',
     products: ordProducts,
     updates: ordUpdates,
-    customer: {
-      id: customerId.length?customerId:db.collection('users').doc().id,
+    customer: { 
+      id: customerId.length?customerId:db.collection('customers').doc().id,
       name: custName??getCustomerById(allCustomers, customerId)?.name??"",
       email: custEmail??getCustomerById(allCustomers, customerId)?.email??"",
       phone: custPhone??getCustomerById(allCustomers, customerId)?.phone??"",
@@ -197,10 +198,10 @@ export default function EditOrder(props) {
     setEditStyleMode(false)
   }
   function createOrder() {
-    if(allowCreate) {
-      db.collection('orders').doc(customerId).set({
-        allorders: firebase.firestore.FieldValue.arrayUnion(entireOrder)
-      },{merge:true}).then(() => {
+    if(allowCreate) { 
+      db.collection('orders').doc(customerId).collection('orders').doc(genNewOrderId).set(
+        entireOrder
+      ).then(() => {
         window.alert('The order has been successfully created.')
         history.push('/admin/orders')
       })
@@ -210,7 +211,17 @@ export default function EditOrder(props) {
     }
   }
   function editOrder() {
-
+    if(allowCreate) {
+      db.collection('orders').doc(customerId).collection(orderid).update(
+        entireOrder
+      ).then(() => {
+        window.alert('The order has been successfully edited.')
+        history.push('/admin/orders')
+      })
+    }
+    else {
+      window.alert('Please fill in all the required fields (denoted by *)')
+    }
   }
   function deleteOrder() {
     let confirm = window.confirm('Are you sure you wish to delete this order?')

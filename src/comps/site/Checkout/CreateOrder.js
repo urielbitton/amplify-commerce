@@ -25,8 +25,8 @@ export default function CreateOrder(orderid, orderNum, cart, customer, orderSubt
     }
     //create order on firebase
     db.collection('orders').doc(user.uid).collection(newOrderId).set(
-      orderObj,
-    {merge:true}).then(res => {
+      orderObj
+    ).then(res => {
       console.log('Order has been placed')
       cart.splice(0,cart.length)
       db.collection('users').doc(user.uid).update({

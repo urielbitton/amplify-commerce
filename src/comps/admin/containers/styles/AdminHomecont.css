@@ -102,9 +102,9 @@
 }
 .productspage .producttable .content h5.stockcont span {
   padding: 5px 10px;
-  background: var(--admincolor);
+  background: var(--light);
   border-radius: 5px;
-  color: #fff;
+  color: var(--admincolor);
 }
 .productspage .producttable .content h5.stockcont.nostock span {
   background: var(--red);

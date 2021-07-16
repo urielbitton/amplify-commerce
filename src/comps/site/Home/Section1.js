@@ -7,9 +7,9 @@ import AppButton from '../common/AppButton'
 import Loader from '../../common/Loader'
 
 export default function Section1() {
-
+ 
   const {allProducts} = useContext(StoreContext)
-  console.log(allProducts)
+
   const summertrend = allProducts
   ?.filter(x => x.collection?.includes('summer2021'))
   .map(el => {
