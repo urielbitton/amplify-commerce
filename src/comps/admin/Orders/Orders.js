@@ -37,7 +37,11 @@ export default function Orders() {
   function deleteOrder(orderid, customerId) {
     let confirm = window.confirm('Are you sure you wish to delete this order?')
     if(confirm) {
-      db.collection('orders').doc(customerId).collection('orders').doc(orderid).delete()
+      let itemindex = allOrders.findIndex(x => x.orderid === orderid)
+      allOrders.splice(itemindex, 1)
+      db.collection('orders').doc(customerId).update({
+        allorders: allOrders
+      })
       .then(() => window.alert('The order was successfully deleted from your store.'))
     }
   }

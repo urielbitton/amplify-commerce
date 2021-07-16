@@ -104,13 +104,12 @@ const StoreContextProvider = (props) => {
       snap.forEach(doc => { prodsArr.push(doc.data()) })
       setAllProducts(prodsArr) 
     })   
-    db.collectionGroup('orders').onSnapshot(snap => {
+    db.collection('orders').onSnapshot(snap => {
       let ordersArr = []  
       snap.forEach(doc => { 
-        if(doc.data().orderid) 
-          ordersArr.push(doc.data())
+        ordersArr.push(doc.data().allorders)
       })   
-      setAllOrders(ordersArr)         
+      setAllOrders(ordersArr.flat())         
     })  
     db.collection('admin').doc('storeSettings').onSnapshot(snap => {
       setSizesOpts(snap.data()?.storesettings.sizeopts)  
@@ -132,7 +131,7 @@ const StoreContextProvider = (props) => {
     db.collection('customers').onSnapshot(snap => {
       const custArr = []
       snap.forEach(el => { custArr.push(el.data()) }) 
-      setAllCustomers(custArr.flat())
+      setAllCustomers(custArr)
     })  
   },[user, auser])  
 

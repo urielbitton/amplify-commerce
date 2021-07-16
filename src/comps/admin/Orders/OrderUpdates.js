@@ -19,8 +19,8 @@ export default function OrderUpdates(props) {
     return <div className="orderupdaterow">
       <h4>{el.status}</h4>
       <div>
-        <h6><span>Date:</span> {!editOrdMode&&el.date.split('T')[0]}</h6>
-        <h6><span>Time:</span> {!editOrdMode&&el.date.split('T')[1]}</h6>
+        <h6><span>Date:</span> {el.date.split('T')[0]}</h6>
+        <h6><span>Time:</span> {el.date.split('T')[1]}</h6>
         <h6><span>Tracking Location:</span> {el.location}</h6>
       </div>
       <small><span>Event</span> {el.action}</small>

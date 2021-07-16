@@ -3,6 +3,7 @@ import './styles/Orders.css'
 import {StoreContext} from '../../common/StoreContext'
 import {AppInput, AppSelect, AppSwitch} from '../../common/AppInputs'
 import AdminBtn from '../common/AdminBtn'
+import firebase from 'firebase'
 import {db} from '../../common/Fire'
 import refProd from '../../common/referProduct'
 import {sizeConverter, colorConverter, getCustomerById} from '../../common/UtilityFuncs'
@@ -18,13 +19,12 @@ export default function EditOrder(props) {
 
   const {editOrdMode, setEditOrdMode, allProducts, allShipping, sizesOpts, colorsOpts, currencyFormat, 
     setEditShipMode, billingState, setBillingState, shippingState, setShippingState, taxRate, allCustomers, 
-  } = useContext(StoreContext)
+  allOrders} = useContext(StoreContext)
   const {orderid, orderNumber, orderDateCreated, orderStatus, products, customer,
     trackingNum, shippingDetails, billingDetails, shippingMethod, paymentDetails, updates,
     trackingReturn} = editOrdMode&&props.el
   const [tabPos, setTabPos] = useState(0)
   const [genNum, setGenNum] = useState(editOrdMode?orderNumber:'')  
-  const [orderDate, setOrderDate] = useState(editOrdMode?convertDate(orderDateCreated, true):new Date())  
   const [ordSubTotal, setOrdSubTotal] = useState(0)
   const [ordTotal, setOrdTotal] = useState(0)
   const [ordStatus, setOrdStatus] = useState(editOrdMode?orderStatus:"")
@@ -53,9 +53,7 @@ export default function EditOrder(props) {
   const [payEmail, setPayEmail] = useState(editOrdMode?paymentDetails.email:'')
   const [showCustomerPicker, setShowCustomerPicker] = useState(false)
   const [selectCustIndex, setSelectCustIndex] = useState(-1)
-  const [changeType, setChangeType] = useState(false)
-  const allowCreate = genNum && orderDate && ordProducts.length && payEmail
-  const formattedValueDate = typeof orderDate !== 'object'?orderDate.replace(/\s\s+/g, ' '):simpleDateConvert(orderDate).replace(/\s\s+/g, ' ')
+  const allowCreate = genNum && ordProducts.length && payEmail && customer.length
   const history = useHistory()
   const location = useLocation()
   const genNewOrderId = db.collection('orders').doc().id
@@ -71,7 +69,7 @@ export default function EditOrder(props) {
   const entireOrder = { 
     orderid: editOrdMode?orderid:genNewOrderId,
     orderNumber: genNum,
-    orderDateCreated: orderDate,
+    orderDateCreated: firebase.firestore.Timestamp(),
     orderTotal: ordTotal,
     orderStatus: ordStatus, 
     taxAmount: 0.15,
@@ -199,9 +197,9 @@ export default function EditOrder(props) {
   }
   function createOrder() {
     if(allowCreate) { 
-      db.collection('orders').doc(customerId).collection('orders').doc(genNewOrderId).set(
-        entireOrder
-      ).then(() => {
+      db.collection('orders').doc(customerId).set({
+        allorders: firebase.firestore.FieldValue.arrayUnion(entireOrder)
+      }).then(() => {
         window.alert('The order has been successfully created.')
         history.push('/admin/orders')
       })
@@ -212,9 +210,11 @@ export default function EditOrder(props) {
   }
   function editOrder() {
     if(allowCreate) {
-      db.collection('orders').doc(customerId).collection(orderid).update(
-        entireOrder
-      ).then(() => {
+      let itemindex = allOrders.findIndex(x => x.orderid === orderid)
+      allOrders[itemindex] = entireOrder
+      db.collection('orders').doc(customerId).update({
+        allorders: allOrders
+      }).then(() => {
         window.alert('The order has been successfully edited.')
         history.push('/admin/orders')
       })
@@ -226,7 +226,11 @@ export default function EditOrder(props) {
   function deleteOrder() {
     let confirm = window.confirm('Are you sure you wish to delete this order?')
     if(confirm) {
-      db.collection('orders').doc(customerId).collection('orders').doc(orderid).delete()
+      let itemindex = allOrders.findIndex(x => x.orderid === orderid)
+      allOrders.splice(itemindex, 1)
+      db.collection('orders').doc(customerId).update({
+        allorders: allOrders
+      })
       .then(() => {
         window.alert('The order was successfully deleted from your store.')
         history.push('/admin/orders')
@@ -289,7 +293,7 @@ export default function EditOrder(props) {
                 <AppInput title="Order Number" className="ordernuminp" placeholder="#123456" onChange={(e) => setGenNum(e.target.value)} value={genNum}/>
                 <AdminBtn title="Generate" className="genbtn" solid clickEvent onClick={() => generateId(3,7)}/>
               </div>
-              <AppInput title="Order Date" onFocus={() => setChangeType(true)} onBlur={() => setChangeType(false)} type={editOrdMode&&!changeType?"":"datetime-local"} onChange={(e) => setOrderDate(e.target.value)} value={formattedValueDate}/>
+              <AppInput title="Order Date" value={editOrdMode?"":""}/>
               <AppSelect title="Order Status" options={[{name:'Choose a Status',value:''},...statusOpts]} onChange={(e) => setOrdStatus(e.target.value)} value={ordStatus} namebased />
             </div>
             <div className={`editsection ${tabPos===1?"show":""}`}>
@@ -366,7 +370,7 @@ export default function EditOrder(props) {
             <div className="detailscontent">
               <h4>Order Details</h4> 
               <h5><span>Order Number</span><span className="ordernuminp">#{genNum}</span></h5>
-              <h5><span>Order Date</span><span>{typeof orderDate === 'object'?simpleDateConvert(orderDate):orderDate.split('T')[0]}</span></h5>
+              <h5><span>Order Date</span><span>{editOrdMode?"orderDateCreated":''}</span></h5>
               <h5><span>Products</span><span>{ordProducts.length}</span></h5>
               <h5><span>Order Subtotal</span><span>{currencyFormat.format(ordSubTotal)}</span></h5>
               <h5><span>Order Total</span><span>{currencyFormat.format(ordTotal)}</span></h5>
