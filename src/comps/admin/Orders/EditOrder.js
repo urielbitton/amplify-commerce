@@ -14,6 +14,7 @@ import PageTitle from '../common/PageTitle'
 import OrderUpdates from './OrderUpdates'
 import CustomerPicker from './CustomerPicker'
 import convertDate from '../utilities/convertDate'
+import {convertDateObject} from '../../common/UtilityFuncs'
 
 export default function EditOrder(props) {
 
@@ -237,11 +238,6 @@ export default function EditOrder(props) {
       })
     }
   }
-  function simpleDateConvert(date) {
-    return `${date.toString().split(' ')[1]}
-    ${date.toString().split(' ')[2]}
-    ${date.toString().split(' ')[3]}`
-  }
 
   useEffect(() => {
     !editOrdMode&&generateId(3,7) 
@@ -293,7 +289,7 @@ export default function EditOrder(props) {
                 <AppInput title="Order Number" className="ordernuminp" placeholder="#123456" onChange={(e) => setGenNum(e.target.value)} value={genNum}/>
                 <AdminBtn title="Generate" className="genbtn" solid clickEvent onClick={() => generateId(3,7)}/>
               </div>
-              <AppInput title="Order Date" value={editOrdMode?"":""}/>
+              <AppInput title="Order Date" disabled value={editOrdMode?convertDate(orderDateCreated):convertDateObject(new Date())}/>
               <AppSelect title="Order Status" options={[{name:'Choose a Status',value:''},...statusOpts]} onChange={(e) => setOrdStatus(e.target.value)} value={ordStatus} namebased />
             </div>
             <div className={`editsection ${tabPos===1?"show":""}`}>
@@ -370,7 +366,7 @@ export default function EditOrder(props) {
             <div className="detailscontent">
               <h4>Order Details</h4> 
               <h5><span>Order Number</span><span className="ordernuminp">#{genNum}</span></h5>
-              <h5><span>Order Date</span><span>{editOrdMode?"orderDateCreated":''}</span></h5>
+              <h5><span>Order Date</span><span>{editOrdMode?convertDate(orderDateCreated):convertDateObject(new Date())}</span></h5>
               <h5><span>Products</span><span>{ordProducts.length}</span></h5>
               <h5><span>Order Subtotal</span><span>{currencyFormat.format(ordSubTotal)}</span></h5>
               <h5><span>Order Total</span><span>{currencyFormat.format(ordTotal)}</span></h5>

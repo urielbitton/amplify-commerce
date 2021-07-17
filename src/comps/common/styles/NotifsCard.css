@@ -1,0 +1,60 @@
+.notifscont .notifsdiv {
+  margin-bottom: 7px;
+  border-radius: 2px 5px 5px 2px;
+  box-shadow: 0 8px 15px rgba(0,0,0,0.13);
+  z-index: 1000;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: all 0.3s;
+  width: 500px;
+  height: 85px;
+  border-radius: 10px;
+  background: #fff;
+  padding: 20px;
+  visibility: hidden;
+  opacity: 0;
+  top: 20px;
+}
+.notifscont .notifsdiv.show {
+  visibility: visible;
+  opacity: 1;
+  top: 0;
+}
+.notifscont .notifsdiv .infocont {
+  display: flex;
+  align-items: center;
+}
+.notifscont .notifsdiv .infocont h5 {
+  font-size: 14px;
+  margin-bottom: 5px;
+}
+.notifscont .notifsdiv .infocont p {
+  font-size: 12px;
+  color: var(--graytxt);
+  line-height: 1.4
+}
+.notifscont .notifsdiv .iconcont {
+  margin-right: 20px;
+  border-radius: 10px;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.notifscont .notifsdiv .iconcont i {
+  color: #fff;
+  font-size: 20px;
+}
+.notifscont i.fa-times {
+  font-size: 27px;
+  color: var(--graytxt);
+  opacity: 0.5;
+  cursor: pointer;
+  padding: 3px;
+  transition: all 0.2s;
+}
+.notifscont i.fa-times:hover {
+  opacity: 1;
+}

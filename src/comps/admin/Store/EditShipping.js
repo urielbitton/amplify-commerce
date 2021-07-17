@@ -29,9 +29,10 @@ export default function EditShipping(props) {
   const location = useLocation()
   const history= useHistory()
   const hasCountries = countriesArr.length
+  const genNewId = db.collection('shipping').doc().id
 
   const shipObj = {
-    id: editShipMode?id:db.collection('coupons').doc().id,
+    id: editShipMode?id:genNewId,
     name: shipName,
     company: shipCompany,
     companyName: shipCompany,
@@ -58,9 +59,8 @@ export default function EditShipping(props) {
   })
 
   function createShipping() {
-    db.collection('shipping').doc('allshipping').update({
-      allshipping: firebase.firestore.FieldValue.arrayUnion(shipObj)
-    }).then(() => {
+    db.collection('shipping').doc(genNewId).set(shipObj)
+    .then(() => {
       window.alert('The shipping method has been successfully added to your store.')
       history.push('/admin/store/shipping')
     })
@@ -80,7 +80,7 @@ export default function EditShipping(props) {
       .delete()
       .then(() => {
         window.alert('The shipping method was successfully deleted from your store.')
-        history.push('/admin/store/products')
+        history.push('/admin/store/shipping')
       })
     }
   }

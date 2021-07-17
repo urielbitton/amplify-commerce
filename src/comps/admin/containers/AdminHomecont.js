@@ -14,6 +14,7 @@ import Shipping from '../Store/Shipping'
 import Orders from '../Orders/Orders'
 import EditOrder from '../Orders/EditOrder'
 import Transactions from '../Orders/Transactions'
+import NotifsCont from '../../common/NotifsCont'
 
 export default function AdminHomecont() {
  
@@ -43,6 +44,7 @@ export default function AdminHomecont() {
   return (
     <div className="adminhomecont">
       <Navbar />
+      <NotifsCont />
       <div className="maincontent">
         <Switch>
           <Route exact path="/admin/">

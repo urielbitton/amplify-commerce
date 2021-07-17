@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom'
 import OrderProgress from '../common/OrderProgress'
 import OrderTracking from '../common/OrderTracking'
 import refProd from '../../common/referProduct'
+import convertDate from '../../admin/utilities/convertDate'
 
 export default function AccountHome()  {
 
@@ -23,9 +24,7 @@ export default function AccountHome()  {
         <span className={`${el.orderStatus==='delivered'?"delivered":""} ${el.orderStatus==='cancelled'?"cancelled":""}`}>{el.orderStatus}</span>
       </h6>
       <h6>
-        {el.orderDateCreated.toDate().toString().split(' ')[1]}&nbsp; 
-        {el.orderDateCreated.toDate().toString().split(' ')[2]}&nbsp; 
-        {el.orderDateCreated.toDate().toString().split(' ')[3]}
+        {convertDate(el.orderDateCreated)}
       </h6>
     </div>
   })

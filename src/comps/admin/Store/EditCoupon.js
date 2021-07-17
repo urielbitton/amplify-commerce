@@ -54,9 +54,9 @@ export default function EditCoupon(props) {
   }
   function editCoupon() {
     if(allowAccess) {
-      db.collection('coupons').doc(id).update(coupObj).then(res => {
-        window.alert('The coupon was successfully saved.')
-      }).catch(err => {
+      db.collection('coupons').doc(id).update(coupObj)
+      .then(res => window.alert('The coupon was successfully saved.') )
+      .catch(err => {
         window.alert('An error occured while saving the coupon. Please try again.')
         history.push('/admin/store/coupons')
       })

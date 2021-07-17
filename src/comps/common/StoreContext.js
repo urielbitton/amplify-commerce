@@ -97,6 +97,7 @@ const StoreContextProvider = (props) => {
   })
   const [sizesOpts, setSizesOpts] = useState([])
   const [colorsOpts, setColorsOpts] = useState([])
+  const [notifs, setNotifs] = useState([])
 
   useEffect(() => {
     db.collection('products').onSnapshot(snap => {
@@ -192,7 +193,8 @@ const StoreContextProvider = (props) => {
       highSellersLimit, setHighSellersLimit, recentSellersLimit, setRecentSellersLimit, 
       recentOrdersLimit, setRecentOrdersLimit, editProdMode, setEditProdMode, sizesOpts, colorsOpts,
       editCoupMode, setEditCoupMode, editShipMode, setEditShipMode, allCoupons, setAllCoupons,
-      allShipping, setAllShipping, editOrdMode, setEditOrdMode, allCustomers, setAllCustomers
+      allShipping, setAllShipping, editOrdMode, setEditOrdMode, allCustomers, setAllCustomers,
+      notifs, setNotifs
     }}>
       {props.children}  
     </StoreContext.Provider>

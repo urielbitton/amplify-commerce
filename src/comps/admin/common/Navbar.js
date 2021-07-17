@@ -8,10 +8,20 @@ import firebase from 'firebase'
 
 export default function Navbar() {
 
-  const {myUser, darkMode, setDarkMode} = useContext(StoreContext)
+  const {myUser, darkMode, setDarkMode, setNotifs} = useContext(StoreContext)
   const [openProf, setOpenProf] = useState(false)
   const [openUpdates, setOpenUpdates] = useState(false)
   const history = useHistory()
+
+  function toggleDarkMode() {
+    setNotifs(prev => [...prev, {
+      id: Date.now(),
+      title: 'Theme',
+      icon: 'fal fa-paint-brush',
+      text: `Dark mode feature has been turned ${darkMode?"off":"on"}`,
+      time: 7000
+    }])
+  }
 
   useEffect(() => {
     window.onclick = () => {
@@ -47,7 +57,7 @@ export default function Navbar() {
           <div className={`updatescont ${openUpdates?"open":""}`}>
             <h4>Updates</h4>
           </div>
-          <div className="iconcont" onClick={() => setDarkMode(prev => !prev)}>
+          <div className="iconcont" onClick={() => {setDarkMode(prev => !prev);toggleDarkMode()}}>
             <i className={`fa${darkMode?"s":"r"} fa-eclipse`}></i>
           </div>
         </div>

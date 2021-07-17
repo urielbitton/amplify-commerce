@@ -59,9 +59,7 @@ export default function Shipping() {
   function deleteShipping(shipid) {
     const confirm = window.confirm('Are you sure you want to remove this shipping method?')
     if(confirm) {
-      let itemindex = allShipping.findIndex(x => x.id === shipid)
-      allShipping.splice(itemindex,1)
-      db.collection('coupons').doc(shipid).delete()
+      db.collection('shipping').doc(shipid).delete()
       .then(() => window.confirm('The shipping method was successfully deleted from your store.'))
     }
   }

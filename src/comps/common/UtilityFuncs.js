@@ -44,3 +44,7 @@ export const nowDateTime = `${date.getFullYear()}-${date.getMonth()<10?'0'+(date
 export function getCustomerById(allCustomers, id) {
   return allCustomers[allCustomers.findIndex(x => x?.id === id)]
 }
+
+export function convertDateObject(date) {
+  return `${date?.toString().split(' ')[1]} ${date?.toString().split(' ')[2]} ${date?.toString().split(' ')[3]}`
+}
