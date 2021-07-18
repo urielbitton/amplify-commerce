@@ -23,6 +23,14 @@ export default function Navbar() {
     }])
   }
 
+  function logOutAdmin() {
+    firebase.auth().signOut()
+    .then(() => {
+      history.push('/')
+      window.location.reload()
+    })
+  }
+
   useEffect(() => {
     window.onclick = () => {
       openProf&&setOpenProf(false)
@@ -72,7 +80,7 @@ export default function Navbar() {
           <Link to="/admin/settings/general"><i className="far fa-sliders-h"></i>Preferences</Link>
           <Link to="/admin/settings/support"><i className="far fa-question-circle"></i>Support</Link>
           <h6>Actions</h6>
-          <small onClick={() => firebase.auth().signOut().then(() => {history.push('/');window.location.reload()})}>
+          <small onClick={() => logOutAdmin()}>
             <i className="far fa-sign-out"></i>
             Log Out
             </small>

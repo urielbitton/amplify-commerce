@@ -9,14 +9,14 @@ service cloud.firestore {
     }
     
     match /customers/{document=**} {
-      allow read, create;
+      allow read, create, update;
       allow delete: if isAdmin();
     }
     
-    match /{path=**}/orders/{orderId} {
+    match /orders/{orderID} {
       allow read;
       allow write: if isAdmin();
-      allow create: if isOrderOwner();
+      allow create, update: if request.auth.uid == orderID;
     }
   
     match /products/{document=**} {
@@ -42,8 +42,9 @@ service cloud.firestore {
       allow read, write: if isAdmin();
     }
     
-    match /users/{document=**} {
-      allow read, create, delete: if isUserOwner();
+    match /users/{userID} {
+    	allow create;
+      allow read, write: if request.auth.uid == userID;
       allow read, write: if isAdmin();
     }
     
@@ -52,14 +53,6 @@ service cloud.firestore {
     
     function isAdmin() {
       return get(/databases/$(database)/documents/users/$(request.auth.uid)).data.userinfo.isAdmin;
-    }
-    
-   	function isOrderOwner() {
-    	return get(/databases/$(database)/documents/orders/$(request.auth.uid)) == request.auth.uid
-    }
-    
-    function isUserOwner() {
-    	return get(/databases/$(database)/documents/users/$(request.auth.uid)) == request.auth.uid
     }
     
     

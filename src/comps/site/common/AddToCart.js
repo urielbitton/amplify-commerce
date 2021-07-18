@@ -7,7 +7,7 @@ import firebase from 'firebase'
 
 export default function AddToCart(props) {  
   
-  const {myUser, cart, setCart, setShowCart, user, allProducts} = useContext(StoreContext)
+  const {cart, setCart, setShowCart, user, allProducts} = useContext(StoreContext)
   const {id} = refProd(allProducts,props.el.id)
   const {stocksLeft, subid, chosenColor, chosenSize, className, small, dropdown=true} = props
   const productunits = cart?.find(el => el.subid === subid)?.units

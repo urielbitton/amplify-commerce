@@ -57,8 +57,8 @@ export default function Login(props) {
           photoURL: 'https://i.imgur.com/1OKoctC.jpg'
         })
         const userinfo = {
+          userid: user.uid,
           fullname: name,
-          usertype: 'client', 
           email: email,
           password,
           phone: "", 
@@ -98,14 +98,13 @@ export default function Login(props) {
         const userinfo = {
           userid: res.additionalUserInfo.profile.id,
           fullname: res.additionalUserInfo.profile.name,
-          usertype: 'client', 
           email: res.additionalUserInfo.profile.email,
           phone: "",
           city: "",
           provstate: "",
           country: "",
           profimg: res.additionalUserInfo.profile.picture,
-          admin: false,
+          isAdmin: false,
           cart: [],
           savedlater: [],
           wishlist: [],
