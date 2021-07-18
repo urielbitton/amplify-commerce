@@ -176,8 +176,8 @@ a.hide {
   left: 40px;
   z-index: 1000;
   display: flex;
-  flex-direction: column-reverse;
-  gap: 5px;
+  flex-direction: column;
+  gap: 10px;
 }
 
 @media (max-width: 1400px) {

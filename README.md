@@ -9,14 +9,12 @@ Features to add:
 - add newarrivals, about + contact pages
 - let admin create users!
 - add chat app inside customer support page (link to client support in site)
+- make dashboard stats dynamic
 
 Bugs tracking:
-- when reloading on coupons-shipping-products edit page, state of edit variable is false,
-find a way to set to true
 - push picked dates to firestore as a timestamp value
+- multiple notifs will stay as long as last notifs
 
-Refactor Firestore DB to use subcollections so the DB is more easily queryable (can use ArrayRemove, etc)
-
-At end of project, configure firestore rules!
+Tips:
 
 Useful firebase tips: https://www.youtube.com/watch?v=iWEgpdVSZyg
