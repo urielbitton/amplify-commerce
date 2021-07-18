@@ -12,12 +12,12 @@ export default function EditCoupon(props) {
   const {editCoupMode, setEditCoupMode} = useContext(StoreContext)
   const {id, name, amount, description, type, expiryDate, timesUsed, isActive} = editCoupMode&&props.el 
   let coupongen = Math.random().toString(36).substring(7)
-  const [coupName, setCoupName] = useState(editCoupMode?name:coupongen)
-  const [coupAmount, setCoupAmount] = useState(editCoupMode?amount:0)
-  const [coupType, setCoupType] = useState(editCoupMode?type:'')
-  const [coupDescript, setCoupDescript] = useState(editCoupMode?description:'')
-  const [coupActive, setCoupActive] = useState(editCoupMode?isActive:true)
-  const [coupExpiry, setCoupExpiry] = useState(editCoupMode?expiryDate:nowDate)
+  const [coupName, setCoupName] = useState(coupongen)
+  const [coupAmount, setCoupAmount] = useState(0)
+  const [coupType, setCoupType] = useState('')
+  const [coupDescript, setCoupDescript] = useState('')
+  const [coupActive, setCoupActive] = useState(true)
+  const [coupExpiry, setCoupExpiry] = useState(nowDate)
   const allowAccess = coupName && coupAmount && coupType && coupExpiry
   const genNewId = db.collection('coupons').doc().id
   const history = useHistory()
@@ -55,11 +55,11 @@ export default function EditCoupon(props) {
   function editCoupon() {
     if(allowAccess) {
       db.collection('coupons').doc(id).update(coupObj)
-      .then(res => window.alert('The coupon was successfully saved.') )
-      .catch(err => {
-        window.alert('An error occured while saving the coupon. Please try again.')
+      .then(res => {
+        window.alert('The coupon was successfully saved.')
         history.push('/admin/store/coupons')
       })
+      .catch(err => window.alert('An error occured while saving the coupon. Please try again.'))
     }
   }
   function deleteCoupon(couponid) {
@@ -81,15 +81,12 @@ export default function EditCoupon(props) {
   },[location]) 
 
   useEffect(() => {
-    if(!editCoupMode) {
-      setCoupName(coupongen)
-      setCoupAmount('')
-      setCoupType('')
-      setCoupDescript('')
-      setCoupExpiry(nowDate)
-      setCoupActive(true)
-    }
-    return() => setEditCoupMode(false)
+    setCoupName(editCoupMode?name:coupongen)
+    setCoupAmount(editCoupMode?amount:'')
+    setCoupType(editCoupMode?type:'')
+    setCoupDescript(editCoupMode?description:'')
+    setCoupExpiry(editCoupMode?expiryDate:nowDate)
+    setCoupActive(editCoupMode?isActive:true)
   },[editCoupMode])
 
   return (

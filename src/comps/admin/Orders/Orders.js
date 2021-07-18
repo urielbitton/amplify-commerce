@@ -6,7 +6,7 @@ import { AppInput } from '../../common/AppInputs'
 import './styles/Orders.css'
 import { useHistory } from 'react-router-dom'
 import refProd from '../../common/referProduct'
-import convertDate from '../utilities/convertDate'
+import {convertDate} from '../../common/UtilityFuncs'
 import PageTitle from '../common/PageTitle'
 import { db } from '../../common/Fire'
 
@@ -58,7 +58,7 @@ export default function Orders() {
       <h5>{refProd(allProducts, el.products[0].id).name} {el.products.length>1&&`+ ${el.products.length-1} more`}</h5>  
       <h5>#{el.trackingNum}</h5>
       <h5>{convertDate(el.orderDateCreated)}</h5>
-      <h5>{currencyFormat.format(el.orderTotal)}</h5>
+      <h5>{currencyFormat.format(el.orderTotal)}</h5> 
       <h5 className="ordstatus"><span>{el.orderStatus}</span></h5>
       <h5>
         <div className="actionsdiv" onClick={(e) => {setShowOpts(showOpts===i?0:i);e.stopPropagation()}}>

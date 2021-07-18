@@ -19,7 +19,7 @@ export default function Navbar() {
       title: 'Theme',
       icon: 'fal fa-paint-brush',
       text: `Dark mode feature has been turned ${darkMode?"off":"on"}`,
-      time: 7000
+      time: 5000
     }])
   }
 

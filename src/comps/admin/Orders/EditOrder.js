@@ -13,7 +13,7 @@ import { Link, useHistory, useLocation } from 'react-router-dom'
 import PageTitle from '../common/PageTitle'
 import OrderUpdates from './OrderUpdates'
 import CustomerPicker from './CustomerPicker'
-import convertDate from '../utilities/convertDate'
+import {convertDate} from '../../common/UtilityFuncs'
 import {convertDateObject} from '../../common/UtilityFuncs'
 
 export default function EditOrder(props) {
@@ -23,13 +23,12 @@ export default function EditOrder(props) {
   allOrders} = useContext(StoreContext)
   const {orderid, orderNumber, orderDateCreated, orderStatus, products, customer,
     trackingNum, shippingDetails, billingDetails, shippingMethod, paymentDetails, updates,
-    trackingReturn} = editOrdMode&&props.el
+    trackingReturn, orderSubtotal} = editOrdMode&&props.el
   const [tabPos, setTabPos] = useState(0)
-  const [genNum, setGenNum] = useState(editOrdMode?orderNumber:'')  
+  const [orderNum, setOrderNum] = useState('')  
   const [ordSubTotal, setOrdSubTotal] = useState(0)
-  const [ordTotal, setOrdTotal] = useState(0)
-  const [ordStatus, setOrdStatus] = useState(editOrdMode?orderStatus:"")
-  const [ordProducts, setOrdProducts] = useState(editOrdMode?products:[])
+  const [ordStatus, setOrdStatus] = useState("")
+  const [ordProducts, setOrdProducts] = useState([])
   const [chosenProd, setChosenProd] = useState('')
   const [chosenSize, setChosenSize] = useState('')
   const [chosenColor, setChosenColor] = useState('')
@@ -38,23 +37,24 @@ export default function EditOrder(props) {
   const allowAddNew = !!chosenProd && !!chosenSize && !!chosenColor && !!chosenQty>0
   const newSubId = chosenProd+chosenSize+chosenColor
   const [editStyleMode, setEditStyleMode] = useState(false)
-  const [customerId, setCustomerId] = useState(editOrdMode?customer.id:'')
-  const [custName, setCustName] = useState(editOrdMode?customer.name:'')
-  const [custEmail, setCustEmail] = useState(editOrdMode?customer.email:'')
-  const [custPhone, setCustPhone] = useState(editOrdMode?customer.phone:'')
-  const [custCity, setCustCity] = useState(editOrdMode?customer.city:'')
+  const [customerId, setCustomerId] = useState('')
+  const [custName, setCustName] = useState('')
+  const [custEmail, setCustEmail] = useState('')
+  const [custPhone, setCustPhone] = useState('')
+  const [custCity, setCustCity] = useState('')
   const [custProvinceCountry, setCustProvinceCountry] = useState({})
-  const [trackingNumber, setTrackingNumber] = useState(editOrdMode?trackingNum:'')
+  const [trackingNumber, setTrackingNumber] = useState('')
+  const [trackReturn, setTrackReturn] = useState('')
   const [sameAsShipping, setSameAsShipping] = useState(false)
-  const [selectedShip, setSelectedShip] = useState(editOrdMode?allShipping.findIndex(x => x.value===shippingMethod.name):-1)
-  const [ordUpdates, setOrdUpdates] = useState(editOrdMode?updates:[])
+  const [selectedShip, setSelectedShip] = useState(-1)
+  const [ordUpdates, setOrdUpdates] = useState([])
   const [paypalOn, setPaypalOn] = useState(false)
-  const [payCardNum, setPayCardNum] = useState(editOrdMode?paymentDetails.cardnumber:'')
-  const [payMethod, setPayMethod] = useState(editOrdMode?paymentDetails.method:'')
-  const [payEmail, setPayEmail] = useState(editOrdMode?paymentDetails.email:'')
+  const [payCardNum, setPayCardNum] = useState('')
+  const [payMethod, setPayMethod] = useState('')
+  const [payEmail, setPayEmail] = useState('')
   const [showCustomerPicker, setShowCustomerPicker] = useState(false)
   const [selectCustIndex, setSelectCustIndex] = useState(-1)
-  const allowCreate = genNum && ordProducts.length && payEmail && customer.length
+  const allowCreate = orderNum && ordProducts.length && payEmail && (customerId.length > 0 || (custName.length > 0 && custEmail.length > 0))
   const history = useHistory()
   const location = useLocation()
   const genNewOrderId = db.collection('orders').doc().id
@@ -69,11 +69,12 @@ export default function EditOrder(props) {
 
   const entireOrder = { 
     orderid: editOrdMode?orderid:genNewOrderId,
-    orderNumber: genNum,
-    orderDateCreated: firebase.firestore.Timestamp(),
-    orderTotal: ordTotal,
+    orderNumber: orderNum,
+    orderDateCreated: new Date(),
+    orderSubtotal: ordSubTotal,
+    orderTotal: (ordSubTotal + (ordSubTotal*taxRate)),
     orderStatus: ordStatus, 
-    taxAmount: 0.15,
+    taxAmount: taxRate,
     trackingNum: trackingNumber,
     trackingReturn: editOrdMode?trackingReturn:'',
     products: ordProducts,
@@ -151,7 +152,7 @@ export default function EditOrder(props) {
   })
 
   function generateId(amount1, amount2) {
-    setGenNum(`${db.collection('orders').doc().id.slice(0,amount1)}-${db.collection('orders').doc().id.slice(0,amount2)}`)
+    setOrderNum(`${db.collection('orders').doc().id.slice(0,amount1)}-${db.collection('orders').doc().id.slice(0,amount2)}`)
   }
   function addNewProduct() {
     if(allowAddNew) { 
@@ -200,7 +201,7 @@ export default function EditOrder(props) {
     if(allowCreate) { 
       db.collection('orders').doc(customerId).set({
         allorders: firebase.firestore.FieldValue.arrayUnion(entireOrder)
-      }).then(() => {
+      }, {merge:true}).then(() => {
         window.alert('The order has been successfully created.')
         history.push('/admin/orders')
       })
@@ -209,6 +210,7 @@ export default function EditOrder(props) {
       window.alert('Please fill in all the required fields (denoted by *)')
     }
   }
+
   function editOrder() {
     if(allowCreate) {
       let itemindex = allOrders.findIndex(x => x.orderid === orderid)
@@ -240,14 +242,37 @@ export default function EditOrder(props) {
   }
 
   useEffect(() => {
+    setOrderNum(editOrdMode?orderNumber:generateId(3,7))
+    setOrdSubTotal(editOrdMode?orderSubtotal:"")
+    setOrdStatus(editOrdMode?orderStatus:"")
+    setOrdProducts(editOrdMode?products:[])
+    setCustomerId(editOrdMode?customer.id:"")
+    setCustName(editOrdMode?customer.name:'')
+    setCustEmail(editOrdMode?customer.email:'')
+    setCustPhone(editOrdMode?customer.phone:'')
+    setCustCity(editOrdMode?customer.city:'')
+    setTrackingNumber(editOrdMode?trackingNum:"")
+    setTrackReturn(editOrdMode?trackingReturn:"") 
+    setSameAsShipping(editOrdMode?shippingDetails.address===billingDetails.address:"")
+    setSelectedShip(editOrdMode?allShipping.findIndex(x => x.name===shippingMethod.name):-1)
+    setOrdUpdates(editOrdMode?updates:[])
+    setPaypalOn(editOrdMode?paymentDetails.method==='PayPal':false)
+    setPayCardNum(editOrdMode?paymentDetails.cardnumber:'')
+    setPayMethod(editOrdMode?paymentDetails.method:'')
+    setPayEmail(editOrdMode?paymentDetails.email:'')
+  },[editOrdMode])
+
+  useEffect(() => {
     !editOrdMode&&generateId(3,7) 
   },[])
+
   useEffect(() => {
     if(location.pathname.includes('/edit-order')) 
       setEditOrdMode(true)
     else
       setEditOrdMode(false)
   },[location])
+
   useEffect(() => {
     if(!editStyleMode) {
       setChosenSize('')
@@ -259,9 +284,6 @@ export default function EditOrder(props) {
   useEffect(() => {
     setOrdSubTotal(ordProducts?.reduce((a,b) => a + (refProd(allProducts, b.id).price * b.units),0))
   },[ordProducts])
-  useEffect(() => {
-    setOrdTotal(ordSubTotal + (ordSubTotal*taxRate))
-  },[ordSubTotal])
 
   useEffect(() => {
       setPayMethod(paypalOn?'PayPal':'')
@@ -286,7 +308,7 @@ export default function EditOrder(props) {
           <div className="ordercontent-form">
             <div className={`editsection ${tabPos===0?"show":""}`}>
               <div>
-                <AppInput title="Order Number" className="ordernuminp" placeholder="#123456" onChange={(e) => setGenNum(e.target.value)} value={genNum}/>
+                <AppInput title="Order Number" className="ordernuminp" placeholder="#123456" onChange={(e) => setOrderNum(e.target.value)} value={orderNum}/>
                 <AdminBtn title="Generate" className="genbtn" solid clickEvent onClick={() => generateId(3,7)}/>
               </div>
               <AppInput title="Order Date" disabled value={editOrdMode?convertDate(orderDateCreated):convertDateObject(new Date())}/>
@@ -300,7 +322,7 @@ export default function EditOrder(props) {
                 onChange={(e) => setChosenProd(e.target.value)}
                 value={chosenProd}
                 namebased
-              />
+              /> 
               <div className={`inprow ${chosenProd?"show":""}`}>
                 <AppSelect title="Size" options={[{name:'Choose a Size',value:''},...sizesOpts]} onChange={(e) => setChosenSize(e.target.value)} value={chosenSize} namebased />
                 <AppSelect title="Color" options={[{name:'Choose a Color',value:''},...colorsOpts]} onChange={(e) => setChosenColor(e.target.value)} value={chosenColor} namebased />
@@ -336,11 +358,11 @@ export default function EditOrder(props) {
               </div>
               <h4>Tracking</h4>
               <AppInput title="Tracking Number *" onChange={(e) => setTrackingNumber(e.target.value)} value={trackingNumber}/>
-              <AppInput title="Tracking Return Code" onChange={(e) => null} />
+              <AppInput title="Tracking Return Code" onChange={(e) => setTrackReturn(e.target.value)} value={trackReturn} />
             </div>
             <div className={`editsection ${tabPos===4?"show":""}`}>
               <h4>Billing Details</h4>
-              <AppSwitch title="Same As Shipping Details?" className="inprow show" onChange={(e) => setSameAsShipping(e.target.checked)}/>
+              <AppSwitch title="Same As Shipping Details?" className="inprow show" onChange={(e) => setSameAsShipping(e.target.checked)} checked={sameAsShipping}/>
               { !sameAsShipping?
                 <BillingShippingFields setBillShipState={setBillingState} formDetails={billingDetails}/>:
                 <h5 className="note">Billing Details: Same as shipping details</h5>
@@ -365,11 +387,11 @@ export default function EditOrder(props) {
           <div className="ordercontent-details">
             <div className="detailscontent">
               <h4>Order Details</h4> 
-              <h5><span>Order Number</span><span className="ordernuminp">#{genNum}</span></h5>
+              <h5><span>Order Number</span><span className="ordernuminp">#{orderNum}</span></h5>
               <h5><span>Order Date</span><span>{editOrdMode?convertDate(orderDateCreated):convertDateObject(new Date())}</span></h5>
               <h5><span>Products</span><span>{ordProducts.length}</span></h5>
               <h5><span>Order Subtotal</span><span>{currencyFormat.format(ordSubTotal)}</span></h5>
-              <h5><span>Order Total</span><span>{currencyFormat.format(ordTotal)}</span></h5>
+              <h5><span>Order Total</span><span>{currencyFormat.format((ordSubTotal+(ordSubTotal*taxRate)))}</span></h5>
               <h5><span>Shipping</span>{allShipping[selectedShip<0?0:selectedShip].name} ({currencyFormat.format(allShipping[selectedShip<0?0:selectedShip].price)})</h5>
               <h5><span>Order Updates</span>{ordUpdates.length}</h5>
               <h5><span>Customer</span>{custName}</h5>

@@ -1,11 +1,10 @@
 import firebase from 'firebase'
 import {db} from '../../common/Fire'
 
-export default function CreateOrder(orderid, orderNum, cart, customer, orderSubtotal, shippingMethod, 
+export default function CreateOrder(orderid, orderNum, cart, customer, orderSubtotal, orderTotal, shippingMethod, 
   paymentDetails, taxAmount, billingDetails, shippingDetails, myUser) {
   
     const user = firebase.auth().currentUser
-    const newOrderId = db.collection('orders').doc().id
 
     const orderObj = {
       orderid,
@@ -14,12 +13,13 @@ export default function CreateOrder(orderid, orderNum, cart, customer, orderSubt
       orderDateCreated: new Date(),
       customer,
       orderSubtotal: parseFloat(orderSubtotal.toFixed(2)),
+      orderTotal,
       taxAmount,
       paymentDetails,
       shippingMethod,
       billingDetails,
       shippingDetails: shippingDetails.length?shippingDetails:billingDetails, 
-      update: [],
+      updates: [],
       trackingNum: '',
       trackingReturn: ''
     }

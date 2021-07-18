@@ -9,7 +9,7 @@ export default function NotifsCont() {
   const notifsrow = notifs?.map(el => {
     return <NotifsCard el={el} /> 
   })
-  
+   
   return (
     <div className="notifscont"> 
       {notifsrow}

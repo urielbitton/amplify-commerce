@@ -7,7 +7,7 @@ import { StoreContext } from '../../common/StoreContext'
 import {colorConverter, sizeConverter} from '../../common/UtilityFuncs'
 import {AppSelect} from '../../common/AppInputs'
 import refProd from '../../common/referProduct'
-import convertDate from '../utilities/convertDate'
+import {convertDate} from '../../common/UtilityFuncs'
 import PageTitle from '../common/PageTitle'
 
 export default function Dashboard() { 

@@ -1,12 +1,11 @@
-import React, { useContext, useState } from 'react'
+import React, { useState } from 'react'
 import { AppInput, AppSelect, AppTextarea } from '../../common/AppInputs'
 import { db } from '../../common/Fire'
-import { StoreContext } from '../../common/StoreContext'
+import { convertDate, convertDateObject } from '../../common/UtilityFuncs'
 import AdminBtn from '../common/AdminBtn'
 
 export default function OrderUpdates(props) {
 
-  const {editOrdMode} = useContext(StoreContext)
   const {statusOpts, ordUpdates, setOrdUpdates} = props
   const [showAdder, setShowAdder] = useState(false)
   const [status, setStatus] = useState('')
@@ -15,12 +14,12 @@ export default function OrderUpdates(props) {
   const [action, setAction] = useState('')
   const allowAdd = status && date && location && action
 
-  const ordUpdatesRow = ordUpdates?.map(el => {
+  const ordUpdatesRow = ordUpdates?.map(el => {console.log(typeof el.date)
     return <div className="orderupdaterow">
       <h4>{el.status}</h4>
       <div>
-        <h6><span>Date:</span> {el.date.split('T')[0]}</h6>
-        <h6><span>Time:</span> {el.date.split('T')[1]}</h6>
+        <h6><span>Date:</span> </h6>
+        <h6><span>Time:</span> </h6>
         <h6><span>Tracking Location:</span> {el.location}</h6>
       </div>
       <small><span>Event</span> {el.action}</small>
@@ -57,7 +56,7 @@ export default function OrderUpdates(props) {
         <h5>Add An Update</h5>
         <AppSelect title="Order Status" options={[{name:'Choose a Status',value:''},...statusOpts]} onChange={(e) => setStatus(e.target.value)} value={status} namebased/>
         <div className={`inprow ${status?"show":""}`}>
-          <AppInput title="Date" type="datetime-local" onChange={(e) => setDate(e.target.value)} value={date} />
+          <AppInput title="Date" disabled value={convertDateObject(date)} />
           <AppInput title="Tracking Location" onChange={(e) => setLocation(e.target.value)} value={location} placeholder="Package tracked location" />
           <AppTextarea title="Update Event" onChange={(e) => setAction(e.target.value)} value={action} placeholder="Enter a brief update message" />
           <div className="actionbtns">

@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom'
 import OrderProgress from '../common/OrderProgress'
 import OrderTracking from '../common/OrderTracking'
 import refProd from '../../common/referProduct'
-import convertDate from '../../admin/utilities/convertDate'
+import {convertDate} from '../../common/UtilityFuncs'
 
 export default function AccountHome()  {
 

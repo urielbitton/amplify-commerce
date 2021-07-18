@@ -4,25 +4,19 @@ import { StoreContext } from './StoreContext'
 
 export default function NotifsCard(props) {
 
-  const {notifs} = useContext(StoreContext)
+  const {notifs, setNotifs} = useContext(StoreContext)
   const {id, title, icon, color="var(--admincolor)", text, time=999999} = props.el
-  const [fadeIn, setFadeIn] = useState(false)
+  const [show, setShow] = useState(false)
 
   function removeNotif() {
-    setFadeIn(false)
-    setTimeout(() => {
-      notifs.forEach(el => {
-        if(el.id === id) {
-          let itemindex = notifs.indexOf(el)
-          notifs.splice(itemindex,1)
-        }
-      })
-    },30)
-  }
+    let itemindex = notifs.findIndex(x => x.id === id)
+    notifs.splice(itemindex,1)
+    setNotifs(prev => [...prev])
+  } 
    
   useEffect(() => {
     const startTimer = setTimeout(() => {
-      setFadeIn(true)
+      setShow(id) 
     },30)
     const endTimer = setTimeout(() => {
       removeNotif()
@@ -33,8 +27,9 @@ export default function NotifsCard(props) {
     }
   },[notifs])
 
+
   return (
-    <div className={`notifsdiv ${fadeIn&&"show"}`} style={{borderColor:color}}>
+    <div className={`notifsdiv ${show===id&&"show"}`} style={{borderColor:color}}>
       <div className="infocont">
         <div className="iconcont" style={{background:color}}>
           <i className={icon}></i>

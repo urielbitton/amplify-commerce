@@ -8,22 +8,21 @@ import AdminBtn from '../common/AdminBtn'
 import {countries as countriesOpts} from '../../common/Lists'
 import './styles/EditShipping.css'
 import AppAccordion from '../../site/common/AppAccordion'
-import firebase from 'firebase'
 import PageTitle from '../common/PageTitle'
 
 export default function EditShipping(props) {
 
-  const {editShipMode, setEditShipMode, allShipping} = useContext(StoreContext)
+  const {editShipMode, setEditShipMode} = useContext(StoreContext)
   const {id, name, company, price, value,  isActive, description, countries} = editShipMode&&props.el
-  const [shipName, setShipName] = useState(editShipMode?name:'')
-  const [shipCompany, setShipCompany] = useState(editShipMode?company:'')
-  const [shipPrice, setShipPrice] = useState(editShipMode?price:'')
-  const [shipActive, setShipActive] = useState(editShipMode?isActive:'')
-  const [shipDescript, setShipDescript] = useState(editShipMode?description:'')
+  const [shipName, setShipName] = useState('')
+  const [shipCompany, setShipCompany] = useState('')
+  const [shipPrice, setShipPrice] = useState('')
+  const [shipActive, setShipActive] = useState('')
+  const [shipDescript, setShipDescript] = useState('')
   const [newCountry, setNewCountry] = useState('')
   const [extraCountry, setExtraCountry] = useState('')
   const [showAdd, setShowAdd] = useState(false)
-  const [countriesArr, setCountriesArr] = useState(editShipMode?countries:[])
+  const [countriesArr, setCountriesArr] = useState([])
   const [editIndex, setEditIndex] = useState(-1)
   const [addMode, setAddMode] = useState(false)
   const location = useLocation()
@@ -101,14 +100,12 @@ export default function EditShipping(props) {
   }
 
   useEffect(() => {
-    if(!editShipMode) {
-      setShipName('')
-      setShipCompany('')
-      setShipPrice('')
-      setShipActive('')
-      setShipDescript('')
-    }
-    return() => setEditShipMode(false)
+    setShipName(editShipMode?name:'')
+    setShipCompany(editShipMode?company:'')
+    setShipPrice(editShipMode?price:'')
+    setShipActive(editShipMode?isActive:'')
+    setShipDescript(editShipMode?description:'')
+    setCountriesArr(editShipMode?countries:[])
   },[editShipMode])
 
   useEffect(() => {
