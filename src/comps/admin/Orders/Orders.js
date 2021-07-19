@@ -11,7 +11,7 @@ import PageTitlesRow from '../common/PageTitlesRow'
 
 export default function Orders() {
 
-  const {allOrders, allProducts, currencyFormat, setEditOrdMode} = useContext(StoreContext)
+  const {allOrders, allProducts, currencyFormat, setEditOrdMode, setNotifs} = useContext(StoreContext)
   const [sort, setSort] = useState(0)
   const [asc, setAsc] = useState(true)
   const [showOpts, setShowOpts] = useState(-1)
@@ -65,7 +65,14 @@ export default function Orders() {
       db.collection('orders').doc(customerId).update({
         allorders: allOrders
       })
-      .then(() => window.alert('The order was successfully deleted from your store.'))
+      .then(() => setNotifs(prev => [...prev, {
+        id: Date.now(),
+        title: 'Order Deleted',
+        color: 'var(--red)',
+        icon: 'fal fa-shopping-bag',
+        text: `The order has been deleted from your store`,
+        time: 5000
+      }]))
     }
   }
   function infoOrder() {

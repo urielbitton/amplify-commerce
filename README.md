@@ -7,6 +7,8 @@ Features to add:
 - let admin create users!
 - add chat app inside customer support page (link to client support in site)
 - make dashboard stats dynamic
+- creating orders thru clients + admin should decrease stock count of purchased products
+- implement trash cans for products, orders, coupons, etc...
 
 Bugs tracking:
 - multiple notifs will stay as long as last notifs
@@ -20,3 +22,4 @@ After Development:
 Tips:
 
 Useful firebase tips: https://www.youtube.com/watch?v=iWEgpdVSZyg
+Firebase querying/filtering examples: https://softauthor.com/firestore-querying-filtering-data-for-web/#order-limit-firestore-query

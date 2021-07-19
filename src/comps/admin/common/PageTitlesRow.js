@@ -11,7 +11,7 @@ export default function PageTitlesRow(props) {
     <div className="titlesrow">
       <h4>{title}</h4>
       <div className="flex">
-        <AdminBtn title={btnTitle} url={btnUrl}/>
+        {btnTitle&&<AdminBtn title={btnTitle} url={btnUrl}/>}
         <AppInput 
           placeholder={searchPlaceholder} 
           iconclass="fal fa-search" 

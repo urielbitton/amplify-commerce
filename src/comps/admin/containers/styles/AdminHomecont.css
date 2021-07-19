@@ -147,6 +147,10 @@
   cursor: pointer;
   flex-basis: auto;
 }
+.pagecont .producttable .optscont > div.disabled {
+  pointer-events: none;
+  opacity: 0.2; 
+}
 .pagecont .producttable .optscont > div:hover {
   background: var(--light);
 }

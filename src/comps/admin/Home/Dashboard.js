@@ -25,7 +25,7 @@ export default function Dashboard() {
   const ordersheaders = ['Order Number','Products','Order Date','Order Total','Order Status']
   const filterQtySold = (x,qty) => x.sizes.find(x => x.colors.find(x => x.qtySold > qty))
   const topproducts = allProducts?.filter(x => x.sizes.find(x => x.colors.find(x => x.qtySold > 6)))
-  const recentproducts = allProducts?.filter(x => getDaysAgo(filterQtySold(x,0)?.colors.find(x => x.qtySold > 0).dateSold.toDate()) <= 30)
+  const recentproducts = allProducts?.filter(x => getDaysAgo(filterQtySold(x,0)?.colors.find(x => x.qtySold > 0).dateSoldLast.toDate()) <= 30)
   const totalProductsSold = productsSold?.reduce((a,b) => a + b.value,0)
   const allTotalSales = totalSales?.reduce((a,b) => a + b.value,0)
   const allTotalProfits = allTotalSales - (allTotalSales * 0.15)
@@ -72,12 +72,12 @@ export default function Dashboard() {
       </h5>
       <h5>{currencyFormat.format(el.price)}</h5> 
       <h5>{filterQtySold(el,6).colors.find(x => x.qtySold > 6).qtySold}</h5>
-      <h5>{convertDate(filterQtySold(el,6).colors.find(x => x.qtySold > 6).dateSold)}</h5>
+      <h5>{convertDate(filterQtySold(el,6).colors.find(x => x.qtySold > 6).dateSoldLast.toDate())}</h5>
       <h5>{currencyFormat.format(el.price * filterQtySold(el,6).colors.find(x => x.qtySold > 6).qtySold)}</h5>
     </div>
   })
   const recentsellers = allProducts
-  ?.filter(x => getDaysAgo(filterQtySold(x,0)?.colors.find(x => x.qtySold > 0).dateSold.toDate()) <= 30) 
+  ?.filter(x => getDaysAgo(filterQtySold(x,0)?.colors.find(x => x.qtySold > 0).dateSoldLast.toDate()) <= 30) 
   .slice(0,recentSellersLimit)
   .map(el => {
     return <div className="proditem">
@@ -93,7 +93,7 @@ export default function Dashboard() {
       </h5>
       <h5>{currencyFormat.format(el.price)}</h5> 
       <h5>{filterQtySold(el,0)?.colors.find(x => x.qtySold > 0).qtySold}</h5>
-      <h5>{convertDate(filterQtySold(el,0)?.colors.find(x => x.qtySold > 0).dateSold)}</h5>
+      <h5>{convertDate(filterQtySold(el,0)?.colors.find(x => x.qtySold > 0).dateSoldLast.toDate())}</h5>
       <h5>{currencyFormat.format(el.price * filterQtySold(el,0)?.colors.find(x => x.qtySold > 0).qtySold)}</h5>
     </div>
   })
@@ -102,11 +102,11 @@ export default function Dashboard() {
   .slice(0,5)
   .map(el => { 
     return <div className="proditem">
-      <h5>#{el.orderid.slice(0,8)}...</h5>
+      <h5>#{el.orderNumber}</h5>
       <h5>{refProd(allProducts, el.products[0].id).name} + {el.products.length-1}</h5> 
-      <h5>{convertDate(el.orderDateCreated)}</h5>
-      <h5>{el.orderTotal}</h5>
-      <h5>{el.orderStatus}</h5>
+      <h5>{convertDate(el.orderDateCreated.toDate())}</h5>
+      <h5>{currencyFormat.format(el.orderTotal)}</h5>
+      <h5 className="ordstatus"><span>{el.updates[el.updates.length-1].status}</span></h5>
     </div>  
   })
 
@@ -211,10 +211,10 @@ export default function Dashboard() {
           <div className="foot">
             <h5><span>{allOrders.length}</span> Order{allOrders.length>1?"s":""}</h5>
             <h5><span>{currencyFormat.format(allOrders.reduce((a,b) => a + b.orderTotal,0))}</span> Orders Total</h5>
-            <h5><span>{allOrders.reduce((a,b) => a + b.products.length,0)}</span> Products</h5>
+            <h5><span>{allOrders.reduce((a,b) => a + b.products.length,0)}</span> Products Ordered</h5>
           </div>
       </DashCont>
-      <DashCont title="Updates" className="updatesbox">
+      <DashCont title="Site Updates" className="updatesbox">
 
       </DashCont>
     </div>

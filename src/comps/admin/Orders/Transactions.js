@@ -14,6 +14,7 @@ export default function Transactions() {
   const [keyword, setKeyword] = useState('')
   const clean = text => text.replace(/[^a-zA-Z0-9 ]/g, "")
   let pattern = new RegExp('\\b' + clean(keyword), 'i')
+  const reduceTotal = allTransactions.reduce((a,b) => a + b.total, 0)
 
   const headersrow = transHeaders?.map((el,i) => {
     return <h5 className={el.val===sort?"active":""}>
@@ -35,20 +36,14 @@ export default function Transactions() {
           <i className="far fa-ellipsis-h actionsicon"></i>
         </div>
         <div className={`optscont ${i===showOpts?"show":""}`}> 
-          <div title="Edit Transaction" onClick={() => editTrans(el.id)}><i className="far fa-edit"></i></div>
-          <div title="Delete Transaction" onClick={() => deleteTrans(el.id)}><i className="far fa-trash-alt"></i></div>
+          <div title="Edit Order" className="disabled"><i className="far fa-edit"></i></div>
+          <div title="Delete Order" className="disabled"><i className="far fa-trash-alt"></i></div>
           <div title="Transaction Info" onClick={() => infoTrans()}><i className="far fa-info"></i></div>
         </div>
       </h5>
     </div>
   })
 
-  function editTrans(transid) {
-
-  }
-  function deleteTrans(transid) {
-
-  }
   function infoTrans() {
 
   }
@@ -63,8 +58,6 @@ export default function Transactions() {
       <div className="pagecont">
         <PageTitlesRow 
           title="Transactions"
-          btnTitle="Add Transaction"
-          btnUrl="/admin/transactions/add-transaction"
           searchPlaceholder="Find a transaction"
           setKeyword={setKeyword}
         />
@@ -77,7 +70,7 @@ export default function Transactions() {
               {allTransactionsRow}
             </div>
             <div className="foot">
-
+              <h5><span>{currencyFormat.format(reduceTotal)}</span> total amount</h5>
             </div>
           </div>
         </div>

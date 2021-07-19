@@ -19,7 +19,7 @@ export default function EditOrder(props) {
 
   const {editOrdMode, setEditOrdMode, allProducts, allShipping, sizesOpts, colorsOpts, currencyFormat, 
     setEditShipMode, billingState, setBillingState, shippingState, setShippingState, taxRate, allCustomers, 
-  allOrders, percentFormat} = useContext(StoreContext)
+  allOrders, percentFormat, setNotifs} = useContext(StoreContext)
   const {orderid, orderNumber, orderDateCreated, products, customer, orderTaxRate, trackingNum, shippingDetails,
      billingDetails, shippingMethod, paymentDetails, updates, trackingReturn, orderSubtotal} = editOrdMode&&props.el
   const [tabPos, setTabPos] = useState(0)
@@ -97,12 +97,12 @@ export default function EditOrder(props) {
     shippingMethod: allShipping[selectedShip<0?0:selectedShip]
   }
 
-  const newOrdObj = {
+  const newProdObj = {
     id:chosenProd,
     subid:newSubId,
     chosenSize,
     chosenColor,
-    units:chosenQty
+    units: +chosenQty
   }
 
   const orderProductsOpts = allProducts?.map(el => {
@@ -154,7 +154,7 @@ export default function EditOrder(props) {
   function addNewProduct() {
     if(allowAddNew) { 
       if(ordProducts.findIndex(x => x.subid.includes(newSubId)) < 0) {
-        setOrdProducts(prev => [...prev, newOrdObj])
+        setOrdProducts(prev => [...prev, newProdObj])
         setChosenProd('')
         setChosenSize('')
         setChosenColor('')
@@ -168,7 +168,7 @@ export default function EditOrder(props) {
   }
   function editNewProduct() {
     let itemindex = ordProducts.findIndex(x => x.subid === chosenSubId)
-    ordProducts[itemindex] = newOrdObj
+    ordProducts[itemindex] = newProdObj
     setOrdProducts(prev => [...prev])
     setEditStyleMode(false)
     setChosenProd('')
@@ -199,7 +199,13 @@ export default function EditOrder(props) {
       db.collection('orders').doc(customerId).set({
         allorders: firebase.firestore.FieldValue.arrayUnion(entireOrder)
       }, {merge:true}).then(() => {
-        window.alert('The order has been successfully created.')
+        setNotifs(prev => [...prev, {
+          id: Date.now(),
+          title: 'Order Created',
+          icon: 'fal fa-shopping-bag',
+          text: `The order has been successfully created`,
+          time: 5000
+        }])
         history.push('/admin/orders')
       })
     }
@@ -215,7 +221,13 @@ export default function EditOrder(props) {
       db.collection('orders').doc(customerId).update({
         allorders: allOrders
       }).then(() => {
-        window.alert('The order has been successfully edited.')
+        setNotifs(prev => [...prev, {
+          id: Date.now(),
+          title: 'Order Saved',
+          icon: 'fal fa-shopping-bag',
+          text: `The order has been saved`,
+          time: 5000
+        }])
         history.push('/admin/orders')
       })
     }
@@ -232,7 +244,14 @@ export default function EditOrder(props) {
         allorders: allOrders
       })
       .then(() => {
-        window.alert('The order was successfully deleted from your store.')
+        setNotifs(prev => [...prev, {
+          id: Date.now(),
+          title: 'Order Deleted',
+          color: 'var(--red)',
+          icon: 'fal fa-shopping-bag',
+          text: `The order has been deleted from your store`,
+          time: 5000
+        }])
         history.push('/admin/orders')
       })
     }

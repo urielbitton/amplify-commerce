@@ -124,8 +124,8 @@ export default function Products() {
             </div>
             <div className="foot">
               <h5><span>{allProdsFilter?.length}</span> total product{allProdsFilter?.length>1?"s":""}</h5>
-              <h5><span>{allProdsFilter?.reduce((a,b) => a + b.sizes.reduce((a,b) => a + b.colors.reduce((a,b) => a + b.qtySold>0?b.qtySold:0,0),0),0)}</span> quantities sold</h5>
-              <h5><span>{currencyFormat.format(allProdsFilter?.reduce((x,y) => x + y.sizes.reduce((a,b) => a + b.colors.reduce((a,b) => a + b.qtySold>0&&b.qtySold*y.price,0),0),0))}</span> total earnings</h5>
+              <h5><span>{allProdsFilter?.reduce((a,b) => a + b.sizes.reduce((a,b) => a + b.colors.reduce((a,b) => a + b.qtySold,0),0),0)}</span> quantities sold</h5>
+              <h5><span>{currencyFormat.format(allProdsFilter?.reduce((x,y) => x + y.sizes.reduce((a,b) => a + b.colors.reduce((a,b) => a + (b.qtySold*y.price),0),0),0))}</span> total earnings</h5>
               <h5><span>{allProdsFilter?.reduce((a,b) => a + b.sizes.some(x => x.colors.some(x => x.stock>0?1:0),0),0)}</span> Products In Stock</h5>
             </div>
           </div>

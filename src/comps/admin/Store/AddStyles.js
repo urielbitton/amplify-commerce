@@ -22,6 +22,7 @@ export default function AddStyles(props) {
   const [extraEdit, setExtraEdit] = useState(-1)
   const [colorIndex, setColorIndex] = useState(-1)
   const [addMode, setAddMode] = useState(false)
+  const newDate = new Date()
 
   const colorsrows = colorsArr?.map(el => {
     return <div className={`colorsrow ${showColorRow?"show":""}`}>
@@ -64,7 +65,7 @@ export default function AddStyles(props) {
 
   function addColor() {
     if(newSize && newColorName && newColorStock) {
-      setColorsArr(prev => [...prev, {name:newColorName,stock:+newColorStock, qtySold:0}])
+      setColorsArr(prev => [...prev, {name:newColorName,stock:+newColorStock, qtySold:0, dateSoldLast:newDate}])
       setSavedColors(prev => [...prev, newColorName])
       setNewColorName('')
       setNewColorStock(0)
@@ -79,7 +80,7 @@ export default function AddStyles(props) {
   }
   function saveExtraColor(size) {
     const sizeindex = prodSizes.indexOf(size)
-    prodSizes[sizeindex].colors[colorIndex] = {name: newColorName, stock: +newColorStock, qtySold: 0}
+    prodSizes[sizeindex].colors[colorIndex] = {name: newColorName, stock: +newColorStock, qtySold: 0, dateSoldLast:newDate}
     setProdSizes(prev => [...prev])
     setExtraEdit(-1)
     setNewColorName('')
@@ -87,7 +88,7 @@ export default function AddStyles(props) {
   }
   function addExtraColor(size) {
     const sizeindex = prodSizes.indexOf(size)
-    prodSizes[sizeindex].colors.push({name:newColorName,stock:newColorStock,qtySold:0})
+    prodSizes[sizeindex].colors.push({name:newColorName,stock:+newColorStock,qtySold:0, dateSoldLast:newDate})
     setProdSizes(prev => [...prev])
     setNewColorName('')
     setNewColorStock('')
