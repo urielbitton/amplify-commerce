@@ -1,11 +1,10 @@
 import React, {useContext, useEffect, useState} from 'react'
-import AdminBtn from '../common/AdminBtn'
-import {AppInput} from '../../common/AppInputs'
 import { StoreContext } from '../../common/StoreContext'
 import {shipHeaders} from './arrays/arrays'
 import { useHistory } from 'react-router-dom'
 import { db } from '../../common/Fire'
 import PageTitle from '../common/PageTitle'
+import PageTitlesRow from '../common/PageTitlesRow'
 
 export default function Shipping() {
 
@@ -17,7 +16,9 @@ export default function Shipping() {
   const clean = text => text.replace(/[^a-zA-Z0-9 ]/g, "")
   let pattern = new RegExp('\\b' + clean(keyword), 'i')
   const allShippingFilter = allShipping?.filter(x => (pattern.test((x.name)) || pattern.test((x.company)) || pattern.test((x.price))))
-  const reduceActive = allShippingFilter.reduce((a,b) => a + (b.isActive&& 1),0)
+  const reduceActive = allShippingFilter.reduce((a,b) => a + (b.isActive?1:0),0)
+  const reduceCountries = allShippingFilter.reduce((a,b) => a + b.countries.length,0)
+  const reducePrices = allShippingFilter.reduce((a,b) => a + b.price,0)
   const history = useHistory()
 
   const headersrow = shipHeaders?.map((el,i) => {
@@ -75,17 +76,13 @@ export default function Shipping() {
     <div className="shippingpage">
       <PageTitle title="Shipping"/>
       <div className="pagecont">
-        <div className="titlesrow">
-          <h4>Shipping Methods</h4>
-          <div className="flex">
-            <AdminBtn title="New Shipping" url="/admin/store/add-shipping" />
-            <AppInput 
-              placeholder="Find a Shipping Method" 
-              iconclass="fal fa-search" 
-              onChange={(e) => setKeyword(e.target.value)}
-            />
-          </div>
-        </div>
+        <PageTitlesRow 
+          title="Shipping Methods"
+          btnTitle="New Shipping"
+          btnUrl="/admin/store/add-shipping"
+          searchPlaceholder="Find a Shipping Method"
+          setKeyword={setKeyword}
+        />
         <div className="shippingtablecont">
           <div className="producttable">
             <div className="header">
@@ -96,6 +93,8 @@ export default function Shipping() {
             </div>
             <div className="foot">
               <h5><span>{reduceActive}</span> Active Shipping Methods</h5>
+              <h5><span>{reduceCountries}</span> Shipping Countries</h5>
+              <h5><span>{currencyFormat.format(reducePrices)}</span> Shipping Prices Total</h5>
             </div>
           </div>
         </div>

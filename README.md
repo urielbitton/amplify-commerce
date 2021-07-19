@@ -1,9 +1,6 @@
 # amplify-commerce
 Created React + <3
 
-Inspirations:
-
-
 Features to add: 
 - guest add to cart and checkout features
 - add newarrivals, about + contact pages
@@ -12,8 +9,13 @@ Features to add:
 - make dashboard stats dynamic
 
 Bugs tracking:
-- push picked dates to firestore as a timestamp value
 - multiple notifs will stay as long as last notifs
+
+After Development:
+- test app
+- test security rules
+- limit firebase fetches using limit()
+- fix localStorage bug
 
 Tips:
 

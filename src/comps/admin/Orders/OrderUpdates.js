@@ -1,7 +1,8 @@
 import React, { useState } from 'react'
 import { AppInput, AppSelect, AppTextarea } from '../../common/AppInputs'
 import { db } from '../../common/Fire'
-import { convertDate, convertDateObject } from '../../common/UtilityFuncs'
+import firebase from 'firebase'
+import { convertDate } from '../../common/UtilityFuncs'
 import AdminBtn from '../common/AdminBtn'
 
 export default function OrderUpdates(props) {
@@ -14,19 +15,19 @@ export default function OrderUpdates(props) {
   const [action, setAction] = useState('')
   const allowAdd = status && date && location && action
 
-  const ordUpdatesRow = ordUpdates?.map(el => {console.log(typeof el.date)
+  const ordUpdatesRow = ordUpdates?.map(el => {
     return <div className="orderupdaterow">
       <h4>{el.status}</h4>
       <div>
-        <h6><span>Date:</span> </h6>
-        <h6><span>Time:</span> </h6>
+        <h6><span>Date:</span> {el.date.seconds?convertDate(el.date.toDate()):convertDate(el.date)}</h6>
+        <h6><span>Time:</span> {el.date.seconds?convertDate(el.date.toDate(), true).split(' ')[3]:convertDate(el.date, true).split(' ')[3]}</h6>
         <h6><span>Tracking Location:</span> {el.location}</h6>
       </div>
       <small><span>Event</span> {el.action}</small>
       <AdminBtn title={<i className="fal fa-trash-alt"></i>} className="iconbtn delete" solid clickEvent onClick={() => deleteUpdate(el)}/>
     </div>
   })
-  
+
   function addAnUpdate() {
     if(allowAdd) {
       setOrdUpdates(prev => [...prev, {
@@ -56,7 +57,7 @@ export default function OrderUpdates(props) {
         <h5>Add An Update</h5>
         <AppSelect title="Order Status" options={[{name:'Choose a Status',value:''},...statusOpts]} onChange={(e) => setStatus(e.target.value)} value={status} namebased/>
         <div className={`inprow ${status?"show":""}`}>
-          <AppInput title="Date" disabled value={convertDateObject(date)} />
+          <AppInput title="Date" disabled value={convertDate(new Date(), true)} />
           <AppInput title="Tracking Location" onChange={(e) => setLocation(e.target.value)} value={location} placeholder="Package tracked location" />
           <AppTextarea title="Update Event" onChange={(e) => setAction(e.target.value)} value={action} placeholder="Enter a brief update message" />
           <div className="actionbtns">

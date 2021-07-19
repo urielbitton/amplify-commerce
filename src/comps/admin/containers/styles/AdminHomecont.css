@@ -23,42 +23,6 @@
   align-items: center;
   gap: 20px;
 }
-.pagecont .titlesrow {
-  width: 100%;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 30px;
-}
-.pagecont .titlesrow .flex {
-  display: flex;
-  align-items: center;
-  gap: 15px;
-}
-.pagecont .titlesrow .flex .adminbtn {
-  background: #f5f5f5;
-}
-.pagecont .titlesrow .flex .adminbtn:hover {
-  background: #eee;
-}
-.pagecont .titlesrow .flex .adminbtn:hover span {
-  color: var(--graytxt);
-}
-.pagecont .titlesrow > h4 {
-  color: var(--graytxt)
-}
-.pagecont .titlesrow input {
-  height: 35px;
-  border-radius: 40px;
-  background: #f5f5f5;
-  border: none;
-  padding: 15px;
-  padding-right: 20px;
-}
-.pagecont .titlesrow .appinput i {
-  top: 10px;
-  right: 15px;
-}
 .pagecont .producttable .header, .producttable .proditem {
   gap: 4px;
 }
@@ -106,7 +70,9 @@
   flex-basis: 100px;
 }
 .orderspage .pagecont .producttable .header h5:first-child,
-.orderspage .pagecont .producttable .content h5:first-child {
+.orderspage .pagecont .producttable .content h5:first-child,
+.transactionspage .pagecont .producttable .header h5:first-child,
+.transactionspage .pagecont .producttable .content h5:first-child {
   flex-basis: 220px;
 }
 .productspage .producttable .content h5.stockcont span {

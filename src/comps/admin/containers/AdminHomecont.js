@@ -15,6 +15,7 @@ import Orders from '../Orders/Orders'
 import EditOrder from '../Orders/EditOrder'
 import Transactions from '../Orders/Transactions'
 import NotifsCont from '../../common/NotifsCont'
+import Analytics from '../Store/Analytics'
 
 export default function AdminHomecont() {
  
@@ -69,6 +70,9 @@ export default function AdminHomecont() {
           </Route>
           <Route path="/admin/store/add-shipping">
             <EditShipping />
+          </Route>
+          <Route path="/admin/store/analytics">
+            <Analytics />
           </Route>
           {editshippingpages}
           <Route exact path="/admin/orders">

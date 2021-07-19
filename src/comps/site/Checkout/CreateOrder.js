@@ -2,7 +2,7 @@ import firebase from 'firebase'
 import {db} from '../../common/Fire'
 
 export default function CreateOrder(orderid, orderNum, cart, customer, orderSubtotal, orderTotal, shippingMethod, 
-  paymentDetails, taxAmount, billingDetails, shippingDetails, myUser) {
+  paymentDetails, taxRate, billingDetails, shippingDetails, myUser) {
   
     const user = firebase.auth().currentUser
 
@@ -14,7 +14,7 @@ export default function CreateOrder(orderid, orderNum, cart, customer, orderSubt
       customer,
       orderSubtotal: parseFloat(orderSubtotal.toFixed(2)),
       orderTotal,
-      taxAmount,
+      taxRate,
       paymentDetails,
       shippingMethod,
       billingDetails,

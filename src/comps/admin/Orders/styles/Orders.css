@@ -418,7 +418,7 @@
   border: 1px solid #eee;
   border-radius: 10px;
   padding: 10px;
-  overflow-y: scroll;
+  overflow: hidden;
 }
 .customerpickercont .resultscont::-webkit-scrollbar {
   width: 5px;
@@ -437,6 +437,10 @@
 }
 .customerpickercont .resultscont .headersrow h5:last-child {
   flex-basis: 55px;
+}
+.customerpickercont .resultscont .customerscontent {
+  height: 100%;
+  overflow-y: scroll;
 }
 .customerpickercont .customerrow {
   width: 100%;

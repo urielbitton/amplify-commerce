@@ -14,9 +14,11 @@ export default function Login(props) {
   const [password, setPassword] = useState('') 
   const [emailError, setEmailError] = useState('') 
   const [passError, setPassError] = useState('')
+  const [isLogging, setIsLoggin] = useState(false)
   const history = useHistory()
 
   function handleLogin() { 
+    setIsLoggin(true)
     clearErrors()
     firebase.auth().signInWithEmailAndPassword(email, password)
     .then(() => {
@@ -99,6 +101,7 @@ export default function Login(props) {
   useEffect(() => { 
     clearInputs()
     authListener() 
+    return () => setIsLoggin(false)
   },[]) 
 
   useEffect(() => {
@@ -133,7 +136,11 @@ export default function Login(props) {
             <div className="loginbtn" onClick={() => handleLogin()}>
               <span></span>
               <h6>Log in</h6>
-              <i className="fal fa-long-arrow-right"></i>
+              {
+                !myUser?.isAdmin&&isLogging?
+                <div class="spinner-5"></div>:
+                <i className="fal fa-long-arrow-right"></i>
+              }
             </div>
             <div className="bottomdiv">
               <Link to="/" className="backtosite"><i className="fal fa-long-arrow-left"></i>Back to site</Link>

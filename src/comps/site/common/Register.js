@@ -9,12 +9,13 @@ import { StoreContext } from '../../common/StoreContext'
 
 export default function Login(props) {
 
-  const {setAUser} = useContext(StoreContext)
+  const {setAUser, myUser} = useContext(StoreContext)
   const [name, setName] = useState('')
   const [email, setEmail] = useState('') 
   const [password, setPassword] = useState('') 
   const [emailError, setEmailError] = useState('') 
   const [passError, setPassError] = useState('')
+  const [isLogging, setIsLoggin] = useState(false)
   const history = useHistory()
 
   function authListener() {
@@ -163,7 +164,11 @@ export default function Login(props) {
             <div className="loginbtn" onClick={() => handleSignup()}>
               <span></span>
               <h6>Create Account</h6>
-              <i className="fal fa-long-arrow-right"></i>
+              {
+                !myUser?.isAdmin&&isLogging?
+                <div class="spinner-5"></div>:
+                <i className="fal fa-long-arrow-right"></i>
+              }
             </div>
             <div className="bottomdiv">
               <Link to="/" className="backtosite"><i className="fal fa-long-arrow-left"></i>Back to site</Link>

@@ -1,11 +1,10 @@
 import React, {useContext, useEffect, useState} from 'react'
-import AdminBtn from '../common/AdminBtn'
-import {AppInput} from '../../common/AppInputs'
 import {StoreContext} from '../../common/StoreContext'
 import {couponHeaders} from './arrays/arrays' 
 import { useHistory } from 'react-router'
 import {db} from '../../common/Fire'
 import PageTitle from '../common/PageTitle'
+import PageTitlesRow from '../common/PageTitlesRow'
 
 export default function Coupons() {
 
@@ -18,7 +17,7 @@ export default function Coupons() {
   let pattern = new RegExp('\\b' + clean(keyword), 'i')
   const allCouponsFilter = allCoupons?.filter(x => (pattern.test((x.name)) || pattern.test((x.amount)) || pattern.test((x.type))))
   const reducedAmounts = allCouponsFilter.reduce((a,b) => a + (b.type==='flat'&& +b.amount),0)
-  const reduceActive = allCouponsFilter.reduce((a,b) => a + (b.isActive&& 1),0)
+  const reduceActive = allCouponsFilter.reduce((a,b) => a + (b.isActive?1:0),0)
   const history = useHistory()
 
   const headersrow = couponHeaders?.map((el,i) => {
@@ -74,17 +73,13 @@ export default function Coupons() {
     <div className="couponspage">
       <PageTitle title="Coupons"/>
       <div className="pagecont">
-        <div className="titlesrow">
-          <h4>Coupons</h4>
-          <div className="flex">
-            <AdminBtn title="New Coupon" clickEvent onClick={() => setEditCoupMode(false)} url="/admin/store/add-coupon" />
-            <AppInput 
-              placeholder="Find a Coupon" 
-              iconclass="fal fa-search" 
-              onChange={(e) => setKeyword(e.target.value)}
-            />
-          </div>
-        </div>
+        <PageTitlesRow 
+          title="Coupons"
+          btnTitle="New Coupon"
+          btnUrl="/admin/store/add-coupon"
+          searchPlaceholder="Find a Coupon"
+          setKeyword={setKeyword}
+        />
         <div className="coupontablecont">
           <div className="producttable">
             <div className="header couponsheaders">
@@ -94,7 +89,7 @@ export default function Coupons() {
               {allcouponsrow}
             </div>
             <div className="foot">
-              <h5><span>{allCouponsFilter.length}</span> Coupon{allCouponsFilter.length>1?"s":""}</h5>
+              <h5><span>{allCouponsFilter.length}</span> Total coupon{allCouponsFilter.length>1?"s":""}</h5>
               <h5><span>{currencyFormat.format(reducedAmounts)}</span> Total Coupons Amount</h5>
               <h5><span>{reduceActive}</span> Active Coupons</h5>
             </div>

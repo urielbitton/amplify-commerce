@@ -1,11 +1,10 @@
 import React, { useContext, useEffect, useState } from 'react'
-import {AppInput} from '../../common/AppInputs'
 import {StoreContext} from '../../common/StoreContext'
 import {prodHeaders} from './arrays/arrays'
 import { useHistory } from 'react-router-dom'
-import AdminBtn from '../common/AdminBtn'
 import {db} from '../../common/Fire'
 import PageTitle from '../common/PageTitle'
+import PageTitlesRow from '../common/PageTitlesRow'
 
 export default function Products() {
    
@@ -60,8 +59,7 @@ export default function Products() {
       <h5>{i+1}</h5>
       <h5>
         <img src={el.imgs[0]} alt={el.name}/>
-        { 
-          reduceSold(el)>10&&
+        { reduceSold(el)>10&&
           <i title="hot selling product" className={`fas fa-badge-check ${reduceSold(el)> 10?"hot":""}`}></i>
         } 
       </h5>
@@ -109,17 +107,13 @@ export default function Products() {
     <div className="productspage">
       <PageTitle title="Products"/>
       <div className="pagecont">
-        <div className="titlesrow">
-          <h4>Products</h4>
-          <div className="flex">
-            <AdminBtn title="New Product" url="/admin/store/add-product"/>
-            <AppInput 
-              placeholder="Find a Product" 
-              iconclass="fal fa-search" 
-              onChange={(e) => setKeyword(e.target.value)}
-            />
-          </div>
-        </div>
+        <PageTitlesRow 
+          title="Products"
+          btnTitle="New Product"
+          btnUrl="/admin/store/add-product"
+          searchPlaceholder="Find a Product"
+          setKeyword={setKeyword}
+        />
         <div className="productstablecont">
           <div className="producttable">
             <div className="header">
@@ -129,10 +123,10 @@ export default function Products() {
               {allprodsrow}
             </div>
             <div className="foot">
-              <h5><span>{allProdsFilter?.length}</span> product{allProdsFilter?.length>1?"s":""}</h5>
-              <h5><span>{allProdsFilter?.reduce((a,b) => a + b.sizes.reduce((a,b) => a + b.colors.reduce((a,b) => a + b.qtySold>0&&b.qtySold,0),0),0)}</span> quantities sold</h5>
+              <h5><span>{allProdsFilter?.length}</span> total product{allProdsFilter?.length>1?"s":""}</h5>
+              <h5><span>{allProdsFilter?.reduce((a,b) => a + b.sizes.reduce((a,b) => a + b.colors.reduce((a,b) => a + b.qtySold>0?b.qtySold:0,0),0),0)}</span> quantities sold</h5>
               <h5><span>{currencyFormat.format(allProdsFilter?.reduce((x,y) => x + y.sizes.reduce((a,b) => a + b.colors.reduce((a,b) => a + b.qtySold>0&&b.qtySold*y.price,0),0),0))}</span> total earnings</h5>
-              <h5><span>{allProdsFilter?.reduce((a,b) => a + b.sizes.reduce((a,b) => a + b.colors.reduce((a,b) => a + b.stock>0&&1,0),0),0)}</span> Products In Stock</h5>
+              <h5><span>{allProdsFilter?.reduce((a,b) => a + b.sizes.some(x => x.colors.some(x => x.stock>0?1:0),0),0)}</span> Products In Stock</h5>
             </div>
           </div>
         </div>

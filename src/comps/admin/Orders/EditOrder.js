@@ -14,20 +14,18 @@ import PageTitle from '../common/PageTitle'
 import OrderUpdates from './OrderUpdates'
 import CustomerPicker from './CustomerPicker'
 import {convertDate} from '../../common/UtilityFuncs'
-import {convertDateObject} from '../../common/UtilityFuncs'
 
-export default function EditOrder(props) {
+export default function EditOrder(props) { 
 
   const {editOrdMode, setEditOrdMode, allProducts, allShipping, sizesOpts, colorsOpts, currencyFormat, 
     setEditShipMode, billingState, setBillingState, shippingState, setShippingState, taxRate, allCustomers, 
-  allOrders} = useContext(StoreContext)
-  const {orderid, orderNumber, orderDateCreated, orderStatus, products, customer,
-    trackingNum, shippingDetails, billingDetails, shippingMethod, paymentDetails, updates,
-    trackingReturn, orderSubtotal} = editOrdMode&&props.el
+  allOrders, percentFormat} = useContext(StoreContext)
+  const {orderid, orderNumber, orderDateCreated, products, customer, orderTaxRate, trackingNum, shippingDetails,
+     billingDetails, shippingMethod, paymentDetails, updates, trackingReturn, orderSubtotal} = editOrdMode&&props.el
   const [tabPos, setTabPos] = useState(0)
   const [orderNum, setOrderNum] = useState('')  
-  const [ordSubTotal, setOrdSubTotal] = useState(0)
-  const [ordStatus, setOrdStatus] = useState("")
+  const [ordTaxRate, setOrdTaxRate] = useState(taxRate)
+  const [ordSubTotal, setOrdSubTotal] = useState(0) 
   const [ordProducts, setOrdProducts] = useState([])
   const [chosenProd, setChosenProd] = useState('')
   const [chosenSize, setChosenSize] = useState('')
@@ -72,9 +70,8 @@ export default function EditOrder(props) {
     orderNumber: orderNum,
     orderDateCreated: new Date(),
     orderSubtotal: ordSubTotal,
-    orderTotal: (ordSubTotal + (ordSubTotal*taxRate)),
-    orderStatus: ordStatus, 
-    taxAmount: taxRate,
+    orderTotal: (ordSubTotal + (ordSubTotal*ordTaxRate)),
+    orderTaxRate,
     trackingNum: trackingNumber,
     trackingReturn: editOrdMode?trackingReturn:'',
     products: ordProducts,
@@ -244,7 +241,7 @@ export default function EditOrder(props) {
   useEffect(() => {
     setOrderNum(editOrdMode?orderNumber:generateId(3,7))
     setOrdSubTotal(editOrdMode?orderSubtotal:"")
-    setOrdStatus(editOrdMode?orderStatus:"")
+    setOrdTaxRate(editOrdMode?orderTaxRate:taxRate)
     setOrdProducts(editOrdMode?products:[])
     setCustomerId(editOrdMode?customer.id:"")
     setCustName(editOrdMode?customer.name:'')
@@ -261,6 +258,10 @@ export default function EditOrder(props) {
     setPayMethod(editOrdMode?paymentDetails.method:'')
     setPayEmail(editOrdMode?paymentDetails.email:'')
   },[editOrdMode])
+
+  useEffect(() => {
+    setOrdTaxRate(editOrdMode?orderTaxRate:taxRate)
+  },[taxRate])
 
   useEffect(() => {
     !editOrdMode&&generateId(3,7) 
@@ -311,8 +312,8 @@ export default function EditOrder(props) {
                 <AppInput title="Order Number" className="ordernuminp" placeholder="#123456" onChange={(e) => setOrderNum(e.target.value)} value={orderNum}/>
                 <AdminBtn title="Generate" className="genbtn" solid clickEvent onClick={() => generateId(3,7)}/>
               </div>
-              <AppInput title="Order Date" disabled value={editOrdMode?convertDate(orderDateCreated):convertDateObject(new Date())}/>
-              <AppSelect title="Order Status" options={[{name:'Choose a Status',value:''},...statusOpts]} onChange={(e) => setOrdStatus(e.target.value)} value={ordStatus} namebased />
+              <AppInput title="Order Date" disabled value={editOrdMode?convertDate(orderDateCreated.seconds?orderDateCreated.toDate():orderDateCreated):convertDate(new Date())}/>            
+              <AppInput title="Order Tax Rate" onChange={(e) => setOrdTaxRate(e.target.value)} value={ordTaxRate} type="number" />
             </div>
             <div className={`editsection ${tabPos===1?"show":""}`}>
               <h4>Order Products</h4>
@@ -388,10 +389,11 @@ export default function EditOrder(props) {
             <div className="detailscontent">
               <h4>Order Details</h4> 
               <h5><span>Order Number</span><span className="ordernuminp">#{orderNum}</span></h5>
-              <h5><span>Order Date</span><span>{editOrdMode?convertDate(orderDateCreated):convertDateObject(new Date())}</span></h5>
+              <h5><span>Order Date</span><span>{editOrdMode?convertDate(orderDateCreated.seconds?orderDateCreated.toDate():orderDateCreated):convertDate(new Date())}</span></h5>
               <h5><span>Products</span><span>{ordProducts.length}</span></h5>
               <h5><span>Order Subtotal</span><span>{currencyFormat.format(ordSubTotal)}</span></h5>
-              <h5><span>Order Total</span><span>{currencyFormat.format((ordSubTotal+(ordSubTotal*taxRate)))}</span></h5>
+              <h5><span>Order Tax Rate</span>{percentFormat.format(ordTaxRate)}</h5>
+              <h5><span>Order Total</span><span>{currencyFormat.format((ordSubTotal+(ordSubTotal*ordTaxRate)))}</span></h5>
               <h5><span>Shipping</span>{allShipping[selectedShip<0?0:selectedShip].name} ({currencyFormat.format(allShipping[selectedShip<0?0:selectedShip].price)})</h5>
               <h5><span>Order Updates</span>{ordUpdates.length}</h5>
               <h5><span>Customer</span>{custName}</h5>

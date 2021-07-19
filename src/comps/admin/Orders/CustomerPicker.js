@@ -72,7 +72,9 @@ export default function CustomerPicker(props) {
             <div className="headersrow">
               {headersRow}
             </div>
-            {allCustomersRow}
+            <div className="customerscontent">
+              {allCustomersRow}
+            </div>
           </div>
           <div className="actionscont">
             <AdminBtn title="Choose" disabled={!customerInfo.id} solid clickEvent onClick={() => initCustomer()}/>

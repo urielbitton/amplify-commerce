@@ -29,6 +29,7 @@ const StoreContextProvider = (props) => {
   const [myOrders, setMyOrders] = useState([])
   const [allOrders, setAllOrders] = useState([])
   const [allStats, setAllStats] = useState({})
+  const [allTransactions, setAllTransactions] = useState([])
   const [showQuickShop, setShowQuickShop] = useState(false)
   const [showEditProd, setShowEditProd] = useState(false)
   const [colorFilter, setColorFilter] = useState('all')
@@ -133,6 +134,11 @@ const StoreContextProvider = (props) => {
       const custArr = []
       snap.forEach(el => { custArr.push(el.data()) }) 
       setAllCustomers(custArr)
+    }) 
+    db.collection('transactions').onSnapshot(snap => {
+      const transArr = []
+      snap.forEach(el => { transArr.push(el.data().alltransactions) }) 
+      setAllTransactions(transArr.flat())
     })  
   },[user, auser])  
 
@@ -194,7 +200,7 @@ const StoreContextProvider = (props) => {
       recentOrdersLimit, setRecentOrdersLimit, editProdMode, setEditProdMode, sizesOpts, colorsOpts,
       editCoupMode, setEditCoupMode, editShipMode, setEditShipMode, allCoupons, setAllCoupons,
       allShipping, setAllShipping, editOrdMode, setEditOrdMode, allCustomers, setAllCustomers,
-      notifs, setNotifs
+      notifs, setNotifs, allTransactions, setAllTransactions
     }}>
       {props.children}  
     </StoreContext.Provider>

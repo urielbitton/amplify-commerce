@@ -1,6 +1,7 @@
 import React, { useContext } from 'react'
 import { Link } from 'react-router-dom'
 import {StoreContext} from '../../common/StoreContext'
+import { convertDate } from '../../common/UtilityFuncs'
 
 export default function AccountTransactions() {
 
@@ -31,9 +32,7 @@ export function TransactionBox(props) {
     <div className="transdiv">
       <div className="header">
         <h5>
-          {orderDateCreated.toDate().toString().split(' ')[1]}&nbsp;
-          {orderDateCreated.toDate().toString().split(' ')[2]}&nbsp;
-          {orderDateCreated.toDate().toString().split(' ')[3]}
+          {convertDate(orderDateCreated)}
         </h5>
       </div>
       <div className="content">
