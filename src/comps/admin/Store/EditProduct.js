@@ -120,7 +120,7 @@ export default function EditProduct(props) {
         setNotifs(prev => [...prev, {
           id: Date.now(),
           title: 'Product Saved',
-          icon: 'fal fa-pen',
+          icon: 'fal fa-save',
           text: `The product has been saved.`,
           time: 5000
         }])

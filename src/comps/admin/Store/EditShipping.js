@@ -90,7 +90,7 @@ export default function EditShipping(props) {
         setNotifs(prev => [...prev, {
           id: Date.now(),
           title: 'Method Saved',
-          icon: 'fal fa-pen',
+          icon: 'fal fa-save',
           text: `The shipping method has been saved.`,
           time: 5000
         }])

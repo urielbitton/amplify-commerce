@@ -72,7 +72,7 @@ export default function EditCoupon(props) {
         setNotifs(prev => [...prev, {
           id: Date.now(),
           title: 'Coupon Saved',
-          icon: 'fal fa-pen',
+          icon: 'fal fa-save',
           text: `The coupon has been saved.`,
           time: 5000
         }])

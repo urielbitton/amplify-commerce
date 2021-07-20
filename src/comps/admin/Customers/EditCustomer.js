@@ -12,8 +12,8 @@ export default function EditCustomer(props) {
 
   const {editCustMode, setNotifs, setEditCustMode, setSelectedCountry, setSelectedProvince,
   selectedCountry, selectedProvince} = useContext(StoreContext)
-  const {id, number, name, email, phone, address, city, provstate, country, moneySpent, countryCode,
-  provstateCode} = editCustMode&&props.el
+  const {id, number, name, email, phone, address, city, provState, country, moneySpent, countryCode,
+    provStateCode} = editCustMode&&props.el
   const [custNum, setCustNum] = useState('')
   const [custName, setCustName] = useState('') 
   const [custEmail, setCustEmail] = useState('')
@@ -25,16 +25,17 @@ export default function EditCustomer(props) {
   const genNewCustId = db.collection('customers').doc().id
   const history = useHistory()
   const location = useLocation()
+  console.log(provinceCountry)   
 
   const customerObj = {
-    id: genNewCustId,
+    id: editCustMode?id:genNewCustId,
     number: custNum,
     name: custName,
     email: custEmail,
     phone: custPhone,
     address: custAddress,
     city: custCity,
-    provstate: provinceCountry.provstate,
+    provState: provinceCountry.province,
     country: provinceCountry.country,
     provStateCode: selectedProvince,
     countryCode: selectedCountry,
@@ -75,7 +76,7 @@ export default function EditCustomer(props) {
         setNotifs(prev => [...prev, {
           id: Date.now(),
           title: 'Customer Saved',
-          icon: 'fal fa-pen',
+          icon: 'fal fa-save',
           text: `The customer has been saved.`,
           time: 5000
         }])
@@ -94,7 +95,20 @@ export default function EditCustomer(props) {
     }
   }
   function deleteCustomer() {
-
+    let confirm = window.confirm('Are you sure you wish to delete this customer?')
+    if(confirm) {
+      db.collection('customers').doc(id).delete()
+      .then(() => {
+        setNotifs(prev => [...prev, {
+          id: Date.now(),
+          title: 'Customer Deleted',
+          icon: 'fal fa-trash-alt',
+          text: `The customer has been deleted.`,
+          time: 5000
+        }])
+        history.push('/admin/customers')
+      })
+    }
   }
 
   useEffect(() => {
@@ -112,7 +126,8 @@ export default function EditCustomer(props) {
     setCustAddress(editCustMode?address:'')
     setCustCity(editCustMode?city:'')
     setSelectedCountry(editCustMode?countryCode:'')
-    setSelectedProvince(editCustMode?provstateCode:'')
+    setSelectedProvince(editCustMode?provStateCode:'')
+    setProvinceCountry(editCustMode?{province:provState,country} : {province:'',country:''})
   },[editCustMode])
 
   useEffect(() => {

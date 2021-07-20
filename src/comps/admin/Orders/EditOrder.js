@@ -232,7 +232,7 @@ export default function EditOrder(props) {
         setNotifs(prev => [...prev, {
           id: Date.now(),
           title: 'Order Saved',
-          icon: 'fal fa-pen',
+          icon: 'fal fa-save',
           text: `The order has been saved`,
           time: 5000
         }])

@@ -35,7 +35,7 @@ export default function Customers() {
       <h5><a className="hoverable" href={`mailto:${el.email}`}>{el.email}</a></h5>
       <h5>{el.phone}</h5>
       <h5>{el.city}</h5>
-      <h5>{el.provstate}</h5>
+      <h5>{el.provState}</h5>
       <h5>{el.country}</h5>
       <h5>{el.moneySpent}</h5>
       <h5>
