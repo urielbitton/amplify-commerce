@@ -31,7 +31,6 @@
 }
 .producttable > .content h5 {
   font-weight: 500;
-  text-transform: capitalize;
   flex-basis: 20%;
 }
 .producttable.dashtable > .header h5:last-child,

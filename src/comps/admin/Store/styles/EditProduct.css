@@ -158,7 +158,7 @@
 .editproductpage .editcontent textarea {
   min-height: 100px;
 }
-.editproductpage .appinput.numberinp::after {
+.editproductpage .appinput.currencyinp::after {
   content: '$';
   position: absolute;
   right: 350px;
@@ -171,7 +171,7 @@
   align-items: center;
   font-size: 18px;
 }
-.editproductpage .appinput.numberinp input {
+.editproductpage .appinput.currencyinp input {
   padding-left: 60px;
   font-size: 15px;
 }

@@ -9,7 +9,7 @@ import { nowDate } from '../../common/UtilityFuncs'
  
 export default function EditCoupon(props) { 
  
-  const {editCoupMode, setEditCoupMode} = useContext(StoreContext)
+  const {editCoupMode, setEditCoupMode, setNotifs} = useContext(StoreContext)
   const {id, name, amount, description, type, expiryDate, timesUsed, isActive} = editCoupMode&&props.el 
   let coupongen = Math.random().toString(36).substring(7)
   const [coupName, setCoupName] = useState(coupongen)
@@ -44,22 +44,51 @@ export default function EditCoupon(props) {
     if(allowAccess) {
       db.collection('coupons').doc(genNewId).set(coupObj)
       .then(() => {
-        window.alert('Your coupon has been created successfully.')
+        setNotifs(prev => [...prev, {
+          id: Date.now(),
+          title: 'Coupon Created',
+          icon: 'fal fa-plus',
+          text: `The coupon has been successfully created`,
+          time: 5000
+        }])
         history.push('/admin/store/coupons')
       })
     }
     else {
-      window.alert('Please fill in all fields to create a coupon.')
+      setNotifs(prev => [...prev, {
+        id: Date.now(),
+        title: 'Warning',
+        color: 'var(--orange)',
+        icon: 'fal fa-exclamation',
+        text: `Please fill in all fields denoted with a *`,
+        time: 5000
+      }])
     }
   }
   function editCoupon() {
     if(allowAccess) {
       db.collection('coupons').doc(id).update(coupObj)
       .then(res => {
-        window.alert('The coupon was successfully saved.')
+        setNotifs(prev => [...prev, {
+          id: Date.now(),
+          title: 'Coupon Saved',
+          icon: 'fal fa-pen',
+          text: `The coupon has been saved.`,
+          time: 5000
+        }])
         history.push('/admin/store/coupons')
       })
       .catch(err => window.alert('An error occured while saving the coupon. Please try again.'))
+    }
+    else {
+      setNotifs(prev => [...prev, {
+        id: Date.now(),
+        title: 'Warning',
+        color: 'var(--orange)',
+        icon: 'fal fa-exclamation',
+        text: `Please fill in all fields denoted with a *`,
+        time: 5000
+      }])
     }
   }
   function deleteCoupon(couponid) {
@@ -67,7 +96,13 @@ export default function EditCoupon(props) {
     if(confirm) {
       db.collection('coupons').doc(couponid).delete()
       .then(() => {
-        window.confirm('The coupon was successfully deleted from your store.')
+        setNotifs(prev => [...prev, {
+          id: Date.now(),
+          title: 'Coupon Deleted',
+          icon: 'fal fa-trash-alt',
+          text: `The coupon was successfully deleted from your store.`,
+          time: 5000
+        }])
         history.push('/admin/coupons')
       })
     }
@@ -78,6 +113,7 @@ export default function EditCoupon(props) {
       setEditCoupMode(true)
     else 
       setEditCoupMode(false)
+    return () => setEditCoupMode(false)
   },[location]) 
 
   useEffect(() => {
@@ -109,7 +145,7 @@ export default function EditCoupon(props) {
             <AdminBtn 
               title={editCoupMode?"Save Coupon":"Create Coupon"} 
               solid 
-              className="createbtn" 
+              className={`createbtn ${!allowAccess?"disabled":""}`} 
               clickEvent
               onClick={() => editCoupMode?editCoupon():createCoupon()}
             />

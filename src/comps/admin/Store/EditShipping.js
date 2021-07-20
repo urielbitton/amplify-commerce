@@ -12,7 +12,7 @@ import PageTitle from '../common/PageTitle'
 
 export default function EditShipping(props) {
 
-  const {editShipMode, setEditShipMode} = useContext(StoreContext)
+  const {editShipMode, setEditShipMode, setNotifs} = useContext(StoreContext)
   const {id, name, company, price, value,  isActive, description, countries} = editShipMode&&props.el
   const [shipName, setShipName] = useState('')
   const [shipCompany, setShipCompany] = useState('')
@@ -29,6 +29,7 @@ export default function EditShipping(props) {
   const history= useHistory()
   const hasCountries = countriesArr.length
   const genNewId = db.collection('shipping').doc().id
+  const allowCreate = shipName && shipCompany && shipPrice
 
   const shipObj = {
     id: editShipMode?id:genNewId,
@@ -58,19 +59,53 @@ export default function EditShipping(props) {
   })
 
   function createShipping() {
-    db.collection('shipping').doc(genNewId).set(shipObj)
-    .then(() => {
-      window.alert('The shipping method has been successfully added to your store.')
-      history.push('/admin/store/shipping')
-    })
+    if(allowCreate) {
+      db.collection('shipping').doc(genNewId).set(shipObj)
+      .then(() => {
+        setNotifs(prev => [...prev, {
+          id: Date.now(),
+          title: 'Method Created',
+          icon: 'fal fa-plus',
+          text: `The shipping method has been successfully added to your store.`,
+          time: 5000
+        }])
+        window.alert('')
+        history.push('/admin/store/shipping')
+      })
+    }
+    else {
+      setNotifs(prev => [...prev, {
+        id: Date.now(),
+        title: 'Warning',
+        color: 'var(--orange)',
+        icon: 'fal fa-exclamation',
+        text: `Please fill in all fields denoted with a *`,
+        time: 5000
+      }])
+    }
   }
   function editShipping() {
-    db.collection('shipping').doc(id).update(shipObj).then(res => {
-      window.alert('The shipping method was successfully saved.')
-    }).catch(err => {
-      window.alert('An error occured while saving the shipping method. Please try again.')
-      history.push('/admin/store/shipping')
-    })
+    if(allowCreate) {
+      db.collection('shipping').doc(id).update(shipObj).then(res => {
+        setNotifs(prev => [...prev, {
+          id: Date.now(),
+          title: 'Method Saved',
+          icon: 'fal fa-pen',
+          text: `The shipping method has been saved.`,
+          time: 5000
+        }])
+      })
+    }
+    else {
+      setNotifs(prev => [...prev, {
+        id: Date.now(),
+        title: 'Warning',
+        color: 'var(--orange)',
+        icon: 'fal fa-exclamation',
+        text: `Please fill in all fields denoted with a *`,
+        time: 5000
+      }])
+    }
   }
   function deleteShipping() {
     const confirm = window.confirm('Are you sure you want to delete this shipping method?')
@@ -78,7 +113,13 @@ export default function EditShipping(props) {
       db.collection('shipping').doc(id)
       .delete()
       .then(() => {
-        window.alert('The shipping method was successfully deleted from your store.')
+        setNotifs(prev => [...prev, {
+          id: Date.now(),
+          title: 'Coupon Deleted',
+          icon: 'fal fa-trash-alt',
+          text: `The shipping method was successfully deleted from your store.`,
+          time: 5000
+        }])
         history.push('/admin/store/shipping')
       })
     }
@@ -113,6 +154,7 @@ export default function EditShipping(props) {
       setEditShipMode(true)
     else 
       setEditShipMode(false)
+    return () => setEditShipMode(false)
   },[location]) 
 
   useEffect(() => {
@@ -172,7 +214,7 @@ export default function EditShipping(props) {
             <AdminBtn 
               title={editShipMode?"Save Shipping":"Create Shipping"} 
               solid 
-              className="createbtn"  
+              className={`createbtn ${!allowCreate?"disabled":""}`}  
               clickEvent
               onClick={() => editShipMode?editShipping():createShipping()}
             />

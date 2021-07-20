@@ -6,6 +6,7 @@ import firebase from 'firebase'
 import {db} from '../../common/Fire'
 import PageBanner from './PageBanner'
 import { StoreContext } from '../../common/StoreContext'
+import genRandomNum from '../../common/genRandomNum'
 
 export default function Login(props) {
 
@@ -77,8 +78,8 @@ export default function Login(props) {
           userinfo
         }).then(res => { 
           db.collection('customers').doc(user.uid).set({
-            id:user.uid,name: name??'',email:'',phone:'',city:'',
-            provstate:'',provstateCode:'',country:'',countryCode:''
+            id:user.uid,name: name??'',email:'',phone:'',city:'',provstate:'',provstateCode:'',
+            country:'',countryCode:'', moneySpent: 0, number: genRandomNum()
           }) 
           setAUser(user)
           history.push('/')
@@ -117,8 +118,8 @@ export default function Login(props) {
               userinfo
             }).then(res => {
               db.collection('customers').doc(user.uid).set({
-                id:user.uid,name: name??'',email:'',phone:'',city:'',
-                provstate:'',provstateCode:'',country:'',countryCode:''
+                id:user.uid,name: name??'',email:'',phone:'',city:'', provstate:'',provstateCode:'',
+                country:'',countryCode:'',moneySpent: 0, number: genRandomNum()
               }) 
               setAUser(user)
               console.log(user)

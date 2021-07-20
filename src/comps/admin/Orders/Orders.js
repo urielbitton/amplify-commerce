@@ -84,7 +84,7 @@ export default function Orders() {
   },[])
 
   return (
-    <div className="orderspage">
+    <div className="orderspage longidpage">
       <PageTitle title="Orders"/>
       <div className="pagecont">
         <PageTitlesRow 

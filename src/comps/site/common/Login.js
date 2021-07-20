@@ -6,6 +6,7 @@ import firebase from 'firebase'
 import {db} from '../../common/Fire'
 import PageBanner from './PageBanner'
 import {StoreContext} from '../../common/StoreContext'
+import genRandomNum from '../../common/genRandomNum'
 
 export default function Login(props) {
 
@@ -84,6 +85,10 @@ export default function Login(props) {
             db.collection('users').doc(user.uid).set({
               userinfo
             }).then(res => { 
+              db.collection('customers').doc(user.uid).set({
+                id:user.uid,name: res.additionalUserInfo.profile.name??'',email:'',phone:'',city:'',
+                provstate:'',provstateCode:'',country:'',countryCode:'',moneySpent: 0, number: genRandomNum()
+              }) 
               history.push('/')
             }).catch(err => window.alert('An errror occurred with the google login. Please try again.'))
           }

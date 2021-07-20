@@ -11,7 +11,7 @@ import PageTitle from '../common/PageTitle'
 
 export default function EditProduct(props) {
 
-  const {editProdMode, setEditProdMode} = useContext(StoreContext)
+  const {editProdMode, setEditProdMode, setNotifs} = useContext(StoreContext)
   const {id, name, imgs, price, brand, belongs, categories, collection, descript, sku, sizes,
     composition, shippingReturns, rating, ratingsarr, reviews} = editProdMode&&props.el
   const [tabPos, setTabPos] = useState(0)
@@ -32,7 +32,7 @@ export default function EditProduct(props) {
   const storageRef = firebase.storage().ref('admin/products').child(`product-${generateid}`) 
   const location = useLocation()
   const history = useHistory()
-  const allowAddSave = prodName && prodImg && prodPrice && prodBelongs && prodBrand && prodCategs &&
+  const allowCreate = prodName && prodImg && prodPrice && prodBelongs && prodBrand && prodCategs &&
     prodCollection && prodDescription && prodSku && prodComposition && prodShipReturns
 
   const tabshead = ['General', 'Styles', 'Additional Info', 'Product Reviews']
@@ -64,18 +64,31 @@ export default function EditProduct(props) {
   })
 
   function addProduct() {
-    if(!!allowAddSave) {
+    if(!!allowCreate) {
       productObj.categories = prodCategs.split(',')
       productObj.collection = prodCollection.split(',')
       db.collection('products').doc(generateid).set(
         productObj
       ).then(res => {
-        window.alert('The product was successfully added to your store.')
+        setNotifs(prev => [...prev, {
+          id: Date.now(),
+          title: 'Product Created',
+          icon: 'fal fa-plus',
+          text: `The product was successfully added to your store.`,
+          time: 5000
+        }])
         history.push('/admin/store/products')
       }).catch(err => window.alert('An error occured while adding product. Please try again.'))
     }
     else {
-      window.alert('Please fill in all required fields.')
+      setNotifs(prev => [...prev, {
+        id: Date.now(),
+        title: 'Warning',
+        color: 'var(--orange)',
+        icon: 'fal fa-exclamation',
+        text: `Please fill in all fields denoted with a *`,
+        time: 5000
+      }])
     }
   }
   function cancelAdd() {
@@ -87,23 +100,42 @@ export default function EditProduct(props) {
   function deleteProduct() {
     const confirm = window.confirm('Are you sure you want to delete this product?')
     if(confirm) {
-      db.collection('products').doc(id)
-      .delete()
+      db.collection('products').doc(id).delete()
       .then(() => {
-        window.alert('The product was successfully deleted from your store.')
+        setNotifs(prev => [...prev, {
+          id: Date.now(),
+          title: 'Product Deleted',
+          icon: 'fal fa-trash-alt',
+          text: `The product was successfully deleted from your store.`,
+          time: 5000
+        }])
         history.push('/admin/store/products')
       })
     }
   }
   function saveProduct() {
-    if(!!allowAddSave) {
-      db.collection('products').doc(id).update(productObj).then(res => {
-        window.alert('The product was successfully saved.')
+    if(!!allowCreate) {
+      db.collection('products').doc(id).update(productObj)
+      .then(res => {
+        setNotifs(prev => [...prev, {
+          id: Date.now(),
+          title: 'Product Saved',
+          icon: 'fal fa-pen',
+          text: `The product has been saved.`,
+          time: 5000
+        }])
         history.push('/admin/store/products')
       }).catch(err => window.alert('An error occured while saving product. Please try again.'))
     }
     else {
-      window.alert('Please fill in all required fields.')
+      setNotifs(prev => [...prev, {
+        id: Date.now(),
+        title: 'Warning',
+        color: 'var(--orange)',
+        icon: 'fal fa-exclamation',
+        text: `Please fill in all fields denoted with a *`,
+        time: 5000
+      }])
     }
   }
   function uploadImg(e) {
@@ -134,6 +166,8 @@ export default function EditProduct(props) {
       setEditProdMode(true)
     else 
       setEditProdMode(false)
+
+    return () => setEditProdMode(false)
   },[location])
 
   useEffect(() => {
@@ -150,6 +184,7 @@ export default function EditProduct(props) {
     setProdComposition(editProdMode?composition:'')
     setProdShipReturns(editProdMode?shippingReturns:'')
   },[editProdMode])
+
   useEffect(() => {
     if(imgUrl.length) {
       setProdImg([imgUrl])
@@ -197,7 +232,7 @@ export default function EditProduct(props) {
               <div className="inprow">
                 <AppInput 
                   title="Price"
-                  className="numberinp"
+                  className="currencyinp"
                   onChange={(e) => setProdPrice(e.target.value)}
                   value={prodPrice>=0?prodPrice:0}
                   type="number"
@@ -287,7 +322,7 @@ export default function EditProduct(props) {
           <AdminBtn 
             title={editProdMode?"Save Product":"Add Product"} 
             clickEvent 
-            className="savebtn" 
+            className={`savebtn ${!allowCreate?"disabled":""}`} 
             solid
             onClick={() => editProdMode?saveProduct():addProduct()}
           />

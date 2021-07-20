@@ -84,6 +84,9 @@ a {
   text-decoration: none;
   color: #111;
 }
+a.hoverable:hover {
+  text-decoration: underline;
+}
 p {
   line-height: 1.8;
 }

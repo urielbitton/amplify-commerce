@@ -14,12 +14,13 @@ import PageTitle from '../common/PageTitle'
 import OrderUpdates from './OrderUpdates'
 import CustomerPicker from './CustomerPicker'
 import {convertDate} from '../../common/UtilityFuncs'
+import genRandomNum from '../../common/genRandomNum'
 
 export default function EditOrder(props) { 
 
   const {editOrdMode, setEditOrdMode, allProducts, allShipping, sizesOpts, colorsOpts, currencyFormat, 
     setEditShipMode, billingState, setBillingState, shippingState, setShippingState, taxRate, allCustomers, 
-  allOrders, percentFormat, setNotifs} = useContext(StoreContext)
+  allOrders, percentFormat, setNotifs, setSelectedCountry, setSelectedProvince} = useContext(StoreContext)
   const {orderid, orderNumber, orderDateCreated, products, customer, orderTaxRate, trackingNum, shippingDetails,
      billingDetails, shippingMethod, paymentDetails, updates, trackingReturn, orderSubtotal} = editOrdMode&&props.el
   const [tabPos, setTabPos] = useState(0)
@@ -148,8 +149,8 @@ export default function EditOrder(props) {
     </div>
   })
 
-  function generateId(amount1, amount2) {
-    setOrderNum(`${db.collection('orders').doc().id.slice(0,amount1)}-${db.collection('orders').doc().id.slice(0,amount2)}`)
+  function generateId() {
+    setOrderNum(genRandomNum())
   }
   function addNewProduct() {
     if(allowAddNew) { 
@@ -202,7 +203,7 @@ export default function EditOrder(props) {
         setNotifs(prev => [...prev, {
           id: Date.now(),
           title: 'Order Created',
-          icon: 'fal fa-shopping-bag',
+          icon: 'fal fa-plus',
           text: `The order has been successfully created`,
           time: 5000
         }])
@@ -210,7 +211,14 @@ export default function EditOrder(props) {
       })
     }
     else {
-      window.alert('Please fill in all the required fields (denoted by *)')
+      setNotifs(prev => [...prev, {
+        id: Date.now(),
+        title: 'Warning',
+        color: 'var(--orange)',
+        icon: 'fal fa-exclamation',
+        text: `Please fill in all fields denoted with a *`,
+        time: 5000
+      }])
     }
   }
 
@@ -224,7 +232,7 @@ export default function EditOrder(props) {
         setNotifs(prev => [...prev, {
           id: Date.now(),
           title: 'Order Saved',
-          icon: 'fal fa-shopping-bag',
+          icon: 'fal fa-pen',
           text: `The order has been saved`,
           time: 5000
         }])
@@ -232,7 +240,14 @@ export default function EditOrder(props) {
       })
     }
     else {
-      window.alert('Please fill in all the required fields (denoted by *)')
+      setNotifs(prev => [...prev, {
+        id: Date.now(),
+        title: 'Warning',
+        color: 'var(--orange)',
+        icon: 'fal fa-exclamation',
+        text: `Please fill in all fields denoted with a *`,
+        time: 5000
+      }])
     }
   }
   function deleteOrder() {
@@ -247,8 +262,7 @@ export default function EditOrder(props) {
         setNotifs(prev => [...prev, {
           id: Date.now(),
           title: 'Order Deleted',
-          color: 'var(--red)',
-          icon: 'fal fa-shopping-bag',
+          icon: 'fal fa-trash-alt',
           text: `The order has been deleted from your store`,
           time: 5000
         }])
@@ -258,7 +272,7 @@ export default function EditOrder(props) {
   }
 
   useEffect(() => {
-    setOrderNum(editOrdMode?orderNumber:generateId(3,7))
+    setOrderNum(editOrdMode?orderNumber:generateId())
     setOrdSubTotal(editOrdMode?orderSubtotal:"")
     setOrdTaxRate(editOrdMode?orderTaxRate:taxRate)
     setOrdProducts(editOrdMode?products:[])
@@ -267,6 +281,8 @@ export default function EditOrder(props) {
     setCustEmail(editOrdMode?customer.email:'')
     setCustPhone(editOrdMode?customer.phone:'')
     setCustCity(editOrdMode?customer.city:'')
+    setSelectedCountry(editOrdMode?customer.countryCode:'')
+    setSelectedProvince(editOrdMode?customer.provstateCode:'')
     setTrackingNumber(editOrdMode?trackingNum:"")
     setTrackReturn(editOrdMode?trackingReturn:"") 
     setSameAsShipping(editOrdMode?shippingDetails.address===billingDetails.address:"")
@@ -277,13 +293,14 @@ export default function EditOrder(props) {
     setPayMethod(editOrdMode?paymentDetails.method:'')
     setPayEmail(editOrdMode?paymentDetails.email:'')
   },[editOrdMode])
-
+  console.log(custProvinceCountry)
   useEffect(() => {
     setOrdTaxRate(editOrdMode?orderTaxRate:taxRate)
   },[taxRate])
 
   useEffect(() => {
     !editOrdMode&&generateId(3,7) 
+    return () => setEditOrdMode(false)  
   },[])
 
   useEffect(() => {
@@ -329,7 +346,7 @@ export default function EditOrder(props) {
             <div className={`editsection ${tabPos===0?"show":""}`}>
               <div>
                 <AppInput title="Order Number" className="ordernuminp" placeholder="#123456" onChange={(e) => setOrderNum(e.target.value)} value={orderNum}/>
-                <AdminBtn title="Generate" className="genbtn" solid clickEvent onClick={() => generateId(3,7)}/>
+                <AdminBtn title="Generate" className="genbtn" solid clickEvent onClick={() => generateId()}/>
               </div>
               <AppInput title="Order Date" disabled value={editOrdMode?convertDate(orderDateCreated.seconds?orderDateCreated.toDate():orderDateCreated):convertDate(new Date())}/>            
               <AppInput title="Order Tax Rate" onChange={(e) => setOrdTaxRate(e.target.value)} value={ordTaxRate} type="number" />
@@ -399,7 +416,7 @@ export default function EditOrder(props) {
               <OrderUpdates statusOpts={statusOpts} ordUpdates={ordUpdates} setOrdUpdates={setOrdUpdates} />
             </div>
             <div className="final actionbtns">
-              <AdminBtn title={editOrdMode?"Edit Order":"Create Order"} disabled={!allowCreate} solid clickEvent onClick={() => !editOrdMode?createOrder():editOrder()}/>
+              <AdminBtn title={editOrdMode?"Edit Order":"Create Order"} className={!allowCreate?"disabled":""} solid clickEvent onClick={() => !editOrdMode?createOrder():editOrder()}/>
               {editOrdMode&&<AdminBtn title="Delete Order" solid className="deletebtn" clickEvent onClick={() => deleteOrder()}/>}
               <AdminBtn title="Cancel" url="/admin/orders"/>
             </div>

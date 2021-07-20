@@ -53,7 +53,7 @@ export default function Transactions() {
   },[])
 
   return (
-    <div className="transactionspage">
+    <div className="transactionspage longidpage">
       <PageTitle title="Transactions"/>
       <div className="pagecont">
         <PageTitlesRow 
@@ -70,6 +70,7 @@ export default function Transactions() {
               {allTransactionsRow}
             </div>
             <div className="foot">
+              <h5><span>{allTransactions.length}</span> Transaction{allTransactions.length>1?'s':""}</h5>
               <h5><span>{currencyFormat.format(reduceTotal)}</span> total amount</h5>
             </div>
           </div>
