@@ -9,6 +9,9 @@
   grid-template-columns: repeat(auto-fit,minmax(280px,1fr));
   grid-gap: 20px;
 }
+.dashboardpage .dashboxcont.hide {
+  display: none;
+}
 .dashboardpage .saleschart {
   grid-column: 1/4
 }

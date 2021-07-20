@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React, { useContext, useState } from 'react'
 import Dashbox from './Dashbox'
 import DashCont from './DashCont'
 import './styles/Dashboard.css'
@@ -13,7 +13,8 @@ import PageTitle from '../common/PageTitle'
 export default function Dashboard() { 
 
   const {allOrders, allProducts, currencyFormat, allStats, highSellersLimit, setHighSellersLimit, 
-    recentSellersLimit, setRecentSellersLimit, recentOrdersLimit, setRecentOrdersLimit
+    recentSellersLimit, setRecentSellersLimit, recentOrdersLimit, setRecentOrdersLimit, allCoupons,
+    allShipping, allCustomers
   } = useContext(StoreContext)
   const {productsSold, totalSales} = allStats
   const salescategories = ['January','February','March','April','May','June','July','August','September','October','November','December']
@@ -123,6 +124,7 @@ export default function Dashboard() {
       <div className="dashboxcont">
         {dashboxrow}
       </div>
+      
       <div className="salesgrid">
         <DashCont className="saleschart" title="Sales Summary">
         <div className="chartcont">

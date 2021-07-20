@@ -18,6 +18,7 @@ import NotifsCont from '../../common/NotifsCont'
 import Analytics from '../Store/Analytics'
 import Customers from '../Customers/Customers'
 import EditCustomer from '../Customers/EditCustomer'
+import Reviews from '../Customers/Reviews'
 
 export default function AdminHomecont() {
  
@@ -99,6 +100,9 @@ export default function AdminHomecont() {
             <EditCustomer />
           </Route>
           {editcustomerpages}
+          <Route exact path="/admin/customers/reviews">
+            <Reviews />
+          </Route>
         </Switch> 
       </div>
     </div> 
