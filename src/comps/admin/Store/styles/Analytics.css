@@ -1,0 +1,10 @@
+.analyticspage .pagetitle {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  grid-column: 1/-1;
+}
+.analyticspage .pagetitle > h4 {
+  color: var(--graytxt);
+}

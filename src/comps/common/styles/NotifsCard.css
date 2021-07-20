@@ -5,8 +5,8 @@
   justify-content: space-between;
   align-items: center;
   transition: all 0.3s;
-  width: 500px;
-  height: 85px;
+  width: 520px;
+  min-height: 85px;
   border-radius: 10px;
   background: #fff;
   padding: 20px;
@@ -24,8 +24,9 @@
   align-items: center;
 }
 .notifscont .notifsdiv .infocont h5 {
-  font-size: 14px;
+  font-size: 15px;
   margin-bottom: 5px;
+  color: var(--graytxt)
 }
 .notifscont .notifsdiv .infocont p {
   font-size: 12px;
@@ -35,8 +36,8 @@
 .notifscont .notifsdiv .iconcont {
   margin-right: 20px;
   border-radius: 10px;
-  width: 40px;
-  height: 40px;
+  min-width: 40px;
+  min-height: 40px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -55,4 +56,11 @@
 }
 .notifscont i.fa-times:hover {
   opacity: 1;
+}
+.notifscont .adminbtn {
+  padding: 3px 5px;
+  height: 30px;
+}
+.notifscont .adminbtn span {
+  font-size: 12px;
 }

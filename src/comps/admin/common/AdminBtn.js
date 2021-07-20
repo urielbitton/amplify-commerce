@@ -1,5 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
+import './styles/AdminBtn.css'
 
 export default function AdminBtn(props) {
 
@@ -12,7 +13,7 @@ export default function AdminBtn(props) {
       className={hideBtn?"hide":""}
     >
       <div className={`adminbtn ${className} ${disabled?"disabled":""} ${solid?"solid":""}`}> 
-        <i className={icon}></i>
+        {icon&&<i className={`icon ${icon}`}></i>}
         <span>{title}</span>
       </div>
     </Link>

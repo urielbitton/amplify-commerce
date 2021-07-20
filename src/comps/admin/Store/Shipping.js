@@ -8,7 +8,7 @@ import PageTitlesRow from '../common/PageTitlesRow'
 
 export default function Shipping() {
 
-  const {setEditShipMode, allShipping, currencyFormat} = useContext(StoreContext)
+  const {setEditShipMode, allShipping, currencyFormat, setNotifs} = useContext(StoreContext)
   const [sort, setSort] = useState(0)
   const [asc, setAsc] = useState(true)
   const [showOpts, setShowOpts] = useState(0)
@@ -61,7 +61,15 @@ export default function Shipping() {
     const confirm = window.confirm('Are you sure you want to remove this shipping method?')
     if(confirm) {
       db.collection('shipping').doc(shipid).delete()
-      .then(() => window.confirm('The shipping method was successfully deleted from your store.'))
+      .then(() => {
+        setNotifs(prev => [...prev, {
+          id: Date.now(),
+          title: 'Method Deleted',
+          icon: 'fal fa-trash-alt',
+          text: `The shipping method has been deleted.`,
+          time: 5000
+        }])
+      })
     }
   }
   function infoShipping() {

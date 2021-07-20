@@ -39,12 +39,13 @@ export default function Dashboard() {
   const thisMonthProfit = totalSales[thisMonth-1].value + (totalSales[thisMonth-1].value * 0.15)
   const lastMonthProfit = totalSales[lastMonth-1].value + (totalSales[lastMonth-1].value * 0.15)
   const tableFilterOpts = [{name: '3',value: 3},{name: '5',value: 5},{name: '10',value: 10},{name: '15',value: 15},{name: '20',value: 20}]
-
+  const activeOrders = allOrders.reduce((a,b) => a + b.updates[b.updates.length-1].status!=='Delivered'?0:1, 0)
+ 
   const dashboxarr = [
-    {title: 'Products Sold', icon: 'far fa-box-open', total: totalProductsSold, thismonth: thisMonthProdSold, lastmonth: lastMonthProdSold, format: 'number'},
-    {title: 'Total Sales', icon: 'far fa-chart-line', total: allTotalSales, thismonth: thisMonthSales, lastmonth: lastMonthSales, format: 'currency'},
-    {title: 'Net Profit', icon: 'far fa-dollar-sign', total: allTotalProfits, thismonth: thisMonthProfit, lastmonth: lastMonthProfit, format: 'currency'},
-    {title: 'Total Orders', icon: 'far fa-print', total: allOrders.length, thismonth: 0, lastmonth: 0, format: 'number'},
+    {title: 'Products Sold', icon: 'far fa-box-open', total: totalProductsSold, thismonth: thisMonthProdSold, lastmonth: lastMonthProdSold, format: 'number', compare: true},
+    {title: 'Total Sales', icon: 'far fa-chart-line', total: allTotalSales, thismonth: thisMonthSales, lastmonth: lastMonthSales, format: 'currency', compare: true},
+    {title: 'Net Profit', icon: 'far fa-dollar-sign', total: allTotalProfits, thismonth: thisMonthProfit, lastmonth: lastMonthProfit, format: 'currency', compare: true},
+    {title: 'Active Orders', icon: 'far fa-print', total: activeOrders, thismonth: 0, lastmonth: 0, format: 'number', compare: true},
   ]
 
   const dashboxrow = dashboxarr?.map(el => {

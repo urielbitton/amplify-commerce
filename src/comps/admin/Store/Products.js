@@ -8,7 +8,7 @@ import PageTitlesRow from '../common/PageTitlesRow'
 
 export default function Products() {
    
-  const {allProducts, currencyFormat, setEditProdMode} = useContext(StoreContext)
+  const {allProducts, currencyFormat, setEditProdMode, setNotifs} = useContext(StoreContext)
   const [sort, setSort] = useState(0)
   const [asc, setAsc] = useState(true)
   const [showOpts, setShowOpts] = useState(0)
@@ -92,7 +92,15 @@ export default function Products() {
     const confirm = window.confirm('Are you sure you want to remove this product? This will remove the product from customers cart and wishlists.')
     if(confirm) {
       db.collection('products').doc(id).delete()
-      .then(() => window.alert('The product was successfully deleted from your store.'))
+      .then(() => {
+        setNotifs(prev => [...prev, {
+          id: Date.now(),
+          title: 'Product Deleted',
+          icon: 'fal fa-trash-alt',
+          text: `The product has been deleted from your store.`,
+          time: 5000
+        }])
+      })
     }
   }
   function infoProduct() {

@@ -1,0 +1,53 @@
+.adminbtn {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border: 1px solid #eee;
+  border-radius: 10px;
+  padding: 7px 10px;
+  height: 40px;
+  transition: all 0.2s;
+  cursor: pointer;
+}
+.adminbtn:hover {
+  background: var(--admincolor);
+}
+.adminbtn:hover span, .adminbtn:hover h6, .adminbtn:hover i {
+  color: #fff;
+}
+.adminbtn .icon {
+  margin-right: 10px;
+}
+.adminbtn span, .adminbtn h6 {
+  color: var(--graytxt);
+  font-size: 14px;
+}
+.adminbtn i {
+  color: var(--graytxt);
+}
+.adminbtn.solid {
+  background: var(--admincolor);
+}
+.adminbtn.solid:hover {
+  filter: brightness(115%);
+}
+.adminbtn.solid span, .adminbtn.solid i {
+  color: #fff;
+}
+.adminbtn.disabled {
+  pointer-events: none;
+  opacity: 0.5;
+}
+.adminbtn.iconbtn {
+  justify-content: center;
+  padding: 0;
+  width: 30px;
+  height: 30px;
+  border-radius: 7px;
+}
+.adminbtn.solid.deletebtn {
+  background: var(--red);
+}
+.adminbtn.iconbtn.delete:hover {
+  background: var(--red);
+}

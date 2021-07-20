@@ -1,11 +1,12 @@
 import React, { useContext, useEffect, useState } from 'react'
 import './styles/NotifsCard.css'
 import { StoreContext } from './StoreContext'
+import AdminBtn from '../admin/common/AdminBtn'
 
 export default function NotifsCard(props) {
 
   const {notifs, setNotifs} = useContext(StoreContext)
-  const {id, title, icon, color="var(--admincolor)", text, time=999999} = props.el
+  const {id, title, icon, color="var(--admincolor)", text, time=999999, action, event, eventTitle} = props.el
   const [show, setShow] = useState(false)
 
   function removeNotif() {
@@ -39,6 +40,7 @@ export default function NotifsCard(props) {
           <p>{text}</p>
         </div>
       </div>
+      {action&&<AdminBtn title={eventTitle} solid clickEvent onClick={() => event()}/>}
       <i className="fal fa-times" onClick={() => removeNotif()}></i>
     </div>
   )

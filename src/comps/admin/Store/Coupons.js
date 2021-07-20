@@ -8,7 +8,7 @@ import PageTitlesRow from '../common/PageTitlesRow'
 
 export default function Coupons() {
 
-  const {setEditCoupMode, allCoupons, currencyFormat, percentFormat} = useContext(StoreContext)
+  const {setEditCoupMode, allCoupons, currencyFormat, percentFormat, setNotifs} = useContext(StoreContext)
   const [sort, setSort] = useState(0)
   const [asc, setAsc] = useState(true)
   const [showOpts, setShowOpts] = useState(false)
@@ -58,7 +58,15 @@ export default function Coupons() {
     const confirm = window.confirm('Are you sure you want to remove this coupon?')
     if(confirm) {
       db.collection('coupons').doc(couponid).delete()
-      .then(() => window.confirm('The coupon was successfully deleted from your store.'))
+      .then(() => {
+        setNotifs(prev => [...prev, {
+          id: Date.now(),
+          title: 'Coupon Deleted',
+          icon: 'fal fa-trash-alt',
+          text: `The coupon has been deleted.`,
+          time: 5000
+        }])
+      })
     }
   }
   function infoCoupon() {

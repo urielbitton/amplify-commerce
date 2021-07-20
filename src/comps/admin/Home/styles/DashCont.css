@@ -71,6 +71,9 @@
   font-size: 13px;
   margin-top: 10px;
 }
+.dashbox h6.hide {
+  display: none;
+}
 .dashbox h6.down {
   color: var(--red)
 }
