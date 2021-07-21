@@ -2,13 +2,14 @@
 Created React + <3
 
 Features to add: 
-- guest add to cart and checkout features
-- add newarrivals, about + contact pages
+- creating orders thru clients + admin should decrease stock count of purchased products
+- implement trash cans for products, orders, coupons, etc...
+- Change all inputs ProvinceCountries to RegionCountry (enhanced) component
 - let admin create users!
 - add chat app inside customer support page (link to client support in site)
 - make dashboard stats dynamic
-- creating orders thru clients + admin should decrease stock count of purchased products
-- implement trash cans for products, orders, coupons, etc...
+- guest add to cart and checkout features
+- add newarrivals, about + contact pages
 
 Bugs tracking:
 - multiple notifs will stay as long as last notifs

@@ -6,7 +6,8 @@ import AdminBtn from '../admin/common/AdminBtn'
 export default function NotifsCard(props) {
 
   const {notifs, setNotifs} = useContext(StoreContext)
-  const {id, title, icon, color="var(--admincolor)", text, time=999999, action, event, eventTitle} = props.el
+  const {id, title, icon, color="var(--admincolor)", text, time=999999, action, event, eventTitle, 
+    noClose=false} = props.el
   const [show, setShow] = useState(false)
 
   function removeNotif() {
@@ -41,7 +42,7 @@ export default function NotifsCard(props) {
         </div>
       </div>
       {action&&<AdminBtn title={eventTitle} solid clickEvent onClick={() => event()}/>}
-      <i className="fal fa-times" onClick={() => removeNotif()}></i>
+      {!noClose&&<i className="fal fa-times" onClick={() => removeNotif()}></i>}
     </div>
   )
 }

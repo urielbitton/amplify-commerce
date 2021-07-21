@@ -15,6 +15,9 @@
 .adminbtn:hover span, .adminbtn:hover h6, .adminbtn:hover i {
   color: #fff;
 }
+.adminbtncont.hide {
+  display: none;
+}
 .adminbtn .icon {
   margin-right: 10px;
 }

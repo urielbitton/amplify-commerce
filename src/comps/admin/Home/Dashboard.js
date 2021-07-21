@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext } from 'react'
 import Dashbox from './Dashbox'
 import DashCont from './DashCont'
 import './styles/Dashboard.css'
@@ -14,7 +14,7 @@ export default function Dashboard() {
 
   const {allOrders, allProducts, currencyFormat, allStats, highSellersLimit, setHighSellersLimit, 
     recentSellersLimit, setRecentSellersLimit, recentOrdersLimit, setRecentOrdersLimit, allCoupons,
-    allShipping, allCustomers
+    allShipping, allCustomers, adminTaxRate
   } = useContext(StoreContext)
   const {productsSold, totalSales} = allStats
   const salescategories = ['January','February','March','April','May','June','July','August','September','October','November','December']
@@ -29,7 +29,7 @@ export default function Dashboard() {
   const recentproducts = allProducts?.filter(x => getDaysAgo(filterQtySold(x,0)?.colors.find(x => x.qtySold > 0).dateSoldLast.toDate()) <= 30)
   const totalProductsSold = productsSold?.reduce((a,b) => a + b.value,0)
   const allTotalSales = totalSales?.reduce((a,b) => a + b.value,0)
-  const allTotalProfits = allTotalSales - (allTotalSales * 0.15)
+  const allTotalProfits = allTotalSales - (allTotalSales * adminTaxRate)
   const thisMonth = new Date().getUTCMonth() + 1
   const lastMonth = ((thisMonth - 2) % 12 + 1)
   const thisMonthProdSold = productsSold&&productsSold[thisMonth-1]?.value
@@ -39,9 +39,9 @@ export default function Dashboard() {
   const thisMonthProfit = totalSales[thisMonth-1].value + (totalSales[thisMonth-1].value * 0.15)
   const lastMonthProfit = totalSales[lastMonth-1].value + (totalSales[lastMonth-1].value * 0.15)
   const tableFilterOpts = [{name: '3',value: 3},{name: '5',value: 5},{name: '10',value: 10},{name: '15',value: 15},{name: '20',value: 20}]
-  const activeOrders = allOrders.reduce((a,b) => a + b.updates[b.updates.length-1].status!=='Delivered'?0:1, 0)
+  const activeOrders = allOrders.reduce((a,b) => a + (b.updates[b.updates.length-1].status!=='Delivered')?1:0, 0)
  
-  const dashboxarr = [
+  const dashboxarr = [ 
     {title: 'Products Sold', icon: 'far fa-box-open', total: totalProductsSold, thismonth: thisMonthProdSold, lastmonth: lastMonthProdSold, format: 'number', compare: true},
     {title: 'Total Sales', icon: 'far fa-chart-line', total: allTotalSales, thismonth: thisMonthSales, lastmonth: lastMonthSales, format: 'currency', compare: true},
     {title: 'Net Profit', icon: 'far fa-dollar-sign', total: allTotalProfits, thismonth: thisMonthProfit, lastmonth: lastMonthProfit, format: 'currency', compare: true},

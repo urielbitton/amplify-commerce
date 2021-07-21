@@ -7,7 +7,6 @@ import firebase from 'firebase'
 import {db} from '../../common/Fire'
 import refProd from '../../common/referProduct'
 import {sizeConverter, colorConverter, getCustomerById} from '../../common/UtilityFuncs'
-import ProvinceCountry from '../../common/ProvinceCountry'
 import BillingShippingFields from './BillingShippingFields'
 import { Link, useHistory, useLocation } from 'react-router-dom'
 import PageTitle from '../common/PageTitle'
@@ -15,12 +14,13 @@ import OrderUpdates from './OrderUpdates'
 import CustomerPicker from './CustomerPicker'
 import {convertDate} from '../../common/UtilityFuncs'
 import genRandomNum from '../../common/genRandomNum'
-
+import RegionCountry from '../../common/RegionCountry'
+ 
 export default function EditOrder(props) { 
 
   const {editOrdMode, setEditOrdMode, allProducts, allShipping, sizesOpts, colorsOpts, currencyFormat, 
     setEditShipMode, billingState, setBillingState, shippingState, setShippingState, taxRate, allCustomers, 
-  allOrders, percentFormat, setNotifs, setSelectedCountry, setSelectedProvince} = useContext(StoreContext)
+  allOrders, percentFormat, setNotifs} = useContext(StoreContext)
   const {orderid, orderNumber, orderDateCreated, products, customer, orderTaxRate, trackingNum, shippingDetails,
      billingDetails, shippingMethod, paymentDetails, updates, trackingReturn, orderSubtotal} = editOrdMode&&props.el
   const [tabPos, setTabPos] = useState(0)
@@ -41,11 +41,16 @@ export default function EditOrder(props) {
   const [custEmail, setCustEmail] = useState('')
   const [custPhone, setCustPhone] = useState('')
   const [custCity, setCustCity] = useState('')
-  const [custProvinceCountry, setCustProvinceCountry] = useState({})
+  const [custRegion, setCustRegion] = useState('')
+  const [custCountry, setCustCountry] = useState('')
   const [trackingNumber, setTrackingNumber] = useState('')
   const [trackReturn, setTrackReturn] = useState('')
   const [sameAsShipping, setSameAsShipping] = useState(false)
   const [selectedShip, setSelectedShip] = useState(-1)
+  const [billRegion, setBillRegion] = useState('')
+  const [billCountry, setBillCountry] = useState('')
+  const [shipRegion, setShipRegion] = useState('')
+  const [shipCountry, setShipCountry] = useState('')
   const [ordUpdates, setOrdUpdates] = useState([])
   const [paypalOn, setPaypalOn] = useState(false)
   const [payCardNum, setPayCardNum] = useState('')
@@ -53,6 +58,9 @@ export default function EditOrder(props) {
   const [payEmail, setPayEmail] = useState('')
   const [showCustomerPicker, setShowCustomerPicker] = useState(false)
   const [selectCustIndex, setSelectCustIndex] = useState(-1)
+  const [custProvinceChoices, setCustProvinceChoices] = useState([])
+  const [billProvinceChoices, setBillProvinceChoices] = useState([])
+  const [shipProvinceChoices, setShipProvinceChoices] = useState([])
   const allowCreate = orderNum && ordProducts.length && payEmail && (customerId.length > 0 || (custName.length > 0 && custEmail.length > 0))
   const history = useHistory()
   const location = useLocation()
@@ -65,14 +73,14 @@ export default function EditOrder(props) {
   const payMethodOpts = [
     {name:'PayPal'},{name:'Visa'},{name:'Master Card'},{name:'Debit'},{name:'American Express'}
   ]
-
+  
   const entireOrder = { 
     orderid: editOrdMode?orderid:genNewOrderId,
     orderNumber: orderNum,
     orderDateCreated: new Date(),
     orderSubtotal: ordSubTotal,
     orderTotal: (ordSubTotal + (ordSubTotal*ordTaxRate)),
-    orderTaxRate,
+    orderTaxRate: ordTaxRate,
     trackingNum: trackingNumber,
     trackingReturn: editOrdMode?trackingReturn:'',
     products: ordProducts,
@@ -84,8 +92,8 @@ export default function EditOrder(props) {
       phone: custPhone??getCustomerById(allCustomers, customerId)?.phone??"",
       profimg: 'https://i.imgur.com/1OKoctC.jpg',
       city: custCity??getCustomerById(allCustomers, customerId).city??getCustomerById(allCustomers, customerId)?.city??"",
-      provstate: custProvinceCountry.provstate??getCustomerById(allCustomers, customerId)?.provstate??"",
-      country: custProvinceCountry.country??getCustomerById(allCustomers, customerId)?.country??"",
+      provState: custRegion??getCustomerById(allCustomers, customerId)?.provState??"",
+      country: custCountry??getCustomerById(allCustomers, customerId)?.country??"",
     },
     shippingDetails: shippingState,
     billingDetails: sameAsShipping ? shippingState : billingState,
@@ -196,6 +204,7 @@ export default function EditOrder(props) {
     setEditStyleMode(false)
   }
   function createOrder() {
+    console.log(entireOrder)
     if(allowCreate) { 
       db.collection('orders').doc(customerId).set({
         allorders: firebase.firestore.FieldValue.arrayUnion(entireOrder)
@@ -279,10 +288,10 @@ export default function EditOrder(props) {
     setCustomerId(editOrdMode?customer.id:"")
     setCustName(editOrdMode?customer.name:'')
     setCustEmail(editOrdMode?customer.email:'')
-    setCustPhone(editOrdMode?customer.phone:'')
+    setCustPhone(editOrdMode?customer.phone:'') 
     setCustCity(editOrdMode?customer.city:'')
-    setSelectedCountry(editOrdMode?customer.countryCode:'')
-    setSelectedProvince(editOrdMode?customer.provstateCode:'')
+    setCustRegion(editOrdMode?customer.provState:"")
+    setCustCountry(editOrdMode?customer.country:"")
     setTrackingNumber(editOrdMode?trackingNum:"")
     setTrackReturn(editOrdMode?trackingReturn:"") 
     setSameAsShipping(editOrdMode?shippingDetails.address===billingDetails.address:"")
@@ -293,7 +302,7 @@ export default function EditOrder(props) {
     setPayMethod(editOrdMode?paymentDetails.method:'')
     setPayEmail(editOrdMode?paymentDetails.email:'')
   },[editOrdMode])
-  console.log(custProvinceCountry)
+
   useEffect(() => {
     setOrdTaxRate(editOrdMode?orderTaxRate:taxRate)
   },[taxRate])
@@ -383,11 +392,27 @@ export default function EditOrder(props) {
               <AppInput title="Email" onChange={(e) => setCustEmail(e.target.value)} value={custEmail}/>
               <AppInput title="Phone" onChange={(e) => setCustPhone(e.target.value)} value={custPhone}/>
               <AppInput title="City" onChange={(e) => setCustCity(e.target.value)} value={custCity}/>
-              <ProvinceCountry setState={setCustProvinceCountry} />
+              <RegionCountry 
+                setCountry={setCustCountry} 
+                setRegion={setCustRegion} 
+                country={custCountry} 
+                region={custRegion} 
+                provinceChoices={custProvinceChoices} 
+                setProvinceChoices={setCustProvinceChoices} 
+              />
             </div>
             <div className={`editsection ${tabPos===3?"show":""}`}>
               <h4>Shipping Address</h4>
-              <BillingShippingFields setBillShipState={setShippingState} formDetails={shippingDetails} />
+              <BillingShippingFields 
+                setBillShipState={setShippingState} 
+                region={shipRegion} 
+                setRegion={setShipRegion} 
+                country={shipCountry}
+                setCountry={setShipCountry}
+                provinceChoices={billProvinceChoices} 
+                setProvinceChoices={setBillProvinceChoices}
+                formDetails={shippingDetails} 
+              />
               <h4>Shipping Methods</h4>
               <div className="shippingmethods">
                 {shippingMethodOpts}
@@ -401,7 +426,16 @@ export default function EditOrder(props) {
               <h4>Billing Details</h4>
               <AppSwitch title="Same As Shipping Details?" className="inprow show" onChange={(e) => setSameAsShipping(e.target.checked)} checked={sameAsShipping}/>
               { !sameAsShipping?
-                <BillingShippingFields setBillShipState={setBillingState} formDetails={billingDetails}/>:
+                <BillingShippingFields 
+                  setBillShipState={setBillingState} 
+                  region={billRegion} 
+                  setRegion={setBillRegion} 
+                  country={billCountry}
+                  setCountry={setBillCountry} 
+                  provinceChoices={shipProvinceChoices} 
+                  setProvinceChoices={setShipProvinceChoices}
+                  formDetails={billingDetails}
+                />:
                 <h5 className="note">Billing Details: Same as shipping details</h5>
               }
               <h4>Payment Information</h4>
@@ -447,7 +481,8 @@ export default function EditOrder(props) {
         setCustEmail={setCustEmail}
         setCustPhone={setCustPhone}
         setCustCity={setCustCity}
-        setCustProvinceCountry={setCustProvinceCountry}
+        setCustRegion={setCustRegion}
+        setCustCountry={setCustCountry}
       />
     </div>
   )

@@ -7,7 +7,7 @@ export default function CustomerPicker(props) {
 
   const {allCustomers, setSelectedProvince, setSelectedCountry} = useContext(StoreContext)
   const {showCustomerPicker, setShowCustomerPicker, selectCustIndex, setSelectCustIndex,
-    setCustomerId, setCustName, setCustEmail, setCustPhone, setCustCity, setCustProvinceCountry} = props
+    setCustomerId, setCustName, setCustEmail, setCustPhone, setCustCity, setCustRegion, setCustCountry} = props
   const [customerInfo, setCustomerInfo] = useState({})
   const [keyword, setKeyword] = useState('')
   const clean = text => text.replace(/[^a-zA-Z0-9 ]/g, "")
@@ -46,10 +46,8 @@ export default function CustomerPicker(props) {
     setCustEmail(customerInfo.email)
     setCustPhone(customerInfo.phone)
     setCustCity(customerInfo.city)
-    setCustProvinceCountry({
-      country: customerInfo.country,
-      provstate: customerInfo.provstate
-    })
+    setCustRegion(customerInfo.provState)
+    setCustCountry(customerInfo.country)
     setSelectedCountry(customerInfo.countryCode)
     setSelectedProvince(customerInfo.provstateCode)
     setShowCustomerPicker(false)

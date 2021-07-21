@@ -7,7 +7,7 @@ import PageTitle from '../common/PageTitle'
 import PageTitlesRow from '../common/PageTitlesRow'
 
 export default function Products() {
-   
+
   const {allProducts, currencyFormat, setEditProdMode, setNotifs} = useContext(StoreContext)
   const [sort, setSort] = useState(0)
   const [asc, setAsc] = useState(true)

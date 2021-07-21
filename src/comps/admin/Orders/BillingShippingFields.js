@@ -1,12 +1,13 @@
-import React, { useContext } from 'react'
+import React, { useContext, useEffect } from 'react'
 import { AppInput } from '../../common/AppInputs'
-import ProvinceCountry from '../../common/ProvinceCountry'
+import RegionCountry from '../../common/RegionCountry'
 import { StoreContext } from '../../common/StoreContext'
 
 export default function BillingShippingFields(props) {
 
   const {editOrdMode} = useContext(StoreContext)
-  const {setBillShipState, formDetails} = props
+  const {setBillShipState, formDetails, region, setRegion, country, setCountry,
+    provinceChoices, setProvinceChoices} = props
 
   const billingarr = [
     { title: "First Name *", name: "fname", editVal: formDetails?.fname},
@@ -35,14 +36,34 @@ export default function BillingShippingFields(props) {
     const { name, value } = event.target;
     setBillShipState((prev) => ({
       ...prev,
-      [name]: value
+      [name]: value,
     }));
   } 
+
+  useEffect(() => {
+    setBillShipState(prev => ({
+      ...prev,
+      country: country
+    }))
+  },[country])
+  useEffect(() => {
+    setBillShipState(prev => ({
+      ...prev,
+      provState: region
+    }))
+  },[region])
 
   return (
     <>
       {billingInputs.slice(0, 6)}
-      <ProvinceCountry setState={setBillShipState} />
+      <RegionCountry 
+        country={country} 
+        region={region} 
+        setCountry={setCountry} 
+        setRegion={setRegion} 
+        provinceChoices={provinceChoices} 
+        setProvinceChoices={setProvinceChoices} 
+      />
       {billingInputs.slice(6)}
     </>
   )

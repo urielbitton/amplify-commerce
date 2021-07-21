@@ -1,31 +1,31 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { AppInput } from '../../common/AppInputs'
 import { db } from '../../common/Fire'
-import ProvinceCountry from '../../common/ProvinceCountry'
 import { StoreContext } from '../../common/StoreContext'
 import AdminBtn from '../common/AdminBtn'
 import './styles/EditCustomer.css'
 import genRandomNum from '../../common/genRandomNum'
 import { useHistory, useLocation } from 'react-router-dom'
+import RegionCountry from '../../common/RegionCountry'
+import { convertCountryCode, convertProvinceCode } from '../../common/UtilityFuncs'
 
 export default function EditCustomer(props) {
 
-  const {editCustMode, setNotifs, setEditCustMode, setSelectedCountry, setSelectedProvince,
-  selectedCountry, selectedProvince} = useContext(StoreContext)
-  const {id, number, name, email, phone, address, city, provState, country, moneySpent, countryCode,
-    provStateCode} = editCustMode&&props.el
+  const {editCustMode, setNotifs, setEditCustMode, selectedCountry, selectedProvince} = useContext(StoreContext)
+  const {id, number, name, email, phone, address, city, provState, country, moneySpent} = editCustMode&&props.el
   const [custNum, setCustNum] = useState('')
   const [custName, setCustName] = useState('') 
   const [custEmail, setCustEmail] = useState('')
   const [custPhone, setCustPhone] = useState('')
   const [custAddress, setCustAddress] = useState('')
   const [custCity, setCustCity] = useState('')
-  const [provinceCountry, setProvinceCountry] = useState({country:'',province:''})
-  const allowCreate = !!custNum && !!custName && !!custEmail && !!custPhone && !!custAddress
+  const [custRegion, setCustRegion] = useState('')
+  const [custCountry, setCustCountry] = useState('')
+  const [provinceChoices, setProvinceChoices] = useState([])
+  const allowCreate = custNum && custName && custEmail && custPhone && custAddress && custCity && custRegion && custCountry
   const genNewCustId = db.collection('customers').doc().id
   const history = useHistory()
   const location = useLocation()
-  console.log(provinceCountry)   
 
   const customerObj = {
     id: editCustMode?id:genNewCustId,
@@ -35,10 +35,10 @@ export default function EditCustomer(props) {
     phone: custPhone,
     address: custAddress,
     city: custCity,
-    provState: provinceCountry.province,
-    country: provinceCountry.country,
-    provStateCode: selectedProvince,
-    countryCode: selectedCountry,
+    provState: custRegion,
+    country: custCountry,
+    provStateCode: convertProvinceCode(provinceChoices, custRegion)??'',
+    countryCode: convertCountryCode(custCountry)??'',
     moneySpent: 0,
   }
 
@@ -46,7 +46,7 @@ export default function EditCustomer(props) {
     setCustNum(genRandomNum()) 
   }
   function createCustomer() {
-    if(allowCreate) { 
+    if(!!allowCreate) { 
       db.collection('customers').doc(genNewCustId).set(customerObj).then(() => {
         setNotifs(prev => [...prev, {
           id: Date.now(),
@@ -70,7 +70,7 @@ export default function EditCustomer(props) {
     }
   }
   function editCustomer() {
-    if(allowCreate) {
+    if(!!allowCreate) {
       db.collection('customers').doc(id).update(customerObj)
       .then(() => {
         setNotifs(prev => [...prev, {
@@ -125,15 +125,15 @@ export default function EditCustomer(props) {
     setCustPhone(editCustMode?phone:'')
     setCustAddress(editCustMode?address:'')
     setCustCity(editCustMode?city:'')
-    setSelectedCountry(editCustMode?countryCode:'')
-    setSelectedProvince(editCustMode?provStateCode:'')
-    setProvinceCountry(editCustMode?{province:provState,country} : {province:'',country:''})
+    setCustRegion(editCustMode?provState:"")
+    setCustCountry(editCustMode?country:"")
   },[editCustMode])
 
   useEffect(() => {
     setCustNum(genRandomNum())
     return () => setEditCustMode(false)  
   },[])
+  console.log(custCountry, custRegion)
 
   return (
     <div className="editcustomerpage">
@@ -149,11 +149,18 @@ export default function EditCustomer(props) {
           <AppInput title="Phone" onChange={(e) => setCustPhone(e.target.value)} value={custPhone}/>
           <AppInput title="Address" onChange={(e) => setCustAddress(e.target.value)} value={custAddress}/>
           <AppInput title="City" onChange={(e) => setCustCity(e.target.value)} value={custCity}/>
-          <ProvinceCountry setState={setProvinceCountry} />
+          <RegionCountry 
+            country={custCountry}
+            setCountry={setCustCountry}
+            region={custRegion}
+            setRegion={setCustRegion}
+            provinceChoices={provinceChoices} 
+            setProvinceChoices={setProvinceChoices}
+          />
           <AppInput className="inprow show currencyinp" title="Money Spent" disabled type="number" value={moneySpent} />
 
           <div className="final actionbtns">
-            <AdminBtn title={editCustMode?"Edit Customer":"Create Customer"} className={!allowCreate?"disabled":""} solid clickEvent onClick={() => !editCustMode?createCustomer():editCustomer()}/>
+            <AdminBtn title={editCustMode?"Edit Customer":"Create Customer"} className={!!!allowCreate?"disabled":""} solid clickEvent onClick={() => !editCustMode?createCustomer():editCustomer()}/>
             {editCustMode&&<AdminBtn title="Delete Customer" solid className="deletebtn" clickEvent onClick={() => deleteCustomer()}/>}
             <AdminBtn title="Cancel" url="/admin/customers/"/>
           </div>

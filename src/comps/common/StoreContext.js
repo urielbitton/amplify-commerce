@@ -5,6 +5,7 @@ import refProd from './referProduct'
 import axios from 'axios'
 import csc from 'country-state-city'
 import SalesTax from 'sales-tax'
+import { convertProvinceCode } from './UtilityFuncs'
 
 export const StoreContext = createContext()
 
@@ -55,6 +56,7 @@ const StoreContextProvider = (props) => {
   const [allCoupons, setAllCoupons] = useState([])
   const [allShipping, setAllShipping] = useState([])
   const [showAnaTips, setShowAnaTips] = useState(true)
+  const [adminTaxRate, setAdminTaxRate] = useState(0) 
 
   const [quickProduct, setQuickProduct] = useState({
     id: '', 
@@ -141,7 +143,10 @@ const StoreContextProvider = (props) => {
       const transArr = []
       snap.forEach(el => { transArr.push(el.data().alltransactions) }) 
       setAllTransactions(transArr.flat())
-    })  
+    }) 
+    db.collection('admin').doc('storeSettings').onSnapshot(snap => {
+      setAdminTaxRate(snap.data()?.storesettings.adminTaxRate)
+    })
   },[user, auser])  
 
   useEffect(() => {
@@ -156,14 +161,7 @@ const StoreContextProvider = (props) => {
         setMyOrders([]) 
       })
     }
-    else {
-      //setCart(JSON.parse(localStorage.getItem('cart')))
-    }
   },[user]) 
-
-  useEffect(() => {
-    //!user&&localStorage.setItem('cart', JSON.stringify(cart))
-  },[cart])
 
   useEffect(() => {
     if(locateUser) {
@@ -175,16 +173,19 @@ const StoreContextProvider = (props) => {
       })  
     }
   },[locateUser])
-
-  useEffect(() => { 
-    setProvinceChoices(csc.getStatesOfCountry(selectedCountry))
-  },[selectedCountry, userLocation]) 
   
   useEffect(() => { 
-    SalesTax.getSalesTax(selectedCountry,provinceChoices?.find(x => x.name===selectedProvince || x.isoCode===selectedProvince)?.isoCode).then(tax=>{
+    SalesTax.getSalesTax(selectedCountry,convertProvinceCode(provinceChoices, selectedProvince)).then(tax=>{
       setTaxRate(tax.rate)
      })
   },[selectedProvince, selectedCountry]) 
+  
+  /*
+  useEffect(() => {
+    setSelectedCountry(userLocation.countryCode)
+    setSelectedProvince(convertProvinceCode(provinceChoices, userLocation.region)) 
+  },[userLocation]) 
+  */
  
   return (
     <StoreContext.Provider value={{ 
@@ -203,7 +204,7 @@ const StoreContextProvider = (props) => {
       editCoupMode, setEditCoupMode, editShipMode, setEditShipMode, allCoupons, setAllCoupons,
       allShipping, setAllShipping, editOrdMode, setEditOrdMode, allCustomers, setAllCustomers,
       notifs, setNotifs, allTransactions, setAllTransactions, editCustMode, setEditCustMode, 
-      showAnaTips, setShowAnaTips
+      showAnaTips, setShowAnaTips, adminTaxRate, setAdminTaxRate
     }}>
       {props.children}  
     </StoreContext.Provider>

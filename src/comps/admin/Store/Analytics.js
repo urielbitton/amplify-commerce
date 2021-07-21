@@ -50,7 +50,8 @@ export default function Analytics() {
       text: `Click on Create Chart at the top of the page to create your own personalized stats for your store`,
       action: true,
       event: () => setShowAnaTips(false),
-      eventTitle: 'Done'
+      eventTitle: 'Hide',
+      noClose: true
     }]) 
     return () => setNotifs([])
   },[showAnaTips])

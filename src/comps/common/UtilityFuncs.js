@@ -1,3 +1,5 @@
+import { countries } from "./Lists"
+
 export function sizeConverter(size) {
   if(size==='xs') return 'Extra Small'
   if(size==='s') return 'Small'
@@ -15,6 +17,14 @@ export function colorConverter(color) {
   if(color==='#ffea05') return 'Yellow'
   if(color==='#edb5ff') return 'Pink'
   if(color==='#b5b5b5') return 'Gray'
+}
+ 
+export function convertProvinceCode(provinceChoices, province) {
+  return provinceChoices?.find(x => x.name.toLowerCase()===province.toLowerCase() || x.isoCode===province)?.isoCode
+}
+
+export function convertCountryCode(country) {
+  return countries?.find(x => x.name.toLowerCase()===country.toLowerCase())?.code 
 }
 
 export function convertTime(time) { 

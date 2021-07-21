@@ -106,8 +106,8 @@ export default function Orders() {
               <h5><span>{allOrdersFilter.length}</span> total order{allOrdersFilter.length>1?"s":""}</h5>
               <h5><span>{currencyFormat.format(allOrdersFilter.reduce((a,b) => a + b.orderTotal,0))} </span>Order Totals</h5>
               <h5><span>{allOrdersFilter.reduce((a,b) => a + b.products.length,0)} </span>Order Products</h5>
-              <h5><span>{allOrdersFilter.reduce((a,b) => a + b.updates[b.updates.length-1].status?1:0,0)} </span>Delivered Orders</h5>
-              <h5><span>{allOrdersFilter.reduce((a,b) => a + b.updates[b.updates.length-1].delayed?1:0,0)} </span>Delayed Orders</h5>
+              <h5><span>{allOrdersFilter.reduce((a,b) => a + (b.updates[b.updates.length-1].status==='Delayed'?1:0),0)} </span>Delayed Orders</h5>
+              <h5><span>{allOrdersFilter.reduce((a,b) => a + (b.updates[b.updates.length-1].status==='Delivered'?1:0),0)} </span>Delivered Orders</h5>
             </div>
           </div>
         </div>
