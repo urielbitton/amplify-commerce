@@ -3,6 +3,8 @@ import { StoreContext } from '../../common/StoreContext'
 import Dashbox from '../Home/Dashbox'
 import AdminBtn from '../common/AdminBtn'
 import './styles/Analytics.css'
+import { ApexChart } from '../../common/Charts'
+import DashCont from '../Home/DashCont'
 
 export default function Analytics() {
 
@@ -20,6 +22,8 @@ export default function Analytics() {
   const lastMonthSales = totalSales[lastMonth-1].value
   const thisMonthProfit = totalSales[thisMonth-1].value + (totalSales[thisMonth-1].value * 0.15)
   const lastMonthProfit = totalSales[lastMonth-1].value + (totalSales[lastMonth-1].value * 0.15)
+
+  const monthCategories = ['January','February','March','April','May','June','July','August','September','October','November','December']    
 
   const dashboxarr = [
     {title: 'Products Sold', icon: 'far fa-box-open', total: totalProductsSold, thismonth: thisMonthProdSold, lastmonth: lastMonthProdSold, format: 'number', compare: true},
@@ -40,7 +44,7 @@ export default function Analytics() {
   const dashboxrow2 = dashboxarr2?.map(el => {
     return <Dashbox el={el} />
   }) 
-  console.log(showAnaTips)
+  
   useEffect(() => {
     showAnaTips&&setNotifs(prev => [...prev, {
       id: Date.now(),
@@ -48,7 +52,7 @@ export default function Analytics() {
       color: 'var(--green)',
       icon: 'fal fa-lightbulb',
       text: `Click on Create Chart at the top of the page to create your own personalized stats for your store`,
-      action: true,
+      action1: true,
       event1: () => setShowAnaTips(false),
       eventTitle1: 'Hide',
       noClose: true
@@ -68,7 +72,36 @@ export default function Analytics() {
       <div className="dashboxcont">
         {dashboxrow2}
       </div>
-      
+      <div className="salesgrid">
+        <DashCont className="saleschart" title="Customer Visits">
+          <div className="chartcont">
+            <ApexChart 
+              type="area" 
+              dataArray={[
+                {name: 'Total Customers',data: [2,56,12,34,21,33,45,12,3,78,9,10]},
+                {name: 'Active Customers',data: [1,16,12,25,11,30,42,2,3,58,8,1]}
+              ]}
+              series={monthCategories}
+              height={340} 
+              legendAlign="right"
+            />
+          </div>
+        </DashCont>
+        <DashCont className="saleschart" title="Orders Stats">
+          <div className="chartcont">
+            <ApexChart 
+              type="bar" 
+              dataArray={[
+                {name: 'Active Orders',data: [2,56,12,34,21,33,45,12,3,78,9,10]},
+                {name: 'Delivered Orders',data: [1,16,12,25,11,30,42,2,3,58,8,1]}
+              ]}
+              series={monthCategories}
+              height={340} 
+              legendAlign="right"
+            />
+          </div>
+        </DashCont>
+      </div>
     </div>
   )
 }

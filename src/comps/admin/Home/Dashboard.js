@@ -21,7 +21,7 @@ export default function Dashboard() {
   const totalsalesnumbers = totalSales?.map(el => el.value)
   const netprofitnumbers = totalSales?.map(el => el.value - (el.value * 0.15))
   const lossnumbers = [70,75,410,230,9,69,139,65,69,20,5,0]
-  const orderstats = [45,65,14]
+  const orderstats = [45,65,14,3,5]
   const tableheaders = ['Product','Name','Style','Unit Price','Qty Sold','Date Sold Last','Earnings']
   const ordersheaders = ['Order Number','Products','Order Date','Order Total','Order Status']
   const filterQtySold = (x,qty) => x.sizes.find(x => x.colors.find(x => x.qtySold > qty))
@@ -147,7 +147,7 @@ export default function Dashboard() {
           <ApexChartPie 
             type="pie" 
             series={orderstats}
-            labels={['Active','Processed','Cancelled']}
+            labels={['Received','Processing','Shipped','Delivered','Delayed']}
             legendAlign="left"
           />
           <h6>Total Orders: {allOrders?.length}</h6> 

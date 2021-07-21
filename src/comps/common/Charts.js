@@ -82,7 +82,7 @@ export function ApexChartPie(props) {
         position: legendPos,
         horizontalAlign: legendAlign
       },
-      colors: ['var(--theme2)', 'var(--theme3)', 'var(--theme4)'],
+      colors: ['var(--theme2)', 'var(--theme3)', 'var(--theme4)', 'var(--graytxt)','var(--admincolor)'],
       fill: {
         type: 'solid',
         opacity: [1,1,1]
