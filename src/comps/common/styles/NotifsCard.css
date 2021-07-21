@@ -57,8 +57,20 @@
 .notifscont i.fa-times:hover {
   opacity: 1;
 }
+.notifscont .msgcont {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+.notifscont .actionbtns {
+  margin-top: 10px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+}
 .notifscont .adminbtn {
-  padding: 3px 5px;
+  padding: 3px 8px;
   height: 30px;
 }
 .notifscont .adminbtn span {

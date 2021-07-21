@@ -49,8 +49,8 @@ export default function Analytics() {
       icon: 'fal fa-lightbulb',
       text: `Click on Create Chart at the top of the page to create your own personalized stats for your store`,
       action: true,
-      event: () => setShowAnaTips(false),
-      eventTitle: 'Hide',
+      event1: () => setShowAnaTips(false),
+      eventTitle1: 'Hide',
       noClose: true
     }]) 
     return () => setNotifs([])
