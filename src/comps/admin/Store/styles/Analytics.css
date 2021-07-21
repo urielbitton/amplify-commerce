@@ -8,3 +8,28 @@
 .analyticspage .pagetitle > h4 {
   color: var(--graytxt);
 }
+.analyticsgrid {
+  grid-column: 1/-1;
+  display: grid;
+  grid-template-columns: repeat(auto-fit,minmax(280px,1fr));
+  grid-gap: 20px;
+}
+.analyticsgrid .dashcont {
+  grid-column: 1/-1;
+}
+.analyticspage .appaccordion .header {
+  padding-bottom: 10px;
+}
+.analyticspage .appaccordion .header h5 {
+  white-space: nowrap;
+}
+.analyticspage .appaccordion .header .right {
+  flex-basis: auto;
+}
+.analyticspage .appaccordion {
+  width: 100%;
+} 
+.analyticspage .lowstocktable > .header h5:nth-of-type(3),
+.analyticspage .lowstocktable .proditem div.appaccordion {
+  flex-basis: 25%
+}

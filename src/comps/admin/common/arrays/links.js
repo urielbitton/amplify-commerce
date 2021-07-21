@@ -32,7 +32,6 @@ export const menuLinks = [
       {name: 'customers', icon: 'far fa-user-friends', url: '/admin/customers/', exact: true},
       {name: 'reviews', icon: 'far fa-star-half-alt', url: '/admin/customers/reviews'},
       {name: 'marketing', icon: 'fad fa-mail-bulk', url: '/admin/customers/marketing'},
-      {name: 'users', icon: 'far fa-users-cog', url: '/admin/customers/users'},
     ]
   },
   {
