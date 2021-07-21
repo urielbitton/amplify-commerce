@@ -86,20 +86,22 @@ export default function Analytics() {
     return <div className="proditem">
         <div className="imgcell"><img src={el.imgs[0]} alt=""/></div>
         <h5>{el.name}</h5>
-        <AppAccordion title="Product Styles">
-          {el.sizes?.filter(x => x.colors.find(x => x.stock < 5)).map(el => { 
-            return el.colors?.filter(x => x.stock < 5).map(el => {
-              return <div className="labels">
-                <h5>{el.name}</h5>
-                <h5>{el.stock}</h5>
-                <h5>{el.qtySold}</h5>
-                <h5>{convertDate(el.dateSoldLast.toDate())}</h5>
+          {el.sizes?.filter(x => x.colors.find(x => x.stock < 5)).map(size => { 
+            return <AppAccordion title="Product Styles" subtitle={`${size.colors.filter(x => x.stock < 5).length} products`}>
+              <div className="styleheader">
+                <h5>Name</h5><h5>Stock</h5><h5>Last Sold</h5>
               </div>
-            })
+              {size.colors?.filter(x => x.stock < 5).map(color => {
+                return <div className="stylerow">
+                  <h5>{sizeConverter(size.name)}, {colorConverter(color.name)}</h5>
+                  <h5 className={color.stock<1?"nostock":""}>{color.stock} left</h5>
+                  <h5>{convertDate(color.dateSoldLast.toDate())}</h5>
+                </div>
+              })}
+            </AppAccordion>
           })}
-        </AppAccordion>
-        <h5>{currencyFormat.format(el.price * filterQtySold(el,0).colors.find(x => x.qtySold > 0).qtySold)}</h5>
         <h5>{currencyFormat.format(el.price)}</h5>
+        <h5>{currencyFormat.format(el.price * filterQtySold(el,0).colors.find(x => x.qtySold > 0).qtySold)}</h5>
     </div>
   })
   
