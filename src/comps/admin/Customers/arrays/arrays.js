@@ -9,3 +9,12 @@ export const custHeaders = [
   {name: 'Money Spent', val: 8},
   {name: 'Actions', val: -1}
 ]
+
+export const reviewsHeaders = [
+  {name: 'Review #', val: 0},
+  {name: 'Review Title', val: 1},
+  {name: 'Product Reviewed', val: 2},
+  {name: 'Reviewer Name', val: 3},
+  {name: 'Date Reviewed', val: 4},
+  {name: 'Actions', val: -1}
+]

@@ -31,6 +31,7 @@ const StoreContextProvider = (props) => {
   const [allOrders, setAllOrders] = useState([])
   const [allStats, setAllStats] = useState({})
   const [allTransactions, setAllTransactions] = useState([])
+  const [allReviews, setAllReviews] = useState([])
   const [showQuickShop, setShowQuickShop] = useState(false)
   const [showEditProd, setShowEditProd] = useState(false)
   const [colorFilter, setColorFilter] = useState('all')
@@ -147,6 +148,13 @@ const StoreContextProvider = (props) => {
     db.collection('admin').doc('storeSettings').onSnapshot(snap => {
       setAdminTaxRate(snap.data()?.storesettings.adminTaxRate)
     })
+    db.collection('products').onSnapshot(snap => {
+      let revsArr = [] 
+      snap.forEach(doc => { 
+        revsArr.push(doc.data().reviews) 
+      })
+      setAllReviews(revsArr.flat()) 
+    })
   },[user, auser])  
 
   useEffect(() => {
@@ -204,7 +212,7 @@ const StoreContextProvider = (props) => {
       editCoupMode, setEditCoupMode, editShipMode, setEditShipMode, allCoupons, setAllCoupons,
       allShipping, setAllShipping, editOrdMode, setEditOrdMode, allCustomers, setAllCustomers,
       notifs, setNotifs, allTransactions, setAllTransactions, editCustMode, setEditCustMode, 
-      showAnaTips, setShowAnaTips, adminTaxRate, setAdminTaxRate
+      showAnaTips, setShowAnaTips, adminTaxRate, setAdminTaxRate, allReviews, setAllReviews
     }}>
       {props.children}  
     </StoreContext.Provider>

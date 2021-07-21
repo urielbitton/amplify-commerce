@@ -8,6 +8,7 @@ import genRandomNum from '../../common/genRandomNum'
 import { useHistory, useLocation } from 'react-router-dom'
 import RegionCountry from '../../common/RegionCountry'
 import { convertCountryCode, convertProvinceCode } from '../../common/UtilityFuncs'
+import PageTitle from '../common/PageTitle'
 
 export default function EditCustomer(props) {
 
@@ -26,6 +27,7 @@ export default function EditCustomer(props) {
   const genNewCustId = db.collection('customers').doc().id
   const history = useHistory()
   const location = useLocation()
+  const pagetitle = editCustMode?"Edit Customer":"Add Customer"
 
   const customerObj = {
     id: editCustMode?id:genNewCustId,
@@ -137,8 +139,9 @@ export default function EditCustomer(props) {
 
   return (
     <div className="editcustomerpage">
+      <PageTitle title={pagetitle} />
       <div className="pagecont">
-        <h3 className="pagetitle">Add Customer</h3>
+        <h3 className="pagetitle">{pagetitle}</h3>
         <div className="couponcontent pagemaincontent">
           <div className="generatecont">
             <AppInput title="Customer Number" onChange={(e) => setCustNum(e.target.value)} value={custNum} />

@@ -8,6 +8,7 @@ import DashCont from '../Home/DashCont'
 import { AppSelect } from '../../common/AppInputs'
 import {sizeConverter, colorConverter, convertDate} from '../../common/UtilityFuncs'
 import AppAccordion from '../../site/common/AppAccordion'
+import PageTitle from '../common/PageTitle'
 
 export default function Analytics() {
 
@@ -29,6 +30,7 @@ export default function Analytics() {
   const lowStockHeaders = ['Product','Name','Stock Watch','Earnings','Unit Price']
   const filterQtySold = (x,qty) => x.sizes.find(x => x.colors.find(x => x.qtySold > qty))
   const [highEarningsLimit, setHighEarningsLimit] = useState(7)
+  const reduceLowStock = allProducts.reduce((a,b) => a + b.sizes.reduce((a,b) => a + (b.colors.reduce((a,b) => a + (b.stock < 5)?1:0)),0), 0)
 
   const monthCategories = ['January','February','March','April','May','June','July','August','September','October','November','December']    
   const tableFilterOpts = [{name: '3',value: 3},{name: '5',value: 5},{name: '10',value: 10},{name: '15',value: 15},{name: '20',value: 20}]
@@ -122,6 +124,7 @@ export default function Analytics() {
 
   return (
     <div className="analyticspage dashboardpage">
+      <PageTitle title="Analytics"/>
       <div className="pagetitle">
         <h4>Analytics</h4>
         <AdminBtn title="Create Chart" solid icon="fal fa-chart-area" clickEvent />
@@ -188,6 +191,7 @@ export default function Analytics() {
           </div>
           <div className="foot">
             <h5><span>{lowStockWatch?.length}</span> product{lowStockWatch?.length>1?"s":""}</h5>
+            <h5><span>{reduceLowStock}</span> Low Stock Products</h5>
           </div>
         </DashCont>
       </div>

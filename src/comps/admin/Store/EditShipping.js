@@ -30,6 +30,7 @@ export default function EditShipping(props) {
   const hasCountries = countriesArr.length
   const genNewId = db.collection('shipping').doc().id
   const allowCreate = shipName && shipCompany && shipPrice
+  const pagetitle = editShipMode?"Edit A Shipping Method":"Create A Shipping Method"
 
   const shipObj = {
     id: editShipMode?id:genNewId,
@@ -174,9 +175,9 @@ export default function EditShipping(props) {
 
   return (
     <div className="editshippingpage">
-      <PageTitle title={editShipMode?"Edit A Shipping Method":"Create A Shipping Method"}/>
+      <PageTitle title={pagetitle}/>
       <div className="pagecont">
-        <h3 className="pagetitle">{editShipMode?"Edit Shipping Method":"Add Shipping Method"}</h3>
+        <h3 className="pagetitle">{pagetitle}</h3>
         <div className="shippingcontent pagemaincontent">
           <AppInput title="Method Name" onChange={(e) => setShipName(e.target.value)} value={shipName}/>
           <AppTextarea title="Description (optional)" onChange={(e) => setShipDescript(e.target.value)} value={shipDescript}/>

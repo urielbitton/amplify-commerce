@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from 'react'
 import { useHistory } from 'react-router-dom'
 import { db } from '../../common/Fire'
 import { StoreContext } from '../../common/StoreContext'
+import PageTitle from '../common/PageTitle'
 import PageTitlesRow from '../common/PageTitlesRow'
 import { custHeaders } from './arrays/arrays'
 
@@ -80,6 +81,7 @@ export default function Customers() {
 
   return (
     <div className="customerspage longidpage">
+      <PageTitle title="Customers"/>
       <div className="pagecont">
         <PageTitlesRow 
           title="Customers"

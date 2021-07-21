@@ -65,6 +65,7 @@ export default function EditOrder(props) {
   const history = useHistory()
   const location = useLocation()
   const genNewOrderId = db.collection('orders').doc().id
+  const pagetitle = editOrdMode?"Edit An Order":"Create An Order"
    
   const tabshead = ['General', 'Products', 'Customer', 'Shipping', 'Billing & Payment', 'Updates']
   const statusOpts = [
@@ -204,7 +205,6 @@ export default function EditOrder(props) {
     setEditStyleMode(false)
   }
   function createOrder() {
-    console.log(entireOrder)
     if(allowCreate) { 
       db.collection('orders').doc(customerId).set({
         allorders: firebase.firestore.FieldValue.arrayUnion(entireOrder)
@@ -341,9 +341,9 @@ export default function EditOrder(props) {
 
   return (
     <div className="editorderspage">
-      <PageTitle title={editOrdMode?"Edit An Order":"Create An Order"}/>
+      <PageTitle title={pagetitle}/>
       <div className="pagecont">
-        <h3 className="pagetitle">{editOrdMode?"Edit Order":"Create Order"}</h3>
+        <h3 className="pagetitle">{pagetitle}</h3>
         <div className="tabsbar">
           <div className="tabstitles"> 
             {tabsheadrow} 

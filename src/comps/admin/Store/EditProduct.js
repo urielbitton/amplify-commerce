@@ -34,6 +34,7 @@ export default function EditProduct(props) {
   const history = useHistory()
   const allowCreate = prodName && prodImg && prodPrice && prodBelongs && prodBrand && prodCategs &&
     prodCollection && prodDescription && prodSku && prodComposition && prodShipReturns
+  const pagetitle = editProdMode?"Edit A Product":"Create A Product"
 
   const tabshead = ['General', 'Styles', 'Additional Info', 'Product Reviews']
 
@@ -193,9 +194,9 @@ export default function EditProduct(props) {
 
   return (
     <div className="editproductpage">
-      <PageTitle title={editProdMode?"Edit A Product":"Create A Product"}/>
+      <PageTitle title={pagetitle}/>
       <div className="pagecont">
-        <h3 className="pagetitle">{editProdMode?"Edit Product":"Add Product"}</h3>
+        <h3 className="pagetitle">{pagetitle}</h3>
         <div className="editheader">
           <div className="editimgcont">
               <label>

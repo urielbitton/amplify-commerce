@@ -22,6 +22,7 @@ export default function EditCoupon(props) {
   const genNewId = db.collection('coupons').doc().id
   const history = useHistory()
   const location = useLocation()
+  const pagetitle = editCoupMode?"Edit A Coupon":"Create A Coupon"
 
   const coupontypeOpts = [
     {name: 'Choose An Option', value: ''},
@@ -127,9 +128,9 @@ export default function EditCoupon(props) {
 
   return (
     <div className="addcouponpage">
-      <PageTitle title={editCoupMode?"Edit A Coupon":"Create A Coupon"}/>
+      <PageTitle title={pagetitle}/>
       <div className="pagecont">
-        <h3 className="pagetitle">{editCoupMode?"Edit Coupon":"Add Coupon"}</h3>
+        <h3 className="pagetitle">{pagetitle}</h3>
         <div className="couponcontent pagemaincontent">
           <div className="generatecont">
             <AppInput title="Coupon Code" className="couponcode" onChange={(e) => setCoupName(e.target.value)} value={coupName} />
