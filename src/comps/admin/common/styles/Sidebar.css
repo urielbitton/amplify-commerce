@@ -1,5 +1,4 @@
 .adminsidebar {
-  box-shadow: 0 5px 10px rgba(0,0,0,0.05);
   width: 100%;
   height: 100vh;
   z-index: 990;
@@ -7,6 +6,7 @@
   flex-direction: column;
   padding: 17px 0 20px 0;
   background: #fff;
+  box-shadow: 0 5px 10px rgba(0,0,0,0.05);
 }
 .adminsidebar .logocont {
   width: 100%;
@@ -24,7 +24,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  box-shadow: 0 0 4px var(--light);
+  box-shadow: 0 0 4px #badeff99;
   width: 32px;
   height: 32px;
   border-radius: 5px;

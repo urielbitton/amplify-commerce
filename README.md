@@ -10,6 +10,7 @@ Features to add:
 - make dashboard stats dynamic
 - guest add to cart and checkout features
 - add newarrivals, about + contact pages
+- OneCustomer page will show all reviews of a customer as ReviewCard component
 
 Bugs tracking:
 - multiple notifs will stay as long as last notifs
@@ -19,6 +20,7 @@ After Development:
 - test security rules
 - limit firebase fetches using limit()
 - fix localStorage bug
+- find alternative to fetching all firebase data in storecontext 
 
 Tips:
 

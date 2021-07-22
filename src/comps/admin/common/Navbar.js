@@ -11,6 +11,7 @@ export default function Navbar() {
   const {myUser, darkMode, setDarkMode, setNotifs} = useContext(StoreContext)
   const [openProf, setOpenProf] = useState(false)
   const [openUpdates, setOpenUpdates] = useState(false)
+  const [openMsgs, setOpenMsgs] = useState(false)
   const history = useHistory()
 
   function toggleDarkMode() {
@@ -41,7 +42,12 @@ export default function Navbar() {
     window.onclick = () => {
       openUpdates&&setOpenUpdates(false)
     } 
-  },[openUpdates]) 
+  },[openUpdates])
+  useEffect(() => {
+    window.onclick = () => {
+      openMsgs&&setOpenMsgs(false)
+    } 
+  },[openMsgs]) 
 
   return (
     <div className="adminnav">
@@ -59,6 +65,12 @@ export default function Navbar() {
       </div>
       <div className="right">
         <div className="toolbar">
+          <div className="iconcont" onClick={() => setOpenMsgs(prev => !prev)}>
+            <i className="far fa-comment"></i>
+          </div>
+          <div className={`updatescont ${openMsgs?"open":""}`}>
+            <h4>Messages</h4>
+          </div>
           <div className="iconcont" onClick={() => setOpenUpdates(prev => !prev)}>
             <i className="far fa-bell"></i>
           </div>

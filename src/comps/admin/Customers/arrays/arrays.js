@@ -16,5 +16,7 @@ export const reviewsHeaders = [
   {name: 'Product Reviewed', val: 2},
   {name: 'Reviewer Name', val: 3},
   {name: 'Date Reviewed', val: 4},
+  {name: 'Rating', val: 5},
+  {name: 'Approved', val: -1},
   {name: 'Actions', val: -1}
 ]

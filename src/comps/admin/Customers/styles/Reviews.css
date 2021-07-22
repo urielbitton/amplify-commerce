@@ -1,0 +1,39 @@
+.reviewspage .producttable .proditem h5 span {
+  background: var(--light);
+  color: var(--admincolor);
+  padding: 5px 8px;
+  border-radius: 5px;
+}
+.reviewspage .producttable .proditem h5 span.notapproved {
+  background: var(--lightred);
+  color: var(--red);
+}
+.reviewspage .producttable .proditem h5 a:hover {
+  text-decoration: underline;
+}
+.reviewspage .pagecont {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+.reviewspage .icontitle {
+  width: 100px;
+  height: 100px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px var(--light);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.reviewspage .icontitle i {
+  font-size: 40px;
+  color: var(--admincolor);
+}
+.reviewspage .titlerow h4 {
+  font-size: 27px;
+  color: var(--graytxt);
+  font-weight: 500;
+}
+.reviewspage .reviewbody img {
+  width: 30px;
+}

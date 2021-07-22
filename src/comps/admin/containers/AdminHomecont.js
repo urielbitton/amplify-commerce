@@ -19,10 +19,11 @@ import Analytics from '../Store/Analytics'
 import Customers from '../Customers/Customers'
 import EditCustomer from '../Customers/EditCustomer'
 import Reviews from '../Customers/Reviews'
+import ReviewPage from '../Customers/ReviewPage'
 
 export default function AdminHomecont() {
  
-  const {allProducts, allCoupons, allShipping, allOrders, allCustomers} = useContext(StoreContext)
+  const {allProducts, allCoupons, allShipping, allOrders, allCustomers, allReviews} = useContext(StoreContext)
   
   const editprodpages = allProducts?.map(el => {
     return <Route path={`/admin/store/edit-product/${el.id}`}>
@@ -47,6 +48,11 @@ export default function AdminHomecont() {
   const editcustomerpages = allCustomers?.map(el => {
     return <Route path={`/admin/customers/edit-customer/${el.id}`}>
       <EditCustomer el={el} />
+    </Route>
+  })
+  const reviewspages = allReviews?.map(el => {
+    return <Route path={`/admin/customers/reviews/${el.id}`}>
+      <ReviewPage el={el} />
     </Route>
   })
 
@@ -103,6 +109,7 @@ export default function AdminHomecont() {
           <Route exact path="/admin/customers/reviews">
             <Reviews />
           </Route>
+          {reviewspages}
         </Switch> 
       </div>
     </div> 
