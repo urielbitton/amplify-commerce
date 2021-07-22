@@ -18,3 +18,13 @@
 .editcustomerpage .appinput.currencyinp h6 {
   margin-bottom: 0;
 }
+.editcustomerpage .profilecont {
+  margin-bottom: 20px;
+}
+.editcustomerpage .profilecont .profimgcont {
+  width: 150px;
+  height: 150px;
+}
+.editcustomerpage .profilecont .profimgcont .iconcont {
+  opacity: 1;
+}

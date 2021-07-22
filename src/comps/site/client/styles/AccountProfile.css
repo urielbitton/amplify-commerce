@@ -17,6 +17,8 @@
   width: 120px;
   height: 120px;
   cursor: pointer;
+  box-shadow: 0 5px 10px rgba(0,0,0,0.1);
+  border-radius: 100%;
 }
 .profilecont .profimgcont label {
   cursor: pointer;

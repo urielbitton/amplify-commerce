@@ -148,12 +148,10 @@ const StoreContextProvider = (props) => {
     db.collection('admin').doc('storeSettings').onSnapshot(snap => {
       setAdminTaxRate(snap.data()?.storesettings.adminTaxRate)
     })
-    db.collection('products').onSnapshot(snap => {
-      let revsArr = [] 
-      snap.forEach(doc => { 
-        revsArr.push(doc.data().reviews) 
-      })
-      setAllReviews(revsArr.flat()) 
+    db.collection('reviews').onSnapshot(snap => {
+      const revsArr = [] 
+      snap.forEach(doc => { revsArr.push(doc.data()) })
+      setAllReviews(revsArr) 
     })
   },[user, auser])  
 

@@ -51,10 +51,11 @@ const date = new Date()
 export const nowDate = `${date.getFullYear()}-${date.getMonth()<10?'0'+(date.getMonth()+1):(date.getMonth()+1)}-${date.getDate()<10?'0'+(date.getDate()):(date.getDate())}`
 export const nowDateTime = `${date.getFullYear()}-${date.getMonth()<10?'0'+(date.getMonth()+1):(date.getMonth()+1)}-${date.getDate()<10?'0'+(date.getDate()):(date.getDate())}T${date.getHours()<10?"0"+date.getHours():date.getHours()}:${date.getMinutes()<10?"0"+date.getMinutes():date.getMinutes()}`
 
-export function getCustomerById(allCustomers, id) {
-  return allCustomers[allCustomers.findIndex(x => x?.id === id)]
-}
-
 export function convertDate(date, withTime) {
   return `${date?.toString().split(' ')[1]} ${date?.toString().split(' ')[2]} ${date?.toString().split(' ')[3]} ${withTime?date?.toString().split(' ')[4]:""}`
 } 
+
+export function getCustomerById(allCustomers, id) {
+  return allCustomers?.find(x => x.id === id)
+}
+

@@ -18,6 +18,7 @@ export default function Login(props) {
   const [passError, setPassError] = useState('')
   const [isLogging, setIsLoggin] = useState(false)
   const history = useHistory()
+  const defaultImg = 'https://i.imgur.com/1OKoctC.jpg'
 
   function authListener() {
     firebase.auth().onAuthStateChanged(user => {
@@ -56,7 +57,7 @@ export default function Login(props) {
       if(user) {
         user.updateProfile({
           displayName: name,
-          photoURL: 'https://i.imgur.com/1OKoctC.jpg'
+          photoURL: defaultImg
         })
         const userinfo = {
           userid: user.uid,
@@ -67,7 +68,7 @@ export default function Login(props) {
           city: "", 
           provstate: "",
           country: "",
-          profimg: "https://i.imgur.com/1OKoctC.jpg",
+          profimg: defaultImg,
           isAdmin: false,
           cart: [],
           savedlater: [],
@@ -75,11 +76,11 @@ export default function Login(props) {
           settings: {} 
         }
         db.collection('users').doc(user.uid).set({
-          userinfo
+          userinfo 
         }).then(res => { 
           db.collection('customers').doc(user.uid).set({
             id:user.uid,name: name??'',email:'',phone:'',city:'',provstate:'',provstateCode:'',
-            country:'',countryCode:'', moneySpent: 0, number: genRandomNum()
+            country:'',countryCode:'', moneySpent: 0, number: genRandomNum(), profimg: defaultImg
           }) 
           setAUser(user)
           history.push('/')
@@ -119,7 +120,7 @@ export default function Login(props) {
             }).then(res => {
               db.collection('customers').doc(user.uid).set({
                 id:user.uid,name: name??'',email:'',phone:'',city:'', provstate:'',provstateCode:'',
-                country:'',countryCode:'',moneySpent: 0, number: genRandomNum()
+                country:'',countryCode:'',moneySpent: 0, number: genRandomNum(), profimg: defaultImg
               }) 
               setAUser(user)
               console.log(user)

@@ -76,7 +76,7 @@ export default function Login(props) {
           profimg: res.additionalUserInfo.profile.picture,
           isAdmin: false,
           cart: [],
-          savedlater: [],
+          savedlater: [], 
           wishlist: [],
           settings: {} 
         }
@@ -86,8 +86,8 @@ export default function Login(props) {
               userinfo
             }).then(res => { 
               db.collection('customers').doc(user.uid).set({
-                id:user.uid,name: res.additionalUserInfo.profile.name??'',email:'',phone:'',city:'',
-                provstate:'',provstateCode:'',country:'',countryCode:'',moneySpent: 0, number: genRandomNum()
+                id:user.uid,name: res.additionalUserInfo.profile.name??'',email:'',phone:'',city:'', provstate:'',
+                provstateCode:'',country:'',countryCode:'',moneySpent: 0, number: genRandomNum(), profimg: res.additionalUserInfo.profile.picture
               }) 
               history.push('/')
             }).catch(err => window.alert('An errror occurred with the google login. Please try again.'))

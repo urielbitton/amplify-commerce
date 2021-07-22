@@ -1,10 +1,14 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import Ratings from '../../common/Ratings'
 import './styles/Reviews.css'
+import {StoreContext} from '../../common/StoreContext'
+import { getCustomerById } from '../../common/UtilityFuncs'
+import AdminBtn from '../common/AdminBtn'
 
 export default function ReviewPage(props) {
 
-  const {title, rating, reviewer} = props.el
+  const {allCustomers}  = useContext(StoreContext)
+  const {title, rating, reviewerId, reviewText, likes} = props.el
 
   return ( 
     <div className="reviewspage">
@@ -15,13 +19,29 @@ export default function ReviewPage(props) {
           </div>
         </div>
         <div className="titlerow">
-          <h4>{title}</h4>
+          <h4><q>{title}</q></h4>
           <Ratings rating={rating} />
           {rating} out of 5
         </div>
         <div className="reviewbody">
-          <img src="https://i.imgur.com/Z8S9nq9.jpg" alt=""/>
-          <h5>{reviewer}</h5>
+          <img src={getCustomerById(allCustomers, reviewerId)?.profimg} alt=""/>
+          <div className="content">
+            <h5 className="nametitle">{getCustomerById(allCustomers, reviewerId)?.name}</h5>
+            <h6>{title}</h6>
+            <p className="reviewtext">
+              {reviewText}
+            </p>
+            <small>{likes} people liked this review</small>
+            <div className="reviewactions">
+              <AdminBtn title="Like" />
+              <AdminBtn title={`Contact ${getCustomerById(allCustomers, reviewerId)?.name.split(' ')[0]}`}/>
+            </div>
+          </div>
+        </div>
+        <div className="actionbtns">
+          <AdminBtn title="Done" solid/>
+          <AdminBtn title="Remove Review" solid className="deletebtn"/>
+          <AdminBtn title="Hide Review"/>
         </div>
       </div>
     </div>

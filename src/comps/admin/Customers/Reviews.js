@@ -1,15 +1,16 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { Link, useHistory } from 'react-router-dom'
 import Ratings from '../../common/Ratings'
+import referProduct from '../../common/referProduct'
 import { StoreContext } from '../../common/StoreContext'
-import { convertDate } from '../../common/UtilityFuncs'
+import { convertDate, getCustomerById } from '../../common/UtilityFuncs'
 import PageTitle from '../common/PageTitle'
 import {reviewsHeaders} from './arrays/arrays'
 import './styles/Reviews.css'
 
 export default function Reviews() { 
 
-  const {allReviews} = useContext(StoreContext)
+  const {allReviews, allCustomers, allProducts} = useContext(StoreContext)
   const [sort, setSort] = useState(0)
   const [asc, setAsc] = useState(true)
   const [showOpts, setShowOpts] = useState(-1)
@@ -17,8 +18,7 @@ export default function Reviews() {
   const clean = text => text.replace(/[^a-zA-Z0-9 ]/g, "")
   let pattern = new RegExp('\\b' + clean(keyword), 'i')
   const allReviewsFilter = allReviews?.filter(x => (pattern.test(x.title) || x.number === keyword || pattern.test(x.reviewer)))
-  const history = useHistory()
-
+  const history = useHistory()  
 
   const headersrow = reviewsHeaders?.map((el,i) => {
     return <h5 className={el.val===sort?"active":""}>
@@ -33,9 +33,9 @@ export default function Reviews() {
     return <div className="proditem">
       <h5><Link to={`/admin/customers/reviews/${el.id}`}>#{el.number}</Link></h5>
       <h5><Link to={`/admin/customers/reviews/${el.id}`}>"{el.title}"</Link></h5>
-      <h5>{el.productName}</h5>
-      <h5>{el.reviewer}</h5>
-      <h5>{convertDate(el.dateReviewed.toDate())}</h5>
+      <h5>{referProduct(allProducts, el.productId).name}</h5>
+      <h5>{getCustomerById(allCustomers, el.reviewerId).name}</h5>
+      <h5>{convertDate(el.dateReviewed.toDate())}</h5> 
       <h5 className="ratingrow">
         <Ratings rating={el.rating}/>
       </h5> 

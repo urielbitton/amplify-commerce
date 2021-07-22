@@ -4,7 +4,7 @@ import AppButton from '../common/AppButton'
 import {StoreContext} from '../../common/StoreContext'
 import {AppInput} from '../../common/AppInputs'
 import { db } from '../../common/Fire'
-import firebase from 'firebase'
+import CustImgUploader from '../../common/CustImgUploader'
 
 export default function AccountProfile()  {
 
@@ -18,7 +18,6 @@ export default function AccountProfile()  {
   const [password, setPassword] = useState()
   const [url, setUrl] = useState('')
   const [loading, setLoading] = useState(false)
-  const storageRef = firebase.storage().ref(`${user&&user.uid}/images`).child('profilepic')
   const loadingRef = useRef()
 
   function updateInfo() {
@@ -27,33 +26,6 @@ export default function AccountProfile()  {
     }).then(res => {
       window.alert('Your account info has been successfully updated.')
     })
-  }
-
-  function uploadImg(e) {
-    const file = e.target.files[0]
-    if(file) {
-      const task = storageRef.put(file)
-      task.on("stat_changes", 
-        function progress(snap) {
-          setLoading(true)
-          const percent = (snap.bytesTransferred / snap.totalBytes) * 100
-          loadingRef.current.style.width = percent + '%'
-        },
-        function error() {
-          window.alert('An error has occured. Please try again later.')
-        },
-        function complete() {
-          setLoading(false)
-          storageRef.getDownloadURL().then(url => {
-            setUrl(url)
-            db.collection('users').doc(user.uid).update({
-              'userinfo.profimg': url
-            })
-          })
-          
-        }
-      )
-    }
   }
 
   useEffect(() => {
@@ -70,9 +42,9 @@ export default function AccountProfile()  {
               <input 
                 style={{display:'none'}} 
                 type="file" 
-                onChange={(e) => uploadImg(e)}
+                onChange={(e) => CustImgUploader(e, user.uid, setLoading, loadingRef, setUrl, true)}
               />
-              <img src={url??'https://i.imgur.com/8VnozI9.jpg'} alt=""/>
+              <img src={url.length?url:'https://i.imgur.com/1OKoctC.jpg'} alt=""/>
               <div className="iconcont">
                 <i className="fas fa-camera"></i>
               </div>
