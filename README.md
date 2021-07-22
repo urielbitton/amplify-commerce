@@ -2,7 +2,7 @@
 Created React + <3
 
 Features to add: 
-- creating orders thru clients + admin should decrease stock count of purchased products
+- creating orders thru clients + admin should decrease stock count of purchased products + increase qtySold of product
 - implement trash cans for products, orders, coupons, etc...
 - Change all inputs ProvinceCountries to RegionCountry (enhanced) component
 - let admin create users!
