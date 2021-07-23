@@ -45,6 +45,9 @@
 .pagecont .producttable > .header h5 span {
   cursor: pointer;
 }
+.pagecont .producttable .proditem h5 a:hover {
+  text-decoration: underline;
+}
 .pagecont .producttable .header span:hover,
 .pagecont .producttable .header span:hover + i,
 .pagecont .producttable .header h5.active,

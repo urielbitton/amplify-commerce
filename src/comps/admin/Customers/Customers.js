@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { useHistory } from 'react-router-dom'
+import { Link, useHistory } from 'react-router-dom'
 import { db } from '../../common/Fire'
 import { StoreContext } from '../../common/StoreContext'
 import PageTitle from '../common/PageTitle'
@@ -31,8 +31,8 @@ export default function Customers() {
     return
   }).map((el,i) => {
     return <div className="proditem">
-      <h5>{el.number}</h5>
-      <h5>{el.name}</h5>
+      <h5><Link to={`/admin/customer/${el.id}`}>{el.number}</Link></h5>
+      <h5><Link to={`/admin/customer/${el.id}`}>{el.name}</Link></h5>
       <h5><a className="hoverable" href={`mailto:${el.email}`}>{el.email}</a></h5>
       <h5>{el.phone}</h5>
       <h5>{el.city}</h5>
@@ -44,9 +44,9 @@ export default function Customers() {
           <i className="far fa-ellipsis-h actionsicon"></i>
         </div>
         <div className={`optscont ${i===showOpts?"show":""}`}> 
-          <div title="Edit Order" onClick={() => editCustomer(el.id)}><i className="far fa-edit"></i></div>
-          <div title="Delete Order" onClick={() => deleteCustomer(el.id)}><i className="far fa-trash-alt"></i></div>
-          <div title="Order Info" onClick={() => infoCustomer()}><i className="far fa-info"></i></div>
+          <div title="Edit Customer" onClick={() => editCustomer(el.id)}><i className="far fa-edit"></i></div>
+          <div title="Delete Customer" onClick={() => deleteCustomer(el.id)}><i className="far fa-trash-alt"></i></div>
+          <div title="Customer Info" onClick={() => infoCustomer(el.id)}><i className="far fa-info"></i></div>
         </div>
       </h5>
     </div>
@@ -71,8 +71,8 @@ export default function Customers() {
       })
     }
   }
-  function infoCustomer() {
-
+  function infoCustomer(customerid) {
+    history.push(`/admin/customer/${customerid}`)
   }
 
   useEffect(() => {

@@ -59,3 +59,7 @@ export function getCustomerById(allCustomers, id) {
   return allCustomers?.find(x => x.id === id)
 }
 
+export function getUserById(allUsers, id) {
+  return allUsers?.find(x => x.userid === id)
+}
+

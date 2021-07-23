@@ -20,6 +20,7 @@ import Customers from '../Customers/Customers'
 import EditCustomer from '../Customers/EditCustomer'
 import Reviews from '../Customers/Reviews'
 import ReviewPage from '../Customers/ReviewPage'
+import CustomerPage from '../Customers/CustomerPage'
 
 export default function AdminHomecont() {
  
@@ -48,6 +49,11 @@ export default function AdminHomecont() {
   const editcustomerpages = allCustomers?.map(el => {
     return <Route path={`/admin/customers/edit-customer/${el.id}`}>
       <EditCustomer el={el} />
+    </Route>
+  })
+  const onecustomerpage = allCustomers?.map(el => {
+    return <Route path={`/admin/customer/${el.id}`}>
+      <CustomerPage el={el} />
     </Route>
   })
   const reviewspages = allReviews?.map(el => {
@@ -106,6 +112,7 @@ export default function AdminHomecont() {
             <EditCustomer />
           </Route>
           {editcustomerpages}
+          {onecustomerpage}
           <Route exact path="/admin/customers/reviews">
             <Reviews />
           </Route>
