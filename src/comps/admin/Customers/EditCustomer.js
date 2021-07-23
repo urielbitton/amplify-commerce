@@ -14,7 +14,8 @@ import CustImgUploader from '../../common/CustImgUploader'
 export default function EditCustomer(props) {
 
   const {editCustMode, setNotifs, setEditCustMode, user} = useContext(StoreContext)
-  const {id, number, name, email, phone, address, city, provState, country, moneySpent, profimg} = editCustMode&&props.el
+  const {id, number, name, email, phone, address, city, provState, country, moneySpent, profimg,
+    userRating} = editCustMode&&props.el
   const [custImg, setCustImg] = useState('')
   const [custNum, setCustNum] = useState('')
   const [custName, setCustName] = useState('') 
@@ -48,7 +49,8 @@ export default function EditCustomer(props) {
     provStateCode: convertProvinceCode(provinceChoices, custRegion)??'',
     countryCode: convertCountryCode(custCountry)??'',
     moneySpent: 0,
-    profimg: url
+    profimg: url,
+    userRating: editCustMode?userRating:0
   }
 
   function generateNum() {

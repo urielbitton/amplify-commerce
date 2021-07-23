@@ -8,6 +8,7 @@ import {StoreContext} from '../../common/StoreContext'
 import { useHistory, useLocation } from 'react-router-dom'
 import AddStyles from './AddStyles'
 import PageTitle from '../common/PageTitle'
+import TabsBar from '../common/TabsBar'
 
 export default function EditProduct(props) {
 
@@ -36,7 +37,7 @@ export default function EditProduct(props) {
     prodCollection && prodDescription && prodSku && prodComposition && prodShipReturns
   const pagetitle = editProdMode?"Edit A Product":"Create A Product"
 
-  const tabshead = ['General', 'Styles', 'Additional Info', 'Product Reviews']
+  const tabsTitles = ['General', 'Styles', 'Additional Info', 'Product Reviews']
 
   const productObj = {
     id: editProdMode?id:generateid,
@@ -56,13 +57,6 @@ export default function EditProduct(props) {
     ratingsarr: editProdMode?ratingsarr:[],
     reviews: editProdMode?reviews:[]
   }
-
-  const tabsheadrow = tabshead?.map((el,i) => {
-    return <h5
-      className={i===tabPos?"active":""}
-      onClick={() => setTabPos(i)}
-    >{el}<hr/></h5>
-  })
 
   function addProduct() {
     if(!!allowCreate) {
@@ -219,12 +213,11 @@ export default function EditProduct(props) {
           />
           {editProdMode&&<h6><span>Product ID: </span> {id}</h6>}
         </div>
-        <div className="tabsbar">
-          <div className="tabstitles"> 
-            {tabsheadrow}
-          </div>
-          <hr className="tabline"/>
-        </div>
+        <TabsBar 
+          tabsTitles={tabsTitles}
+          tabPos={tabPos}
+          setTabPos={setTabPos}
+        />
         <div className="editcontent">
           {/*General Section*/}
           <div className={`editsection generalsection ${tabPos===0?"show":""}`}>

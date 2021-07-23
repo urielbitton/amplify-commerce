@@ -2,6 +2,7 @@
   display: grid;
   grid-template-columns: 320px auto;
   grid-gap: 30px;
+  align-items: flex-start;
   padding: 30px 50px;
 }
 .onecustomerpage .pagecont > div {
@@ -20,7 +21,8 @@
   flex-direction: column;
   gap: 10px;
 }
-.onecustomerpage .left .section h6 {
+.onecustomerpage .left .section h6,
+.onecustomerpage .right .section h6 {
   font-size: 12px;
   color: #aaa;
   font-weight: 500;
@@ -30,6 +32,9 @@
   font-weight: 500;
   color: #333;
   font-size: 14.5px;
+}
+.onecustomerpage .left .section h5.name {
+  font-size: 16px;
 }
 .onecustomerpage .left .section h5 i {
   margin-right: 15px;
@@ -41,4 +46,20 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+}
+.onecustomerpage .right {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+.onecustomerpage .right .actions {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+.onecustomerpage .right .userrating {
+  display: flex;
+  align-items: center;
+  gap: 15px;
 }

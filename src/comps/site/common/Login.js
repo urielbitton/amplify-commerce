@@ -10,22 +10,23 @@ import genRandomNum from '../../common/genRandomNum'
 
 export default function Login(props) {
 
-  const {setAUser, myUser} = useContext(StoreContext)
+  const {setAUser, myUser, user} = useContext(StoreContext)
   const [email, setEmail] = useState('') 
   const [password, setPassword] = useState('') 
   const [emailError, setEmailError] = useState('') 
   const [passError, setPassError] = useState('')
-  const [isLogging, setIsLoggin] = useState(false)
+  const [isLogging, setIsLogging] = useState(false)
   const history = useHistory()
 
   function handleLogin() { 
-    setIsLoggin(true)
+    setIsLogging(true)
     clearErrors()
     firebase.auth().signInWithEmailAndPassword(email, password)
     .then(() => {
       authListener()
     })
     .catch(err => {
+      setIsLogging(false)
       switch(err.code) {
         case "auth/invalid-email":
             return setEmailError('Make sure to enter a valid email.')
@@ -106,7 +107,7 @@ export default function Login(props) {
   useEffect(() => { 
     clearInputs()
     authListener() 
-    return () => setIsLoggin(false)
+    return () => setIsLogging(false)
   },[]) 
 
   useEffect(() => {
@@ -142,7 +143,7 @@ export default function Login(props) {
               <span></span>
               <h6>Log in</h6>
               {
-                !myUser?.isAdmin&&isLogging?
+                !user&&isLogging?
                 <div class="spinner-5"></div>:
                 <i className="fal fa-long-arrow-right"></i>
               }
