@@ -31,7 +31,7 @@ export default function Customers() {
     return
   }).map((el,i) => {
     return <div className="proditem">
-      <h5><Link to={`/admin/customer/${el.id}`}>#{el.number}</Link></h5>
+      <h5 title={`Customer Number: ${el.number}`} className="custimg"><img src={el.profimg} alt=""/></h5>
       <h5><Link to={`/admin/customer/${el.id}`}>{el.name}</Link></h5>
       <h5><a className="hoverable" href={`mailto:${el.email}`}>{el.email}</a></h5>
       <h5>{el.phone}</h5>

@@ -220,7 +220,7 @@ export default function EditProduct(props) {
         />
         <div className="editcontent">
           {/*General Section*/}
-          <div className={`editsection generalsection ${tabPos===0?"show":""}`}>
+          <div className={`tabsection editsection generalsection ${tabPos===0?"show":""}`}>
             <h4>Manage product information</h4>
             <div className="editgrid">
               <div className="inprow">
@@ -279,12 +279,12 @@ export default function EditProduct(props) {
             </div>
           </div>
           {/*Styles Section*/}
-          <div className={`editsection stylessection ${tabPos===1?"show":""}`}>
+          <div className={`tabsection editsection stylessection ${tabPos===1?"show":""}`}>
             <h4>Manage product styles</h4>
             <AddStyles setProdSizes={setProdSizes} prodSizes={prodSizes} sizes={sizes} />
           </div>
           {/*Additional Info Section*/}
-          <div className={`editsection additionalsection ${tabPos===2?"show":""}`}>
+          <div className={`tabsection editsection additionalsection ${tabPos===2?"show":""}`}>
             <h4>Additional product information</h4>
             <div className="editgrid">
               <div className="inprow">
@@ -307,7 +307,7 @@ export default function EditProduct(props) {
             </div>
           </div>
           {/*Reviews Section*/}
-          <div className={`editsection reviewssection ${tabPos===3?"show":""}`}>
+          <div className={`tabsection editsection reviewssection ${tabPos===3?"show":""}`}>
             <h4>Manage Product Reviews</h4>
             <small>Remove or sensor reviews</small>
           </div>

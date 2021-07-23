@@ -352,7 +352,7 @@ export default function EditOrder(props) {
         </div>
         <div className="ordercontent pagemaincontent">
           <div className="ordercontent-form">
-            <div className={`editsection ${tabPos===0?"show":""}`}>
+            <div className={`tabsection editsection ${tabPos===0?"show":""}`}>
               <div>
                 <AppInput title="Order Number" className="ordernuminp" placeholder="#123456" onChange={(e) => setOrderNum(e.target.value)} value={orderNum}/>
                 <AdminBtn title="Generate" className="genbtn" solid clickEvent onClick={() => generateId()}/>
@@ -360,7 +360,7 @@ export default function EditOrder(props) {
               <AppInput title="Order Date" disabled value={editOrdMode?convertDate(orderDateCreated.seconds?orderDateCreated.toDate():orderDateCreated):convertDate(new Date())}/>            
               <AppInput title="Order Tax Rate" onChange={(e) => setOrdTaxRate(e.target.value)} value={ordTaxRate} type="number" />
             </div>
-            <div className={`editsection ${tabPos===1?"show":""}`}>
+            <div className={`tabsection editsection ${tabPos===1?"show":""}`}>
               <h4>Order Products</h4>
               <AppSelect 
                 title="Available Products" 
@@ -383,7 +383,7 @@ export default function EditOrder(props) {
                 {productsrow}
               </div>
             </div>
-            <div className={`editsection ${tabPos===2?"show":""}`}>
+            <div className={`tabsection editsection ${tabPos===2?"show":""}`}>
               <h4>Customer Info</h4>
               <AdminBtn title="Find Customer" solid clickEvent onClick={() => setShowCustomerPicker(prev => !prev)}/>
               <h5 style={{color: '#777'}}>-OR-</h5>
@@ -401,7 +401,7 @@ export default function EditOrder(props) {
                 setProvinceChoices={setCustProvinceChoices} 
               />
             </div>
-            <div className={`editsection ${tabPos===3?"show":""}`}>
+            <div className={`tabsection editsection ${tabPos===3?"show":""}`}>
               <h4>Shipping Address</h4>
               <BillingShippingFields 
                 setBillShipState={setShippingState} 
@@ -422,7 +422,7 @@ export default function EditOrder(props) {
               <AppInput title="Tracking Number *" onChange={(e) => setTrackingNumber(e.target.value)} value={trackingNumber}/>
               <AppInput title="Tracking Return Code" onChange={(e) => setTrackReturn(e.target.value)} value={trackReturn} />
             </div>
-            <div className={`editsection ${tabPos===4?"show":""}`}>
+            <div className={`tabsection editsection ${tabPos===4?"show":""}`}>
               <h4>Billing Details</h4>
               <AppSwitch title="Same As Shipping Details?" className="inprow show" onChange={(e) => setSameAsShipping(e.target.checked)} checked={sameAsShipping}/>
               { !sameAsShipping?
@@ -446,7 +446,7 @@ export default function EditOrder(props) {
                 <AppInput title="Email" onChange={(e) => setPayEmail(e.target.value)} value={payEmail} />
               </div>
             </div>
-            <div className={`editsection ${tabPos===5?"show":""}`}>
+            <div className={`tabsection editsection ${tabPos===5?"show":""}`}>
               <OrderUpdates statusOpts={statusOpts} ordUpdates={ordUpdates} setOrdUpdates={setOrdUpdates} />
             </div>
             <div className="final actionbtns">

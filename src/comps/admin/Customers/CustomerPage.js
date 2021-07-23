@@ -60,6 +60,9 @@ export default function CustomerPage(props) {
             tabPos={tabPos}
             setTabPos={setTabPos}
           />
+          <div className={`tabsection ${tabPos===0?"show":""}`}>
+
+          </div>
         </div>
       </div>
     </div>

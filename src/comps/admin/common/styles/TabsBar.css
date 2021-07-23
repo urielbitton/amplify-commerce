@@ -41,3 +41,12 @@
   height: 1px;
   background: #eee;
 }
+.tabsection {
+  width: 100%;
+  display: none;
+  flex-direction: column;
+  gap: 20px;
+}
+.tabsection.show {
+  display: flex;
+}
