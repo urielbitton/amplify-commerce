@@ -65,3 +65,10 @@ export const custCartHeaders = [
   'Quantity',
   'Total',
 ]
+
+export const custWishHeaders = [
+  'Product',
+  'Name',
+  'Stock',
+  'Unit Price',
+]

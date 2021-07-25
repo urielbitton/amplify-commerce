@@ -47,7 +47,7 @@ export default function AccountProfile()  {
   useEffect(() => {
     if(myUser) {
       setUrl(myUser.profimg)
-      getReviewsById(user?.uid, setMyReviews)
+      user&&getReviewsById(user?.uid, setMyReviews)
 
       setFname(myUser.fullname?.split(' ')[0])
       setLname(myUser.fullname?.split(' ')[1])
@@ -56,7 +56,7 @@ export default function AccountProfile()  {
       setRegion(myUser.provstate)
       setCountry(myUser.country)
     }
-  },[myUser]) 
+  },[myUser, user]) 
 
  
   return (
@@ -83,6 +83,7 @@ export default function AccountProfile()  {
           <div>
             <h4>{myUser?.fullname}</h4>
             <h5>{myUser?.email}</h5>
+            <small className="userid">User ID: {myUser?.userid}</small>
           </div>
         </div>
         <div className="profilegrid">

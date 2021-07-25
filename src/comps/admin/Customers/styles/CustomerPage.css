@@ -21,6 +21,12 @@
   flex-direction: column;
   gap: 10px;
 }
+.onecustomerpage .right .section {
+  margin-top: 0;
+}
+.onecustomerpage .right .section h6 {
+  margin-bottom: 0;
+}
 .onecustomerpage .section h6,
 .onecustomerpage .section h6 {
   font-size: 12px;
@@ -63,6 +69,9 @@
   align-items: center;
   gap: 15px;
 }
+.onecustomerpage .right .userrating big {
+  font-size: 27px;
+}
 .onecustomerpage .customerrow {
   width: 100%;
   display: flex;
@@ -83,6 +92,9 @@
   background: var(--light);
   color: var(--admincolor);
   border-radius: 5px;
+}
+.onecustomerpage .customerrow h6 img {
+  height: 70px;
 }
 .onecustomerpage .customerrow a:hover {
   text-decoration: underline;
@@ -107,8 +119,17 @@
 .onecustomerpage .customerrow h6:last-child {
   flex-basis: 70px;
 }
-
+.onecustomerpage .custcartrowhead h5:first-child,
+.onecustomerpage .custcartrow h6:first-child {
+  flex-basis: 120px;
+}
+.onecustomerpage .tabsection {
+  gap: 10px;
+}
 .onecustomerpage .tabsection .section {
   margin-top: 0;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
+}
+.onecustomerpage .tabsbar {
+  margin-top: 10px;
 }

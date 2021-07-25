@@ -80,7 +80,8 @@ export default function Login(props) {
         }).then(res => { 
           db.collection('customers').doc(user.uid).set({
             id:user.uid,name: name??'',email:email,phone:'',city:'',provstate:'',provstateCode:'',
-            country:'',countryCode:'', moneySpent: 0, number: genRandomNum(), profimg: defaultImg
+            country:'',countryCode:'', moneySpent: 0, number: genRandomNum(), profimg: defaultImg,
+            userRating: 0
           }) 
           setAUser(user)
           history.push('/')
@@ -120,7 +121,8 @@ export default function Login(props) {
             }).then(res => {
               db.collection('customers').doc(user.uid).set({
                 id:user.uid,name: name??'',email:email,phone:'',city:'', provstate:'',provstateCode:'',
-                country:'',countryCode:'',moneySpent: 0, number: genRandomNum(), profimg: defaultImg
+                country:'',countryCode:'',moneySpent: 0, number: genRandomNum(), profimg: defaultImg,
+                userRating: 0
               }) 
               setAUser(user)
               console.log(user)

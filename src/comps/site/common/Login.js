@@ -88,7 +88,8 @@ export default function Login(props) {
             }).then(res => { 
               db.collection('customers').doc(user.uid).set({
                 id:user.uid,name: res.additionalUserInfo.profile.name??'',email:'',phone:'',city:'', provstate:'',
-                provstateCode:'',country:'',countryCode:'',moneySpent: 0, number: genRandomNum(), profimg: res.additionalUserInfo.profile.picture
+                provstateCode:'',country:'',countryCode:'',moneySpent: 0, number: genRandomNum(), 
+                profimg: res.additionalUserInfo.profile.picture, userRating: 0
               }) 
               history.push('/')
             }).catch(err => window.alert('An errror occurred with the google login. Please try again.'))

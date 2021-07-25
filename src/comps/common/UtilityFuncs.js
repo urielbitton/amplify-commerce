@@ -21,11 +21,11 @@ export function colorConverter(color) {
 }
  
 export function convertProvinceCode(provinceChoices, province) {
-  return provinceChoices?.find(x => x.name.toLowerCase()===province.toLowerCase() || x.isoCode===province)?.isoCode
+  return provinceChoices?.find(x => x.name.toLowerCase()===province?.toLowerCase() || x.isoCode===province)?.isoCode
 }
 
 export function convertCountryCode(country) {
-  return countries?.find(x => x.name.toLowerCase()===country.toLowerCase())?.code 
+  return countries?.find(x => x.name.toLowerCase()===country?.toLowerCase())?.code 
 }
 
 export function convertTime(time) { 

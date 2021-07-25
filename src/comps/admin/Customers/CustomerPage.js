@@ -1,12 +1,14 @@
 import React, { useContext, useEffect, useState } from 'react'
 import './styles/CustomerPage.css'
-import {convertDate, getOrdersById, getReviewsById, getTransactionsById, getUserArrById, getOrderArrById, getCartByUserId} from '../../common/UtilityFuncs'
+import {convertDate, getOrdersById, getReviewsById, getTransactionsById, getUserArrById, getOrderArrById,
+  colorConverter, sizeConverter} from '../../common/UtilityFuncs'
 import {StoreContext} from '../../common/StoreContext'
 import AdminBtn from '../common/AdminBtn'
 import Ratings from '../../common/Ratings'
 import TabsBar from '../common/TabsBar'
-import referProduct from '../../common/referProduct'
-import { custOrdHeaders, custRevsHeaders, custTransHeaders, custCartHeaders, tabsTitles } from './arrays/arrays'
+import refProd from '../../common/referProduct'
+import { custOrdHeaders, custRevsHeaders, custTransHeaders, custCartHeaders, tabsTitles,
+  custWishHeaders } from './arrays/arrays'
 import { Link } from 'react-router-dom'
 
 export default function CustomerPage(props) {
@@ -19,6 +21,8 @@ export default function CustomerPage(props) {
   const [userReviews, setUserReviews] = useState([])
   const [userTrans, setUserTrans] = useState([])
   const [userCart, setUserCart] = useState([])
+  const [userWish, setUserWish] = useState([])
+  const reduceStock = (el) => el.sizes?.reduce((a,b) => a + b.colors.reduce((a,b) => a + b.stock,0),0)
 
   const myOrdersHeaders = custOrdHeaders?.map(el => {
     return <h5>{el}</h5>
@@ -26,7 +30,7 @@ export default function CustomerPage(props) {
   const myOrders = userOrders?.map(el => {
     return <div className="customerrow">
       <h6><Link to={`/admin/orders/edit-order/${el.orderid}`}>#{el.orderNumber}</Link></h6>
-      <h6 title={el.products.length>1&&`+ ${el.products.length-1} more`}>{referProduct(allProducts, el.products[0]?.id)?.name}</h6>
+      <h6 title={el.products.length>1&&`+ ${el.products.length-1} more`}>{refProd(allProducts, el.products[0]?.id)?.name}</h6>
       <h6>{convertDate(el.orderDateCreated.toDate())}</h6>
       <h6>{el.orderTotal}</h6>
       <h6><span>{el.updates[el.updates.length-1].status}</span></h6>
@@ -38,7 +42,7 @@ export default function CustomerPage(props) {
   const myReviews = userReviews?.map(el => {
     return <div className="customerrow">
       <h6><Link to={`/admin/customers/reviews/${el.id}`}>"{el.title}"</Link></h6>
-      <h6>{referProduct(allProducts, el.productId).name}</h6>
+      <h6>{refProd(allProducts, el.productId).name}</h6>
       <h6>{convertDate(el.dateReviewed.toDate())}</h6>
       <h6>{<Ratings rating={el.rating}/>}</h6>
       <h6>{el.likes}</h6>
@@ -64,20 +68,40 @@ export default function CustomerPage(props) {
     return <h5>{el}</h5>
   })
   const myCart = userCart?.map(el => {
-    return <div className="customerrow">
-      <h6><Link to={`/admin/store/products/edit-product/${el.id}`}>
-        <img src={referProduct(allProducts, el.id).imgs[0]} alt=""/>  
+    return <div className="customerrow custcartrow">
+      <h6><Link to={`/admin/store/edit-product/${el.id}`}>
+        <img src={refProd(allProducts, el.id).imgs[0]} alt=""/>  
       </Link></h6>
+      <h6>
+        <Link to={`/admin/store/edit-product/${el.id}`}>{refProd(allProducts, el.id).name}</Link>
+      </h6>
+      <h6>{sizeConverter(el.chosenSize)}, {colorConverter(el.chosenColor)}</h6>
+      <h6>{currencyFormat.format(refProd(allProducts, el.id).price)}</h6>
+      <h6>{el.units}</h6>
+      <h6>{currencyFormat.format((refProd(allProducts, el.id).price) * el.units)}</h6>
     </div>
+  })
+  const myWishHeaders = custWishHeaders?.map(el => {
+    return <h5>{el}</h5>
+  })
+  const myWishlist = userWish?.map(el => {
+    return <div className="customerrow custcartrow">
+    <h6>
+      <Link to={`/admin/store/edit-product/${el}`}><img src={refProd(allProducts, el).imgs[0]} alt=""/></Link>
+    </h6>
+    <h6>{refProd(allProducts, el).name}</h6>
+    <h6>{refProd(allProducts, el).price}</h6>
+    <h6>{reduceStock(refProd(allProducts, el))}</h6>
+  </div>
   })
 
   useEffect(() => {
     getOrdersById(id, setUserOrders) 
     getReviewsById(id, setUserReviews)
     getTransactionsById(id, setUserTrans)
-    setUserCart(getUserArrById(allUsers, id).cart)
-  },[]) 
-
+    setUserCart(getUserArrById(allUsers, id)?.cart)
+    setUserWish(getUserArrById(allUsers, id)?.wishlist)
+  },[allUsers]) 
 
   return (
     <div className="onecustomerpage">
@@ -110,6 +134,7 @@ export default function CustomerPage(props) {
           <div className="actions">
             <AdminBtn title="Send Message" icon="fal fa-comment"/>
             <AdminBtn title="Email" icon="fal fa-envelope" clickEvent onClick={() => window.open('mailto:'+email)}/>
+            <AdminBtn title="Edit" icon="fal fa-pen" url={`/admin/customers/edit-customer/${id}`}/>
             <AdminBtn title="Ban User" solid icon="fal fa-user-slash"/>
           </div>
           <div className="section">
@@ -143,10 +168,16 @@ export default function CustomerPage(props) {
             {myTransactions}
           </div>
           <div className={`tabsection ${tabPos===3?"show":""}`}>
-            <div className="customersheadrow">
+            <div className="customersheadrow custcartrowhead">
               {myCartHeaders}
             </div>
             {myCart}
+          </div>
+          <div className={`tabsection ${tabPos===4?"show":""}`}>
+            <div className="customersheadrow custcartrowhead">
+              {myWishHeaders}
+            </div>
+            {myWishlist}
           </div>
           <div className={`tabsection ${tabPos===7?"show":""}`}>
             <div className="section">
