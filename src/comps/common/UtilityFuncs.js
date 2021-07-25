@@ -1,3 +1,4 @@
+import { db } from "./Fire"
 import { countries } from "./Lists"
 
 export function sizeConverter(size) {
@@ -63,3 +64,22 @@ export function getUserById(allUsers, id) {
   return allUsers?.find(x => x.userid === id)
 }
 
+export function getOrdersById(userid, setOrders) {
+  return db.collection('orders').where('customer.id','==',userid).onSnapshot(snap => {
+    let ordersArr = []
+    snap.forEach(el => {
+      ordersArr.push(el.data())
+    })
+    setOrders(ordersArr.flat())
+  })
+}
+
+export function getReviewsById(userid, setReviews) {
+  return db.collection('reviews').where('reviewerId','==',userid).onSnapshot(snap => {
+    let revsArr = []
+    snap.forEach(el => {
+      revsArr.push(el.data())
+    })
+    setReviews(revsArr.flat())
+  })
+}

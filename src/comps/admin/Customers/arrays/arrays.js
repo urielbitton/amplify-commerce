@@ -20,3 +20,11 @@ export const reviewsHeaders = [
   {name: 'Approved', val: -1},
   {name: 'Actions', val: -1}
 ]
+
+export const custOrdHeaders = [
+  'Order #',
+  'Products',
+  'Order Date',
+  'Total',
+  'Status'
+]

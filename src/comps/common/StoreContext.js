@@ -5,7 +5,7 @@ import refProd from './referProduct'
 import axios from 'axios'
 import csc from 'country-state-city'
 import SalesTax from 'sales-tax'
-import { convertProvinceCode } from './UtilityFuncs'
+import { convertProvinceCode, getOrdersById, getReviewsById } from './UtilityFuncs'
 
 export const StoreContext = createContext()
 
@@ -28,6 +28,7 @@ const StoreContextProvider = (props) => {
   const [slideNav, setSlideNav] = useState(false)
   const [showCart, setShowCart] = useState(false)
   const [myOrders, setMyOrders] = useState([])
+  const [myReviews, setMyReviews] = useState([])
   const [allOrders, setAllOrders] = useState([])
   const [allStats, setAllStats] = useState({})
   const [allTransactions, setAllTransactions] = useState([])
@@ -110,11 +111,11 @@ const StoreContextProvider = (props) => {
       let prodsArr = [] 
       snap.forEach(doc => { prodsArr.push(doc.data()) })
       setAllProducts(prodsArr) 
-    })   
-    db.collection('orders').onSnapshot(snap => {
+    })
+    db.collection('orders').orderBy('orderDateCreated','desc').onSnapshot(snap => {
       let ordersArr = []  
       snap.forEach(doc => { 
-        ordersArr.push(doc.data().allorders)
+        ordersArr.push(doc.data())
       })   
       setAllOrders(ordersArr.flat())         
     })  
@@ -163,9 +164,8 @@ const StoreContextProvider = (props) => {
       db.collection('users').doc(user.uid).onSnapshot(snap => {
         setCart(snap.data()?.userinfo.cart)
       })
-      db.collection('orders').doc(user.uid).onSnapshot(snap => {
-        setMyOrders([]) 
-      })
+      getOrdersById(user.uid, setMyOrders) 
+      getReviewsById(user.uid, setMyReviews)
     }
   },[user]) 
 
@@ -185,13 +185,6 @@ const StoreContextProvider = (props) => {
       setTaxRate(tax.rate)
      })
   },[selectedProvince, selectedCountry]) 
-  
-  /*
-  useEffect(() => {
-    setSelectedCountry(userLocation.countryCode)
-    setSelectedProvince(convertProvinceCode(provinceChoices, userLocation.region)) 
-  },[userLocation]) 
-  */
  
   return (
     <StoreContext.Provider value={{ 
@@ -210,7 +203,8 @@ const StoreContextProvider = (props) => {
       editCoupMode, setEditCoupMode, editShipMode, setEditShipMode, allCoupons, setAllCoupons,
       allShipping, setAllShipping, editOrdMode, setEditOrdMode, allCustomers, setAllCustomers,
       notifs, setNotifs, allTransactions, setAllTransactions, editCustMode, setEditCustMode, 
-      showAnaTips, setShowAnaTips, adminTaxRate, setAdminTaxRate, allReviews, setAllReviews
+      showAnaTips, setShowAnaTips, adminTaxRate, setAdminTaxRate, allReviews, setAllReviews, myReviews, setMyReviews,
+
     }}>
       {props.children}  
     </StoreContext.Provider>

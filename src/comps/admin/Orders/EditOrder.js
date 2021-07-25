@@ -206,9 +206,8 @@ export default function EditOrder(props) {
   }
   function createOrder() {
     if(allowCreate) { 
-      db.collection('orders').doc(customerId).set({
-        allorders: firebase.firestore.FieldValue.arrayUnion(entireOrder)
-      }, {merge:true}).then(() => {
+      db.collection('orders').doc(genNewOrderId).set(entireOrder)
+      .then(() => {
         setNotifs(prev => [...prev, {
           id: Date.now(),
           title: 'Order Created',
@@ -233,11 +232,8 @@ export default function EditOrder(props) {
 
   function editOrder() {
     if(allowCreate) {
-      let itemindex = allOrders.findIndex(x => x.orderid === orderid)
-      allOrders[itemindex] = entireOrder
-      db.collection('orders').doc(customerId).update({
-        allorders: allOrders
-      }).then(() => {
+      db.collection('orders').doc(orderid).update(entireOrder)
+      .then(() => {
         setNotifs(prev => [...prev, {
           id: Date.now(),
           title: 'Order Saved',
@@ -264,9 +260,7 @@ export default function EditOrder(props) {
     if(confirm) {
       let itemindex = allOrders.findIndex(x => x.orderid === orderid)
       allOrders.splice(itemindex, 1)
-      db.collection('orders').doc(customerId).update({
-        allorders: allOrders
-      })
+      db.collection('orders').doc(orderid).delete()
       .then(() => {
         setNotifs(prev => [...prev, {
           id: Date.now(),

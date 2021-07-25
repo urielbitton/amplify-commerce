@@ -60,11 +60,7 @@ export default function Orders() {
   function deleteOrder(orderid, customerId) {
     let confirm = window.confirm('Are you sure you wish to delete this order?')
     if(confirm) {
-      let itemindex = allOrders.findIndex(x => x.orderid === orderid)
-      allOrders.splice(itemindex, 1)
-      db.collection('orders').doc(customerId).update({
-        allorders: allOrders
-      })
+      db.collection('orders').doc(orderid).delete()
       .then(() => setNotifs(prev => [...prev, {
         id: Date.now(),
         title: 'Order Deleted',
