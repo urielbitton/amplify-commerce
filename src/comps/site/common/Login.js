@@ -114,6 +114,9 @@ export default function Login(props) {
     if(myUser.isAdmin) {
       history.push('/admin')
     }
+    if(user && !myUser.isAdmin) {
+      history.push('/')
+    }
   },[myUser])
  
   return (

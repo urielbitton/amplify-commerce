@@ -1,24 +1,24 @@
 import React, { useContext, useEffect, useState } from 'react'
 import './styles/CustomerPage.css'
-import {convertDate, getOrdersById, getReviewsById, getUserById} from '../../common/UtilityFuncs'
+import {convertDate, getOrdersById, getReviewsById, getTransactionsById, getUserArrById, getOrderArrById} from '../../common/UtilityFuncs'
 import {StoreContext} from '../../common/StoreContext'
 import AdminBtn from '../common/AdminBtn'
 import Ratings from '../../common/Ratings'
 import TabsBar from '../common/TabsBar'
 import referProduct from '../../common/referProduct'
-import { custOrdHeaders } from './arrays/arrays'
+import { custOrdHeaders, custRevsHeaders, custTransHeaders, custCartHeaders, tabsTitles } from './arrays/arrays'
 import { Link } from 'react-router-dom'
 
 export default function CustomerPage(props) {
 
-  const {allUsers, currencyFormat, allProducts} = useContext(StoreContext)
+  const {allUsers, currencyFormat, allProducts, allOrders} = useContext(StoreContext)
   const {id, name, profimg, email, phone, address, postCode, city, provState, country,
     number, moneySpent, userRating} = props.el
   const [tabPos, setTabPos] = useState(0)
   const [userOrders, setUserOrders] = useState([])
   const [userReviews, setUserReviews] = useState([])
-
-  const tabsTitles = ['Orders', 'Reviews', 'Transactions', 'About']
+  const [userTrans, setUserTrans] = useState([])
+  const [userCart, setUserCart] = useState([])
 
   const myOrdersHeaders = custOrdHeaders?.map(el => {
     return <h5>{el}</h5>
@@ -32,16 +32,47 @@ export default function CustomerPage(props) {
       <h6><span>{el.updates[el.updates.length-1].status}</span></h6>
     </div>
   })
-
+  const myReviewsHeaders = custRevsHeaders?.map(el => {
+    return <h5>{el}</h5>
+  })
   const myReviews = userReviews?.map(el => {
     return <div className="customerrow">
-      <h6>{el.title}</h6>
+      <h6><Link to={`/admin/customers/reviews/${el.id}`}>"{el.title}"</Link></h6>
+      <h6>{referProduct(allProducts, el.productId).name}</h6>
+      <h6>{convertDate(el.dateReviewed.toDate())}</h6>
+      <h6>{<Ratings rating={el.rating}/>}</h6>
+      <h6>{el.likes}</h6>
+    </div>
+  })
+
+  const myTransHeaders = custTransHeaders?.map(el => {
+    return <h5>{el}</h5>
+  })
+  const myTransactions = userTrans?.map(el => {
+    return <div className="customerrow">
+      <h6>
+        <Link to={`/admin/orders/transactions/${el.id}`}>#{el.number}</Link>
+      </h6>
+      <h6>#{getOrderArrById(allOrders, el.orderId).orderNumber}</h6>
+      <h6>****{el.cardNumber.slice(-4)}</h6>
+      <h6>{el.method}</h6>
+      <h6>{convertDate(el.date.toDate())}</h6>
+      <h6>{currencyFormat.format(el.total)}</h6>
+    </div>
+  })
+  const myCartHeaders = custCartHeaders?.map(el => {
+    return <h5>{el}</h5>
+  })
+  const myCart = userCart?.map(el => {
+    return <div className="customerrow">
+      
     </div>
   })
 
   useEffect(() => {
     getOrdersById(id, setUserOrders) 
     getReviewsById(id, setUserReviews)
+    getTransactionsById(id, setUserTrans)
   },[])
 
   return (
@@ -56,7 +87,7 @@ export default function CustomerPage(props) {
             <h5><i className="fal fa-phone"></i>{phone}</h5>
             <h5>
               <i className="fal fa-map-marker-alt"></i>
-              {address} 
+              {address}, &nbsp;
               <span className="upper">{postCode}</span></h5>
             <h5>
               <i className="fal fa-globe-americas"></i>
@@ -67,7 +98,7 @@ export default function CustomerPage(props) {
             <h6>Customer Data</h6>
             <h5><b>Customer Number:</b> #{number}</h5>
             <h5><b>Customer ID:</b> {id}</h5>
-            <h5><b>User Type:</b>{getUserById(allUsers, id)?.isAdmin?"Admin":"Client"}</h5>
+            <h5><b>User Type:</b>{getUserArrById(allUsers, id)?.isAdmin?"Admin":"Client"}</h5>
             <h5><b>Money Spent:</b> {currencyFormat.format(moneySpent)}</h5>
           </div>
         </div>
@@ -97,9 +128,26 @@ export default function CustomerPage(props) {
           </div>
           <div className={`tabsection ${tabPos===1?"show":""}`}>
             <div className="customersheadrow">
-              
+              {myReviewsHeaders}
             </div>
             {myReviews}
+          </div>
+          <div className={`tabsection ${tabPos===2?"show":""}`}>
+            <div className="customersheadrow">
+              {myTransHeaders}
+            </div>
+            {myTransactions}
+          </div>
+          <div className={`tabsection ${tabPos===3?"show":""}`}>
+            <div className="customersheadrow">
+              {myCartHeaders}
+            </div>
+            {myCart}
+          </div>
+          <div className={`tabsection ${tabPos===7?"show":""}`}>
+            <div className="section">
+              <h6>About Me</h6>
+            </div>
           </div>
         </div>
       </div>

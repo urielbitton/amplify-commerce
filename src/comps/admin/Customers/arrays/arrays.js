@@ -1,3 +1,14 @@
+export const tabsTitles = [
+  'Orders', 
+  'Reviews', 
+  'Transactions', 
+  'Cart', 
+  'Wishlist', 
+  'Addresses',
+  'Payments', 
+  'About'
+]
+
 export const custHeaders = [
   {name: 'Customer #', val: 0},
   {name: 'Name', val: 1},
@@ -27,4 +38,30 @@ export const custOrdHeaders = [
   'Order Date',
   'Total',
   'Status'
+]
+
+export const custRevsHeaders = [
+  'Title',
+  'Product',
+  'Date Reviewed',
+  'Rating',
+  'Likes'
+]
+
+export const custTransHeaders = [
+  'Number',
+  'Order #',
+  'Card Number',
+  'Method',
+  'Date',
+  'Total',
+]
+
+export const custCartHeaders = [
+  'Product',
+  'Name',
+  'Style',
+  'Unit Price',
+  'Quantity',
+  'Total',
 ]

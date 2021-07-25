@@ -2,7 +2,7 @@ import React, {useContext, useEffect, useState} from 'react'
 import { StoreContext } from '../../common/StoreContext'
 import {ordHeaders} from './arrays/arrays'
 import './styles/Orders.css'
-import { useHistory } from 'react-router-dom'
+import { Link, useHistory } from 'react-router-dom'
 import refProd from '../../common/referProduct'
 import {convertDate} from '../../common/UtilityFuncs'
 import PageTitle from '../common/PageTitle'
@@ -33,13 +33,15 @@ export default function Orders() {
     return
   }).map((el,i) => {
     return <div className="proditem">
-      <h5>#{el.orderNumber}</h5>
+      <h5><Link to={`/admin/orders/edit-order/${el.orderid}`}>#{el.orderNumber}</Link></h5>
       <h5>{el.customer.name}</h5>
-      <h5>{refProd(allProducts, el.products[0].id).name} {el.products.length>1&&`+ ${el.products.length-1} more`}</h5>  
+      <h5 title={el.products.length>1&&`+ ${el.products.length-1} more`}>{refProd(allProducts, el.products[0].id).name}</h5>  
       <h5>#{el.trackingNum}</h5>
       <h5>{convertDate(el.orderDateCreated.toDate())}</h5>
       <h5>{currencyFormat.format(el.orderTotal)}</h5> 
-      <h5 className="ordstatus"><span>{el.updates[el.updates.length-1].status}</span></h5>
+      <h5 className="ordstatus">
+        <span title={el.updates[el.updates.length-1].action}>{el.updates[el.updates.length-1].status}</span>
+      </h5>
       <h5>
         <div className="actionsdiv" onClick={(e) => {setShowOpts(showOpts===i?0:i);e.stopPropagation()}}>
           <i className="far fa-ellipsis-h actionsicon"></i>

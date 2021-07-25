@@ -309,7 +309,7 @@ export default function EditProduct(props) {
           {/*Reviews Section*/}
           <div className={`tabsection editsection reviewssection ${tabPos===3?"show":""}`}>
             <h4>Manage Product Reviews</h4>
-            <small>Remove or sensor reviews</small>
+            <small>Remove or moderate reviews</small>
           </div>
         </div>
         <div className="actionbtns">

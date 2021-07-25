@@ -3,9 +3,8 @@ import firebase from 'firebase'
 import {db} from './Fire'
 import refProd from './referProduct'
 import axios from 'axios'
-import csc from 'country-state-city'
 import SalesTax from 'sales-tax'
-import { convertProvinceCode, getOrdersById, getReviewsById } from './UtilityFuncs'
+import { convertProvinceCode, getOrdersById, getReviewsById, getTransactionsById } from './UtilityFuncs'
 
 export const StoreContext = createContext()
 
@@ -29,6 +28,7 @@ const StoreContextProvider = (props) => {
   const [showCart, setShowCart] = useState(false)
   const [myOrders, setMyOrders] = useState([])
   const [myReviews, setMyReviews] = useState([])
+  const [myTransactions, setMyTransactions] = useState([])
   const [allOrders, setAllOrders] = useState([])
   const [allStats, setAllStats] = useState({})
   const [allTransactions, setAllTransactions] = useState([])
@@ -109,28 +109,22 @@ const StoreContextProvider = (props) => {
   useEffect(() => {
     db.collection('products').onSnapshot(snap => {
       let prodsArr = [] 
-      snap.forEach(doc => { prodsArr.push(doc.data()) })
+      snap.forEach(doc => prodsArr.push(doc.data()) )
       setAllProducts(prodsArr) 
     })
     db.collection('orders').orderBy('orderDateCreated','desc').onSnapshot(snap => {
       let ordersArr = []  
-      snap.forEach(doc => { 
-        ordersArr.push(doc.data())
-      })   
-      setAllOrders(ordersArr.flat())         
+      snap.forEach(doc => ordersArr.push(doc.data()))
+      setAllOrders(ordersArr)         
     })  
-    db.collection('admin').doc('storeSettings').onSnapshot(snap => {
-      setSizesOpts(snap.data()?.storesettings.sizeopts)  
-      setColorsOpts(snap.data()?.storesettings.coloropts) 
-    })
     db.collection('coupons').onSnapshot(snap => {
       let coupsArr = [] 
-      snap.forEach(doc => { coupsArr.push(doc.data()) })
+      snap.forEach(doc => coupsArr.push(doc.data()))
       setAllCoupons(coupsArr)  
     })
     db.collection('shipping').onSnapshot(snap => {
       let shipArr = [] 
-      snap.forEach(doc => { shipArr.push(doc.data()) })
+      snap.forEach(doc => shipArr.push(doc.data()))
       setAllShipping(shipArr) 
     }) 
     db.collection('stats').doc('allstats').onSnapshot(snap => {
@@ -138,21 +132,25 @@ const StoreContextProvider = (props) => {
     })
     db.collection('customers').onSnapshot(snap => {
       const custArr = []
-      snap.forEach(el => { custArr.push(el.data()) }) 
+      snap.forEach(el => custArr.push(el.data()) ) 
       setAllCustomers(custArr)
     }) 
     db.collection('transactions').onSnapshot(snap => {
       const transArr = []
-      snap.forEach(el => { transArr.push(el.data().alltransactions) }) 
-      setAllTransactions(transArr.flat())
+      snap.forEach(el => transArr.push(el.data())) 
+      setAllTransactions(transArr)
     }) 
+    db.collection('reviews').onSnapshot(snap => {
+      const revsArr = [] 
+      snap.forEach(doc => revsArr.push(doc.data()))
+      setAllReviews(revsArr) 
+    })
     db.collection('admin').doc('storeSettings').onSnapshot(snap => {
       setAdminTaxRate(snap.data()?.storesettings.adminTaxRate)
     })
-    db.collection('reviews').onSnapshot(snap => {
-      const revsArr = [] 
-      snap.forEach(doc => { revsArr.push(doc.data()) })
-      setAllReviews(revsArr) 
+    db.collection('admin').doc('storeSettings').onSnapshot(snap => {
+      setSizesOpts(snap.data()?.storesettings.sizeopts)  
+      setColorsOpts(snap.data()?.storesettings.coloropts) 
     })
   },[user, auser])  
 
@@ -166,6 +164,7 @@ const StoreContextProvider = (props) => {
       })
       getOrdersById(user.uid, setMyOrders) 
       getReviewsById(user.uid, setMyReviews)
+      getTransactionsById(user.uid, setMyTransactions)
     }
   },[user]) 
 
@@ -174,9 +173,7 @@ const StoreContextProvider = (props) => {
       axios({
         method: 'get', 
         url: `https://extreme-ip-lookup.com/json/`,
-      }).then((res) => {
-        setUserLocation(res.data)
-      })  
+      }).then((res) => setUserLocation(res.data))
     }
   },[locateUser])
   
@@ -204,7 +201,7 @@ const StoreContextProvider = (props) => {
       allShipping, setAllShipping, editOrdMode, setEditOrdMode, allCustomers, setAllCustomers,
       notifs, setNotifs, allTransactions, setAllTransactions, editCustMode, setEditCustMode, 
       showAnaTips, setShowAnaTips, adminTaxRate, setAdminTaxRate, allReviews, setAllReviews, myReviews, setMyReviews,
-
+      myTransactions, setMyTransactions
     }}>
       {props.children}  
     </StoreContext.Provider>

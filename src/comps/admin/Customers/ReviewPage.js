@@ -2,9 +2,10 @@ import React, { useContext } from 'react'
 import Ratings from '../../common/Ratings'
 import './styles/Reviews.css'
 import {StoreContext} from '../../common/StoreContext'
-import { getCustomerById } from '../../common/UtilityFuncs'
+import { getCustomerArrById } from '../../common/UtilityFuncs'
 import AdminBtn from '../common/AdminBtn'
 import referProduct from '../../common/referProduct'
+import { Link } from 'react-router-dom'
 
 export default function ReviewPage(props) {
 
@@ -13,7 +14,7 @@ export default function ReviewPage(props) {
 
   return ( 
     <div className="reviewspage">
-      <div className="pagecont">
+      <div className="pagecont"> 
         <div>
           <div className="prodimgcont">
             <img src={referProduct(allProducts, productId).imgs[0]} alt=""/>
@@ -30,9 +31,11 @@ export default function ReviewPage(props) {
           {rating} out of 5
         </div>
         <div className="reviewbody">
-          <img src={getCustomerById(allCustomers, reviewerId)?.profimg} alt=""/>
+          <img src={getCustomerArrById(allCustomers, reviewerId)?.profimg} alt=""/>
           <div className="content">
-            <h5 className="nametitle">{getCustomerById(allCustomers, reviewerId)?.name}</h5>
+            <h5 className="nametitle">
+              <Link to={`/admin/customer/${getCustomerArrById(allCustomers, reviewerId).id}`}>{getCustomerArrById(allCustomers, reviewerId)?.name}</Link>
+            </h5>
             <h6>{title}</h6>
             <p className="reviewtext">
               {reviewText}
@@ -40,7 +43,7 @@ export default function ReviewPage(props) {
             <small>{likes} people liked this review</small>
             <div className="reviewactions">
               <AdminBtn title="Like" />
-              <AdminBtn title={`Contact ${getCustomerById(allCustomers, reviewerId)?.name.split(' ')[0]}`}/>
+              <AdminBtn title={`Contact ${getCustomerArrById(allCustomers, reviewerId)?.name.split(' ')[0]}`}/>
             </div>
           </div>
         </div>

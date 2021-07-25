@@ -47,7 +47,7 @@ export function convertTime(time) {
   return timeValue
 }
 
-const date = new Date()
+const date = new Date() 
 
 export const nowDate = `${date.getFullYear()}-${date.getMonth()<10?'0'+(date.getMonth()+1):(date.getMonth()+1)}-${date.getDate()<10?'0'+(date.getDate()):(date.getDate())}`
 export const nowDateTime = `${date.getFullYear()}-${date.getMonth()<10?'0'+(date.getMonth()+1):(date.getMonth()+1)}-${date.getDate()<10?'0'+(date.getDate()):(date.getDate())}T${date.getHours()<10?"0"+date.getHours():date.getHours()}:${date.getMinutes()<10?"0"+date.getMinutes():date.getMinutes()}`
@@ -56,12 +56,16 @@ export function convertDate(date, withTime) {
   return `${date?.toString().split(' ')[1]} ${date?.toString().split(' ')[2]} ${date?.toString().split(' ')[3]} ${withTime?date?.toString().split(' ')[4]:""}`
 } 
 
-export function getCustomerById(allCustomers, id) {
+export function getCustomerArrById(allCustomers, id) {
   return allCustomers?.find(x => x.id === id)
 }
 
-export function getUserById(allUsers, id) {
+export function getUserArrById(allUsers, id) {
   return allUsers?.find(x => x.userid === id)
+}
+
+export function getOrderArrById(allOrders, id) {
+  return allOrders?.find(x => x.orderid === id)
 }
 
 export function getOrdersById(userid, setOrders) {
@@ -70,7 +74,7 @@ export function getOrdersById(userid, setOrders) {
     snap.forEach(el => {
       ordersArr.push(el.data())
     })
-    setOrders(ordersArr.flat())
+    setOrders(ordersArr)
   })
 }
 
@@ -80,6 +84,16 @@ export function getReviewsById(userid, setReviews) {
     snap.forEach(el => {
       revsArr.push(el.data())
     })
-    setReviews(revsArr.flat())
+    setReviews(revsArr)
+  })
+}
+
+export function getTransactionsById(userid, setTrans) {
+  return db.collection('transactions').where('customerId','==',userid).onSnapshot(snap => {
+    let transArr = []
+    snap.forEach(el => {
+      transArr.push(el.data())
+    })
+    setTrans(transArr)
   })
 }

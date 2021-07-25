@@ -6,7 +6,7 @@ import AdminBtn from '../common/AdminBtn'
 import firebase from 'firebase'
 import {db} from '../../common/Fire'
 import refProd from '../../common/referProduct'
-import {sizeConverter, colorConverter, getCustomerById} from '../../common/UtilityFuncs'
+import {sizeConverter, colorConverter, getCustomerArrById} from '../../common/UtilityFuncs'
 import BillingShippingFields from './BillingShippingFields'
 import { Link, useHistory, useLocation } from 'react-router-dom'
 import PageTitle from '../common/PageTitle'
@@ -75,7 +75,7 @@ export default function EditOrder(props) {
     {name:'PayPal'},{name:'Visa'},{name:'Master Card'},{name:'Debit'},{name:'American Express'}
   ]
   
-  const entireOrder = { 
+  const entireOrder = {  
     orderid: editOrdMode?orderid:genNewOrderId,
     orderNumber: orderNum,
     orderDateCreated: new Date(),
@@ -88,13 +88,13 @@ export default function EditOrder(props) {
     updates: ordUpdates,
     customer: { 
       id: customerId.length?customerId:db.collection('customers').doc().id,
-      name: custName??getCustomerById(allCustomers, customerId)?.name??"",
-      email: custEmail??getCustomerById(allCustomers, customerId)?.email??"",
-      phone: custPhone??getCustomerById(allCustomers, customerId)?.phone??"",
+      name: custName??getCustomerArrById(allCustomers, customerId)?.name??"",
+      email: custEmail??getCustomerArrById(allCustomers, customerId)?.email??"",
+      phone: custPhone??getCustomerArrById(allCustomers, customerId)?.phone??"",
       profimg: 'https://i.imgur.com/1OKoctC.jpg',
-      city: custCity??getCustomerById(allCustomers, customerId).city??getCustomerById(allCustomers, customerId)?.city??"",
-      provState: custRegion??getCustomerById(allCustomers, customerId)?.provState??"",
-      country: custCountry??getCustomerById(allCustomers, customerId)?.country??"",
+      city: custCity??getCustomerArrById(allCustomers, customerId).city??getCustomerArrById(allCustomers, customerId)?.city??"",
+      provState: custRegion??getCustomerArrById(allCustomers, customerId)?.provState??"",
+      country: custCountry??getCustomerArrById(allCustomers, customerId)?.country??"",
     },
     shippingDetails: shippingState,
     billingDetails: sameAsShipping ? shippingState : billingState,

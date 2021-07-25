@@ -3,11 +3,12 @@ import { StoreContext } from '../../common/StoreContext'
 import PageTitle from '../common/PageTitle'
 import PageTitlesRow from '../common/PageTitlesRow'
 import { transHeaders } from './arrays/arrays'
-import {convertDate} from '../../common/UtilityFuncs'
+import {convertDate, getCustomerArrById, getOrderArrById} from '../../common/UtilityFuncs'
+import { Link } from 'react-router-dom'
 
 export default function Transactions() {
 
-  const {allTransactions, currencyFormat} = useContext(StoreContext)
+  const {allTransactions, currencyFormat, allCustomers, allOrders} = useContext(StoreContext)
   const [showOpts, setShowOpts] = useState(-1)
   const [sort, setSort] = useState(0)
   const [asc, setAsc] = useState(true)
@@ -26,8 +27,8 @@ export default function Transactions() {
   const allTransactionsRow = allTransactions?.map((el,i) => {
     return <div className="proditem">
       <h5>#{el.number}</h5>
-      <h5>#{el.orderNumber}</h5>
-      <h5>{el.customerName}</h5>
+      <h5><Link to={`/admin/orders/edit-order/${el.orderId}`}>#{getOrderArrById(allOrders, el.orderId).orderNumber}</Link></h5>
+      <h5>{getCustomerArrById(allCustomers, el.id).name}</h5>
       <h5>****{el.cardNumber.slice(-4)}</h5>
       <h5>{currencyFormat.format(el.total)}</h5>
       <h5>{convertDate(el.date.toDate())}</h5>

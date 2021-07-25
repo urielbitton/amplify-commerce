@@ -5,32 +5,59 @@ import {StoreContext} from '../../common/StoreContext'
 import {AppInput} from '../../common/AppInputs'
 import { db } from '../../common/Fire'
 import CustImgUploader from '../../common/CustImgUploader'
+import RegionCountry from '../../common/RegionCountry'
+import { getReviewsById } from '../../common/UtilityFuncs'
 
 export default function AccountProfile()  {
 
   const {myUser, user, myOrders, numberFormat, currencyFormat} = useContext(StoreContext)
+  const [myReviews, setMyReviews] = useState([])
   const purchases = myOrders?.reduce((a,b) => a+b.products.length,0)
-  const reviews = myUser?.reviews
   const moneyspent = myOrders?.reduce((a,b) => a+b.orderTotal,0)
-  const [fname, setFname] = useState(myUser?.fullname?.split(' ')[0])
-  const [lname, setLname] = useState(myUser?.fullname?.split(' ')[1])
-  const [email, setEmail] = useState(myUser?.email)
-  const [password, setPassword] = useState()
+  const [fname, setFname] = useState('')
+  const [lname, setLname] = useState('')
+  const [phone, setPhone] = useState('')
+  const [city, setCity] = useState('')
+  const [region, setRegion] = useState('')
+  const [country, setCountry] = useState('')
+  const [provinceChoices, setProvinceChoices] = useState([])
   const [url, setUrl] = useState('')
   const [loading, setLoading] = useState(false)
   const loadingRef = useRef()
 
   function updateInfo() {
     db.collection('users').doc(user.uid).update({
-      'userinfo.fullname': `${fname} ${lname}`
+      'userinfo.fullname': `${fname} ${lname}`,
+      'userinfo.phone': phone,
+      'userinfo.city': city,
+      'userinfo.provstate': region,
+      'userinfo.country': country,
     }).then(res => {
-      window.alert('Your account info has been successfully updated.')
+      window.alert('Your account information has been successfully updated.')
+    })
+    db.collection('customers').doc(user.uid).update({
+      'name': `${fname} ${lname}`,
+      'phone': phone,
+      'city': city,
+      'provstate': region,
+      'country': country,
     })
   }
 
   useEffect(() => {
-    setUrl(myUser?.profimg)
-  },[myUser])
+    if(myUser) {
+      setUrl(myUser.profimg)
+      getReviewsById(user?.uid, setMyReviews)
+
+      setFname(myUser.fullname?.split(' ')[0])
+      setLname(myUser.fullname?.split(' ')[1])
+      setPhone(myUser.phone)
+      setCity(myUser.city)
+      setRegion(myUser.provstate)
+      setCountry(myUser.country)
+    }
+  },[myUser]) 
+
  
   return (
     <div className="accountprofilepage">
@@ -44,7 +71,7 @@ export default function AccountProfile()  {
                 type="file" 
                 onChange={(e) => CustImgUploader(e, user.uid, setLoading, loadingRef, setUrl, true)}
               />
-              <img src={url.length?url:'https://i.imgur.com/1OKoctC.jpg'} alt=""/>
+              <img src={url?.length?url:'https://i.imgur.com/1OKoctC.jpg'} alt=""/>
               <div className="iconcont">
                 <i className="fas fa-camera"></i>
               </div>
@@ -69,7 +96,7 @@ export default function AccountProfile()  {
               <h6>Products<br/>Purchased</h6>
             </div>
             <div>
-              <h2>{numberFormat.format(reviews)}</h2>
+              <h2>{numberFormat.format(myReviews)}</h2>
               <h6>Reviews</h6>
             </div>
             <div>
@@ -95,17 +122,25 @@ export default function AccountProfile()  {
             />
             <AppInput 
               title="Email" 
-              value={email}
+              value={myUser?.email}
               disabled
             />
-            <AppInput title="Password" value={password} disabled/>
-            <AppInput title="Confirm Password" value={password} disabled/>
+            <AppInput title="Password" value={myUser?.password} disabled/>
+            <AppInput title="Phone" onChange={(e) => setPhone(e.target.value)} value={phone} />
+            <AppInput title="City" onChange={(e) => setCity(e.target.value)} value={city}/>
+            <RegionCountry 
+              country={country}
+              setCountry={setCountry}
+              region={region}
+              setRegion={setRegion}
+              provinceChoices={provinceChoices} 
+              setProvinceChoices={setProvinceChoices}
+            />
           </form>
         </div>
         <div className="btnscont">
           <AppButton 
             title="Save"
-            className="adminbtn"
             onClick={() => updateInfo()}
           />
         </div>

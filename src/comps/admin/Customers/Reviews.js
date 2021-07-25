@@ -3,7 +3,7 @@ import { Link, useHistory } from 'react-router-dom'
 import Ratings from '../../common/Ratings'
 import referProduct from '../../common/referProduct'
 import { StoreContext } from '../../common/StoreContext'
-import { convertDate, getCustomerById } from '../../common/UtilityFuncs'
+import { convertDate, getCustomerArrById } from '../../common/UtilityFuncs'
 import PageTitle from '../common/PageTitle'
 import {reviewsHeaders} from './arrays/arrays'
 import './styles/Reviews.css'
@@ -24,7 +24,7 @@ export default function Reviews() {
     return <h5 className={el.val===sort?"active":""}>
       <span onClick={() => {setSort(el.val);setAsc(el.val===sort && asc?false:true)}}>{el.name}</span>
       {i!==8&&<i className={sort===el.val && asc?"fad fa-sort-up":sort===el.val && !asc?"fad fa-sort-down":"fas fa-sort"}></i>}
-    </h5>
+    </h5> 
   }) 
 
   const allReviewsRow = allReviewsFilter?.sort((a,b) => {
@@ -34,7 +34,7 @@ export default function Reviews() {
       <h5><Link to={`/admin/customers/reviews/${el.id}`}>#{el.number}</Link></h5>
       <h5><Link to={`/admin/customers/reviews/${el.id}`}>"{el.title}"</Link></h5>
       <h5>{referProduct(allProducts, el.productId).name}</h5>
-      <h5>{getCustomerById(allCustomers, el.reviewerId).name}</h5>
+      <h5>{getCustomerArrById(allCustomers, el.reviewerId).name}</h5>
       <h5>{convertDate(el.dateReviewed.toDate())}</h5> 
       <h5 className="ratingrow">
         <Ratings rating={el.rating}/>
