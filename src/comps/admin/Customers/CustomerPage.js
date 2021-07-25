@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react'
 import './styles/CustomerPage.css'
-import {convertDate, getOrdersById, getReviewsById, getTransactionsById, getUserArrById, getOrderArrById} from '../../common/UtilityFuncs'
+import {convertDate, getOrdersById, getReviewsById, getTransactionsById, getUserArrById, getOrderArrById, getCartByUserId} from '../../common/UtilityFuncs'
 import {StoreContext} from '../../common/StoreContext'
 import AdminBtn from '../common/AdminBtn'
 import Ratings from '../../common/Ratings'
@@ -65,7 +65,9 @@ export default function CustomerPage(props) {
   })
   const myCart = userCart?.map(el => {
     return <div className="customerrow">
-      
+      <h6><Link to={`/admin/store/products/edit-product/${el.id}`}>
+        <img src={referProduct(allProducts, el.id).imgs[0]} alt=""/>  
+      </Link></h6>
     </div>
   })
 
@@ -73,7 +75,9 @@ export default function CustomerPage(props) {
     getOrdersById(id, setUserOrders) 
     getReviewsById(id, setUserReviews)
     getTransactionsById(id, setUserTrans)
-  },[])
+    setUserCart(getUserArrById(allUsers, id).cart)
+  },[]) 
+
 
   return (
     <div className="onecustomerpage">

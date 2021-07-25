@@ -4,7 +4,7 @@ import {db} from './Fire'
 import refProd from './referProduct'
 import axios from 'axios'
 import SalesTax from 'sales-tax'
-import { convertProvinceCode, getOrdersById, getReviewsById, getTransactionsById } from './UtilityFuncs'
+import { convertProvinceCode, getCartByUserId, getOrdersById, getReviewsById, getTransactionsById } from './UtilityFuncs'
 
 export const StoreContext = createContext()
 
@@ -13,6 +13,7 @@ const StoreContextProvider = (props) => {
   const user = firebase.auth().currentUser
   const [allProducts, setAllProducts] = useState([])
   const [allCustomers, setAllCustomers] = useState([])
+  const [allUsers, setAllUsers] = useState([])
   const [myUser, setMyUser] = useState({})
   const [cart, setCart] = useState([])
   const [auser, setAUser] = useState('')   
@@ -145,6 +146,11 @@ const StoreContextProvider = (props) => {
       snap.forEach(doc => revsArr.push(doc.data()))
       setAllReviews(revsArr) 
     })
+    db.collection('users').onSnapshot(snap => {
+      const usersArr = [] 
+      snap.forEach(doc => usersArr.push(doc.data().userinfo))
+      setAllUsers(usersArr) 
+    })
     db.collection('admin').doc('storeSettings').onSnapshot(snap => {
       setAdminTaxRate(snap.data()?.storesettings.adminTaxRate)
     })
@@ -201,7 +207,7 @@ const StoreContextProvider = (props) => {
       allShipping, setAllShipping, editOrdMode, setEditOrdMode, allCustomers, setAllCustomers,
       notifs, setNotifs, allTransactions, setAllTransactions, editCustMode, setEditCustMode, 
       showAnaTips, setShowAnaTips, adminTaxRate, setAdminTaxRate, allReviews, setAllReviews, myReviews, setMyReviews,
-      myTransactions, setMyTransactions
+      myTransactions, setMyTransactions, allUsers, setAllUsers
     }}>
       {props.children}  
     </StoreContext.Provider>

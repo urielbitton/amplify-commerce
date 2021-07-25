@@ -79,7 +79,7 @@ export default function Login(props) {
           userinfo 
         }).then(res => { 
           db.collection('customers').doc(user.uid).set({
-            id:user.uid,name: name??'',email:'',phone:'',city:'',provstate:'',provstateCode:'',
+            id:user.uid,name: name??'',email:email,phone:'',city:'',provstate:'',provstateCode:'',
             country:'',countryCode:'', moneySpent: 0, number: genRandomNum(), profimg: defaultImg
           }) 
           setAUser(user)
@@ -119,7 +119,7 @@ export default function Login(props) {
               userinfo
             }).then(res => {
               db.collection('customers').doc(user.uid).set({
-                id:user.uid,name: name??'',email:'',phone:'',city:'', provstate:'',provstateCode:'',
+                id:user.uid,name: name??'',email:email,phone:'',city:'', provstate:'',provstateCode:'',
                 country:'',countryCode:'',moneySpent: 0, number: genRandomNum(), profimg: defaultImg
               }) 
               setAUser(user)
