@@ -1,0 +1,22 @@
+.pagestarter {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  padding: 50px 0;
+}
+.pagestarter h6 {
+  color: #555;
+  font-weight: 500;
+  font-size: 12px;
+}
+.pagestarter h3 {
+  font-size: 22px;
+}
+.pagestarter img {
+  width: 200px;
+}
+.pagestarter .adminbtn {
+  margin-top: 20px;
+}

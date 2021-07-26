@@ -5,6 +5,7 @@ import referProduct from '../../common/referProduct'
 import { StoreContext } from '../../common/StoreContext'
 import { convertDate, getCustomerArrById } from '../../common/UtilityFuncs'
 import PageTitle from '../common/PageTitle'
+import PageTitlesRow from '../common/PageTitlesRow'
 import {reviewsHeaders} from './arrays/arrays'
 import './styles/Reviews.css'
 
@@ -71,6 +72,11 @@ export default function Reviews() {
     <div className="reviewspage longidpage">
       <PageTitle title="Reviews"/>
       <div className="pagecont">
+        <PageTitlesRow 
+          title="Reviews" 
+          searchPlaceholder="Find a review" 
+          setKeyword={setKeyword}
+        />
         <div className="reviewstablecont">
           <div className="producttable">
             <div className="header">
