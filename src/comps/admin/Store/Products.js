@@ -5,6 +5,7 @@ import { useHistory } from 'react-router-dom'
 import {db} from '../../common/Fire'
 import PageTitle from '../common/PageTitle'
 import PageTitlesRow from '../common/PageTitlesRow'
+import PageStarter from '../common/PageStarter'
 
 export default function Products() {
 
@@ -19,7 +20,8 @@ export default function Products() {
   const reduceSold = (el) => el.sizes?.reduce((a,b) => a + b.colors.reduce((a,b) => a + b.qtySold,0),0)
   const history = useHistory()
   const allProdsFilter = allProducts?.filter(x => (pattern.test(clean(x.name)) || pattern.test(x.price) || x.id === keyword || 
-  x.categories.some(x => x===keyword) || x.collection.some(x => x===keyword) || pattern.test(x.belongs)))
+    x.categories.some(x => x===keyword) || x.collection.some(x => x===keyword) || pattern.test(x.belongs)))
+  const showTable = allProducts.length?"block":"none"
  
   const headersrow = prodHeaders?.map((el,i) => {
     return <h5 className={el.val===sort?"active":""}>
@@ -122,7 +124,15 @@ export default function Products() {
           searchPlaceholder="Find a Product"
           setKeyword={setKeyword}
         />
-        <div className="productstablecont">
+        <PageStarter 
+          subtitle="You have no products yet."
+          title="Create a Product"
+          img="https://i.imgur.com/LDkx0CT.png"
+          btnText="Create Product"
+          btnUrl="/admin/store/add-product"
+          hide={allProducts.length}
+        />
+        <div className="productstablecont" style={{display:showTable}}>
           <div className="producttable">
             <div className="header">
               {headersrow}

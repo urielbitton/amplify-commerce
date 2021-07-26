@@ -6,6 +6,9 @@
   flex-direction: column;
   padding: 50px 0;
 }
+.pagestarter.hide {
+  display: none;
+}
 .pagestarter h6 {
   color: #555;
   font-weight: 500;
@@ -13,9 +16,10 @@
 }
 .pagestarter h3 {
   font-size: 22px;
+  text-align: center;
 }
 .pagestarter img {
-  width: 200px;
+  width: 240px;
 }
 .pagestarter .adminbtn {
   margin-top: 20px;

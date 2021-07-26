@@ -5,6 +5,7 @@ import PageTitlesRow from '../common/PageTitlesRow'
 import { transHeaders } from './arrays/arrays'
 import {convertDate, getCustomerArrById, getOrderArrById} from '../../common/UtilityFuncs'
 import { Link } from 'react-router-dom'
+import PageStarter from '../common/PageStarter'
 
 export default function Transactions() {
 
@@ -16,6 +17,7 @@ export default function Transactions() {
   const clean = text => text.replace(/[^a-zA-Z0-9 ]/g, "")
   let pattern = new RegExp('\\b' + clean(keyword), 'i')
   const reduceTotal = allTransactions.reduce((a,b) => a + b.total, 0)
+  const showTable = allTransactions.length?"block":"none"
 
   const headersrow = transHeaders?.map((el,i) => {
     return <h5 className={el.val===sort?"active":""}>
@@ -62,7 +64,13 @@ export default function Transactions() {
           searchPlaceholder="Find a transaction"
           setKeyword={setKeyword}
         />
-        <div className="productstablecont">
+        <PageStarter 
+          subtitle="You have no transactions yet."
+          title={<>Transactions will show<br/> when users create orders</>}
+          img="https://i.imgur.com/eM7Ae5F.png"
+          hide={allTransactions.length}
+        />
+        <div className="productstablecont" style={{display:showTable}}>
           <div className="producttable">
             <div className="header">
               {headersrow}

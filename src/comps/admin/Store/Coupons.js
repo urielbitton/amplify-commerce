@@ -5,6 +5,7 @@ import { useHistory } from 'react-router'
 import {db} from '../../common/Fire'
 import PageTitle from '../common/PageTitle'
 import PageTitlesRow from '../common/PageTitlesRow'
+import PageStarter from '../common/PageStarter'
 
 export default function Coupons() {
 
@@ -19,6 +20,7 @@ export default function Coupons() {
   const reducedAmounts = allCouponsFilter.reduce((a,b) => a + (b.type==='flat'&& +b.amount),0)
   const reduceActive = allCouponsFilter.reduce((a,b) => a + (b.isActive?1:0),0)
   const history = useHistory()
+  const showTable = allCoupons.length?"block":"none"
 
   const headersrow = couponHeaders?.map((el,i) => {
     return <h5 className={el.val===sort?"active":""}>
@@ -88,7 +90,15 @@ export default function Coupons() {
           searchPlaceholder="Find a Coupon"
           setKeyword={setKeyword}
         />
-        <div className="coupontablecont">
+        <PageStarter 
+          subtitle="You have no coupons yet."
+          title="Create a Coupon"
+          img="https://i.imgur.com/9wA6xFa.png"
+          btnText="Create Coupon"
+          btnUrl="/admin/store/add-coupon"
+          hide={allCoupons.length}
+        />
+        <div className="coupontablecont" style={{display:showTable}}>
           <div className="producttable">
             <div className="header couponsheaders">
               {headersrow}

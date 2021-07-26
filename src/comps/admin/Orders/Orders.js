@@ -8,6 +8,7 @@ import {convertDate} from '../../common/UtilityFuncs'
 import PageTitle from '../common/PageTitle'
 import { db } from '../../common/Fire'
 import PageTitlesRow from '../common/PageTitlesRow'
+import PageStarter from '../common/PageStarter'
 
 export default function Orders() {
 
@@ -21,6 +22,7 @@ export default function Orders() {
   const allOrdersFilter = allOrders?.filter(x => (pattern.test(x.orderTotal) || x.orderid === keyword
     || pattern.test(x.customer.name) || pattern.test(x.orderStatus)))
   const history = useHistory()
+  const showTable = allOrders.length?"block":"none"
 
   const headersrow = ordHeaders?.map((el,i) => {
     return <h5 className={el.val===sort?"active":""}>
@@ -92,7 +94,15 @@ export default function Orders() {
           searchPlaceholder="Find a Order"
           setKeyword={setKeyword}
         />
-        <div className="productstablecont">
+        <PageStarter 
+          subtitle="You have no orders yet."
+          title="Create an Order"
+          img="https://i.imgur.com/A5CyBo2.png"
+          btnText="Create Order"
+          btnUrl="/admin/orders/add-order"
+          hide={allOrders.length}
+        />
+        <div className="productstablecont" style={{display:showTable}}>
           <div className="producttable">
             <div className="header">
               {headersrow}

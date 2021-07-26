@@ -4,14 +4,14 @@ import './styles/PageStarter.css'
 
 export default function PageStarter(props) {
 
-  const {subtitle, title, img, btnText, btnUrl} = props
+  const {subtitle, title, img, btnText, btnUrl, hide} = props
 
   return (
-    <div className="pagestarter">
+    <div className={`pagestarter ${hide?"hide":""}`}>
       <h6>{subtitle}</h6>
       <h3>{title}</h3>
       <img src={img} alt=""/> 
-      <AdminBtn title={btnText} solid url={btnUrl} />
+      {btnText&&<AdminBtn title={btnText} solid url={btnUrl} />}
     </div>
   )
 }

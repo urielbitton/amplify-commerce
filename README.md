@@ -2,7 +2,7 @@
 Created React + <3
 
 Features to add: 
-- creating orders thru clients + admin should decrease stock count of purchased products + increase qtySold of product
+-  Decrease stock count of purchased products + increase qtySold of product when creating orders thru clients and admin
 - implement trash cans for products, orders, coupons, etc...
 - Change all inputs ProvinceCountries to RegionCountry (enhanced) component
 - let admin create users!
@@ -11,6 +11,7 @@ Features to add:
 - guest add to cart and checkout features
 - add newarrivals, about + contact pages
 - marketing: Allow admin to send marketing email (using SendMail) to all customers emails. Allow also option to create ads on site - create marketing ad feature
+- To complete integrated payments use stripe and my last DEV bookmark on how to implement with node server
 
 Bugs tracking:
 - multiple notifs will stay as long as last notifs

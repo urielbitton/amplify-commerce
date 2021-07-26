@@ -60,6 +60,7 @@ const StoreContextProvider = (props) => {
   const [allShipping, setAllShipping] = useState([])
   const [showAnaTips, setShowAnaTips] = useState(true)
   const [adminTaxRate, setAdminTaxRate] = useState(0) 
+  const [allCampaigns, setAllCampaigns] = useState([])
 
   const [quickProduct, setQuickProduct] = useState({
     id: '', 
@@ -168,6 +169,13 @@ const StoreContextProvider = (props) => {
       db.collection('users').doc(user.uid).onSnapshot(snap => {
         setCart(snap.data()?.userinfo.cart)
       })
+      db.collection('admin/marketing/campaigns').onSnapshot(snap => {
+        let campArr = []
+        snap.forEach(el => {
+          campArr.push(el.data())
+        })
+        setAllCampaigns(campArr) 
+      })
       getOrdersById(user.uid, setMyOrders) 
       getReviewsById(user.uid, setMyReviews)
       getTransactionsById(user.uid, setMyTransactions)
@@ -207,7 +215,7 @@ const StoreContextProvider = (props) => {
       allShipping, setAllShipping, editOrdMode, setEditOrdMode, allCustomers, setAllCustomers,
       notifs, setNotifs, allTransactions, setAllTransactions, editCustMode, setEditCustMode, 
       showAnaTips, setShowAnaTips, adminTaxRate, setAdminTaxRate, allReviews, setAllReviews, myReviews, setMyReviews,
-      myTransactions, setMyTransactions, allUsers, setAllUsers
+      myTransactions, setMyTransactions, allUsers, setAllUsers, allCampaigns, setAllCampaigns
     }}>
       {props.children}  
     </StoreContext.Provider>

@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from 'react'
 import { Link, useHistory } from 'react-router-dom'
 import { db } from '../../common/Fire'
 import { StoreContext } from '../../common/StoreContext'
+import PageStarter from '../common/PageStarter'
 import PageTitle from '../common/PageTitle'
 import PageTitlesRow from '../common/PageTitlesRow'
 import { custHeaders } from './arrays/arrays'
@@ -19,6 +20,7 @@ export default function Customers() {
     || pattern.test(x.email) || pattern.test(x.phone)))
   const history = useHistory()
   const reduceMoneySpent = allCustFilter?.reduce((a,b) => a + b.moneySpent, 0)
+  const showTable = allCustomers.length?"block":"none"
 
   const headersrow = custHeaders?.map((el,i) => {
     return <h5 className={el.val===sort?"active":""}>
@@ -92,7 +94,15 @@ export default function Customers() {
           searchPlaceholder="Find a Customer"
           setKeyword={setKeyword}
         />
-        <div className="customerstablecont">
+        <PageStarter 
+          subtitle="You have no customers yet."
+          title="Create a Customer"
+          img="https://i.imgur.com/TpkcDHL.png"
+          btnText="Create Customer"
+          btnUrl="/admin/customers/add-customer"
+          hide={allCustomers.length}
+        />
+        <div className="customerstablecont" style={{display:showTable}}>
           <div className="producttable">
             <div className="header">
               {headersrow}

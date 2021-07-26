@@ -4,6 +4,7 @@ import Ratings from '../../common/Ratings'
 import referProduct from '../../common/referProduct'
 import { StoreContext } from '../../common/StoreContext'
 import { convertDate, getCustomerArrById } from '../../common/UtilityFuncs'
+import PageStarter from '../common/PageStarter'
 import PageTitle from '../common/PageTitle'
 import PageTitlesRow from '../common/PageTitlesRow'
 import {reviewsHeaders} from './arrays/arrays'
@@ -20,6 +21,7 @@ export default function Reviews() {
   let pattern = new RegExp('\\b' + clean(keyword), 'i')
   const allReviewsFilter = allReviews?.filter(x => (pattern.test(x.title) || x.number === keyword || pattern.test(x.reviewer)))
   const history = useHistory()  
+  const showTable = allReviews.length?"block":"none"
 
   const headersrow = reviewsHeaders?.map((el,i) => {
     return <h5 className={el.val===sort?"active":""}>
@@ -77,7 +79,13 @@ export default function Reviews() {
           searchPlaceholder="Find a review" 
           setKeyword={setKeyword}
         />
-        <div className="reviewstablecont">
+        <PageStarter 
+          subtitle="You have no product reviews yet."
+          title="Product reviews will show up here"
+          img="https://i.imgur.com/J8yUs0s.png"
+          hide={allReviews.length}
+        />
+        <div className="reviewstablecont" style={{display:showTable}}>
           <div className="producttable">
             <div className="header">
               {headersrow}

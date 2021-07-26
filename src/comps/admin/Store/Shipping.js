@@ -5,6 +5,7 @@ import { useHistory } from 'react-router-dom'
 import { db } from '../../common/Fire'
 import PageTitle from '../common/PageTitle'
 import PageTitlesRow from '../common/PageTitlesRow'
+import PageStarter from '../common/PageStarter'
 
 export default function Shipping() {
 
@@ -20,6 +21,7 @@ export default function Shipping() {
   const reduceCountries = allShippingFilter.reduce((a,b) => a + b.countries.length,0)
   const reducePrices = allShippingFilter.reduce((a,b) => a + b.price,0)
   const history = useHistory()
+  const showTable = allShipping.length?"block":"none"
 
   const headersrow = shipHeaders?.map((el,i) => {
     return <h5 className={el.val===sort?"active":""}>
@@ -91,7 +93,15 @@ export default function Shipping() {
           searchPlaceholder="Find a Shipping Method"
           setKeyword={setKeyword}
         />
-        <div className="shippingtablecont">
+        <PageStarter 
+          subtitle="You have no shipping methods yet."
+          title="Create a Shipping Method"
+          img="https://i.imgur.com/JI2HZKk.png"
+          btnText="Create Shipping"
+          btnUrl="/admin/store/add-shipping"
+          hide={allShipping.length}
+        />
+        <div className="shippingtablecont" style={{display:showTable}}>
           <div className="producttable">
             <div className="header">
               {headersrow}
