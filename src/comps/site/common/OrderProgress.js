@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react'
 import './styles/OrderProgress.css'
-import {convertTime} from '../../common/UtilityFuncs'
+import {convertDate, convertTime} from '../../common/UtilityFuncs'
 import {StoreContext} from '../../common/StoreContext'
 
 export default function OrderProgress(props) {
@@ -8,24 +8,24 @@ export default function OrderProgress(props) {
   const {showTrackCont} = useContext(StoreContext)
   const {order, dateTitles=false, tubeHeight=20, iconsize=16} = props
   const [progLevel, setProgLevel] = useState(0)
-  const openDate = order?.updates.findIndex(x => x.status==='open')
-  const processDate = order?.updates.findIndex(x => x.status==='processing')
-  const shipDate = order?.updates.findIndex(x => x.status==='shipped')
-  const delivDate = order?.updates.findIndex(x => x.status==='delivered')
+  const recieveDate = order?.updates.findIndex(x => x.status==='Received')
+  const processDate = order?.updates.findIndex(x => x.status==='Processing')
+  const shipDate = order?.updates.findIndex(x => x.status==='Shipped')
+  const delivDate = order?.updates.findIndex(x => x.status==='Delivered')
 
   function convertLevel(level) {
     switch(level) {
-      case 'open': return 16;
-      case 'processing': return 42;
-      case 'shipped': return 67;
-      case 'delivered': return 100;
-      case 'cancelled': return 0;
+      case 'Received': return 16;
+      case 'Processing': return 42;
+      case 'Shipped': return 67;
+      case 'Delivered': return 100;
+      case 'Delayed': return 0;
       default: return 0;
     }
   }
 
   const levels = [
-    {name: 'Open', level: 16, date: order?.updates[openDate]?.date},
+    {name: 'Received', level: 16, date: order?.updates[recieveDate]?.date},
     {name: 'Processing', level: 42, date: order?.updates[processDate]?.date},
     {name: 'Shipped', level: 67, date: order?.updates[shipDate]?.date},
     {name: 'Delivered', level: 100, date: order?.updates[delivDate]?.date},
@@ -37,16 +37,14 @@ export default function OrderProgress(props) {
         dateTitles&&
         <>
           <span>
-            {date?.toDate().toString().split(' ')[1]}&nbsp;
-            {date?.toDate().toString().split(' ')[2]}&nbsp;
-            {date?.toDate().toString().split(' ')[3]}
+            {convertDate(date?.toDate())} 
           </span>
           <span>{date&&convertTime(date?.toDate().toString().split(' ').slice(4,7)[0])}</span>
         </>
       }
     </small>
   })
-  const checksrow = levels.map(({name,level},i) => {
+  const checksrow = levels.map(({level},i) => {
     return <i 
       key={i} 
       className={`fal fa-check-circle ${level<=progLevel?"full":""}`}
@@ -59,8 +57,9 @@ export default function OrderProgress(props) {
       setProgLevel(0)
     }
   },[showTrackCont])
+
   useEffect(() => {
-    setProgLevel(convertLevel(order?.orderStatus))
+    setProgLevel(convertLevel(order?.updates[order?.updates?.length-1]?.status))
   },[order])
 
   return (

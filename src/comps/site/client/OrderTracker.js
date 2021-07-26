@@ -3,7 +3,7 @@ import refProd from '../../common/referProduct'
 import { StoreContext } from '../../common/StoreContext'
 import OrderProgress from '../common/OrderProgress'
 import './styles/OrderTracker.css'
-import {convertTime} from '../../common/UtilityFuncs'
+import {convertDate, convertTime} from '../../common/UtilityFuncs'
 
 export default function OrderTracker(props) {
 
@@ -13,9 +13,7 @@ export default function OrderTracker(props) {
   const updatesrow = updates?.map(({action,date,location}) => {
     return <div className="updaterow">
       <h6>
-        {date.toDate().toString().split(' ')[1]}&nbsp;
-        {date.toDate().toString().split(' ')[2]}&nbsp;
-        {date.toDate().toString().split(' ')[3]}
+        {convertDate(date)}
         <span>{convertTime(date?.toDate().toString().split(' ').slice(4,7)[0])}</span>
       </h6>
       <h6>{location}</h6>

@@ -72,8 +72,8 @@ export default function PaymentBox(props) {
             <h6>Billing Address</h6>
             <small>{billAddressRef.fname} {billAddressRef.lname}</small> 
             <small>{billAddressRef.address}</small>
-            <small style={{display: billAddressRef.aptunit.length?"block":"none"}}>
-              Apt. {billAddressRef.aptunit}
+            <small style={{display: billAddressRef?.aptunit?.length?"block":"none"}}>
+              Apt. {billAddressRef?.aptunit}
             </small>
             <small>{billAddressRef.city}, {billAddressRef.provstate} {billAddressRef.postcode}</small>
             <small>{billAddressRef.country}</small>

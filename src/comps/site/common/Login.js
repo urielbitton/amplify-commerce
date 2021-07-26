@@ -79,6 +79,8 @@ export default function Login(props) {
           cart: [],
           savedlater: [], 
           wishlist: [],
+          addresses: [],
+          payments: [],
           settings: {} 
         }
         firebase.auth().onAuthStateChanged(user => {

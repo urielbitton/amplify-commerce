@@ -73,6 +73,8 @@ export default function Login(props) {
           cart: [],
           savedlater: [],
           wishlist: [],
+          addresses: [],
+          payments: [],
           settings: {} 
         }
         db.collection('users').doc(user.uid).set({
@@ -112,6 +114,8 @@ export default function Login(props) {
           cart: [],
           savedlater: [],
           wishlist: [],
+          addresses: [],
+          payments: [],
           settings: {} 
         }
         firebase.auth().onAuthStateChanged(user => {

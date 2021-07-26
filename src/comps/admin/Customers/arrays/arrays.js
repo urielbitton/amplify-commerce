@@ -72,3 +72,23 @@ export const custWishHeaders = [
   'Stock',
   'Unit Price',
 ]
+
+export const custAddressHeaders = [
+  'Name',
+  'Address',
+  'Postal Code',
+  'City',
+  'Region',
+  'Country',
+  'Primary'
+]
+
+export const custPaymentsHeaders = [
+  'Card',
+  'Card Number',
+  'Cardholder',
+  'Exp. Date',
+  'Billing',
+  'Bank',
+  'Primary'
+]

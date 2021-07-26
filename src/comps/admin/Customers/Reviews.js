@@ -33,8 +33,12 @@ export default function Reviews() {
     return <div className="proditem">
       <h5><Link to={`/admin/customers/reviews/${el.id}`}>#{el.number}</Link></h5>
       <h5><Link to={`/admin/customers/reviews/${el.id}`}>"{el.title}"</Link></h5>
-      <h5>{referProduct(allProducts, el.productId).name}</h5>
-      <h5>{getCustomerArrById(allCustomers, el.reviewerId).name}</h5>
+      <h5>
+        <Link to={`/admin/store/edit-product/${referProduct(allProducts, el.productId).id}`}>{referProduct(allProducts, el.productId).name}</Link>
+      </h5>
+      <h5>
+        <Link to={`/admin/customer/${getCustomerArrById(allCustomers, el.reviewerId).id}`}>{getCustomerArrById(allCustomers, el.reviewerId).name}</Link>
+      </h5>
       <h5>{convertDate(el.dateReviewed.toDate())}</h5> 
       <h5 className="ratingrow">
         <Ratings rating={el.rating}/>

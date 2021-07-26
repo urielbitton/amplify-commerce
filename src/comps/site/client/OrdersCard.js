@@ -9,13 +9,14 @@ import {sizeConverter, colorConverter} from '../../common/UtilityFuncs'
 export default function OrdersCard(props) {
   
   const {currencyFormat, allProducts, setShowTrackCont, setTrackingDetails,  user} = useContext(StoreContext)
-  const {orderStatus, orderid, orderDateCreated, orderTotal, shippingDetails, products,
+  const {orderid, orderDateCreated, orderTotal, shippingDetails, products,
     shippingMethod, updates, customer
   } = props.order
   const {topbar=true, vieworderbtn=true, prodindex=0, showmore=false} = props
   const [showActions, setShowActions] = useState(-1)
   let orderDate = orderDateCreated.toDate().toString().split(' ')
   const productsmore = products.length>1?products.length-1:0
+  const orderStatus = updates[updates.length-1].status
 
   function trackOrder() {
     setShowTrackCont(true)
@@ -27,7 +28,6 @@ export default function OrdersCard(props) {
       carrier: 'N/A',
       shippingMethod,
       updates,
-      orderStatus
     })
   }
 

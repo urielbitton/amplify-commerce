@@ -123,6 +123,9 @@
 .onecustomerpage .custcartrow h6:first-child {
   flex-basis: 120px;
 }
+.onecustomerpage .customerrow h6 img.cardimg {
+  height: 40px;
+}
 .onecustomerpage .tabsection {
   gap: 10px;
 }

@@ -21,6 +21,7 @@ import EditCustomer from '../Customers/EditCustomer'
 import Reviews from '../Customers/Reviews'
 import ReviewPage from '../Customers/ReviewPage'
 import CustomerPage from '../Customers/CustomerPage'
+import Marketing from '../Customers/Marketing'
 
 export default function AdminHomecont() {
  
@@ -117,6 +118,9 @@ export default function AdminHomecont() {
             <Reviews />
           </Route>
           {reviewspages}
+          <Route exact path="/admin/customers/marketing">
+            <Marketing />
+          </Route>
         </Switch> 
       </div>
     </div> 

@@ -8,7 +8,7 @@ import Ratings from '../../common/Ratings'
 import TabsBar from '../common/TabsBar'
 import refProd from '../../common/referProduct'
 import { custOrdHeaders, custRevsHeaders, custTransHeaders, custCartHeaders, tabsTitles,
-  custWishHeaders } from './arrays/arrays'
+  custWishHeaders, custAddressHeaders, custPaymentsHeaders } from './arrays/arrays'
 import { Link } from 'react-router-dom'
 
 export default function CustomerPage(props) {
@@ -22,6 +22,8 @@ export default function CustomerPage(props) {
   const [userTrans, setUserTrans] = useState([])
   const [userCart, setUserCart] = useState([])
   const [userWish, setUserWish] = useState([])
+  const [userAddress, setUserAddress] = useState([])
+  const [userPayments, setUserPayments] = useState([])
   const reduceStock = (el) => el.sizes?.reduce((a,b) => a + b.colors.reduce((a,b) => a + b.stock,0),0)
 
   const myOrdersHeaders = custOrdHeaders?.map(el => {
@@ -95,12 +97,63 @@ export default function CustomerPage(props) {
   </div>
   })
 
+  const myAddressHeaders = custAddressHeaders?.map(el => {
+    return <h5>{el}</h5>
+  })
+  const myAddresses = userAddress?.map(el => {
+    return <div className="customerrow">
+    <h6>{el.fname} {el.lname}</h6>
+    <h6>{el.address}</h6>
+    <h6>{el.postcode}</h6>
+    <h6>{el.city}</h6>
+    <h6>{el.region}</h6>
+    <h6>{el.country}</h6>
+    <h6>{el.primary?"Primary":""}</h6>
+  </div>
+  })
+
+  const myPaymentsHeaders = custPaymentsHeaders?.map(el => {
+    return <h5>{el}</h5>
+  })
+  const myPayments = userPayments?.map(el => {
+    return <div className="customerrow">
+    <h6><img className="cardimg" src={el.cardImg} alt=""/></h6>
+    <h6>****{el.cardNumber.slice(-4)}</h6>
+    <h6>{el.cardHolder}</h6>
+    <h6>{el.expiryMonth}/{el.expiryYear}</h6>
+    <h6>{}</h6>
+    <h6>{el.bank}</h6>
+    <h6>{el.primary?"Primary":""}</h6>
+  </div>
+  })
+
+  const sectionsArr = [
+    {header: myOrdersHeaders, content: myOrders},
+    {header: myReviewsHeaders, content: myReviews},
+    {header: myTransHeaders, content: myTransactions},
+    {header: myCartHeaders, content: myCart, className:'custcartrowhead'},
+    {header: myWishHeaders, content: myWishlist, className:'custcartrowhead'},
+    {header: myAddressHeaders, content: myAddresses},
+    {header: myPaymentsHeaders, content: myPayments} 
+  ]
+
+  const customerSections = sectionsArr?.map(({header,content,className},i) => {
+    return <div className={`tabsection ${tabPos===i?"show":""}`}>
+      <div className={`customersheadrow ${className?className:""}`}>
+        {header}
+      </div>
+      {content}
+    </div>
+  })
+
   useEffect(() => {
     getOrdersById(id, setUserOrders) 
     getReviewsById(id, setUserReviews)
     getTransactionsById(id, setUserTrans)
     setUserCart(getUserArrById(allUsers, id)?.cart)
     setUserWish(getUserArrById(allUsers, id)?.wishlist)
+    setUserAddress(getUserArrById(allUsers, id)?.addresses)
+    setUserPayments(getUserArrById(allUsers, id)?.payments)
   },[allUsers]) 
 
   return (
@@ -149,41 +202,7 @@ export default function CustomerPage(props) {
             tabPos={tabPos}
             setTabPos={setTabPos}
           />
-          <div className={`tabsection ${tabPos===0?"show":""}`}>
-            <div className="customersheadrow">
-              {myOrdersHeaders}
-            </div>
-            {myOrders}
-          </div>
-          <div className={`tabsection ${tabPos===1?"show":""}`}>
-            <div className="customersheadrow">
-              {myReviewsHeaders}
-            </div>
-            {myReviews}
-          </div>
-          <div className={`tabsection ${tabPos===2?"show":""}`}>
-            <div className="customersheadrow">
-              {myTransHeaders}
-            </div>
-            {myTransactions}
-          </div>
-          <div className={`tabsection ${tabPos===3?"show":""}`}>
-            <div className="customersheadrow custcartrowhead">
-              {myCartHeaders}
-            </div>
-            {myCart}
-          </div>
-          <div className={`tabsection ${tabPos===4?"show":""}`}>
-            <div className="customersheadrow custcartrowhead">
-              {myWishHeaders}
-            </div>
-            {myWishlist}
-          </div>
-          <div className={`tabsection ${tabPos===7?"show":""}`}>
-            <div className="section">
-              <h6>About Me</h6>
-            </div>
-          </div>
+          {customerSections}
         </div>
       </div>
     </div>
