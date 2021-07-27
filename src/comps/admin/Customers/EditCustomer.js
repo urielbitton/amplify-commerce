@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useRef, useState } from 'react'
-import { AppInput } from '../../common/AppInputs'
+import { AppInput, AppSwitch } from '../../common/AppInputs'
 import { db } from '../../common/Fire'
 import { StoreContext } from '../../common/StoreContext'
 import AdminBtn from '../common/AdminBtn'
@@ -15,7 +15,7 @@ export default function EditCustomer(props) {
 
   const {editCustMode, setNotifs, setEditCustMode, user} = useContext(StoreContext)
   const {id, number, name, email, phone, address, city, provState, country, moneySpent, profimg,
-    userRating} = editCustMode&&props.el
+    userRating, isActive} = editCustMode&&props.el
   const [custImg, setCustImg] = useState('')
   const [custNum, setCustNum] = useState('')
   const [custName, setCustName] = useState('') 
@@ -26,6 +26,7 @@ export default function EditCustomer(props) {
   const [custRegion, setCustRegion] = useState('')
   const [custCountry, setCustCountry] = useState('')
   const [provinceChoices, setProvinceChoices] = useState([])
+  const [isCustActive, setIsCustActive] = useState(true)
   const [loading, setLoading] = useState(false)
   const [url, setUrl] = useState('')
   const loadingRef = useRef()
@@ -50,7 +51,8 @@ export default function EditCustomer(props) {
     countryCode: convertCountryCode(custCountry)??'',
     moneySpent: 0,
     profimg: url,
-    userRating: editCustMode?userRating:0
+    userRating: editCustMode?userRating:0,
+    isActive: isCustActive
   }
 
   function generateNum() {
@@ -139,6 +141,7 @@ export default function EditCustomer(props) {
     setCustCity(editCustMode?city:'')
     setCustRegion(editCustMode?provState:"")
     setCustCountry(editCustMode?country:"")
+    setIsCustActive(editCustMode?isActive:true)
   },[editCustMode])
 
   useEffect(() => {
@@ -192,6 +195,7 @@ export default function EditCustomer(props) {
             setProvinceChoices={setProvinceChoices}
           />
           <AppInput className="inprow show currencyinp" title="Money Spent" disabled type="number" value={moneySpent} />
+          <AppSwitch className="inprow show" title="Active" onChange={(e) => setIsCustActive(e.target.checked)} checked={isCustActive}/>
 
           <div className="final actionbtns">
             <AdminBtn title={editCustMode?"Edit Customer":"Create Customer"} className={!!!allowCreate?"disabled":""} solid clickEvent onClick={() => !editCustMode?createCustomer():editCustomer()}/>

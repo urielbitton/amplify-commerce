@@ -1,5 +1,6 @@
 .createcampaignpage .adminslidecont .slide {
-  width: 600px;
+  width: 100%;
+  height: 100%;
   display: flex;
   flex-direction: column;
   gap: 20px;
@@ -8,20 +9,30 @@
   display: flex;
   flex-direction: column;
   gap: 20px;
+  width: 650px;
 }
-.createcampaignpage .adminslidecont .slidepage > h4 {
+.createcampaignpage .adminslidecont .slidepage > h4,
+.createcampaignpage .adminslidecont .slidepage .left > h4 {
   color: #777;
   margin-bottom: 20px;
 }
-.createcampaignpage .adminslidecont .slidepage > h4 i {
+.createcampaignpage .adminslidecont .slidepage > h4 i,
+.createcampaignpage .adminslidecont .slidepage .left > h4 i {
   margin-right: 10px;
 }
-.createcampaignpage .adminslidecont .appinput input {
+.createcampaignpage .adminslidecont .appinput input,
+.createcampaignpage .adminslidecont .apptextarea textarea {
   border-radius: 10px;
   border: 1px solid #eee;
   background: #f5f5f5;
 }
-.createcampaignpage .adminslidecont .appinput h6 {
+.createcampaignpage .adminslidecont .apptextarea textarea {
+  max-width: 100%;
+  min-width: 100%;
+  min-height: 90px;
+}
+.createcampaignpage .adminslidecont .appinput h6,
+.createcampaignpage .adminslidecont .apptextarea h6 {
   font-size: 12px;
   margin-bottom: 5px;
   color: #555;
@@ -62,13 +73,19 @@
   width: 100%;
   display: flex;
   flex-direction: column; 
-  gap: 10px;
+  gap: 20px;
 }
 .customerinvitecont .customerstable .header .row,
 .customerinvitecont .customerstable .content .row {
   display: flex;
   align-items: center;
   justify-content: space-between;
+}
+.customerinvitecont .customerstable .content .adminbtn,
+.customerinvitecont .appcheckbox .adminbtn {
+  height: auto;
+  padding: 5px 10px;
+  border-radius: 7px;
 }
 .customerinvitecont .customerstable .header h6 {
   font-size: 12px;
@@ -88,4 +105,76 @@
 .customerinvitecont .customerstable .content input {
   width: 15px;
   height: 15px;
+}
+.customerinvitecont label {
+  padding-bottom: 10px;
+  border-bottom: 1px solid #eee;
+}
+.slidepage .adminbtn {
+  display: inline;
+}
+.createcampaignpage .adminslidecont .adspage {
+  flex-direction: row;
+  gap: 50px;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  width: 100%;
+}
+.createcampaignpage .adminslidecont .adspage .left {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  width: 40%;
+}
+.createcampaignpage .adminslidecont .adspage .right {
+  width: 55%;
+}
+.createcampaignpage .adminslidecont .adspage .right h2 {
+  text-align: center;
+  margin-bottom: 20px;
+  color: #333;
+  font-weight: 500;
+}
+.createcampaignpage .adpreviewcont {
+  width: 100%;
+  height: 340px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  gap: 5px;
+  background-position: center;
+  background-size: cover;
+  padding: 30px;
+  border-radius: 10px;
+  overflow: hidden;
+}
+.createcampaignpage .adpreviewcont::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.6);
+}
+.createcampaignpage .adpreviewcont h1 {
+  color: #fff;
+  z-index: 10;
+  font-weight: 500;
+}
+.createcampaignpage .adpreviewcont h4 {
+  color: #ddd;
+  font-weight: 500;
+  z-index: 10;
+}
+.createcampaignpage .adpreviewcont p {
+  font-size: 13px;
+  margin-top: 30px;
+  color: #ddd;
+  z-index: 10;
+  font-weight: 400;
+  text-align: center;
+  width: 80%;
+  white-space: pre-wrap;
 }

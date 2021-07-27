@@ -21,7 +21,6 @@ export default function AdminSlide(props) {
       onClick={() => slidePos<slidesLength&&setSlidePos(prev => prev+1)}
     />
   </div>
-  console.log(slidePos,slidesLength) 
 
   const slidesRender = slidePages?.map((el,i) => {
     return <div className={`slide ${slidePos===i?"active":''} ${i<slidePos?"left":""}`}>
