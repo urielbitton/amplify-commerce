@@ -8,7 +8,7 @@ import referProduct from '../../common/referProduct'
 import { Link } from 'react-router-dom'
 
 export default function ReviewPage(props) {
-
+ 
   const {allCustomers, allProducts, currencyFormat}  = useContext(StoreContext)
   const {title, rating, reviewerId, reviewText, likes, productId} = props.el
 

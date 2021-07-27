@@ -21,7 +21,7 @@ export default function Customers() {
   const history = useHistory()
   const reduceMoneySpent = allCustFilter?.reduce((a,b) => a + b.moneySpent, 0)
   const showTable = allCustomers.length?"block":"none"
-
+ 
   const headersrow = custHeaders?.map((el,i) => {
     return <h5 className={el.val===sort?"active":""}>
       <span onClick={() => {setSort(el.val);setAsc(el.val===sort && asc?false:true)}}>{el.name}</span>

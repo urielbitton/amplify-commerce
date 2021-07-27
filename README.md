@@ -12,6 +12,7 @@ Features to add:
 - add newarrivals, about + contact pages
 - marketing: Allow admin to send marketing email (using SendMail) to all customers emails. Allow also option to create ads on site - create marketing ad feature
 - To complete integrated payments use stripe and my last DEV bookmark on how to implement with node server
+- track site visits through firebase analytics
 
 Bugs tracking:
 - multiple notifs will stay as long as last notifs

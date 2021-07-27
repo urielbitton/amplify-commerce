@@ -30,7 +30,7 @@ export default function Marketing() {
           title="Marketing" 
           searchPlaceholder="Find a campaign" 
           btnTitle="New Campaign" 
-          btnUrl="/admin/customers/marketing/add-campaign"
+          btnUrl="/admin/customers/marketing/create-campaign"
         />
         <PageStarter 
           subtitle="You have no campaigns yet."

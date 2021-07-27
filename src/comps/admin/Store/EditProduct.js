@@ -17,7 +17,7 @@ export default function EditProduct(props) {
     composition, shippingReturns, rating, ratingsarr, reviews} = editProdMode&&props.el
   const [tabPos, setTabPos] = useState(0)
   const [prodName, setProdName] = useState("")
-  const [prodImg, setProdImg] = useState(["https://i.imgur.com/IxUNUm5.png"])
+  const [prodImg, setProdImg] = useState([])
   const [prodPrice, setProdPrice] = useState("")
   const [prodBelongs, setProdBelongs] = useState("")
   const [prodBrand, setProdBrand] = useState("")
@@ -166,6 +166,12 @@ export default function EditProduct(props) {
   },[location])
 
   useEffect(() => {
+    if(imgUrl.length) {
+      setProdImg([imgUrl])
+    }
+  },[imgUrl])
+ 
+  useEffect(() => {
     setProdName(editProdMode?name:'')
     setProdImg(editProdMode?imgs[0]:['https://i.imgur.com/IxUNUm5.png'])
     setProdPrice(editProdMode?price:'')
@@ -179,12 +185,6 @@ export default function EditProduct(props) {
     setProdComposition(editProdMode?composition:'')
     setProdShipReturns(editProdMode?shippingReturns:'')
   },[editProdMode])
-
-  useEffect(() => {
-    if(imgUrl.length) {
-      setProdImg([imgUrl])
-    }
-  },[imgUrl])
 
   return (
     <div className="editproductpage">
