@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react'
 import './styles/ChatSidebar.css'
-import TabsBar from '../common/TabsBar'
+import '../common/styles/TabsBar.css'
 import {StoreContext} from '../../common/StoreContext'
 import { getCustomerArrById } from '../../common/UtilityFuncs'
 import { getChatByUserId } from '../../common/services/ChatService'
@@ -14,7 +14,10 @@ export default function ChatSidebar(props) {
   const [urlCustId, setUrlCustId] = useState(0)
   const history = useHistory()
   const location = useLocation()
-  const tabsTitles = ['All Chats', 'Archived']
+  const tabsTitles = [
+    {name: 'All Chats', url: '/admin/support/customer-support/chat'},
+    {name: 'Archived', url: '/admin/support/customer-support/archived'}
+  ]
 
   const chatCardRow = allChats?.map(({chatInfo}) => {
     return <div 
@@ -31,6 +34,13 @@ export default function ChatSidebar(props) {
       </div>
     </div>
   }) 
+
+  const tabsheadrow = tabsTitles?.map((el,i) => {
+    return <h5
+      className={i===tabPos?"active":""}
+      onClick={() => {setTabPos(i);history.push(el.url)}}
+    >{el.name}<hr/></h5>
+  })
   
   function initChat(chatInfo) {
     getChatByUserId(`chats/${chatInfo.customerId}/messages`, setChatData)
@@ -45,14 +55,23 @@ export default function ChatSidebar(props) {
 
   return (
     <div className="adminchatsidebar">
-      <TabsBar 
-        tabsTitles={tabsTitles} 
-        tabPos={tabPos} 
-        setTabPos={setTabPos} 
-      />
-      <div className="chatslistcont">
-        {chatCardRow}
+      <div className="tabsbar">
+        <div className="tabstitles"> 
+          {tabsheadrow} 
+        </div>
+        <hr className="tabline"/>
       </div>
+      <div className={`tabsection ${tabPos===0?"show":""}`}>
+        <div className="chatslistcont">
+          {chatCardRow}
+        </div>
+      </div>
+      <div className={`tabsection ${tabPos===1?"show":""}`}>
+        <div className="archiveslistcont">
+          <h5>Archived Chats will show up here.</h5>
+        </div>
+      </div>
+      
     </div>
   )
 }

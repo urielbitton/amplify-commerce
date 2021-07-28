@@ -28,3 +28,73 @@
   color: #444;
   font-size: 14px;
 }
+.dialoguecont header .optscont {
+  width: 30px;
+  height: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: all 0.2s;
+  cursor: pointer;
+  border-radius: 100%;
+}
+.dialoguecont header .optscont:hover {
+  background: var(--light);
+}
+.dialoguecont header .optscont i {
+  color: var(--graytxt);
+}
+.dialoguecont section {
+  padding: 30px;
+  width: 100%;
+  height: 85%;
+  overflow-y: scroll;
+}
+.dialoguecont section::-webkit-scrollbar {
+  display: none;
+}
+.dialoguecont .typercont {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  padding: 20px;
+}
+.dialoguecont .typercont .apptextarea {
+  width: 85%;
+  margin: 0 20px;
+}
+.dialoguecont .typercont textarea {
+  border-radius: 10px;
+  background: #f5f6fc;
+  border: none;
+  padding: 15px 20px;
+  resize: none;
+}
+.dialoguecont .typercont .sendbtn {
+  font-size: 24px;
+  color: var(--admincolor);
+  cursor: pointer;
+  transition: all 0.2s;
+  top: -4px;
+}
+.dialoguecont .typercont .sendbtn:hover {
+  filter: brightness(120%);
+}
+.dialoguecont .typercont > div {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+.dialoguecont .typercont .optscont {
+  width: 35px;
+  height: 35px;
+  border-radius: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: all 0.2s;
+  cursor: pointer;
+}
+.dialoguecont .typercont .optscont:hover {
+  background: var(--light);
+}

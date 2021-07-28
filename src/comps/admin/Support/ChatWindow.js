@@ -27,6 +27,8 @@ export default function ChatWindow(props) {
               title="Start a Chat"
               img="https://i.imgur.com/xP6AwB2.png"
               btnText="New Chat"
+              clickEvent
+              onClick={() => console.log('Open popup to select customer to chat with.')}
             />
           </div>
         </Route>
