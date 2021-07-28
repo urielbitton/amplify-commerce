@@ -15,6 +15,7 @@ Features to add:
 - track site visits through firebase analytics
 - add site updates in updates collection (everytime a new product is sold, order is made, customer created, etc.)
   updates show up in admin dashboard
+- make launch campaign send emails to customers using either php or SendMail.com
 
 Bugs tracking:
 - multiple notifs will stay as long as last notifs

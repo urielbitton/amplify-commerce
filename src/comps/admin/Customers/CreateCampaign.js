@@ -31,18 +31,17 @@ export default function CreateCampaign(props) {
     && emailSubject.length && emailBody.length
   const history = useHistory()
   const location = useLocation()
-  console.log(id) 
   
   const campaignObj = {
     id: editCampMode?id:genCampId,
     name: campName,
     description: campDescript,
-    duration: campDuration,
+    duration: +campDuration,
     dateCreated: editCampMode?dateCreated:new Date(),
     customers: addedCustomers,
     email: {
       subject: emailSubject,
-      body: emailBody
+      body: emailBody.replaceAll('\n', '<br/>')
     },
     isActive: isCampActive,
     featuredProducts: [],
@@ -145,7 +144,7 @@ export default function CreateCampaign(props) {
     <AdminBtn 
       title={editCampMode?"Edit Campaign":"Create Campaign"}
       solid clickEvent
-      disabled={!!!allowAcces} 
+      className={!!!allowAcces?"disabled":""}
       onClick={() => editCampMode?editACampaign():createACampaign()}
     />
   </div>
@@ -162,32 +161,70 @@ export default function CreateCampaign(props) {
     }
   }
   function createACampaign() {
-    if(allowAcces) {
+    if(!!allowAcces) {
       db.collection(`admin/marketing/campaigns`).doc(genCampId).set(campaignObj)
       .then(() => {
         setNotifs(prev => [...prev, {
           id: Date.now(),
           title: 'Campaign Created',
           icon: 'fal fa-plus',
-          text: `The campaign was successfully created`,
+          text: `Your campaign was successfully created`,
           time: 5000
         }])
         history.push('/admin/customers/marketing')
       })
     }
+    else {
+      setNotifs(prev => [...prev, {
+        id: Date.now(),
+        title: 'Warning',
+        color: 'var(--orange)',
+        icon: 'fal fa-exclamation',
+        text: `Please fill in all fields denoted with a *`,
+        time: 5000
+      }])
+    }
   }
   function editACampaign() {
-    db.collection(`admin/marketing/campaigns`).doc(id).update(campaignObj)
+    if(!!allowAcces) {
+      db.collection(`admin/marketing/campaigns`).doc(id).update(campaignObj)
       .then(() => {
         setNotifs(prev => [...prev, {
           id: Date.now(),
           title: 'Campaign Saved',
           icon: 'fal fa-save',
-          text: `The campaign edits was successfully saved`,
+          text: `Your campaign edits were successfully saved`,
           time: 5000
         }])
         history.push(`/admin/customers/marketing/campaign/${id}`)
       })
+    }
+    else {
+      setNotifs(prev => [...prev, {
+        id: Date.now(),
+        title: 'Warning',
+        color: 'var(--orange)',
+        icon: 'fal fa-exclamation',
+        text: `Please fill in all required fields`,
+        time: 5000
+      }])
+    }
+  }
+  function deleteACampaign() {
+    const confirm = window.confirm('Are you sure you wish to delete this campaign?')
+    if(confirm) {
+      db.collection(`admin/marketing/campaigns`).doc(id).delete()
+      .then(() => {
+        setNotifs(prev => [...prev, {
+          id: Date.now(),
+          title: 'Campaign Deleted',
+          icon: 'fal fa-trash-alt',
+          text: `Your campaign was deleted successfully`,
+          time: 5000
+        }])
+        history.push(`/admin/customers/marketing`)
+      })
+    }
   }
 
   useEffect(() => {
@@ -226,6 +263,10 @@ export default function CreateCampaign(props) {
           setSlidePos={setSlidePos}
           slideTitle="Create a Campaign"
         />
+        <div className="actionbtns">
+          <AdminBtn title="Done" solid clickEvent onClick={() => history.push('/admin/customers/marketing')}/>
+          <AdminBtn title="Delete" solid className="deletebtn" clickEvent onClick={() => deleteACampaign()}/>
+        </div>
       </div>
     </div>
   )

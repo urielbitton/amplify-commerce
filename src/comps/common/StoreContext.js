@@ -170,7 +170,7 @@ const StoreContextProvider = (props) => {
       db.collection('users').doc(user.uid).onSnapshot(snap => {
         setCart(snap.data()?.userinfo.cart)
       })
-      db.collection('admin/marketing/campaigns').onSnapshot(snap => {
+      db.collection('admin/marketing/campaigns').orderBy('dateCreated','desc').onSnapshot(snap => {
         let campArr = []
         snap.forEach(el => {
           campArr.push(el.data())

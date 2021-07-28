@@ -1,6 +1,13 @@
 .campaignpage .pagecont {
   display: flex;
   flex-direction: column;
+  gap: 20px;
+}
+.campaignpage .pagecont > div {
+  width: 600px;
+}
+.campaignpage .titles {
+  margin-bottom: 20px;
 }
 .campaignpage .titles i {
   font-size: 35px;
@@ -10,4 +17,106 @@
 .campaignpage .titles h4 {
   font-size: 20px;
   color: var(--graytxt);
+}
+.campaignpage .info h6 {
+  color: var(--graytxt);
+  font-size: 13px;
+}
+.campaignpage .info .row span {
+  padding: 5px 10px;
+  background: var(--light);
+  color: var(--admincolor);
+  border-radius: 5px;
+  font-size: 14px;
+}
+.campaignpage .info p {
+  font-size: 15px;
+  color: #555;
+}
+.campaignpage .info > div {
+  margin-bottom: 20px;
+}
+.campaignpage .info .row {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+.campaignpage h6.smalltitle {
+  font-size: 13px;
+  color: var(--graytxt);
+  margin-top: 10px;
+}
+.campaignpage .adpreviewcont {
+  margin-top: 20px;
+  width: 100%;
+  height: 240px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  gap: 5px;
+  background-position: center;
+  background-size: cover;
+  padding: 30px;
+  border-radius: 10px;
+  overflow: hidden;
+}
+.campaignpage .adpreviewcont::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.6);
+}
+.campaignpage .adpreviewcont h1 {
+  color: #fff;
+  z-index: 10;
+  font-weight: 500;
+  transform: scale(0.8);
+}
+.campaignpage .adpreviewcont h4 {
+  color: #ddd;
+  font-weight: 500;
+  z-index: 10;
+  transform: scale(0.8);
+}
+.campaignpage .adpreviewcont p {
+  font-size: 13px;
+  margin-top: 20px;
+  color: #ddd;
+  z-index: 10;
+  font-weight: 400;
+  text-align: center;
+  width: 80%;
+  white-space: pre-wrap;
+  margin-bottom: 20px;
+  transform: scale(0.8);
+}
+.campaignpage .adpreviewcont .adminbtn {
+  border: none;
+  background: #fff;
+  z-index: 10;
+  transform: scale(0.8);
+}
+.campaignpage .adpreviewcont .adminbtn span {
+  color: #111;
+  transform: scale(0.8);
+}
+.campaignpage .emailcont {
+  background: #f5f5f5;
+  border-radius: 10px;
+  padding: 20px;
+}
+.campaignpage .emailcont h6 {
+  font-size: 13px;
+  color: #333;
+}
+.campaignpage .emailcont p {
+  font-size: 14px;
+  color: #555;
+  white-space: pre-wrap;
 }
