@@ -62,6 +62,7 @@ const StoreContextProvider = (props) => {
   const [showAnaTips, setShowAnaTips] = useState(true)
   const [adminTaxRate, setAdminTaxRate] = useState(0) 
   const [allCampaigns, setAllCampaigns] = useState([])
+  const [allChats, setAllChats] = useState([])
 
   const [quickProduct, setQuickProduct] = useState({
     id: '', 
@@ -160,6 +161,11 @@ const StoreContextProvider = (props) => {
       setSizesOpts(snap.data()?.storesettings.sizeopts)  
       setColorsOpts(snap.data()?.storesettings.coloropts) 
     })
+    db.collectionGroup('chats').onSnapshot(snap => {
+      const chatsArr = []
+      snap.forEach(doc => chatsArr.push(doc.data()))
+      setAllChats(chatsArr)
+    })
   },[user, auser])  
 
   useEffect(() => {
@@ -217,7 +223,7 @@ const StoreContextProvider = (props) => {
       notifs, setNotifs, allTransactions, setAllTransactions, editCustMode, setEditCustMode, 
       showAnaTips, setShowAnaTips, adminTaxRate, setAdminTaxRate, allReviews, setAllReviews, myReviews, setMyReviews,
       myTransactions, setMyTransactions, allUsers, setAllUsers, allCampaigns, setAllCampaigns, 
-      editCampMode, setEditCampMode
+      editCampMode, setEditCampMode, allChats, setAllChats
     }}>
       {props.children}  
     </StoreContext.Provider>
