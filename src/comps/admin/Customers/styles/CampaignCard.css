@@ -1,0 +1,46 @@
+.campaignbox {
+  width: 300px;
+  height: 300px;
+  border-radius: 10px;
+  background: #fff;
+  box-shadow: var(--shadow);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-direction: column;
+  gap: 10px;
+  padding: 25px;
+}
+.campaignbox .titles  {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  gap: 15px;
+}
+.campaignbox i.mainicon {
+  font-size: 35px;
+  color: var(--graytxt);
+  filter: drop-shadow(0 10px 2px rgba(0,0,0,0.1))
+}
+.campaignbox h4 {
+  font-size: 18px;
+  color: var(--graytxt);
+}
+.campaignbox small {
+  text-align: center;
+  color: #aaa;
+  font-size: 13px;
+}
+.campaignbox .actionscont {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.campaignbox .adminbtn {
+  height: 30px;
+}
+.campaignbox .actionscont small {
+  font-size: 12px;
+}

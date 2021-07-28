@@ -3,7 +3,7 @@ import './styles/CampaignPage.css'
 
 export default function CampaignPage(props) {
 
-  const {name, description, duration, ad, customers, email, featuredProjects, id, dateCreated} = props.el
+  const {name, description, duration, ad, customers, email, id, dateCreated, isActive} = props.el
 
   return (
     <div className="campaignpage">

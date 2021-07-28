@@ -11,6 +11,8 @@
 .reviewspage .pagecont {
   display: flex;
   flex-direction: column;
+}
+.onereviewpage .pagecont {
   gap: 30px;
 }
 .reviewspage .prodimgcont {

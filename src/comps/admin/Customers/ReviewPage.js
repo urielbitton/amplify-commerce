@@ -13,7 +13,7 @@ export default function ReviewPage(props) {
   const {title, rating, reviewerId, reviewText, likes, productId} = props.el
 
   return ( 
-    <div className="reviewspage">
+    <div className="reviewspage onereviewpage">
       <div className="pagecont"> 
         <div>
           <div className="prodimgcont">

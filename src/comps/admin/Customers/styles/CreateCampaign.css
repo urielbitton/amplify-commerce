@@ -177,4 +177,25 @@
   text-align: center;
   width: 80%;
   white-space: pre-wrap;
+  margin-bottom: 20px;
+}
+.createcampaignpage .adpreviewcont .adminbtn {
+  border: none;
+  background: #fff;
+  z-index: 10;
+}
+.createcampaignpage .adpreviewcont .adminbtn span {
+  color: #111;
+}
+.createcampaignpage .slidepage .emailtemplate {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+.createcampaignpage .slidepage .emailtemplate textarea {
+  min-height: 220px;
+}
+.createcampaignpage .slidepage .emailtemplate small {
+  color: #777;
 }

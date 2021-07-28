@@ -3,6 +3,7 @@ import { StoreContext } from '../../common/StoreContext'
 import AdminBtn from '../common/AdminBtn'
 import PageStarter from '../common/PageStarter'
 import PageTitlesRow from '../common/PageTitlesRow'
+import CampaignCard from './CampaignCard'
 import './styles/Marketing.css'
 
 export default function Marketing() {
@@ -10,17 +11,7 @@ export default function Marketing() {
   const {allCampaigns} = useContext(StoreContext)
 
   const campaignBox = allCampaigns?.map(el => {
-    return <div className="campaignbox">
-      <div className="titles">
-        <i className="fal fa-mail-bulk mainicon"></i>
-        <h4>{el.name}</h4>
-      </div>
-      <small>{el.description.slice(0,70)}...</small>
-      <div className="actionscont">
-        <AdminBtn title="Edit" url={`/admin/customers/marketing/edit-campaign/${el.id}`}/>
-        <AdminBtn title="View" solid url={`/admin/customers/marketing/campaign/${el.id}`}/>
-      </div>
-    </div>
+    return <CampaignCard el={el} />
   })
 
   return (
