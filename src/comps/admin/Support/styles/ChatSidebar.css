@@ -10,6 +10,7 @@
 }
 .adminchatsidebar .tabsbar {
   margin: 0;
+  margin-top: 10px;
 }
 .adminchatsidebar .tabsbar .tabstitles {
   display: flex;
@@ -36,6 +37,7 @@
   cursor: pointer;
   transition: all 0.2s;
 }
+.adminchatsidebar .chatcard.active,
 .adminchatsidebar .chatcard:hover {
   background: #fff;
 }
@@ -58,4 +60,24 @@
   display: flex;
   flex-direction: column;
   line-height: 1.4;
+}
+.adminchatsidebar .chatcard .optscont {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 25px;
+  height: 25px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: all 0.2s;
+  cursor: pointer;
+  border-radius: 100%;
+}
+.adminchatsidebar .chatcard .optscont:hover {
+  background: var(--light)
+}
+.adminchatsidebar .chatcard .optscont i {
+  color: #aaa;
+  font-size: 17px;
 }
