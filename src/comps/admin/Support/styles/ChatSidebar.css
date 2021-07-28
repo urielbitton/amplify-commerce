@@ -6,7 +6,7 @@
   background: #f5f6fc;
 }
 .adminchatsidebar::-webkit-scrollbar {
-  width: 5px;
+  display: none;
 }
 .adminchatsidebar .tabsbar {
   margin: 0;
@@ -33,6 +33,11 @@
   gap: 15px;
   height: 80px;
   overflow: hidden;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.adminchatsidebar .chatcard:hover {
+  background: #fff;
 }
 .adminchatsidebar .chatcard img {
   width: 35px;

@@ -111,6 +111,21 @@ const StoreContextProvider = (props) => {
   const [notifs, setNotifs] = useState([])
 
   useEffect(() => {
+    if(locateUser) {
+      axios({
+        method: 'get', 
+        url: `https://extreme-ip-lookup.com/json/`,
+      }).then((res) => setUserLocation(res.data))
+    }
+  },[locateUser])
+  
+  useEffect(() => { 
+    SalesTax.getSalesTax(selectedCountry,convertProvinceCode(provinceChoices, selectedProvince)).then(tax=>{
+      setTaxRate(tax.rate)
+     })
+  },[selectedProvince, selectedCountry]) 
+  
+  useEffect(() => {
     db.collection('products').onSnapshot(snap => {
       let prodsArr = [] 
       snap.forEach(doc => prodsArr.push(doc.data()) )
@@ -161,7 +176,7 @@ const StoreContextProvider = (props) => {
       setSizesOpts(snap.data()?.storesettings.sizeopts)  
       setColorsOpts(snap.data()?.storesettings.coloropts) 
     })
-    db.collectionGroup('chats').onSnapshot(snap => {
+    db.collection('chats').onSnapshot(snap => {
       const chatsArr = []
       snap.forEach(doc => chatsArr.push(doc.data()))
       setAllChats(chatsArr)
@@ -189,20 +204,6 @@ const StoreContextProvider = (props) => {
     }
   },[user]) 
 
-  useEffect(() => {
-    if(locateUser) {
-      axios({
-        method: 'get', 
-        url: `https://extreme-ip-lookup.com/json/`,
-      }).then((res) => setUserLocation(res.data))
-    }
-  },[locateUser])
-  
-  useEffect(() => { 
-    SalesTax.getSalesTax(selectedCountry,convertProvinceCode(provinceChoices, selectedProvince)).then(tax=>{
-      setTaxRate(tax.rate)
-     })
-  },[selectedProvince, selectedCountry]) 
  
   return (
     <StoreContext.Provider value={{ 
