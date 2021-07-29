@@ -4,6 +4,7 @@
   align-items: flex-start;
   flex-direction: row-reverse;
   gap: 10px;
+  margin-bottom: 20px;
 }
 .chatbubblecont.other {
   flex-direction: row;

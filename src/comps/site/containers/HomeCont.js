@@ -20,6 +20,7 @@ import OrderConfirm from '../Checkout/OrderConfirm'
 import OrderTrackingPage from '../common/OrderTrackingPage'
 import OrderTracker from '../client/OrderTracker'
 import Search from '../common/Search'
+import Loader from '../../common/Loader'
 
 export default function HomeCont() {
 
@@ -76,7 +77,7 @@ export default function HomeCont() {
         </Route>
         {productpagerow}
         <Route path="/my-account">
-          {myUser&&<MyAccount />}
+          {myUser ? <MyAccount /> : <Loader />}
         </Route>
         <Route>
           <Error />

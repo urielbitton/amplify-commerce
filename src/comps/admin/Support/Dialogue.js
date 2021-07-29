@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useRef, useState } from 'react'
 import { StoreContext } from '../../common/StoreContext'
-import { getCustomerArrById, getHoursAgo } from '../../common/UtilityFuncs'
+import { getCustomerArrById } from '../../common/UtilityFuncs'
 import ChatBubble from './ChatBubble'
 import './styles/Dialogue.css'
 import TextareaAutosize from 'react-textarea-autosize'
@@ -14,7 +14,7 @@ export default function Dialogue(props) {
   const scrollRef = useRef()
 
   const chatBubbleCont = chatData?.map(el => {
-    return <ChatBubble el={el} />
+    return <ChatBubble el={el} chatData={chatData} />
   })
 
   function handleChange(e) {
@@ -48,8 +48,8 @@ export default function Dialogue(props) {
     <div className="dialoguecont">
       <header>
         <div>
-          <img src={getCustomerArrById(allCustomers, chatInfo.customerId).profimg} alt=""/>
-          <h5>{getCustomerArrById(allCustomers, chatInfo.customerId).name}</h5>
+          <img src={getCustomerArrById(allCustomers, chatInfo?.customerId)?.profimg} alt=""/>
+          <h5>{getCustomerArrById(allCustomers, chatInfo?.customerId)?.name}</h5>
         </div>
         <div>
           <div className="optscont">

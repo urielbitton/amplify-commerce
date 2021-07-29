@@ -30,6 +30,7 @@ const StoreContextProvider = (props) => {
   const [myOrders, setMyOrders] = useState([])
   const [myReviews, setMyReviews] = useState([])
   const [myTransactions, setMyTransactions] = useState([])
+  const [myChat, setMyChat] = useState({})
   const [allOrders, setAllOrders] = useState([])
   const [allStats, setAllStats] = useState({})
   const [allTransactions, setAllTransactions] = useState([])
@@ -188,6 +189,9 @@ const StoreContextProvider = (props) => {
       db.collection('users').doc(user.uid).onSnapshot(snap => {
         setMyUser(snap.data()?.userinfo)
       })
+      db.collection('chats').doc(user.uid).onSnapshot(snap => {
+        setMyChat(snap.data().chatInfo)
+      })
       db.collection('users').doc(user.uid).onSnapshot(snap => {
         setCart(snap.data()?.userinfo.cart)
       })
@@ -224,7 +228,7 @@ const StoreContextProvider = (props) => {
       notifs, setNotifs, allTransactions, setAllTransactions, editCustMode, setEditCustMode, 
       showAnaTips, setShowAnaTips, adminTaxRate, setAdminTaxRate, allReviews, setAllReviews, myReviews, setMyReviews,
       myTransactions, setMyTransactions, allUsers, setAllUsers, allCampaigns, setAllCampaigns, 
-      editCampMode, setEditCampMode, allChats, setAllChats
+      editCampMode, setEditCampMode, allChats, setAllChats, myChat, setMyChat
     }}>
       {props.children}  
     </StoreContext.Provider>

@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React, { useContext, useEffect } from 'react'
 import { StoreContext } from '../../common/StoreContext'
 import { convertDate, convertTime, getCustomerArrById, getHoursAgo, getUserArrById } from '../../common/UtilityFuncs'
 import './styles/ChatBubble.css'
@@ -7,6 +7,7 @@ export default function ChatBubble(props) {
 
   const {allCustomers, allUsers, myUser, user} = useContext(StoreContext)
   const {message, senderId, messageDate} = props.el
+  const {chatData} = props
   const adminUser = senderId === myUser?.userid && myUser?.isAdmin
   const adminId = myUser?.userid
   const myBubble = senderId === user.uid
@@ -20,6 +21,10 @@ export default function ChatBubble(props) {
     }
     return 'Just now'
   }
+
+  useEffect(() => {
+    switchTimestamp()
+  },[chatData])
 
   return (
     <div className={`chatbubblecont ${!myBubble?"other":""}`}>
