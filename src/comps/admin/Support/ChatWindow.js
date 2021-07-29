@@ -3,7 +3,7 @@ import './styles/ChatWindow.css'
 import PageStarter from '../common/PageStarter'
 import { Route, Switch } from 'react-router-dom'
 import { StoreContext } from '../../common/StoreContext'
-import Dialogue from './Dialogue'
+import AdminDialogue from './AdminDialogue'
 
 export default function ChatWindow(props) {
 
@@ -12,7 +12,7 @@ export default function ChatWindow(props) {
 
   const chatPages = allChats?.map(({chatInfo}) => {
     return <Route path={`/admin/support/customer-support/chat/${chatInfo.customerId}`}>
-      <Dialogue chatData={chatData} chatInfo={chatInfo}/>
+      <AdminDialogue chatData={chatData} chatInfo={chatInfo}/>
     </Route>
   })
 

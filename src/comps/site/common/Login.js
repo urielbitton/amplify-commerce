@@ -93,14 +93,14 @@ export default function Login(props) {
                 provstateCode:'',country:'',countryCode:'',moneySpent: 0, number: genRandomNum(), 
                 profimg: res.additionalUserInfo.profile.picture, userRating: 0
               }) 
-              history.push('/')
+              history.push('/my-account')
             }).catch(err => window.alert('An errror occurred with the google login. Please try again.'))
           }
         })
       }
       else {
         setAUser(res.user)
-        history.push('/')
+        history.push('/my-account')
       }
     }).catch((error) => {
       console.log(error)
@@ -114,11 +114,11 @@ export default function Login(props) {
   },[]) 
 
   useEffect(() => {
-    if(myUser.isAdmin) {
+    if(myUser?.isAdmin) {
       history.push('/admin')
     }
-    if(user && !myUser.isAdmin) {
-      history.push('/')
+    if(user && !myUser?.isAdmin) {
+      history.push('/my-account')
     }
   },[myUser])
  

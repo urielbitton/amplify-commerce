@@ -9,9 +9,9 @@ export default function Support() {
   const [chatData, setChatData] = useState([])
 
   useEffect(() => {
-    getChatByUserId(`chats/${user.uid}/messages`, setChatData)
-  },[myChat]) 
-
+    user&&getChatByUserId(`chats/${user.uid}/messages`, setChatData)
+  },[user])  
+ 
   return (
     <div className="clientsupportpage">
       <Dialogue chatData={chatData} chatInfo={myChat.chatInfo} />

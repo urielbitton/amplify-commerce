@@ -1,13 +1,15 @@
 import React, { useContext, useEffect } from 'react'
 import { StoreContext } from '../../common/StoreContext'
-import { convertDate, convertTime, getCustomerArrById, getHoursAgo } from '../../common/UtilityFuncs'
+import { convertDate, convertTime, getCustomerArrById, getHoursAgo, getUserArrById } from '../../common/UtilityFuncs'
 import './styles/ChatBubble.css'
 
-export default function ChatBubble(props) {
+export default function AdminChatBubble(props) {
 
-  const {allCustomers, user} = useContext(StoreContext)
+  const {allCustomers, allUsers, myUser, user} = useContext(StoreContext)
   const {message, senderId, messageDate} = props.el
   const {chatData} = props
+  const adminUser = senderId === myUser?.userid && myUser?.isAdmin
+  const adminId = myUser?.userid
   const myBubble = senderId === user.uid
   
   function switchTimestamp() {
@@ -27,16 +29,17 @@ export default function ChatBubble(props) {
   return (
     <div className={`chatbubblecont ${!myBubble?"other":""}`}>
       <div className="left">
-        <img 
-          src={myBubble?getCustomerArrById(allCustomers, senderId)?.profimg:"https://i.imgur.com/8VnozI9.jpg"} 
-          alt=""
-        />
+        { adminUser?
+          <img src={getUserArrById(allUsers, adminId)?.profimg} alt=""/>:
+          <img src={getCustomerArrById(allCustomers, senderId)?.profimg} alt=""/>
+        }
       </div>
       <div className="right">
         <div className="chatbubble">
-          <h6>
-            {myBubble?getCustomerArrById(allCustomers, senderId)?.name:"Amplify"}
-          </h6>
+          { adminUser?
+            <h6>{getUserArrById(allUsers, adminId)?.fullname}</h6>:
+            <h6>{getCustomerArrById(allCustomers, senderId)?.name}</h6>
+          }
           <p>{message}</p>
         </div>
         <small>{switchTimestamp()}</small>

@@ -86,7 +86,7 @@ export default function Login(props) {
             userRating: 0
           }) 
           setAUser(user)
-          history.push('/')
+          history.push('/my-account')
         })
       }
       else {
@@ -130,7 +130,7 @@ export default function Login(props) {
               }) 
               setAUser(user)
               console.log(user)
-              history.push('/')
+              history.push('/my-account')
             })
           }
         }) 

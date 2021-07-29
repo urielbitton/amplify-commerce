@@ -12,10 +12,11 @@ import AccountPayments from './AccountPayments'
 import AccountProfile from './AccountProfile'
 import OrderDetails from './OrderDetails'
 import Support from './Support'
+import Loader from '../../common/Loader'
 
 export default function MyAccount() {
 
-  const {user, myOrders} = useContext(StoreContext)
+  const {user, myOrders, myChat} = useContext(StoreContext)
   const history = useHistory()
 
   const accountlinks = [
@@ -49,8 +50,10 @@ export default function MyAccount() {
 
   useEffect(() => {
     if(user === null) {
-      history.push('/')
-    }  
+      setTimeout(() => {
+        history.push('/') 
+      }, 10000);
+    }   
   },[]) 
 
   return (
@@ -87,7 +90,7 @@ export default function MyAccount() {
                 <AccountProfile />
               </Route>
               <Route path="/my-account/customer-support">
-                <Support />
+                {myChat?<Support />:<Loader />}
               </Route>
               {orderdetailspage}
             </Switch>

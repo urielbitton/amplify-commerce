@@ -24,7 +24,7 @@ import Loader from '../../common/Loader'
 
 export default function HomeCont() {
 
-  const {slideNav, allProducts, myUser} = useContext(StoreContext)
+  const {slideNav, allProducts, user} = useContext(StoreContext)
 
   const productpagerow = allProducts?.map(el => {
     return <Route exact path={`/product/${el.id}`}>
@@ -77,7 +77,7 @@ export default function HomeCont() {
         </Route>
         {productpagerow}
         <Route path="/my-account">
-          {myUser ? <MyAccount /> : <Loader />}
+          {user ? <MyAccount /> : <Loader />}
         </Route>
         <Route>
           <Error />

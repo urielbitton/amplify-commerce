@@ -4,7 +4,7 @@ import {db} from './Fire'
 import refProd from './referProduct'
 import axios from 'axios'
 import SalesTax from 'sales-tax'
-import { convertProvinceCode, getCartByUserId, getOrdersById, getReviewsById, getTransactionsById } from './UtilityFuncs'
+import { convertProvinceCode, getOrdersById, getReviewsById, getTransactionsById } from './UtilityFuncs'
 
 export const StoreContext = createContext()
 
@@ -190,7 +190,7 @@ const StoreContextProvider = (props) => {
         setMyUser(snap.data()?.userinfo)
       })
       db.collection('chats').doc(user.uid).onSnapshot(snap => {
-        setMyChat(snap.data().chatInfo)
+        setMyChat(snap.data())
       })
       db.collection('users').doc(user.uid).onSnapshot(snap => {
         setCart(snap.data()?.userinfo.cart)
