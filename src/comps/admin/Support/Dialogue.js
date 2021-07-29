@@ -5,10 +5,11 @@ import ChatBubble from './ChatBubble'
 import './styles/Dialogue.css'
 import {AppTextarea} from '../../common/AppInputs'
 import TextareaAutosize from 'react-textarea-autosize'
+import { sendChat } from '../../common/services/ChatService'
 
 export default function Dialogue(props) {
 
-  const {allCustomers} = useContext(StoreContext)
+  const {allCustomers, user} = useContext(StoreContext)
   const {chatData, chatInfo} = props
   const [msgString, setMsgString] = useState('')
 
@@ -20,12 +21,22 @@ export default function Dialogue(props) {
     setMsgString(e.target.value)
   }
   function handleEnter(e) {
-    if(e.key === 'Enter' && e.shiftKey) {
-      
-    }
+    if(e.key === 'Enter' && e.shiftKey) {}
     else if(e.key === 'Enter') {
       e.preventDefault()
-      setMsgString('')
+      handleSend()
+    }
+  }
+  function handleSend() {
+    if(msgString.length) {
+      const chatObj = {
+        isActive: true,
+        message: msgString,
+        messageDate: new Date(),
+        senderId: user.uid
+      }
+      sendChat(`/chats/${chatInfo.customerId}/messages`, chatObj)
+      setMsgString('') 
     }
   }
 
@@ -66,7 +77,7 @@ export default function Dialogue(props) {
             maxRows={10}
           />
         </label>
-        <i className="fas fa-paper-plane sendbtn"></i>
+        <i className="fas fa-paper-plane sendbtn" onClick={() => handleSend()}></i>
       </div>
     </div>
   )
