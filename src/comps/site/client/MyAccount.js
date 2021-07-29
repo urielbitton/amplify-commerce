@@ -12,7 +12,8 @@ import AccountPayments from './AccountPayments'
 import AccountProfile from './AccountProfile'
 import OrderDetails from './OrderDetails'
 import Support from './Support'
-import Loader from '../../common/Loader'
+import PageStarter from '../../admin/common/PageStarter'
+import { createAChat } from '../../common/services/ChatService'
 
 export default function MyAccount() {
 
@@ -47,6 +48,9 @@ export default function MyAccount() {
       window.location.reload()
     }
   }
+  function startChat() {
+    createAChat(user.uid)
+  } 
 
   useEffect(() => {
     if(user === null) {
@@ -90,7 +94,17 @@ export default function MyAccount() {
                 <AccountProfile />
               </Route>
               <Route path="/my-account/customer-support">
-                {myChat?<Support />:<Loader />}
+                { myChat?
+                  <Support />:
+                  <PageStarter 
+                    subtitle="You have no chats yet"
+                    title="Chat with Support"
+                    img="https://i.imgur.com/xP6AwB2.png"
+                    btnText="Start a Chat"
+                    clickEvent
+                    onClick={() => startChat()}
+                  />
+                }
               </Route>
               {orderdetailspage}
             </Switch>
