@@ -1,9 +1,8 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useEffect, useRef, useState } from 'react'
 import { StoreContext } from '../../common/StoreContext'
-import { getCustomerArrById } from '../../common/UtilityFuncs'
+import { getCustomerArrById, getHoursAgo } from '../../common/UtilityFuncs'
 import ChatBubble from './ChatBubble'
 import './styles/Dialogue.css'
-import {AppTextarea} from '../../common/AppInputs'
 import TextareaAutosize from 'react-textarea-autosize'
 import { sendChat } from '../../common/services/ChatService'
 
@@ -12,6 +11,7 @@ export default function Dialogue(props) {
   const {allCustomers, user} = useContext(StoreContext)
   const {chatData, chatInfo} = props
   const [msgString, setMsgString] = useState('')
+  const scrollRef = useRef()
 
   const chatBubbleCont = chatData?.map(el => {
     return <ChatBubble el={el} />
@@ -40,6 +40,10 @@ export default function Dialogue(props) {
     }
   }
 
+  useEffect(() => {
+    scrollRef.current.scrollIntoView()
+  },[chatData])
+
   return (
     <div className="dialoguecont">
       <header>
@@ -58,6 +62,7 @@ export default function Dialogue(props) {
       </header>
       <section>
         {chatBubbleCont}
+        <div className="scrolldiv" ref={scrollRef}></div>
       </section>
       <div className="typercont">
         <div>

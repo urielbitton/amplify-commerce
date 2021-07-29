@@ -1,6 +1,6 @@
 import React, { useContext } from 'react'
 import { StoreContext } from '../../common/StoreContext'
-import { convertDate, getCustomerArrById, getUserArrById } from '../../common/UtilityFuncs'
+import { convertDate, convertTime, getCustomerArrById, getHoursAgo, getUserArrById } from '../../common/UtilityFuncs'
 import './styles/ChatBubble.css'
 
 export default function ChatBubble(props) {
@@ -11,6 +11,16 @@ export default function ChatBubble(props) {
   const adminId = myUser?.userid
   const myBubble = senderId === user.uid
   
+  function switchTimestamp() {
+    if(getHoursAgo(messageDate.toDate()) > 23) {
+      return convertDate(messageDate.toDate())
+    }
+    else if(getHoursAgo(messageDate.toDate()) > 0.0166667){
+      return convertTime(messageDate.toDate())
+    }
+    return 'Just now'
+  }
+
   return (
     <div className={`chatbubblecont ${!myBubble?"other":""}`}>
       <div className="left">
@@ -27,7 +37,7 @@ export default function ChatBubble(props) {
           }
           <p>{message}</p>
         </div>
-        <small>{convertDate(messageDate.toDate())}</small>
+        <small>{switchTimestamp()}</small>
       </div>
     </div>
   )

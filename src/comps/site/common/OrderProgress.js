@@ -39,7 +39,7 @@ export default function OrderProgress(props) {
           <span>
             {convertDate(date?.toDate())} 
           </span>
-          <span>{date&&convertTime(date?.toDate().toString().split(' ').slice(4,7)[0])}</span>
+          <span>{date&&convertTime(date?.toDate())}</span>
         </>
       }
     </small>

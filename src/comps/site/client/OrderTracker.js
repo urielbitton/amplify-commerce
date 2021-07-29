@@ -14,7 +14,7 @@ export default function OrderTracker(props) {
     return <div className="updaterow">
       <h6>
         {convertDate(date)}
-        <span>{convertTime(date?.toDate().toString().split(' ').slice(4,7)[0])}</span>
+        <span>{convertTime(date?.toDate())}</span>
       </h6>
       <h6>{location}</h6>
       <h6>{action}</h6>

@@ -7,14 +7,13 @@ import { StoreContext } from '../../common/StoreContext'
 import {colorConverter, sizeConverter} from '../../common/UtilityFuncs'
 import {AppSelect} from '../../common/AppInputs'
 import refProd from '../../common/referProduct'
-import {convertDate} from '../../common/UtilityFuncs'
+import {convertDate, getDaysAgo} from '../../common/UtilityFuncs'
 import PageTitle from '../common/PageTitle'
 
 export default function Dashboard() { 
 
   const {allOrders, allProducts, currencyFormat, allStats, highSellersLimit, setHighSellersLimit, 
-    recentSellersLimit, setRecentSellersLimit, recentOrdersLimit, setRecentOrdersLimit, allCoupons,
-    allShipping, allCustomers, adminTaxRate
+    recentSellersLimit, setRecentSellersLimit, recentOrdersLimit, setRecentOrdersLimit, adminTaxRate
   } = useContext(StoreContext)
   const {productsSold, totalSales} = allStats
   const salescategories = ['January','February','March','April','May','June','July','August','September','October','November','December']
@@ -112,12 +111,7 @@ export default function Dashboard() {
     </div>  
   })
 
-  function msToDays(ms) {
-    return (ms / (60*60*24*1000))
-  }
-  function getDaysAgo(date) {
-    return Math.round(msToDays(new Date().getTime()) - msToDays(date))
-  }
+  
  
   return ( 
     <div className="dashboardpage">
