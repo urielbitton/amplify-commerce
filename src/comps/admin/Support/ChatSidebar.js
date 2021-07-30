@@ -2,17 +2,18 @@ import React, { useContext, useEffect, useState } from 'react'
 import './styles/ChatSidebar.css'
 import '../common/styles/TabsBar.css'
 import {StoreContext} from '../../common/StoreContext'
-import { getCustomerArrById } from '../../common/UtilityFuncs'
+
 import { createAChat, getChatByUserId } from '../../common/services/ChatService'
 import { useHistory, useLocation } from 'react-router-dom'
 import {AppInput} from '../../common/AppInputs'
 import AdminBtn from '../common/AdminBtn'
 import TextareaAutosize from 'react-textarea-autosize'
+import ChatCard from './ChatCard'
 
 export default function ChatSidebar(props) {
-
+ 
   const {allChats, allCustomers, setNotifs, user} = useContext(StoreContext)
-  const {setChatData, showNewChat, setShowNewChat} = props
+  const {chatData, setChatData, showNewChat, setShowNewChat} = props
   const [tabPos, setTabPos] = useState(0)
   const [urlCustId, setUrlCustId] = useState(0)
   
@@ -26,7 +27,7 @@ export default function ChatSidebar(props) {
   const allCustomersFilter = allCustomers?.filter(x => (pattern.test(clean(x.name)) && keyword.length
     && !allChats.some(y => y.chatInfo.customerId === x.id)) 
     || (keyword==='all' && !allChats.some(y => y.chatInfo.customerId === x.id)) )
-  
+
   const tabsTitles = [
     {name: 'All Chats', url: '/admin/support/customer-support/chat'},
     {name: 'Archived', url: '/admin/support/customer-support/archived'}
@@ -40,19 +41,7 @@ export default function ChatSidebar(props) {
   }
 
   const chatCardRow = allChats?.map(({chatInfo}) => {
-    return <div 
-      className={`chatcard ${chatInfo.customerId===urlCustId?"active":""}`} 
-      onClick={() => initChat(chatInfo)}
-    >
-      <img src={getCustomerArrById(allCustomers, chatInfo.customerId).profimg} alt=""/>
-      <div>
-        <h5>{getCustomerArrById(allCustomers, chatInfo.customerId).name}</h5>
-        <small>I was wondering if the women's peach...</small>
-      </div>
-      <div className="optscont" onClick={(e) => e.stopPropagation()}>
-        <i className="fal fa-ellipsis-h"></i>
-      </div>
-    </div>
+    return <ChatCard urlCustId={urlCustId} setUrlCustId={setUrlCustId} chatInfo={chatInfo} chatData={chatData} setChatData={setChatData}/>
   }) 
 
   const tabsheadrow = tabsTitles?.map((el,i) => {
@@ -122,6 +111,7 @@ export default function ChatSidebar(props) {
       setKeyword('')
     }
   },[showNewChat])
+
 
   return (
     <div className="adminchatsidebar">

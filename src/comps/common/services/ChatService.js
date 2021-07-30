@@ -35,3 +35,11 @@ export function createAChat(customerId, message, adminId) {
     })
   })
 }
+
+export function getLastMessage(path, setLastMsg) {
+  db.collection(path).orderBy('messageDate','asc').limitToLast().onSnapshot(snap => {
+    snap.forEach(doc => {
+      setLastMsg(doc.data())  
+    })
+  })
+}

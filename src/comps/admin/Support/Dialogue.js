@@ -40,8 +40,8 @@ export default function Dialogue(props) {
     }
   }
 
-  useEffect(() => {
-    scrollRef.current.scrollIntoView()
+  useEffect(() => { 
+    scrollRef.current.parentNode.scrollTop = scrollRef.current.offsetTop
   },[chatData])
 
   return (
@@ -61,7 +61,7 @@ export default function Dialogue(props) {
         </div>
       </header>
       <section>
-        <div ref={scrollRef}></div>
+        <div ref={scrollRef} className="custscrolldiv"></div>
         {chatBubbleCont}
       </section>
       <div className="typercont">

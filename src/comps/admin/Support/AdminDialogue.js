@@ -41,7 +41,7 @@ export default function AdminDialogue(props) {
   }
 
   useEffect(() => {
-    scrollRef.current.scrollIntoView()
+    scrollRef.current.parentNode.scrollTop = scrollRef.current.offsetTop
   },[chatData])
 
   return (
