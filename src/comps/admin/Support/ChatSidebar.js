@@ -2,8 +2,7 @@ import React, { useContext, useEffect, useState } from 'react'
 import './styles/ChatSidebar.css'
 import '../common/styles/TabsBar.css'
 import {StoreContext} from '../../common/StoreContext'
-
-import { createAChat, getChatByUserId } from '../../common/services/ChatService'
+import { createAChat } from '../../common/services/ChatService'
 import { useHistory, useLocation } from 'react-router-dom'
 import {AppInput} from '../../common/AppInputs'
 import AdminBtn from '../common/AdminBtn'
@@ -13,10 +12,9 @@ import ChatCard from './ChatCard'
 export default function ChatSidebar(props) {
  
   const {allChats, allCustomers, setNotifs, user} = useContext(StoreContext)
-  const {chatData, setChatData, showNewChat, setShowNewChat} = props
+  const {setChatData, showNewChat, setShowNewChat} = props
   const [tabPos, setTabPos] = useState(0)
   const [urlCustId, setUrlCustId] = useState(0)
-  
   const [msgString, setMsgString] = useState('')
   const [customerId, setCustomerId] = useState('')
   const [keyword, setKeyword] = useState('')
@@ -26,7 +24,7 @@ export default function ChatSidebar(props) {
   const location = useLocation()
   const allCustomersFilter = allCustomers?.filter(x => (pattern.test(clean(x.name)) && keyword.length
     && !allChats.some(y => y.chatInfo.customerId === x.id)) 
-    || (keyword==='all' && !allChats.some(y => y.chatInfo.customerId === x.id)) )
+    || (keyword==='all' && !allChats.some(y => y.chatInfo.customerId === x.id)))
 
   const tabsTitles = [
     {name: 'All Chats', url: '/admin/support/customer-support/chat'},
@@ -41,7 +39,11 @@ export default function ChatSidebar(props) {
   }
 
   const chatCardRow = allChats?.map(({chatInfo}) => {
-    return <ChatCard urlCustId={urlCustId} setUrlCustId={setUrlCustId} chatInfo={chatInfo} chatData={chatData} setChatData={setChatData}/>
+    return <ChatCard 
+      urlCustId={urlCustId} 
+      chatInfo={chatInfo} 
+      setChatData={setChatData} 
+    />
   }) 
 
   const tabsheadrow = tabsTitles?.map((el,i) => {
@@ -69,7 +71,6 @@ export default function ChatSidebar(props) {
   })
   
   function initChat(chatInfo) {
-    getChatByUserId(`chats/${chatInfo.customerId}/messages`, setChatData)
     history.push(`/admin/support/customer-support/chat/${chatInfo.customerId}`)
     setUrlCustId(chatInfo.customerId)
   }
@@ -126,6 +127,9 @@ export default function ChatSidebar(props) {
           <div className="newchatrow" onClick={() => setShowNewChat(true)}>
             <h5>New Chat</h5>
             <i className="far fa-plus"></i>
+          </div>
+          <div className="searchbar">
+            <AppInput placeholder="Find a conversation..."/>
           </div>
           {chatCardRow}
         </div>

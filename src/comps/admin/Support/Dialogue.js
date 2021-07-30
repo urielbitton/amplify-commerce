@@ -4,12 +4,12 @@ import { getCustomerArrById } from '../../common/UtilityFuncs'
 import ChatBubble from './ChatBubble'
 import './styles/Dialogue.css'
 import TextareaAutosize from 'react-textarea-autosize'
-import { sendChat } from '../../common/services/ChatService'
+import { getChatByUserId, sendChat } from '../../common/services/ChatService'
 
 export default function Dialogue(props) {
 
   const {allCustomers, user} = useContext(StoreContext)
-  const {chatData, chatInfo} = props
+  const {chatData, setChatData, chatInfo} = props
   const [msgString, setMsgString] = useState('')
   const scrollRef = useRef()
 
@@ -36,6 +36,7 @@ export default function Dialogue(props) {
         senderId: user.uid
       }
       sendChat(chatInfo.customerId, chatObj)
+      getChatByUserId(`chats/${chatInfo.customerId}/messages`, setChatData)
       setMsgString('') 
     }
   }

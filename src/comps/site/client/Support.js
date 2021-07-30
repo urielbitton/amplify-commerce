@@ -14,7 +14,7 @@ export default function Support() {
  
   return (
     <div className="clientsupportpage">
-      <Dialogue chatData={chatData} chatInfo={myChat.chatInfo} />
+      <Dialogue chatData={chatData} setChatData={setChatData} chatInfo={myChat.chatInfo} />
     </div>
   )
 }

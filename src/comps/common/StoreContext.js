@@ -64,6 +64,7 @@ const StoreContextProvider = (props) => {
   const [adminTaxRate, setAdminTaxRate] = useState(0) 
   const [allCampaigns, setAllCampaigns] = useState([])
   const [allChats, setAllChats] = useState([])
+  const [fetchChats, setFetchChats] = useState(false)
 
   const [quickProduct, setQuickProduct] = useState({
     id: '', 
@@ -177,12 +178,15 @@ const StoreContextProvider = (props) => {
       setSizesOpts(snap.data()?.storesettings.sizeopts)  
       setColorsOpts(snap.data()?.storesettings.coloropts) 
     })
-    db.collection('chats').orderBy('chatInfo.dateModified','desc').onSnapshot(snap => {
+  },[user, auser])  
+
+  useEffect(() => {
+    fetchChats&&db.collection('chats').orderBy('chatInfo.dateModified','desc').onSnapshot(snap => {
       const chatsArr = []
       snap.forEach(doc => chatsArr.push(doc.data()))
       setAllChats(chatsArr)
     })
-  },[user, auser])  
+  },[fetchChats])
 
   useEffect(() => {
     if(user) {
@@ -228,7 +232,7 @@ const StoreContextProvider = (props) => {
       notifs, setNotifs, allTransactions, setAllTransactions, editCustMode, setEditCustMode, 
       showAnaTips, setShowAnaTips, adminTaxRate, setAdminTaxRate, allReviews, setAllReviews, myReviews, setMyReviews,
       myTransactions, setMyTransactions, allUsers, setAllUsers, allCampaigns, setAllCampaigns, 
-      editCampMode, setEditCampMode, allChats, setAllChats, myChat, setMyChat
+      editCampMode, setEditCampMode, allChats, setAllChats, myChat, setMyChat, fetchChats, setFetchChats
     }}>
       {props.children}  
     </StoreContext.Provider>

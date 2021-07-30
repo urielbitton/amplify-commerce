@@ -1,25 +1,25 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useContext} from 'react'
 import { getCustomerArrById } from '../../common/UtilityFuncs'
-import { getChatByUserId, getLastMessage } from '../../common/services/ChatService'
 import { StoreContext } from '../../common/StoreContext'
 import { useHistory } from 'react-router-dom'
+import { getChatByUserId } from '../../common/services/ChatService'
 
 export default function ChatCard(props) {
 
   const {allCustomers} = useContext(StoreContext)
-  const {urlCustId, setUrlCustId, chatInfo, chatData, setChatData} = props
-  const [lastMsg, setLastMsg] = useState({})
+  const {urlCustId, chatInfo, setChatData} = props
   const history = useHistory()
 
   function initChat(chatInfo) {
-    getChatByUserId(`chats/${chatInfo.customerId}/messages`, setChatData)
     history.push(`/admin/support/customer-support/chat/${chatInfo.customerId}`)
-    setUrlCustId(chatInfo.customerId)
+    getChatByUserId(`chats/${chatInfo.customerId}/messages`, setChatData)
   }
-
-  useEffect(() => {
-    getLastMessage(`chats/${chatInfo.customerId}/messages`, setLastMsg)
-  },[])
+  function shortenMsgs(text) {
+    if(text.length > 40) {
+      return text.substring(0,40) + "..."
+    }
+    return text
+  }
 
   return (
     <div 
@@ -29,7 +29,7 @@ export default function ChatCard(props) {
       <img src={getCustomerArrById(allCustomers, chatInfo.customerId).profimg} alt=""/>
       <div>
         <h5>{getCustomerArrById(allCustomers, chatInfo.customerId).name}</h5>
-        <small>{lastMsg.message?.slice(0,30)} {lastMsg.message?.length>30&&"..."}</small>
+        <small>{shortenMsgs(chatInfo.lastMsg)}</small> 
       </div>
       <div className="optscont" onClick={(e) => e.stopPropagation()}>
         <i className="fal fa-ellipsis-h"></i>

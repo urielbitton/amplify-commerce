@@ -11,10 +11,12 @@ export function getChatByUserId(path, setChatData, limit=10) {
 }
 
 export function sendChat(customerId, chatObj) {
-  db.collection('chats').doc(customerId).collection('messages').add(chatObj) 
-  db.collection('chats').doc(customerId).update({
-    'chatInfo.dateModified': new Date()
-  })
+  db.collection('chats').doc(customerId).collection('messages').add(chatObj).then(() => {
+    db.collection('chats').doc(customerId).update({
+      'chatInfo.dateModified': new Date(),
+      'chatInfo.lastMsg': chatObj.message
+    })
+  }) 
 }
 
 export function createAChat(customerId, message, adminId) {
@@ -22,12 +24,13 @@ export function createAChat(customerId, message, adminId) {
     customerId,
     dateCreated: new Date(), 
     dateModified: new Date(),
+    lastMsg: message,
     isArchived: false,
     isActive: true
   }
   db.collection('chats').doc(customerId).set({chatInfo})
   .then(() => {
-    db.collection('chats').doc(customerId).collection('messages').doc().set({
+    db.collection('chats').doc(customerId).collection('messages').add({
       isActive: true,
       message,
       messageDate: new Date(),
@@ -39,7 +42,7 @@ export function createAChat(customerId, message, adminId) {
 export function getLastMessage(path, setLastMsg) {
   db.collection(path).orderBy('messageDate','asc').limitToLast().onSnapshot(snap => {
     snap.forEach(doc => {
-      setLastMsg(doc.data())  
+      setLastMsg(doc.data())
     })
   })
 }

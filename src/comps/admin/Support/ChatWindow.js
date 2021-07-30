@@ -8,11 +8,11 @@ import AdminDialogue from './AdminDialogue'
 export default function ChatWindow(props) {
 
   const {allChats} = useContext(StoreContext)
-  const {chatData, setShowNewChat} = props
+  const {chatData, setChatData, setShowNewChat} = props
 
   const chatPages = allChats?.map(({chatInfo}) => {
     return <Route path={`/admin/support/customer-support/chat/${chatInfo.customerId}`}>
-      <AdminDialogue chatData={chatData} chatInfo={chatInfo}/>
+      <AdminDialogue chatData={chatData} setChatData={setChatData} chatInfo={chatInfo}/>
     </Route>
   })
 
