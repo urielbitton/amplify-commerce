@@ -8,7 +8,7 @@ import AdminDialogue from './AdminDialogue'
 export default function ChatWindow(props) {
 
   const {allChats} = useContext(StoreContext)
-  const {chatData} = props
+  const {chatData, setShowNewChat} = props
 
   const chatPages = allChats?.map(({chatInfo}) => {
     return <Route path={`/admin/support/customer-support/chat/${chatInfo.customerId}`}>
@@ -28,7 +28,7 @@ export default function ChatWindow(props) {
               img="https://i.imgur.com/xP6AwB2.png"
               btnText="New Chat"
               clickEvent
-              onClick={() => console.log('Open popup to select customer to chat with.')}
+              onClick={() => setShowNewChat(true)}
             />
           </div>
         </Route>

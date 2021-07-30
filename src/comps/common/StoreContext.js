@@ -177,7 +177,7 @@ const StoreContextProvider = (props) => {
       setSizesOpts(snap.data()?.storesettings.sizeopts)  
       setColorsOpts(snap.data()?.storesettings.coloropts) 
     })
-    db.collection('chats').onSnapshot(snap => {
+    db.collection('chats').orderBy('chatInfo.dateModified','desc').onSnapshot(snap => {
       const chatsArr = []
       snap.forEach(doc => chatsArr.push(doc.data()))
       setAllChats(chatsArr)

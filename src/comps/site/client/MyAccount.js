@@ -49,7 +49,7 @@ export default function MyAccount() {
     }
   }
   function startChat() {
-    createAChat(user.uid)
+    createAChat(user.uid, 'Customer Support')
   } 
 
   useEffect(() => {

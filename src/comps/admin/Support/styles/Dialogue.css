@@ -50,10 +50,21 @@
   height: 85%;
   overflow-y: scroll;
   display: flex;
-  flex-direction: column;
+  flex-direction: column-reverse;
 }
 .dialoguecont section::-webkit-scrollbar {
   display: none;
+}
+.dialoguecont section .loadmore {
+  display: block;
+  text-align: center;
+  margin-bottom: 20px;
+  color: #aaa;
+  transition: all 0.2s;
+  cursor: pointer;
+}
+.dialoguecont section .loadmore:hover {
+  color: var(--admincolor);
 }
 .dialoguecont .typercont {
   width: 100%;

@@ -35,7 +35,7 @@ export default function AdminDialogue(props) {
         messageDate: new Date(),
         senderId: user.uid
       }
-      sendChat(`/chats/${chatInfo.customerId}/messages`, chatObj)
+      sendChat(chatInfo.customerId, chatObj)
       setMsgString('') 
     }
   }
@@ -61,8 +61,9 @@ export default function AdminDialogue(props) {
         </div>
       </header>
       <section>
+        <div ref={scrollRef}></div>
         {chatBubbleCont}
-        <div className="scrolldiv" ref={scrollRef}></div>
+        <small className="loadmore">Load more</small>
       </section>
       <div className="typercont">
         <div>
