@@ -36,7 +36,7 @@ export default function Dialogue(props) {
         senderId: user.uid
       }
       sendChat(chatInfo.customerId, chatObj)
-      getChatByUserId(`chats/${chatInfo.customerId}/messages`, setChatData)
+      getChatByUserId(chatInfo.customerId, setChatData)
       setMsgString('') 
     }
   }
@@ -44,6 +44,10 @@ export default function Dialogue(props) {
   useEffect(() => { 
     scrollRef.current.parentNode.scrollTop = scrollRef.current.offsetTop
   },[chatData])
+
+  useEffect(() => {
+    getChatByUserId(`chats/${chatInfo.customerId}/messages`, setChatData)
+  },[])
 
   return (
     <div className="dialoguecont">

@@ -12,12 +12,12 @@ export default function AdminChatBubble(props) {
   const adminId = myUser?.userid
   const myBubble = senderId === user.uid
   
-  function switchTimestamp() {
-    if(getHoursAgo(messageDate.toDate()) > 23) {
-      return convertDate(messageDate.toDate())
+  function switchTimestamp(date) {
+    if(getHoursAgo(date?.toDate()) > 23) {
+      return convertDate(date?.toDate())
     }
-    else if(getHoursAgo(messageDate.toDate()) > 0.0166667){
-      return convertTime(messageDate.toDate())
+    else if(getHoursAgo(date?.toDate()) > 0.0166667){
+      return convertTime(date?.toDate())
     }
     return 'Just now'
   }
@@ -42,7 +42,7 @@ export default function AdminChatBubble(props) {
           }
           <p>{message}</p>
         </div>
-        <small>{switchTimestamp()}</small>
+        <small>{switchTimestamp(messageDate)}</small>
       </div>
     </div>
   )

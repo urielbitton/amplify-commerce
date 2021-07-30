@@ -8,6 +8,7 @@ import {AppInput} from '../../common/AppInputs'
 import AdminBtn from '../common/AdminBtn'
 import TextareaAutosize from 'react-textarea-autosize'
 import ChatCard from './ChatCard'
+import { getCustomerArrById } from '../../common/UtilityFuncs'
 
 export default function ChatSidebar(props) {
  
@@ -18,8 +19,10 @@ export default function ChatSidebar(props) {
   const [msgString, setMsgString] = useState('')
   const [customerId, setCustomerId] = useState('')
   const [keyword, setKeyword] = useState('')
+  const [keyword2, setKeyword2] = useState('')
   const clean = text => text?.replace(/[^a-zA-Z0-9 ]/g, "")
   let pattern = new RegExp('\\b' + clean(keyword), 'i')
+  let pattern2 = new RegExp('\\b' + clean(keyword2), 'i')
   const history = useHistory()
   const location = useLocation()
   const allCustomersFilter = allCustomers?.filter(x => (pattern.test(clean(x.name)) && keyword.length
@@ -38,7 +41,9 @@ export default function ChatSidebar(props) {
     isArchived: false
   }
 
-  const chatCardRow = allChats?.map(({chatInfo}) => {
+  const chatCardRow = allChats
+  ?.filter(x => pattern2.test(clean(getCustomerArrById(allCustomers, x.chatInfo.customerId).name)))
+  .map(({chatInfo}) => {
     return <ChatCard 
       urlCustId={urlCustId} 
       chatInfo={chatInfo} 
@@ -129,7 +134,10 @@ export default function ChatSidebar(props) {
             <i className="far fa-plus"></i>
           </div>
           <div className="searchbar">
-            <AppInput placeholder="Find a conversation..."/>
+            <AppInput 
+              placeholder="Find a conversation..."
+              onChange={(e) => setKeyword2(e.target.value)}
+            />
           </div>
           {chatCardRow}
         </div>

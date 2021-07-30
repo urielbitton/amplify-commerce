@@ -36,7 +36,7 @@ export default function AdminDialogue(props) {
         senderId: user.uid
       }
       sendChat(chatInfo.customerId, chatObj)
-      getChatByUserId(`chats/${chatInfo.customerId}/messages`, setChatData)
+      getChatByUserId(chatInfo.customerId, setChatData)
       setMsgString('') 
     }
   }
@@ -46,7 +46,7 @@ export default function AdminDialogue(props) {
   },[chatData])
 
   useEffect(() => {
-    getChatByUserId(`chats/${chatInfo.customerId}/messages`, setChatData)
+    getChatByUserId(chatInfo.customerId, setChatData)
   },[])
 
   return (

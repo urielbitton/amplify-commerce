@@ -67,6 +67,15 @@
 .adminchatsidebar .chatcard.active {
   border-left: 3px solid var(--admincolor);
 }
+.adminchatsidebar .chatcard.active h5 {
+  color: #333;
+}
+.adminchatsidebar .chatcard.active small {
+  color: #555;
+}
+.adminchatsidebar .chatcard.active span.datemodif {
+  color: #555;
+}
 .adminchatsidebar .chatcard img {
   width: 35px;
   height: 35px;
@@ -74,11 +83,11 @@
 }
 .adminchatsidebar .chatcard h5 {
   font-size: 13px;
-  color: #333;
+  color: #999;
 }
 .adminchatsidebar .chatcard small {
   font-size: 11px;
-  color: #555;
+  color: #aaa;
   font-weight: 500;
   white-space: nowrap;
 }
@@ -106,6 +115,20 @@
 .adminchatsidebar .chatcard .optscont i {
   color: #aaa;
   font-size: 17px;
+}
+.adminchatsidebar .chatcard span.datemodif {
+  font-size: 10px;
+  color: #aaa;
+  position: absolute;
+  bottom: 5px;
+  right: 15px;
+}
+.adminchatsidebar .chatcard.unread {
+  background: var(--light);
+}
+.adminchatsidebar .chatcard.unread small,
+.adminchatsidebar .chatcard.unread span.datemodif {
+  color: var(--admincolor);
 }
 .adminchatsidebar .chatslistcont .searchbar {
   display: flex;

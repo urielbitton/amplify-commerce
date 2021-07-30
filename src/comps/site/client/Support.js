@@ -9,7 +9,7 @@ export default function Support() {
   const [chatData, setChatData] = useState([])
 
   useEffect(() => {
-    user&&getChatByUserId(`chats/${user.uid}/messages`, setChatData)
+    user&&getChatByUserId(user.uid, setChatData)
   },[user])  
  
   return (
