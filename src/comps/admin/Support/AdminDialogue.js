@@ -5,6 +5,7 @@ import AdminChatBubble from './AdminChatBubble'
 import './styles/Dialogue.css'
 import TextareaAutosize from 'react-textarea-autosize'
 import { getChatByUserId, sendChat } from '../../common/services/ChatService'
+import { Link } from 'react-router-dom'
 
 export default function AdminDialogue(props) {
 
@@ -54,7 +55,11 @@ export default function AdminDialogue(props) {
       <header>
         <div>
           <img src={getCustomerArrById(allCustomers, chatInfo?.customerId)?.profimg} alt=""/>
-          <h5>{getCustomerArrById(allCustomers, chatInfo?.customerId)?.name}</h5>
+          <h5>
+            <Link to={`/admin/customer/${getCustomerArrById(allCustomers, chatInfo?.customerId)?.id}`}>
+              {getCustomerArrById(allCustomers, chatInfo?.customerId)?.name}
+            </Link>
+          </h5>
         </div>
         <div>
           <div className="optscont">

@@ -12,7 +12,7 @@ import PageTitle from '../common/PageTitle'
 import CustImgUploader from '../../common/CustImgUploader'
  
 export default function EditCustomer(props) {
-
+ 
   const {editCustMode, setNotifs, setEditCustMode, user} = useContext(StoreContext)
   const {id, number, name, email, phone, address, city, provState, country, moneySpent, profimg,
     userRating, isActive} = editCustMode&&props.el

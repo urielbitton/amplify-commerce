@@ -25,6 +25,7 @@ import Marketing from '../Customers/Marketing'
 import CreateCampaign from '../Customers/CreateCampaign'
 import CampaignPage from '../Customers/CampaignPage'
 import CustomerSupport from '../Support/CustomerSupport'
+import AdminSupport from '../Support/AdminSupport'
 
 export default function AdminHomecont() {
  
@@ -142,6 +143,9 @@ export default function AdminHomecont() {
           {editcampaignpages}
           <Route path="/admin/support/customer-support">
             <CustomerSupport />
+          </Route>
+          <Route path="/admin/support/admin-support">
+            <AdminSupport />
           </Route>
         </Switch> 
       </div>

@@ -42,7 +42,7 @@ export default function Customers() {
       <h5>{el.city}</h5>
       <h5>{el.provState}</h5>
       <h5>{el.country}</h5>
-      <h5>{el.moneySpent}</h5>
+      <h5>{currencyFormat.format(el.moneySpent)}</h5>
       <h5>
         <div className="actionsdiv" onClick={(e) => {setShowOpts(showOpts===i?0:i);e.stopPropagation()}}>
           <i className="far fa-ellipsis-h actionsicon"></i>
