@@ -5,14 +5,20 @@ import {AppInput} from '../../common/AppInputs'
 import {StoreContext} from '../../common/StoreContext'
 import { Link, useHistory } from 'react-router-dom'
 import firebase from 'firebase'
+import ChatCard from '../Support/ChatCard'
 
 export default function Navbar() {
 
-  const {myUser, darkMode, setDarkMode, setNotifs} = useContext(StoreContext)
+  const {myUser, darkMode, setDarkMode, setNotifs, allChats} = useContext(StoreContext)
   const [openProf, setOpenProf] = useState(false)
   const [openUpdates, setOpenUpdates] = useState(false)
   const [openMsgs, setOpenMsgs] = useState(false)
+  const [chatData, setChatData] = useState([])
   const history = useHistory()
+
+  const chatsRow = allChats?.map(({chatInfo}) => {
+    return <ChatCard chatInfo={chatInfo} urlCustId={0} setChatData={setChatData}/>
+  })
 
   function toggleDarkMode() {
     setNotifs(prev => [...prev, {
@@ -69,7 +75,7 @@ export default function Navbar() {
             <i className="far fa-comment"></i>
           </div>
           <div className={`updatescont ${openMsgs?"open":""}`}>
-            <h4>Chats</h4>
+            {chatsRow}
           </div>
           <div className="iconcont" onClick={() => setOpenUpdates(prev => !prev)}>
             <i className="far fa-bell"></i>

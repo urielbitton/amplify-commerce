@@ -3,6 +3,7 @@ import { convertDate, convertTime, getCustomerArrById, getHoursAgo } from '../..
 import { StoreContext } from '../../common/StoreContext'
 import { useHistory } from 'react-router-dom'
 import { archiveChat, deactivateChat, markReadChat, getChatByUserId } from '../../common/services/ChatService'
+import './styles/ChatCard.css'
 
 export default function ChatCard(props) {
 

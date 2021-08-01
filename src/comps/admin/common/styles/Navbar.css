@@ -157,11 +157,11 @@
 .updatescont {
   position: absolute;
   top: 58px;
-  padding: 20px;
+  right: 0;
   background: #fff;
   box-shadow: var(--shadow);
   border-radius: 5px;
-  min-width: 200px;
+  width: 300px;
   display: flex;
   flex-direction: column;
   z-index: 999;

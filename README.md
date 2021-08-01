@@ -17,6 +17,7 @@ Features to add:
   updates show up in admin dashboard
 - make launch campaign send emails to customers using either php or SendMail.com
 - find way to remove admin id from chat messages
+- initiate db with default values and collections, storage folders, etc, when stting up for client.
 
 Bugs tracking:
 - multiple notifs will stay as long as last notifs

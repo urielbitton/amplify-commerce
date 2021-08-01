@@ -1,0 +1,83 @@
+.settingspage {
+  display: grid;
+  grid-template-columns: 300px auto;
+  grid-gap: 30px;
+  align-items: flex-start;
+}
+.userprofilecont {
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: var(--shadow);
+  padding: 30px;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+.userprofilecont .profimgcont {
+  width: 100px;
+  height: 100px;
+  cursor: pointer;
+}
+.userprofilecont .profimgcont img {
+  width: 100%;
+  height: 100%;
+  box-shadow: 0 5px 10px rgba(0,0,0,0.1);
+  border-radius: 100%;
+  cursor: pointer;
+}
+.userprofilecont .profimgcont .iconcont {
+  position: absolute;
+  bottom: 15px;
+  right: 0px;
+  width: 27px;
+  height: 27px;
+  border-radius: 100%;
+  background: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: var(--shadow);
+  opacity: 0;
+  transition: all 0.2s;
+}
+.userprofilecont .profimgcont:hover .iconcont {
+  opacity: 1;
+}
+.userprofilecont .profimgcont .iconcont i {
+  color: var(--admincolor);
+}
+.userprofilecont > h4 {
+  margin-top: 10px;
+  color: var(--graytxt);
+  font-size: 17px;
+}
+.userprofilecont > h6 {
+  color: #aaa;
+  font-weight: 500;
+  font-size: 13px;
+}
+.userprofilecont .infotab {
+  margin-bottom: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  width: 100%;
+}
+.userprofilecont .infotab h4 {
+  font-size: 15px;
+  color: #aaa;
+  font-weight: 500;
+  margin-bottom: 10px;
+}
+.userprofilecont .infotab h6 {
+  color: var(--graytxt);
+  font-size: 13px;
+  margin-bottom: 5px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.userprofilecont .infotab h6 span {
+  font-weight: 500;
+}
