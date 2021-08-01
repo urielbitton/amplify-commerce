@@ -19,7 +19,7 @@ export default function CustomerSupport() {
     <div className="customersupportpage">
       <ChatSidebar chatData={chatData} setChatData={setChatData} showNewChat={showNewChat} setShowNewChat={setShowNewChat} />
       <ChatWindow chatData={chatData} setChatData={setChatData} showNewChat={showNewChat} setShowNewChat={setShowNewChat} />
-      <ChatProfile />
+      {/* <ChatProfile /> */}
     </div>
   )
 }

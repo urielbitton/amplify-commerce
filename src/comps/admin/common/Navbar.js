@@ -69,7 +69,7 @@ export default function Navbar() {
             <i className="far fa-comment"></i>
           </div>
           <div className={`updatescont ${openMsgs?"open":""}`}>
-            <h4>Messages</h4>
+            <h4>Chats</h4>
           </div>
           <div className="iconcont" onClick={() => setOpenUpdates(prev => !prev)}>
             <i className="far fa-bell"></i>

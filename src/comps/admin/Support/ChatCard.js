@@ -1,13 +1,14 @@
-import React, { useContext} from 'react'
+import React, { useContext, useEffect, useState} from 'react'
 import { convertDate, convertTime, getCustomerArrById, getHoursAgo } from '../../common/UtilityFuncs'
 import { StoreContext } from '../../common/StoreContext'
 import { useHistory } from 'react-router-dom'
-import { getChatByUserId } from '../../common/services/ChatService'
+import { archiveChat, deactivateChat, markReadChat, getChatByUserId } from '../../common/services/ChatService'
 
 export default function ChatCard(props) {
 
   const {allCustomers} = useContext(StoreContext)
-  const {urlCustId, chatInfo, setChatData} = props
+  const {urlCustId, chatInfo, setChatData, i} = props
+  const [showOpts, setShowOpts] = useState(-1)
   const history = useHistory()
 
   function initChat(chatInfo) {
@@ -29,10 +30,28 @@ export default function ChatCard(props) {
     }
     return 'Just now'
   }
+  function showOptsMenu(e) {
+    setShowOpts(showOpts===i?-1:i)
+    e.stopPropagation()
+  }
+  function archiveAChat() {
+    archiveChat(chatInfo.customerId, !chatInfo.isArchived)
+  }
+  function deleteChat() {
+    deactivateChat(chatInfo.customerId, true)
+  }
+  function markAsRead() {
+    markReadChat(chatInfo.customerId, !chatInfo.read)
+  }
+
+  useEffect(() => {
+    if(showOpts !== -1)
+      window.onclick = () => setShowOpts(-1)
+  },[showOpts])
 
   return (
     <div 
-      className={`chatcard ${chatInfo.customerId===urlCustId?"active":""} ${!chatInfo.read?"unread":""}`} 
+      className={`chatcard ${chatInfo.customerId===urlCustId?"active":""} ${chatInfo.customerId===chatInfo.lastSenderId&&!chatInfo.read?"unread":""}`} 
       onClick={() => initChat(chatInfo)}
     >
       <img src={getCustomerArrById(allCustomers, chatInfo.customerId).profimg} alt=""/>
@@ -40,8 +59,13 @@ export default function ChatCard(props) {
         <h5>{getCustomerArrById(allCustomers, chatInfo.customerId).name}</h5>
         <small>{shortenMsgs(chatInfo.lastMsg)}</small> 
       </div>
-      <div className="optscont" onClick={(e) => e.stopPropagation()}>
+      <div className="optscont" onClick={(e) => showOptsMenu(e)}>
         <i className="fal fa-ellipsis-h"></i>
+        <div className={`optsmenucont ${showOpts===i?"show":""}`}>
+          <h6 onClick={() => archiveAChat()} className={chatInfo.isArchived?"on":""}><i className="fal fa-archive"></i>Archive{chatInfo.isArchived?"d":""}</h6>
+          <h6 onClick={() => deleteChat()}><i className="fal fa-trash-alt"></i>Delete</h6>
+          <h6 onClick={() => markAsRead()} className={chatInfo.read?"on":""}><i className="fal fa-check"></i>{chatInfo.read?"Unread":"Read"}</h6>
+        </div>
       </div>
       <span className="datemodif">{switchTimestamp(chatInfo.dateModified)}</span>
     </div>

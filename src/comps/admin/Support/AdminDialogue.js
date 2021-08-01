@@ -36,7 +36,7 @@ export default function AdminDialogue(props) {
         messageDate: new Date(),
         senderId: user.uid
       }
-      sendChat(chatInfo.customerId, chatObj)
+      sendChat(chatInfo.customerId, chatObj, user.uid)
       getChatByUserId(chatInfo.customerId, setChatData)
       setMsgString('') 
     }

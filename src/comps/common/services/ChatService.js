@@ -14,12 +14,13 @@ export function getChatByUserId(customerId, setChatData, limit=10) {
   })
 }
 
-export function sendChat(customerId, chatObj) {
+export function sendChat(customerId, chatObj, lastSenderId) {
   db.collection('chats').doc(customerId).collection('messages').add(chatObj).then(() => {
     db.collection('chats').doc(customerId).update({
       'chatInfo.dateModified': new Date(),
       'chatInfo.lastMsg': chatObj.message,
-      'chatInfo.read': false
+      'chatInfo.read': false,
+      'chatInfo.lastSenderId': lastSenderId
     })
   }) 
 }
@@ -30,6 +31,7 @@ export function createAChat(customerId, message, adminId) {
     dateCreated: new Date(), 
     dateModified: new Date(),
     lastMsg: message,
+    lastSenderId: adminId.length?adminId:customerId,
     isArchived: false,
     isActive: true,
     read: false
@@ -50,5 +52,23 @@ export function getLastMessage(path, setLastMsg) {
     snap.forEach(doc => {
       setLastMsg(doc.data())
     })
+  })
+}
+
+export function archiveChat(customerId, action) {
+  db.collection('chats').doc(customerId).update({
+    'chatInfo.isArchived': action
+  })
+}
+
+export function deactivateChat(customerId, action) {
+  db.collection('chats').doc(customerId).update({
+    'chatInfo.isActive': action
+  })
+}
+
+export function markReadChat(customerId, action) {
+  db.collection('chats').doc(customerId).update({
+    'chatInfo.read': action
   })
 }

@@ -26,6 +26,11 @@ import CreateCampaign from '../Customers/CreateCampaign'
 import CampaignPage from '../Customers/CampaignPage'
 import CustomerSupport from '../Support/CustomerSupport'
 import AdminSupport from '../Support/AdminSupport'
+import GeneralSettings from '../Settings/GeneralSettings'
+import StoreSettings from '../Settings/StoreSettings'
+import AppearanceSettings from '../Settings/AppearanceSettings'
+import UsersSettings from '../Settings/UsersSettings'
+import AccountSettings from '../Settings/AccountSettings'
 
 export default function AdminHomecont() {
  
@@ -146,6 +151,21 @@ export default function AdminHomecont() {
           </Route>
           <Route path="/admin/support/admin-support">
             <AdminSupport />
+          </Route>
+          <Route path="/admin/settings/general">
+            <GeneralSettings />
+          </Route>
+          <Route path="/admin/settings/store">
+            <StoreSettings />
+          </Route>
+          <Route path="/admin/settings/appearance">
+            <AppearanceSettings />
+          </Route>
+          <Route path="/admin/settings/account">
+            <AccountSettings />
+          </Route>
+          <Route path="/admin/settings/users">
+            <UsersSettings />
           </Route>
         </Switch> 
       </div>

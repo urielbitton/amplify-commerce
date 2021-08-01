@@ -38,18 +38,37 @@ export default function ChatSidebar(props) {
     dateCreated: new Date(),
     dateModified: new Date(),
     isActive: true,
-    isArchived: false
+    isArchived: false,
+    lastSenderId: user.uid
   }
 
-  const chatCardRow = allChats
-  ?.filter(x => pattern2.test(clean(getCustomerArrById(allCustomers, x.chatInfo.customerId).name)))
-  .map(({chatInfo}) => {
+  const activeChatsRow = allChats
+  ?.filter(x => (
+    pattern2.test(clean(getCustomerArrById(allCustomers, x.chatInfo.customerId).name)) && !x.chatInfo.isArchived
+    && x.chatInfo.isActive
+  ))
+  .map(({chatInfo},i) => {
     return <ChatCard 
       urlCustId={urlCustId} 
       chatInfo={chatInfo} 
       setChatData={setChatData} 
+      i={i}
     />
   }) 
+
+  const archivedChatsRow = allChats
+  ?.filter(x => (
+    pattern2.test(clean(getCustomerArrById(allCustomers, x.chatInfo.customerId).name)) && x.chatInfo.isArchived
+    && x.chatInfo.isActive
+  ))
+  .map(({chatInfo},i) => {
+    return <ChatCard 
+      urlCustId={urlCustId} 
+      chatInfo={chatInfo} 
+      setChatData={setChatData} 
+      i={i}
+    />
+  })
 
   const tabsheadrow = tabsTitles?.map((el,i) => {
     return <h5
@@ -139,12 +158,13 @@ export default function ChatSidebar(props) {
               onChange={(e) => setKeyword2(e.target.value)}
             />
           </div>
-          {chatCardRow}
+          {activeChatsRow}
         </div>
       </div>
       <div className={`tabsection ${tabPos===1?"show":""}`}>
         <div className="archiveslistcont">
           <h5>Archived Chats will show up here.</h5>
+          {archivedChatsRow}
         </div>
       </div>
       <div className={`newchatcover ${showNewChat?"show":""}`} onClick={() => setShowNewChat(false)}>

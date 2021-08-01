@@ -40,7 +40,7 @@ export const menuLinks = [
     url: '/admin/support/',
     sublinks: [
       {name: 'customer support', icon: 'far fa-user-headset', url: '/admin/support/customer-support'},
-      {name: 'admin support', icon: 'far fa-question-circle', url: '/admin/support/admin-support'},
+      {name: 'support & help', icon: 'far fa-question-circle', url: '/admin/support/admin-support'},
     ]
   },
   {
@@ -49,8 +49,8 @@ export const menuLinks = [
     url: '/admin/settings/',
     sublinks: [
       {name: 'general', icon: 'far fa-sliders-h', url: '/admin/settings/general'},
-      {name: 'appearance', icon: 'far fa-palette', url: '/admin/settings/appearance'},
       {name: 'store', icon: 'far fa-store-alt', url: '/admin/settings/store'},
+      {name: 'appearance', icon: 'far fa-palette', url: '/admin/settings/appearance'},
       {name: 'account', icon: 'far fa-user-circle', url: '/admin/settings/account'},
       {name: 'users', icon: 'far fa-user-friends', url: '/admin/settings/users'}
     ]

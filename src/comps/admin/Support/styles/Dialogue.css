@@ -41,6 +41,9 @@
 .dialoguecont header .optscont:hover {
   background: var(--light);
 }
+.dialoguecont header .optscont:hover i {
+  color: var(--admincolor);
+}
 .dialoguecont header .optscont i {
   color: var(--graytxt);
 }
