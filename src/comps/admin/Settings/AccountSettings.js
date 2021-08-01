@@ -1,12 +1,12 @@
 import React from 'react'
 
-export default function GeneralSettings() {
+export default function AccountSettings() {
   
   return (
-    <div className="admingeneralsettings">
+    <div className="adminaccountsettings">
       <div className="pagecont">
-        
+
       </div>
     </div>
   )
-}
+} 

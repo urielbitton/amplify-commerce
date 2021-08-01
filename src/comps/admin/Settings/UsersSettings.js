@@ -1,11 +1,11 @@
 import React from 'react'
 
-export default function GeneralSettings() {
-  
+export default function UsersSettings() {
+
   return (
-    <div className="admingeneralsettings">
+    <div className="adminuserssettings">
       <div className="pagecont">
-        
+
       </div>
     </div>
   )
