@@ -65,6 +65,8 @@ const StoreContextProvider = (props) => {
   const [allCampaigns, setAllCampaigns] = useState([])
   const [allChats, setAllChats] = useState([])
   const [fetchChats, setFetchChats] = useState(false)
+  const [accountSettings, setAccountSettings] = useState({})
+  const [generalSettings, setGeneralSettings] = useState({})
 
   const [quickProduct, setQuickProduct] = useState({
     id: '', 
@@ -172,11 +174,17 @@ const StoreContextProvider = (props) => {
       setAllUsers(usersArr) 
     })
     db.collection('admin').doc('storeSettings').onSnapshot(snap => {
-      setAdminTaxRate(snap.data()?.storesettings.adminTaxRate)
+      setAdminTaxRate(snap.data().adminTaxRate)
     })
     db.collection('admin').doc('storeSettings').onSnapshot(snap => {
-      setSizesOpts(snap.data()?.storesettings.sizeopts)  
-      setColorsOpts(snap.data()?.storesettings.coloropts) 
+      setSizesOpts(snap.data().sizeOpts)  
+      setColorsOpts(snap.data().colorOpts) 
+    })
+    db.collection('admin').doc('accountSettings').onSnapshot(snap => {
+      setAccountSettings(snap.data())
+    })
+    db.collection('admin').doc('generalSettings').onSnapshot(snap => {
+      setGeneralSettings(snap.data())
     })
   },[user, auser])  
 
@@ -232,7 +240,8 @@ const StoreContextProvider = (props) => {
       notifs, setNotifs, allTransactions, setAllTransactions, editCustMode, setEditCustMode, 
       showAnaTips, setShowAnaTips, adminTaxRate, setAdminTaxRate, allReviews, setAllReviews, myReviews, setMyReviews,
       myTransactions, setMyTransactions, allUsers, setAllUsers, allCampaigns, setAllCampaigns, 
-      editCampMode, setEditCampMode, allChats, setAllChats, myChat, setMyChat, fetchChats, setFetchChats
+      editCampMode, setEditCampMode, allChats, setAllChats, myChat, setMyChat, fetchChats, setFetchChats,
+      accountSettings, setAccountSettings, generalSettings, setGeneralSettings
     }}>
       {props.children}  
     </StoreContext.Provider>

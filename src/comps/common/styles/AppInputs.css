@@ -2,6 +2,16 @@ label.appinput i {
   position: absolute;
   z-index: 10;
 }
+.appinput > div {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.appinput > div small {
+  font-size: 11px;
+  color: #777;
+  margin-left: 10px;
+}
 
 /* iOS Style Button */
 .form-switch{display:inline-block;cursor:pointer;-webkit-tap-highlight-color:transparent}

@@ -103,13 +103,14 @@
 .settingspage section {
   width: 100%;
   display: grid;
-  grid-template-columns: repeat(2,1fr);
+  grid-template-columns: repeat(auto-fill, minmax(500px, 1fr));
   grid-gap: 30px 40px;
 }
 .settingspage section .commoninput {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  width: 100%;
 }
 .settingspage section .appinput input,
 .settingspage section .appselect select {
@@ -117,9 +118,28 @@
   background: #f5f5f5;
   border: 1px solid #eee;
   flex-basis: 70%;
+  color: #444;
 }
-.settingspage section .appinput h6 {
+.settingspage section .appinput.descriptinput {
+  justify-content: space-between;
+}
+.settingspage section .appinput.descriptinput > div {
+  width: 70%;
+  display: flex;
+  align-self: flex-end;
+  align-items: flex-start;
+}
+.settingspage section .appinput.descriptinput input {
+  width: 100%;
+}
+.settingspage section .commoninput h6 {
   margin-bottom: 5px;
   font-size: 13px;
-  color: #555;
+  color: var(--graytxt);
+}
+.settingspage .passinput i {
+  right: 10px;
+  color: var(--graytxt);
+  opacity: 0.8;
+  cursor: pointer;
 }

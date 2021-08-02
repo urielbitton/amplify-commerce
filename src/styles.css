@@ -102,6 +102,9 @@ input, select, textarea {
 input::placeholder, textarea::placeholder {
   color: #bbb;
 }
+input:disabled {
+  background: #e5e5e5!important;
+}
 hr {
   border: none;
 }
