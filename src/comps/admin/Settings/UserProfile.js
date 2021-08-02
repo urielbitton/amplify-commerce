@@ -50,6 +50,10 @@ export default function UserProfile() {
         <h6><span>Dark Mode</span>{darkMode?"On":"Off"}</h6>
         <h6><span>Color Theme</span></h6>
       </div>
+      <div className="infotab">
+        <h4>Permissions</h4>
+        <h6><span>User Role</span>Administrator</h6>
+      </div>
     </div>
   )
 }
