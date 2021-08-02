@@ -68,10 +68,12 @@
   cursor: pointer;
   transition: all 0.2s;
 }
-.adminnav .right .iconcont:hover {
+.adminnav .right .iconcont:hover,
+.adminnav .right .iconcont.open {
   background: var(--light); 
 }
-.adminnav .right .iconcont:hover i {
+.adminnav .right .iconcont:hover i,
+.adminnav .right .iconcont.open i {
   color: var(--admincolor);
 }
 .adminnav .right .iconcont i {
@@ -174,4 +176,95 @@
   opacity: 1;
   visibility: visible;
   top: 48px;
+}
+.adminnav .updatescont .chatcard {
+  border-bottom: 1px solid #eee;
+}
+.updatescont .chatcard:hover {
+  background: #f7f7f7
+}
+.updatescont .viewallcont {
+  padding: 15px 10px;
+  background: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.updatescont .viewallcont:hover {
+  background: var(--light);
+}
+.updatescont .viewallcont:hover h6 {
+  color: var(--admincolor);
+}
+.updatescont .viewallcont h6 {
+  color: var(--graytxt);
+  font-size: 12px;
+}
+
+.pagesearchcont {
+  position: absolute;
+  top: 50px;
+  left: 0;
+  background: #fff;
+  box-shadow: 0 3px 15px rgba(0,0,0,0.1);
+  border-radius: 10px;
+  width: 500px;
+  display: flex;
+  flex-direction: column;
+  visibility: hidden;
+  opacity: 0;
+  max-height: 450px;
+  transition: all 0.3s;
+  overflow: scroll;
+}
+.pagesearchcont::-webkit-scrollbar {
+  width: 0px;
+}
+.pagesearchcont:hover::-webkit-scrollbar {
+  width: 5px;
+}
+.pagesearchcont.show {
+  top: 60px;
+  visibility: visible;
+  opacity: 1;
+}
+.pagesearchcont > small {
+  padding: 10px;
+  color: var(--admincolor);
+  font-size: 12px;
+  text-transform: capitalize;
+}
+.pagesearchcont > a {
+  padding: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  transition: all 0.2s;
+  cursor: pointer;
+  opacity: 0.5;
+}
+.pagesearchcont > a:hover {
+  background: var(--light);
+  opacity: 1;
+}
+.pagesearchcont > a > i {
+  left: -7px;
+  transition: all 0.2s;
+}
+.pagesearchcont > a:hover > i {
+  left: 0;
+}
+.pagesearchcont > a:hover h6,
+.pagesearchcont > a:hover > i {
+  color: var(--admincolor);
+}
+.pagesearchcont > a h6 {
+  font-size: 13px;
+  color: var(--graytxt);
+  text-transform: capitalize;
+}
+.pagesearchcont > a h6 i {
+  margin-right: 10px;
 }

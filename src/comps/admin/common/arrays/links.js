@@ -29,7 +29,7 @@ export const menuLinks = [
     icon: 'far fa-user-tag',
     url: '/admin/customers/',
     sublinks: [
-      {name: 'customers', icon: 'far fa-user-friends', url: '/admin/customers/', exact: true},
+      {name: 'customers', icon: 'far fa-user-tag', url: '/admin/customers/', exact: true},
       {name: 'reviews', icon: 'far fa-star-half-alt', url: '/admin/customers/reviews'},
       {name: 'marketing', icon: 'fad fa-mail-bulk', url: '/admin/customers/marketing'},
     ]
@@ -54,5 +54,19 @@ export const menuLinks = [
       {name: 'account', icon: 'far fa-user-circle', url: '/admin/settings/account'},
       {name: 'users', icon: 'far fa-user-friends', url: '/admin/settings/users'}
     ]
-  },
+  }
 ] 
+
+export const extraLinks = [
+  {
+    name: 'Create',
+    sublinks: [
+      {name: 'Create Product', icon: 'far fa-plus', url: '/admin/store/add-product'},
+      {name: 'Create Order', icon: 'far fa-plus', url: '/admin/orders/add-order'},
+      {name: 'Create Coupon', icon: 'far fa-plus', url: '/admin/store/add-coupon'},
+      {name: 'Create Shipping', icon: 'far fa-plus', url: '/admin/store/add-shipping'},
+      {name: 'Create Customer', icon: 'far fa-plus', url: '/admin/customers/add-customer'},
+      {name: 'Create User', icon: 'far fa-plus', url: '/admin/settings/add-user'},
+    ]
+  }
+]

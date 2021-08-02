@@ -5,7 +5,7 @@ import AdminChatBubble from './AdminChatBubble'
 import './styles/Dialogue.css'
 import TextareaAutosize from 'react-textarea-autosize'
 import { getChatByUserId, sendChat } from '../../common/services/ChatService'
-import { Link } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 
 export default function AdminDialogue(props) {
 
@@ -13,6 +13,7 @@ export default function AdminDialogue(props) {
   const {chatData, setChatData, chatInfo} = props
   const [msgString, setMsgString] = useState('')
   const scrollRef = useRef()
+  const location = useLocation()
 
   const chatBubbleCont = chatData?.map(el => {
     return <AdminChatBubble el={el} chatData={chatData} />
@@ -48,7 +49,7 @@ export default function AdminDialogue(props) {
 
   useEffect(() => {
     getChatByUserId(chatInfo.customerId, setChatData)
-  },[])
+  },[location])
 
   return (
     <div className="dialoguecont">
@@ -60,6 +61,7 @@ export default function AdminDialogue(props) {
               {getCustomerArrById(allCustomers, chatInfo?.customerId)?.name}
             </Link>
           </h5>
+          {chatInfo.isArchived&&<h6 className="archived">Archived</h6>}
         </div>
         <div>
           <div className="optscont">

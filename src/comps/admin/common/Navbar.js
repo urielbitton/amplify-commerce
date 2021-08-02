@@ -6,18 +6,41 @@ import {StoreContext} from '../../common/StoreContext'
 import { Link, useHistory } from 'react-router-dom'
 import firebase from 'firebase'
 import ChatCard from '../Support/ChatCard'
+import { menuLinks, extraLinks } from './arrays/links'
 
 export default function Navbar() {
 
-  const {myUser, darkMode, setDarkMode, setNotifs, allChats} = useContext(StoreContext)
-  const [openProf, setOpenProf] = useState(false)
-  const [openUpdates, setOpenUpdates] = useState(false)
-  const [openMsgs, setOpenMsgs] = useState(false)
+  const {myUser, darkMode, setDarkMode, setNotifs, allChats, setFetchChats} = useContext(StoreContext)
+  const [openDrop, setOpenDrop] = useState(0)
   const [chatData, setChatData] = useState([])
+  const [showPageSearch, setShowPageSearch] = useState(false)
+  const [keyword, setKeyword] = useState('')
+  const clean = text => text.replace(/[^a-zA-Z0-9 ]/g, "")
+  let pattern = new RegExp('\\b' + clean(keyword), 'i')
   const history = useHistory()
+  const searchMenuLinks = [
+    {name: 'Home',sublinks:[{name:'Dashboard',icon:'far fa-tachometer-alt-fast',url: '/admin/'}]},
+    ...menuLinks.slice(1), ...extraLinks
+  ]
 
   const chatsRow = allChats?.map(({chatInfo}) => {
     return <ChatCard chatInfo={chatInfo} urlCustId={0} setChatData={setChatData}/>
+  })
+
+  const pageRows = searchMenuLinks?.map(({name,sublinks}) => {
+    return <>
+      { sublinks?.filter(x => pattern.test(x.name) | pattern.test(name)).length>0&&
+        <small>{name}</small>
+      }
+      {
+        sublinks?.filter(x => pattern.test(x.name) || pattern.test(name)).map(el => {
+          return <Link to={el.url}>
+            <h6><i className={el.icon}></i>{el.name}</h6>
+            <i className="fal fa-arrow-right"></i>
+          </Link>
+        })
+      }
+    </>
   })
 
   function toggleDarkMode() {
@@ -37,23 +60,16 @@ export default function Navbar() {
       window.location.reload()
     })
   }
+  function slideChats(e) {
+    e.stopPropagation()
+    setOpenDrop(3)
+    setFetchChats(true)
+  }
 
   useEffect(() => {
-    window.onclick = () => {
-      openProf&&setOpenProf(false)
-    } 
-  },[openProf])
+    window.onclick = () => setOpenDrop(0)
+  },[openDrop])
 
-  useEffect(() => {
-    window.onclick = () => {
-      openUpdates&&setOpenUpdates(false)
-    } 
-  },[openUpdates])
-  useEffect(() => {
-    window.onclick = () => {
-      openMsgs&&setOpenMsgs(false)
-    } 
-  },[openMsgs]) 
 
   return (
     <div className="adminnav">
@@ -64,35 +80,46 @@ export default function Navbar() {
           icon="fal fa-external-link"
           className="sitelinkbtn"
         />
-      <AppInput 
-        placeholder="Search..." 
-        iconclass="fal fa-search"
-      />
+      <div>
+        <AppInput 
+          placeholder="Search pages..." 
+          iconclass="fal fa-search"
+          onFocus={() => setShowPageSearch(true)}
+          onBlur={() => setShowPageSearch(false)}
+          onChange={(e) => setKeyword(e.target.value)}
+        />
+        <div className={`pagesearchcont ${showPageSearch?"show":""}`}> 
+          {pageRows}
+        </div>
+      </div>
       </div>
       <div className="right">
         <div className="toolbar">
-          <div className="iconcont" onClick={() => setOpenMsgs(prev => !prev)}>
+          <div className={`iconcont ${openDrop===3?"open":""}`} onClick={(e) => slideChats(e)}>
             <i className="far fa-comment"></i>
+            <div className={`updatescont ${openDrop===3?"open":""}`}>
+              {chatsRow}
+              <div className="viewallcont" onClick={() => history.push('/admin/support/customer-support')}>
+                <h6>View All</h6>
+              </div>
+            </div>
           </div>
-          <div className={`updatescont ${openMsgs?"open":""}`}>
-            {chatsRow}
-          </div>
-          <div className="iconcont" onClick={() => setOpenUpdates(prev => !prev)}>
+          <div className="iconcont" onClick={(e) => {setOpenDrop(2);e.stopPropagation()}}>
             <i className="far fa-bell"></i>
-          </div>
-          <div className={`updatescont ${openUpdates?"open":""}`}>
-            <h4>Updates</h4>
+            <div className={`updatescont ${openDrop===2?"open":""}`}>
+              <h4>Updates</h4>
+            </div>
           </div>
           <div className="iconcont" onClick={() => {setDarkMode(prev => !prev);toggleDarkMode()}}>
             <i className={`fa${darkMode?"s":"r"} fa-eclipse`}></i>
           </div>
         </div>
-        <div className="profcont" onClick={() => setOpenProf(prev => !prev)}>
+        <div className="profcont" onClick={(e) => {setOpenDrop(1);e.stopPropagation()}}>
           <img src={myUser?.profimg} alt=""/>
           <h6>{myUser?.fullname}</h6>
-          <i className={`far fa-angle-up ${openProf?"down":""}`}></i>
+          <i className={`far fa-angle-up ${openDrop===1?"down":""}`}></i>
         </div>
-        <div className={`profslidecont ${openProf?"open":""}`}>
+        <div className={`profslidecont ${openDrop===1?"open":""}`}>
           <h6>Account</h6>
           <Link to="/admin/settings"><i className="far fa-user"></i>My Account</Link>
           <Link to="/admin/settings/general"><i className="far fa-sliders-h"></i>Preferences</Link>

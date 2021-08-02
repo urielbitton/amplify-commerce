@@ -39,7 +39,11 @@ export default function ChatCard(props) {
     archiveChat(chatInfo.customerId, !chatInfo.isArchived)
   }
   function deleteChat() {
-    deactivateChat(chatInfo.customerId, true)
+    const confirm = window.confirm('Are you sure you want to delete this chat? You can restore it later from your deactivated messages.')
+    if(confirm) {
+      deactivateChat(chatInfo.customerId, !chatInfo.isActive)
+      history.push('/admin/support/customer-support')
+    }
   }
   function markAsRead() {
     markReadChat(chatInfo.customerId, !chatInfo.read)

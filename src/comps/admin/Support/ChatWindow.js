@@ -10,7 +10,9 @@ export default function ChatWindow(props) {
   const {allChats} = useContext(StoreContext)
   const {chatData, setChatData, setShowNewChat} = props
 
-  const chatPages = allChats?.map(({chatInfo}) => {
+  const chatPages = allChats
+  ?.filter(x => x.chatInfo.isActive)
+  .map(({chatInfo}) => {
     return <Route path={`/admin/support/customer-support/chat/${chatInfo.customerId}`}>
       <AdminDialogue chatData={chatData} setChatData={setChatData} chatInfo={chatInfo}/>
     </Route>
