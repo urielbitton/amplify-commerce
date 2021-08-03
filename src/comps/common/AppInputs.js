@@ -3,14 +3,14 @@ import './styles/AppInputs.css'
 
 export function AppInput(props) {
  
-  const {title, iconclass, className, descript, descriptText} = props
+  const {title, iconclass, className, descriptText} = props
    
   return ( 
-    <label className={`appinput commoninput ${className} ${descript?"descriptinput":""}`}> 
+    <label className={`appinput commoninput ${className?className:""} ${descriptText?"descriptinput":""}`}> 
       <h6>{title}</h6>
       <i className={iconclass}></i> 
       {
-        descript?<div>
+        descriptText?<div>
           <input style={{paddingRight: iconclass?"40px":"10px"}} {...props} />
           <span></span>
           <small className="descript">{descriptText}</small>
@@ -29,7 +29,7 @@ export function AppSelect(props) {
     </option>
   )  
   return ( 
-    <label className={`appselect commoninput ${className}`} onClick={(e) => onClick&&onClick(e)}>
+    <label className={`appselect commoninput ${className?className:""}`} onClick={(e) => onClick&&onClick(e)}>
       <h6>{title}</h6>
       {
         multiple?
@@ -49,7 +49,7 @@ export function AppTextarea(props) {
   const {title, iconclass, className} = props
    
   return ( 
-    <label className={`apptextarea commoninput ${className}`}> 
+    <label className={`apptextarea commoninput ${className?className:""}`}> 
       <h6>{title}</h6>
       <i className={iconclass}></i> 
       <textarea style={{paddingRight: iconclass?"40px":"10px"}} {...props} />
@@ -62,7 +62,7 @@ export function AppSwitch(props) {
   const {iconclass,title,onChange,checked, className} = props
 
   return (   
-    <div className={`appswitch commoninput ${className}`}>  
+    <div className={`appswitch commoninput ${className?className:""}`}>  
     <h6><i className={iconclass}></i>{title}</h6> 
     <label className="form-switch">
         <input type="checkbox" onChange={(e) => onChange(e)} checked={checked}/>

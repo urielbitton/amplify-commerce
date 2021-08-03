@@ -5,7 +5,7 @@
 .tabstitles {
   display: flex;
   justify-content: flex-start;
-  gap: 30px;
+  gap: 20px;
   align-items: center;
 }
 .tabsbar h5 {
@@ -13,12 +13,16 @@
   font-weight: 500;
   cursor: pointer;
   transition: all 0.2s;
-  padding: 8px 0;
+  padding: 10px;
   user-select: none;
 }
 .tabsbar h5:hover,
 .tabsbar h5.active {
   color: var(--admincolor);
+}
+.tabsbar h5.active {
+  border-radius: 7px 7px 0 0;
+  background: var(--light);
 }
 .tabsbar h5 hr {
   position: absolute;
