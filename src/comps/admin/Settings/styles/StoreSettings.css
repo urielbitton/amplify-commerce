@@ -1,0 +1,43 @@
+.storesettingspage .styleboxcont {
+  width: 100%;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 15px;
+}
+.storesettingspage .stylebox {
+  width: 90px;
+  height: 90px;
+  background: #f5f5f5;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  transition: all 0.2s;
+  cursor: pointer;
+}
+.storesettingspage .stylebox:hover {
+  background: #eee;
+}
+.storesettingspage .stylebox h5 {
+  color: var(--graytxt);
+}
+.storesettingspage .stylebox small {
+  color: #555;
+  font-size: 14px;
+}
+.storesettingspage .stylebox.addbox {
+  background: var(--light);
+}
+.storesettingspage .stylebox.addbox:hover {
+  background: var(--admincolor);
+}
+.storesettingspage .stylebox.addbox h5,
+.storesettingspage .stylebox.addbox small {
+  color: var(--admincolor);
+}
+.storesettingspage .stylebox.addbox:hover h5,
+.storesettingspage .stylebox.addbox:hover small {
+  color: #fff;
+}

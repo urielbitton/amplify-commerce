@@ -108,12 +108,23 @@
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(500px, 1fr));
   grid-gap: 30px 40px;
+  align-items: flex-start;
 }
 .settingspage section .commoninput {
   display: flex;
   align-items: center;
   justify-content: space-between;
   width: 100%;
+}
+.settingspage section .appswitch {
+  border: 1px solid #eee;
+  border-radius: 10px;
+  padding: 15px;
+  display: flex;
+  align-items: center;
+}
+.settingspage section .appswitch h6 {
+  margin-bottom: 0;
 }
 .settingspage section .appinput input,
 .settingspage section .appselect select {
@@ -136,7 +147,6 @@
   width: 100%;
 }
 .settingspage section .commoninput h6 {
-  margin-bottom: 5px;
   font-size: 13px;
   color: var(--graytxt);
 }
