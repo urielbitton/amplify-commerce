@@ -18,8 +18,8 @@ export default function AccountSettings() {
   const [country, setCountry] = useState('')
   const [password, setPassword] = useState('')
   const [showPass, setShowPass] = useState(false)
-  const [keyword, setKeyword] = useState('')
   const [provinceChoices, setProvinceChoices] = useState([])
+  const [keyword, setKeyword] = useState('')
   const clean = text => text.replace(/[^a-zA-Z0-9 ]/g, "")
   let pattern = new RegExp('\\b' + clean(keyword), 'i')
   const allowAccess = (myUser.fullname !== name || myUser.phone !== phone || myUser.city !== city
@@ -62,7 +62,7 @@ export default function AccountSettings() {
         <UserProfile />
         <div className="pagecont">
           <PageTitlesRow 
-            title="Account Settings"
+            title={<><i className="far fa-user-circle"></i>Account Settings</>}
             searchPlaceholder="Find a setting..."
             setKeyword={setKeyword}
           />

@@ -61,12 +61,12 @@ const StoreContextProvider = (props) => {
   const [allCoupons, setAllCoupons] = useState([])
   const [allShipping, setAllShipping] = useState([])
   const [showAnaTips, setShowAnaTips] = useState(true)
-  const [adminTaxRate, setAdminTaxRate] = useState(0) 
   const [allCampaigns, setAllCampaigns] = useState([])
   const [allChats, setAllChats] = useState([])
   const [fetchChats, setFetchChats] = useState(false)
   const [accountSettings, setAccountSettings] = useState({})
   const [generalSettings, setGeneralSettings] = useState({})
+  const [storeSettings, setStoreSettings] = useState({})
 
   const [quickProduct, setQuickProduct] = useState({
     id: '', 
@@ -174,7 +174,7 @@ const StoreContextProvider = (props) => {
       setAllUsers(usersArr) 
     })
     db.collection('admin').doc('storeSettings').onSnapshot(snap => {
-      setAdminTaxRate(snap.data().adminTaxRate)
+      setStoreSettings(snap.data())
     })
     db.collection('admin').doc('storeSettings').onSnapshot(snap => {
       setSizesOpts(snap.data().sizeOpts)  
@@ -238,10 +238,10 @@ const StoreContextProvider = (props) => {
       editCoupMode, setEditCoupMode, editShipMode, setEditShipMode, allCoupons, setAllCoupons,
       allShipping, setAllShipping, editOrdMode, setEditOrdMode, allCustomers, setAllCustomers,
       notifs, setNotifs, allTransactions, setAllTransactions, editCustMode, setEditCustMode, 
-      showAnaTips, setShowAnaTips, adminTaxRate, setAdminTaxRate, allReviews, setAllReviews, myReviews, setMyReviews,
+      showAnaTips, setShowAnaTips, allReviews, setAllReviews, myReviews, setMyReviews,
       myTransactions, setMyTransactions, allUsers, setAllUsers, allCampaigns, setAllCampaigns, 
       editCampMode, setEditCampMode, allChats, setAllChats, myChat, setMyChat, fetchChats, setFetchChats,
-      accountSettings, setAccountSettings, generalSettings, setGeneralSettings
+      accountSettings, setAccountSettings, generalSettings, setGeneralSettings, storeSettings, setStoreSettings
     }}>
       {props.children}  
     </StoreContext.Provider>

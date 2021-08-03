@@ -22,6 +22,9 @@
 .pagecont .titlesrow > h4 {
   color: var(--graytxt)
 }
+.pagecont .titlesrow > h4 i {
+  margin-right: 10px;
+}
 .pagecont .titlesrow input {
   height: 40px;
   border-radius: 40px;

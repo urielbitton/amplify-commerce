@@ -13,7 +13,7 @@ import PageTitle from '../common/PageTitle'
 export default function Dashboard() { 
 
   const {allOrders, allProducts, currencyFormat, allStats, highSellersLimit, setHighSellersLimit, 
-    recentSellersLimit, setRecentSellersLimit, recentOrdersLimit, setRecentOrdersLimit, adminTaxRate
+    recentSellersLimit, setRecentSellersLimit, recentOrdersLimit, setRecentOrdersLimit, storeSettings
   } = useContext(StoreContext)
   const {productsSold, totalSales} = allStats
   const salescategories = ['January','February','March','April','May','June','July','August','September','October','November','December']
@@ -28,7 +28,7 @@ export default function Dashboard() {
   const recentproducts = allProducts?.filter(x => getDaysAgo(filterQtySold(x,0)?.colors.find(x => x.qtySold > 0).dateSoldLast.toDate()) <= 30)
   const totalProductsSold = productsSold?.reduce((a,b) => a + b.value,0)
   const allTotalSales = totalSales?.reduce((a,b) => a + b.value,0)
-  const allTotalProfits = allTotalSales - (allTotalSales * adminTaxRate)
+  const allTotalProfits = allTotalSales - (allTotalSales * storeSettings?.adminTaxRate)
   const thisMonth = new Date().getUTCMonth() + 1
   const lastMonth = ((thisMonth - 2) % 12 + 1)
   const thisMonthProdSold = productsSold&&productsSold[thisMonth-1]?.value

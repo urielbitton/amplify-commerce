@@ -50,7 +50,7 @@ export default function GeneralSettings() {
         <UserProfile />
         <div className="pagecont">
           <PageTitlesRow 
-            title="General Settings"
+            title={<><i className="far fa-sliders-h"></i>General Settings</>}
             searchPlaceholder="Find a setting..."
             setKeyword={setKeyword}
           />
