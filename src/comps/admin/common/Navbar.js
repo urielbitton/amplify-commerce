@@ -121,9 +121,9 @@ export default function Navbar() {
         </div>
         <div className={`profslidecont ${openDrop===1?"open":""}`}>
           <h6>Account</h6>
-          <Link to="/admin/settings"><i className="far fa-user"></i>My Account</Link>
+          <Link to="/admin/settings/account"><i className="far fa-user"></i>My Account</Link>
           <Link to="/admin/settings/general"><i className="far fa-sliders-h"></i>Preferences</Link>
-          <Link to="/admin/settings/support"><i className="far fa-question-circle"></i>Support</Link>
+          <Link to="/admin/settings/support/admin-support"><i className="far fa-question-circle"></i>Support</Link>
           <h6>Actions</h6>
           <small onClick={() => logOutAdmin()}>
             <i className="far fa-sign-out"></i>

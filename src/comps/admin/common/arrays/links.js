@@ -61,12 +61,12 @@ export const extraLinks = [
   {
     name: 'Create',
     sublinks: [
-      {name: 'Create Product', icon: 'far fa-plus', url: '/admin/store/add-product'},
-      {name: 'Create Order', icon: 'far fa-plus', url: '/admin/orders/add-order'},
-      {name: 'Create Coupon', icon: 'far fa-plus', url: '/admin/store/add-coupon'},
-      {name: 'Create Shipping', icon: 'far fa-plus', url: '/admin/store/add-shipping'},
-      {name: 'Create Customer', icon: 'far fa-plus', url: '/admin/customers/add-customer'},
-      {name: 'Create User', icon: 'far fa-plus', url: '/admin/settings/add-user'},
+      {name: 'New Product', icon: 'far fa-plus', url: '/admin/store/add-product'},
+      {name: 'New Order', icon: 'far fa-plus', url: '/admin/orders/add-order'},
+      {name: 'New Coupon', icon: 'far fa-plus', url: '/admin/store/add-coupon'},
+      {name: 'New Shipping', icon: 'far fa-plus', url: '/admin/store/add-shipping'},
+      {name: 'New Customer', icon: 'far fa-plus', url: '/admin/customers/add-customer'},
+      {name: 'New User', icon: 'far fa-plus', url: '/admin/settings/add-user'},
     ]
   }
 ]

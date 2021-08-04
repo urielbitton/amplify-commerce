@@ -7,7 +7,7 @@ import firebase from 'firebase'
 
 export default function StoreProducts() {
 
-  const {sizesOpts:sizeOpts, colorsOpts:colorOpts, setNotifs} = useContext(StoreContext)
+  const {storeSettings, sizesOpts:sizeOpts, colorsOpts:colorOpts, setNotifs} = useContext(StoreContext)
   const [showSizeAdder, setShowSizeAdder] = useState(false)
   const [showColorAdder, setShowColorAdder] = useState(false)
   const [sizeName, setSizeName] = useState('')
@@ -141,6 +141,13 @@ export default function StoreProducts() {
   function saveSettings() {
     
   }
+
+  useEffect(() => {
+    setEnableReviews(storeSettings.reviews.enableReviews)
+    setEnableRatings(storeSettings.reviews.enableRatings)
+    setReqRating(storeSettings.reviews.requireRatings)
+    setVerifiedReviews(storeSettings.reviews.verifiedReviews)
+  },[storeSettings])
 
   useEffect(() => {
     if(!editMode) {

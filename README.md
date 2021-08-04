@@ -13,6 +13,7 @@ Features to add:
 - add site updates in updates collection (everytime a new product is sold, order is made, customer created, etc.)
   updates show up in admin dashboard
 - find way to remove admin id from chat messages
+- send email of invoice to customers when they checkout after successful payment
 
 Bugs tracking:
 - multiple notifs will stay as long as last notifs
