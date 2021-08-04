@@ -181,3 +181,29 @@
   text-decoration: underline;
   color: var(--admincolor);
 }
+.settingspage .appswitch h6 i {
+  font-size: 15px;
+  margin-right: 10px;
+}
+.settingspage .actioninput {
+  padding: 10px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.settingspage .actioninput h6 {
+  color: var(--graytxt);
+  font-size: 12px;
+}
+.settingspage .actioninput .adminbtn {
+  height: 35px;
+  border-color: var(--admincolor);
+}
+.settingspage .actioninput .adminbtn span {
+  font-size: 13px;
+  color: var(--admincolor);
+}
+.settingspage .actioninput .adminbtn:hover span {
+  color: #fff;
+}

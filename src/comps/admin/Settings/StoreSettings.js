@@ -5,6 +5,7 @@ import './styles/StoreSettings.css'
 import TabsBar from '../common/TabsBar'
 import StoreGeneral from './StoreGeneral'
 import StoreProducts from './StoreProducts'
+import StorePayments from './StorePayments'
 
 export default function StoreSettings() {
 
@@ -33,6 +34,9 @@ export default function StoreSettings() {
           </div>
           <div className={`tabsection ${tabPos===1?"show":""}`}>
             <StoreProducts />
+          </div>
+          <div className={`tabsection ${tabPos===2?"show":""}`}>
+            <StorePayments />
           </div>
         </div>
       </div>
