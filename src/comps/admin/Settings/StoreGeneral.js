@@ -9,6 +9,7 @@ export default function StoreGeneral() {
   const {storeSettings, percentFormat} = useContext(StoreContext)
   const [taxRate, setTaxRate] = useState(0)
   const [enableTaxes, setEnableTaxes] = useState(true)
+  const [calcTax, setCalcTax] = useState('')
   const [currency, setCurrency] = useState('')
   const [numDecimals, setNumDecimals] = useState(2)
   const [line1, setLine1] = useState('')
@@ -27,6 +28,11 @@ export default function StoreGeneral() {
     {name: 'Japanese Yen', value: 'jpy', symbol: '&yen;'},
     {name: 'British Pound', value: 'gbp', symbol: '&pound;'},
     {name: 'Swiss Franc', value: 'eur', symbol: '&curren;'}
+  ]
+  const calcBase = [
+    {name: 'Customer shipping address', value: 'shipaddress'},
+    {name: 'Customer billing address', value: 'billaddress'},
+    {name: 'Store base address', value: 'storeaddress'},
   ]
 
   function saveSettings() {
@@ -52,6 +58,7 @@ export default function StoreGeneral() {
         <h4 className="settingstitle">Taxes & Formats</h4>
         <AppInput title={`Tax Rate (${percentFormat.format(taxRate)})`} type="number" onChange={(e) => setTaxRate(e.target.value)} value={taxRate} descript descriptText="Set the global tax rate for your store"/>
         <AppSwitch title="Enable Taxes" onChange={(e) => setEnableTaxes(e.target.checked)} checked={enableTaxes} />
+        <AppSelect title="Calculate tax rate based on" options={calcBase} onChange={(e) => setCalcTax(e.target.value)} value={calcTax}/>
         <AppSelect title="Currency" options={currencies} onChange={(e) => setCurrency(e.target.value)} value={currency} namebased/>
         <AppInput title="Number of Decimals" onChange={(e) => setNumDecimals(e.target.value)} value={numDecimals} />
       </section>

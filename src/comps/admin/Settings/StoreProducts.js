@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { StoreContext } from '../../common/StoreContext'
-import {AppInput} from '../../common/AppInputs'
+import {AppInput, AppSwitch} from '../../common/AppInputs'
 import AdminBtn from '../common/AdminBtn'
 import { db } from '../../common/Fire'
 import firebase from 'firebase'
@@ -17,6 +17,10 @@ export default function StoreProducts() {
   const [sizeId, setSizeId] = useState('')
   const [colorId, setColorId] = useState('')
   const [editMode, setEditMode] = useState(false)
+  const [enableReviews, setEnableReviews] = useState(true)
+  const [enableRatings, setEnableRatings] = useState(true)
+  const [reqRating, setReqRating] = useState(true)
+  const [verifiedReviews, setVerifiedReviews] = useState(false)
   const sizeAccess = sizeName.length && sizeShort.length
   const colorAccess = colorName.length && colorHex.length
   const genSizeId = db.collection('admin').doc().id
@@ -134,6 +138,9 @@ export default function StoreProducts() {
       })
     }
   }
+  function saveSettings() {
+    
+  }
 
   useEffect(() => {
     if(!editMode) {
@@ -141,7 +148,7 @@ export default function StoreProducts() {
       setSizeShort('')
       setSizeId('')
     }
-  },[showSizeAdder])
+  },[showSizeAdder]) 
   
   useEffect(() => {
     if(!editMode) {
@@ -183,8 +190,14 @@ export default function StoreProducts() {
       </section>
       <section>
         <h4 className="settingstitle">Reviews & Ratings</h4>
+        <AppSwitch title="Enable Product Reviews" onChange={(e) => setEnableReviews(e.target.checked)} checked={enableReviews} />
+        <AppSwitch title="Enable Product Ratings" onChange={(e) => setEnableRatings(e.target.checked)} checked={enableRatings} />
+        <AppSwitch title="Require star ratings" onChange={(e) => setReqRating(e.target.checked)} checked={reqRating} />
+        <AppSwitch title="Reviews can only be left from verified purchasers" onChange={(e) => setVerifiedReviews(e.target.checked)} checked={verifiedReviews} />
       </section>
-      
+      <div className="actionbtns">
+        <AdminBtn title="Save" solid clickEvent onClick={() => saveSettings()}/>
+      </div>
 
       <div className={`sizeaddercover styleaddercover ${showSizeAdder?"show":""}`} onClick={() => setShowSizeAdder(false)}>
         <div className="sizeaddercont" onClick={(e) => e.stopPropagation()}>

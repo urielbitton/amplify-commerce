@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import PageTitlesRow from '../common/PageTitlesRow'
 import UserProfile from './UserProfile'
 import './styles/StoreSettings.css'
