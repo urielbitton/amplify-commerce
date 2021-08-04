@@ -9,10 +9,12 @@ import { useHistory, useLocation } from 'react-router-dom'
 import AddStyles from './AddStyles'
 import PageTitle from '../common/PageTitle'
 import TabsBar from '../common/TabsBar'
+import ReviewCard from '../Customers/ReviewCard'
+import { getReviewsArrById } from '../../common/UtilityFuncs'
 
 export default function EditProduct(props) {
 
-  const {editProdMode, setEditProdMode, setNotifs} = useContext(StoreContext)
+  const {editProdMode, setEditProdMode, setNotifs, allReviews} = useContext(StoreContext)
   const {id, name, imgs, price, brand, belongs, categories, collection, descript, sku, sizes,
     composition, shippingReturns, rating, ratingsarr, reviews} = editProdMode&&props.el
   const [tabPos, setTabPos] = useState(0)
@@ -57,6 +59,10 @@ export default function EditProduct(props) {
     ratingsarr: editProdMode?ratingsarr:[],
     reviews: editProdMode?reviews:[]
   }
+
+  const allReviewsRows = reviews?.map(el => {
+    return <ReviewCard el={getReviewsArrById(allReviews, el)} />
+  })
 
   function addProduct() {
     if(!!allowCreate) {
@@ -309,7 +315,10 @@ export default function EditProduct(props) {
           {/*Reviews Section*/}
           <div className={`tabsection editsection reviewssection ${tabPos===3?"show":""}`}>
             <h4>Manage Product Reviews</h4>
-            <small>Remove or moderate reviews</small>
+            <small>{reviews?.length?"Remove or moderate reviews":"This product has no reviews yet."}</small>
+            { reviews?.length?
+              allReviewsRows:""
+            }
           </div>
         </div>
         <div className="actionbtns">

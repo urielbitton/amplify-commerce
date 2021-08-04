@@ -6,11 +6,12 @@ import { getCustomerArrById } from '../../common/UtilityFuncs'
 import AdminBtn from '../common/AdminBtn'
 import referProduct from '../../common/referProduct'
 import { Link } from 'react-router-dom'
+import ReviewCard from './ReviewCard'
 
 export default function ReviewPage(props) {
  
-  const {allCustomers, allProducts, currencyFormat}  = useContext(StoreContext)
-  const {title, rating, reviewerId, reviewText, likes, productId} = props.el
+  const {allProducts, currencyFormat}  = useContext(StoreContext)
+  const {title, rating, productId} = props.el
 
   return ( 
     <div className="reviewspage onereviewpage">
@@ -30,23 +31,7 @@ export default function ReviewPage(props) {
           <Ratings rating={rating} />
           {rating} out of 5
         </div>
-        <div className="reviewbody">
-          <img src={getCustomerArrById(allCustomers, reviewerId)?.profimg} alt=""/>
-          <div className="content">
-            <h5 className="nametitle">
-              <Link to={`/admin/customer/${getCustomerArrById(allCustomers, reviewerId).id}`}>{getCustomerArrById(allCustomers, reviewerId)?.name}</Link>
-            </h5>
-            <h6>{title}</h6>
-            <p className="reviewtext">
-              {reviewText}
-            </p>
-            <small>{likes} people liked this review</small>
-            <div className="reviewactions">
-              <AdminBtn title="Like" />
-              <AdminBtn title={`Contact ${getCustomerArrById(allCustomers, reviewerId)?.name.split(' ')[0]}`}/>
-            </div>
-          </div>
-        </div>
+        <ReviewCard el={props.el}/>
         <div className="actionbtns">
           <AdminBtn title="Done" solid/>
           <AdminBtn title="Remove Review" solid className="deletebtn"/>

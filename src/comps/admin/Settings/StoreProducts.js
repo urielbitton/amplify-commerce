@@ -14,15 +14,21 @@ export default function StoreProducts() {
   const [sizeShort, setSizeShort] = useState('')
   const [colorName, setColorName] = useState('')
   const [colorHex, setColorHex] = useState('#0088ff')
+  const [sizeId, setSizeId] = useState('')
+  const [colorId, setColorId] = useState('')
   const [editMode, setEditMode] = useState(false)
   const sizeAccess = sizeName.length && sizeShort.length
   const colorAccess = colorName.length && colorHex.length
+  const genSizeId = db.collection('admin').doc().id
+  const genColorId = db.collection('admin').doc().id
   
   const sizeObj = {
+    id: genSizeId,
     name: sizeName,
-    value: sizeShort
+    value: sizeShort.toUpperCase()
   }
   const colorObj = {
+    id: genColorId,
     name: colorName,
     value: colorHex
   }
@@ -58,7 +64,7 @@ export default function StoreProducts() {
     }
     else {
       if(title === 'size') {
-        let itemindex = sizeOpts.findIndex(x => x.value === sizeShort)
+        let itemindex = sizeOpts.findIndex(x => x.id === sizeId)
         sizeOpts[itemindex].name = sizeName
         sizeOpts[itemindex].value = sizeShort
         db.collection('admin').doc('storeSettings').update({
@@ -75,7 +81,7 @@ export default function StoreProducts() {
         })
       }
       else {
-        let itemindex = colorOpts.findIndex(x => x.value === colorHex)
+        let itemindex = colorOpts.findIndex(x => x.id === colorId)
         colorOpts[itemindex].name = colorName
         colorOpts[itemindex].value = colorHex
         db.collection('admin').doc('storeSettings').update({
@@ -99,12 +105,14 @@ export default function StoreProducts() {
     setShowSizeAdder(true)
     setSizeName(el.name)
     setSizeShort(el.value)
+    setSizeId(el.id)
   }
   function editColorBox(el) {
     setEditMode(true)
     setShowColorAdder(true)
     setColorName(el.name)
     setColorHex(el.value)
+    setColorId(el.id)
   }
   function deleteStyle(title, array, value) {
     const confirm = window.confirm(`Are you sure you want to delete this ${title}`)
@@ -131,6 +139,7 @@ export default function StoreProducts() {
     if(!editMode) {
       setSizeName('')
       setSizeShort('')
+      setSizeId('')
     }
   },[showSizeAdder])
   
@@ -138,6 +147,7 @@ export default function StoreProducts() {
     if(!editMode) {
       setColorName('')
       setColorHex('#0088ff')
+      setColorId('')
     }
   },[showColorAdder])
   

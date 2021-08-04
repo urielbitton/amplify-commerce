@@ -2,11 +2,11 @@ import { db } from "./Fire"
 import { countries } from "./Lists"
 
 export function sizeConverter(size) {
-  if(size==='xs') return 'Extra Small'
-  if(size==='s') return 'Small'
-  if(size==='m') return 'Medium'
-  if(size==='l') return 'Large'
-  if(size==='xl') return 'Extra Large'
+  if(size==='XS') return 'Extra Small'
+  if(size==='S') return 'Small'
+  if(size==='M') return 'Medium'
+  if(size==='L') return 'Large'
+  if(size==='XL') return 'Extra Large'
 }
 
 export function colorConverter(color) {
@@ -99,6 +99,10 @@ export function getReviewsById(userid, setReviews) {
     })
     setReviews(revsArr)
   })
+}
+
+export function getReviewsArrById(allReviews, reviewId) {
+  return allReviews?.find(x => x.id === reviewId)
 }
 
 export function getTransactionsById(userid, setTrans) {

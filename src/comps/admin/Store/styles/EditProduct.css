@@ -281,3 +281,7 @@
 .editproductpage .deletebtn:hover {
   background: var(--red);
 }
+
+.editproductpage .reviewssection .reviewcard {
+  margin-top: 30px;
+}

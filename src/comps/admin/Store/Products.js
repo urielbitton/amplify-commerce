@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react'
 import {StoreContext} from '../../common/StoreContext'
 import {prodHeaders} from './arrays/arrays'
-import { useHistory } from 'react-router-dom'
+import { Link, useHistory } from 'react-router-dom'
 import {db} from '../../common/Fire'
 import PageTitle from '../common/PageTitle'
 import PageTitlesRow from '../common/PageTitlesRow'
@@ -65,7 +65,7 @@ export default function Products() {
           <i title="hot selling product" className={`fas fa-badge-check ${reduceSold(el)> 10?"hot":""}`}></i>
         } 
       </h5>
-      <h5>{el.name}</h5>
+      <h5><Link to={`/admin/store/edit-product/${el.id}`}>{el.name}</Link></h5>
       <h5>{currencyFormat.format(el.price)}</h5>
       <h5>{reduceStock(el)}</h5>
       <h5>{reduceSold(el)}</h5>
