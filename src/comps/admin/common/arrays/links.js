@@ -51,7 +51,7 @@ export const menuLinks = [
       {name: 'general', icon: 'far fa-sliders-h', url: '/admin/settings/general'},
       {name: 'store', icon: 'far fa-store-alt', url: '/admin/settings/store'},
       {name: 'appearance', icon: 'far fa-palette', url: '/admin/settings/appearance'},
-      {name: 'account', icon: 'far fa-user-circle', url: '/admin/settings/account'},
+      {name: 'my account', icon: 'far fa-user-circle', url: '/admin/settings/account'},
       {name: 'users', icon: 'far fa-user-friends', url: '/admin/settings/users'}
     ]
   }

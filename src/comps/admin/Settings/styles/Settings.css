@@ -207,3 +207,23 @@
 .settingspage .actioninput .adminbtn:hover span {
   color: #fff;
 }
+.settingspage .producttable {
+  grid-column: 1/-1;
+}
+.settingspage .producttable .content h5,
+.settingspage .producttable .header h5,
+.settingspage .producttable .header h5:first-child {
+  flex-basis: 30%;
+}
+.settingspage .producttable > .content h5:last-child,
+.settingspage .producttable > .header h5:last-child {
+  flex-basis: 80px;
+}
+.settingspage .producttable .content h5:first-child {
+  color: var(--admincolor);
+  flex-basis: 30%;
+}
+.settingspage .producttable .appswitch {
+  border: none;
+  padding: 5px 10px;
+}

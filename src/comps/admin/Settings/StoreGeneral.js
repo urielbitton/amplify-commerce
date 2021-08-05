@@ -20,6 +20,14 @@ export default function StoreGeneral() {
   const [phone, setPhone] = useState('')
   const [provinceChoices, setProvinceChoices] = useState([])
 
+  const [newOrder, setNewOrder] = useState(true)
+  const [newCustomer, setNewCustomer] = useState(true)
+  const [delivOrder, setDelivOrder] = useState(true)
+  const [refundOrder, setRefundOrder] = useState(true)
+  const [delayOrder, setDelayOrder] = useState(true)
+  const [deletedAccount, setDeletedAccount] = useState(true)
+  const [highSeller, setHighSeller] = useState(false)
+
   const currencies = [
     {name: 'Choose a Currency', value: '', symbol: ''},
     {name: 'Canadian Dollar', value: 'cad', symbol: '&dollar;'},
@@ -34,6 +42,23 @@ export default function StoreGeneral() {
     {name: 'Customer billing address', value: 'billaddress'},
     {name: 'Store base address', value: 'storeaddress'},
   ]
+
+  const notifications = [
+    {name: 'New Customer', state: newOrder, setState:setNewOrder},
+    {name: 'New Order', state: newCustomer, setState:setNewCustomer},
+    {name: 'Delivered Order', state: delivOrder, setState:setDelivOrder},
+    {name: 'Refunded Order', state: refundOrder, setState:setRefundOrder},
+    {name: 'Delayed Order', state: delayOrder, setState:setDelayOrder},
+    {name: 'Deleted Account', state: deletedAccount, setState:setDeletedAccount},
+    {name: 'High Selling Product', state: highSeller, setState:setHighSeller}
+  ]
+
+  const notifsRows = notifications?.map(el => {
+    return <div className="proditem">
+      <h5>{el.name}</h5>
+      <AppSwitch type="checkbox" onChange={(e) => el.setState(e.target.checked)} checked={el.state} />
+    </div>
+  })
 
   function saveSettings() {
 
@@ -50,6 +75,14 @@ export default function StoreGeneral() {
     setRegion(storeSettings.address.region)
     setCountry(storeSettings.address.country)
     setPhone(storeSettings.address.phone)
+
+    setNewOrder(storeSettings.notifs.newOrder)
+    setNewCustomer(storeSettings.notifs.newCustomer)
+    setDelivOrder(storeSettings.notifs.deliveredOrder)
+    setRefundOrder(storeSettings.notifs.refundedOrder)
+    setDelayOrder(storeSettings.notifs.delayedOrder)
+    setDeletedAccount(storeSettings.notifs.deletedAccount)
+    setHighSeller(storeSettings.notifs.highSellingProduct)
   },[storeSettings])
 
   return (
@@ -76,16 +109,18 @@ export default function StoreGeneral() {
           setProvinceChoices={setProvinceChoices}
         />
         <AppInput title="Phone Number" onChange={(e) => setPhone(e.target.value)} value={phone} />
-        
       </section>
       <section>
-        <h4 className="settingstitle">Software</h4>
-        <div className="infocont">
-          <div><p>Theme</p><span>Amplify Commerce &trade;</span></div>
-          <div><p>Version</p><span>2.3.0</span></div>
-          <div><p>Author Site</p><span>Atomics Digital</span></div>
-          <div><p>Author URL</p><span><a href="https://atomicsdigital.com" target="_blank" rel="noreferrer">www.atomicsdigital.com</a></span></div>
-          <div><p>Last Update</p><span>August 05 2021</span></div>
+        <h4 className="settingstitle">Notifications</h4>
+        <small>Send me in-app notifications when the following events occur:</small>
+        <div className="producttable">
+          <div className="header">
+            <h5>Event</h5>
+            <h5>Action</h5>
+          </div>
+          <div className="content">
+            {notifsRows}
+          </div>
         </div>
       </section>
       <div className="actionbtns">

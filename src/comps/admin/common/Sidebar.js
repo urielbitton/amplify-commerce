@@ -85,12 +85,12 @@ export default function Sidebar() {
           <i className="fal fa-angle-up"></i>
         </div>
         <div className="slidecont">
-          <Link to="/admin/store/add-product" onClick={() => setEditProdMode(false)}><i className="fal fa-plus"></i>Create Product</Link>
-          <Link to="/admin/store/add-coupon" onClick={() => setEditCoupMode(false)}><i className="fal fa-plus"></i>Create Coupon</Link>
-          <Link to="/admin/store/add-shipping" onClick={() => setEditShipMode(false)}><i className="fal fa-plus"></i>Create Shipping</Link>
-          <Link to="/admin/orders/add-order" onClick={() => setEditOrdMode(false)}><i className="fal fa-plus"></i>Create Order</Link>
-          <Link to="/admin/customers/add-customer" onClick={() => setEditCustMode(false)}><i className="fal fa-plus"></i>Create Customer</Link>
-          <Link to="/admin/settings/users/add-user"><i className="fal fa-plus"></i>Create User</Link>
+          <Link to="/admin/store/add-product" onClick={() => setEditProdMode(false)}><i className="fal fa-plus"></i>Add Product</Link>
+          <Link to="/admin/store/add-coupon" onClick={() => setEditCoupMode(false)}><i className="fal fa-plus"></i>Add Coupon</Link>
+          <Link to="/admin/store/add-shipping" onClick={() => setEditShipMode(false)}><i className="fal fa-plus"></i>Add Shipping</Link>
+          <Link to="/admin/orders/add-order" onClick={() => setEditOrdMode(false)}><i className="fal fa-plus"></i>Add Order</Link>
+          <Link to="/admin/customers/add-customer" onClick={() => setEditCustMode(false)}><i className="fal fa-plus"></i>Add Customer</Link>
+          <Link to="/admin/settings/users/add-user"><i className="fal fa-plus"></i>Add User</Link>
         </div>
       </div>
       <div className="sidefooter">
