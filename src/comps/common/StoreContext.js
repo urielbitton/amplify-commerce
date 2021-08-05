@@ -49,8 +49,7 @@ const StoreContextProvider = (props) => {
   const [taxRate, setTaxRate] = useState(0)
   const [showSearch, setShowSearch] = useState(false)
   const [darkMode, setDarkMode] = useState(localStorage.getItem('darkmode') === "true"?true:false)
-  const [themeColor, setThemeColor] = useState(localStorage.getItem('themeColor')??'#0088ff')
-  const [siteThemeColor, setSiteThemeColor] = useState('#3bc1ff')
+  const [themeColor, setThemeColor] = useState(localStorage.getItem('themeColor') !== undefined?localStorage.getItem('themeColor'):'#0088ff')
   const [highSellersLimit, setHighSellersLimit] = useState(5)
   const [recentSellersLimit, setRecentSellersLimit] = useState(5)
   const [recentOrdersLimit, setRecentOrdersLimit] = useState(5)
@@ -69,6 +68,7 @@ const StoreContextProvider = (props) => {
   const [accountSettings, setAccountSettings] = useState({})
   const [generalSettings, setGeneralSettings] = useState({})
   const [storeSettings, setStoreSettings] = useState({})
+  const [appearSettings, setAppearSettings] = useState({})
 
   const [quickProduct, setQuickProduct] = useState({
     id: '', 
@@ -188,6 +188,9 @@ const StoreContextProvider = (props) => {
     db.collection('admin').doc('generalSettings').onSnapshot(snap => {
       setGeneralSettings(snap.data())
     })
+    db.collection('admin').doc('appearanceSettings').onSnapshot(snap => {
+      setAppearSettings(snap.data())
+    })
   },[user, auser])  
 
   useEffect(() => {
@@ -224,8 +227,11 @@ const StoreContextProvider = (props) => {
 
   useEffect(() => {
     localStorage.setItem('darkmode', !darkMode?"false":"true")  
-    localStorage.setItem('themeColor', themeColor)  
   },[darkMode])  
+  useEffect(() => {
+    localStorage.setItem('themeColor', themeColor)  
+    document.documentElement.style.setProperty('--admincolor', themeColor)
+  },[themeColor])
 
  
   return (
@@ -248,8 +254,8 @@ const StoreContextProvider = (props) => {
       showAnaTips, setShowAnaTips, allReviews, setAllReviews, myReviews, setMyReviews,
       myTransactions, setMyTransactions, allUsers, setAllUsers, allCampaigns, setAllCampaigns, 
       editCampMode, setEditCampMode, allChats, setAllChats, myChat, setMyChat, fetchChats, setFetchChats,
-      accountSettings, setAccountSettings, generalSettings, setGeneralSettings, storeSettings, setStoreSettings,
-      themeColor, setThemeColor, siteThemeColor, setSiteThemeColor
+      accountSettings, setAccountSettings, generalSettings, setGeneralSettings, appearSettings, setAppearSettings, 
+      storeSettings, setStoreSettings, themeColor, setThemeColor
     }}>
       {props.children}  
     </StoreContext.Provider>
