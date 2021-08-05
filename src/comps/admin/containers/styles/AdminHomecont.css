@@ -254,7 +254,18 @@
 .adminapp.darkmode .emailcont,
 .adminapp.darkmode .sitelinkbtn,
 .adminapp.darkmode .tabsbar .tabline,
-.adminapp.darkmode .styleboxcont .stylebox {
+.adminapp.darkmode .styleboxcont .stylebox,
+.adminapp.darkmode .profslidecont,
+.adminapp.darkmode .updatescont,
+.adminapp.darkmode .updatescont .viewallcont,
+.adminapp.darkmode .chatbubblecont.other .chatbubble,
+.adminapp.darkmode .chatcard.active,
+.adminapp.darkmode .adminchatsidebar .chatcard:hover,
+.adminapp.darkmode .pagesearchcont,
+.adminapp.darkmode .pagecont .titlesrow .adminbtn,
+.adminapp.darkmode .producttable .optscont,
+.adminapp.darkmode .editorderspage .detailscontent,
+.adminapp.darkmode .settingspage .infocont {
   background: var(--dark1);
 } 
 .adminapp.darkmode .adminsidebar,
@@ -263,29 +274,44 @@
 .adminapp.darkmode .userprofilecont,
 .adminapp.darkmode .dashcont,
 .adminapp.darkmode .adminchatwindow,
-.adminapp.darkmode .adminchatsidebar
- {
+.adminapp.darkmode .adminchatsidebar,
+.adminapp.darkmode .adminnav .chatcard:hover,
+.adminapp.darkmode .newchatcont {
   background: var(--dark2);
 }
 .adminapp.darkmode .settingspage h4.settingstitle,
 .adminapp.darkmode .producttable > .header,
 .adminapp.darkmode .producttable > .content .proditem,
-.adminapp.darkmode .actionbtns {
+.adminapp.darkmode .actionbtns,
+.adminapp.darkmode .appswitch,
+.adminapp.darkmode .adminchatwindow header {
   border-color: var(--dark1);
 }
 .adminapp.darkmode input,
 .adminapp.darkmode .adminchatwindow,
-.adminapp.darkmode .adminchatsidebar {
+.adminapp.darkmode .adminchatsidebar,
+.adminapp.darkmode .chatcard {
   border-color: var(--dark2);
 }
-.adminapp.darkmode .producttable > .header h5 {
+.adminapp.darkmode .producttable > .header h5,
+.adminapp.darkmode .chatbubblecont.other .chatbubble h6,
+.adminapp.darkmode .adminchatsidebar .chatcard.active h5,
+.adminapp.darkmode .adminchatsidebar .chatcard.active small,
+.adminapp.darkmode .adminchatwindow header h5 a,
+.adminapp.darkmode .settingspage .infocont p {
   color: #aaa;
 }
 .adminapp.darkmode .producttable > .content h5,
-.adminapp.darkmode .producttable a {
+.adminapp.darkmode .producttable a,
+.adminapp.darkmode .producttable .foot h5,
+.adminapp.darkmode .producttable > .content .labels span,
+.adminapp.darkmode .chatbubblecont.other .chatbubble p,
+.adminapp.darkmode .adminchatwindow .optscont i,
+.adminapp.darkmode .settingspage section > small {
   color: #777
 }
-.adminapp.darkmode .addnewbtn  {
+.adminapp.darkmode .addnewbtn,
+.adminapp.darkmode .adminnav .profcont  {
   border-color: #333
 }
 .adminapp.darkmode input,
@@ -295,6 +321,9 @@
   border-color: var(--dark1)!important;
   color: #aaa!important;
 }
-.adminapp.darkmode .appswitch {
-  border-color: var(--dark1)
+.adminapp.darkmode .apexcharts-legend-text {
+  color: #aaa!important;
+}
+.adminapp.darkmode .adminnav .profcont:hover {
+  background: var(--light)
 }

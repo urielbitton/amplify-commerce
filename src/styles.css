@@ -1,7 +1,7 @@
 html, body {
   margin: 0;
   padding: 0;
-  font-family: Poppins, sans-serif;
+  font-family: var(--fontfam);
   overflow: overlay;
 }    
 body {
@@ -10,6 +10,7 @@ body {
 }
   
 :root { 
+  --fontfam: Poppins;
   --color: #3bc1ff;
   --admincolor: #0088ff;
   --adminbg: #fbfcfe;

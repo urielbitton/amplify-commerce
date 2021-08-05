@@ -98,6 +98,7 @@ export default function Navbar() {
           <div className={`iconcont ${openDrop===3?"open":""}`} onClick={(e) => slideChats(e)}>
             <i className="far fa-comment"></i>
             <div className={`updatescont ${openDrop===3?"open":""}`}>
+              <h4>Chats</h4>
               {chatsRow}
               <div className="viewallcont" onClick={() => history.push('/admin/support/customer-support')}>
                 <h6>View All</h6>

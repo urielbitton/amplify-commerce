@@ -24,7 +24,7 @@
   background: #f7f7f7;
 }
 .adminchatsidebar .tabsbar h5 {
-  padding: 18.5px 10px;
+  padding: 24px 10px;
   width: 50%;
   display: flex;
   align-items: center;
@@ -32,7 +32,8 @@
   transition: all 0.2s
 }
 .adminchatsidebar .tabsbar h5:hover {
-  background: rgba(255,255,255,0.8)
+  background: rgba(255,255,255,0.8);
+  border-radius: 7px 7px 0 0;
 }
 .adminchatsidebar .archiveslistcont > h5 {
   color: #aaa;

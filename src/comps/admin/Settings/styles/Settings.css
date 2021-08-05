@@ -221,7 +221,7 @@
 }
 .settingspage .producttable .content h5:first-child {
   color: var(--admincolor);
-  flex-basis: 30%;
+  flex-basis: 30%; 
 }
 .settingspage .producttable .appswitch {
   border: none;

@@ -48,8 +48,8 @@ const StoreContextProvider = (props) => {
   const [selectedCountry, setSelectedCountry] = useState('')
   const [taxRate, setTaxRate] = useState(0)
   const [showSearch, setShowSearch] = useState(false)
-  const [darkMode, setDarkMode] = useState(false)
-  const [themeColor, setThemeColor] = useState('#0088ff')
+  const [darkMode, setDarkMode] = useState(localStorage.getItem('darkmode') === "true"?true:false)
+  const [themeColor, setThemeColor] = useState(localStorage.getItem('themeColor')??'#0088ff')
   const [siteThemeColor, setSiteThemeColor] = useState('#3bc1ff')
   const [highSellersLimit, setHighSellersLimit] = useState(5)
   const [recentSellersLimit, setRecentSellersLimit] = useState(5)
@@ -221,6 +221,11 @@ const StoreContextProvider = (props) => {
       getTransactionsById(user.uid, setMyTransactions)
     }
   },[user]) 
+
+  useEffect(() => {
+    localStorage.setItem('darkmode', !darkMode?"false":"true")  
+    localStorage.setItem('themeColor', themeColor)  
+  },[darkMode])  
 
  
   return (

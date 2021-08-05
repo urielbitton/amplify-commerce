@@ -177,6 +177,10 @@
   visibility: visible;
   top: 48px;
 }
+.adminnav .updatescont > h4 {
+  padding: 10px 20px;
+  color: var(--graytxt);
+}
 .adminnav .updatescont .chatcard {
   border-bottom: 1px solid #eee;
 }
