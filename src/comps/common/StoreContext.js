@@ -49,6 +49,8 @@ const StoreContextProvider = (props) => {
   const [taxRate, setTaxRate] = useState(0)
   const [showSearch, setShowSearch] = useState(false)
   const [darkMode, setDarkMode] = useState(false)
+  const [themeColor, setThemeColor] = useState('#0088ff')
+  const [siteThemeColor, setSiteThemeColor] = useState('#3bc1ff')
   const [highSellersLimit, setHighSellersLimit] = useState(5)
   const [recentSellersLimit, setRecentSellersLimit] = useState(5)
   const [recentOrdersLimit, setRecentOrdersLimit] = useState(5)
@@ -241,7 +243,8 @@ const StoreContextProvider = (props) => {
       showAnaTips, setShowAnaTips, allReviews, setAllReviews, myReviews, setMyReviews,
       myTransactions, setMyTransactions, allUsers, setAllUsers, allCampaigns, setAllCampaigns, 
       editCampMode, setEditCampMode, allChats, setAllChats, myChat, setMyChat, fetchChats, setFetchChats,
-      accountSettings, setAccountSettings, generalSettings, setGeneralSettings, storeSettings, setStoreSettings
+      accountSettings, setAccountSettings, generalSettings, setGeneralSettings, storeSettings, setStoreSettings,
+      themeColor, setThemeColor, siteThemeColor, setSiteThemeColor
     }}>
       {props.children}  
     </StoreContext.Provider>

@@ -18,8 +18,8 @@ export default function RegionCountry(props) {
   },[country]) 
 
   useEffect(() => {
-    setCountry(userLocation.country??'')
-    setRegion(userLocation.region??'')
+    setCountry(country??userLocation.country??"")
+    setRegion(region??userLocation.region??'')
   },[userLocation, locateUser])
 
   return (

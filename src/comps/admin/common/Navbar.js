@@ -23,7 +23,7 @@ export default function Navbar() {
     ...menuLinks.slice(1), ...extraLinks
   ]
 
-  const chatsRow = allChats?.map(({chatInfo}) => {
+  const chatsRow = allChats?.slice(0,4).map(({chatInfo}) => {
     return <ChatCard chatInfo={chatInfo} urlCustId={0} setChatData={setChatData}/>
   })
 

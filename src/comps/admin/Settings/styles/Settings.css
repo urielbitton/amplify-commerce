@@ -227,3 +227,7 @@
   border: none;
   padding: 5px 10px;
 }
+.settingspage .themepicker input{
+  padding: 5px 10px;
+  height: 45px;
+}

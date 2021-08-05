@@ -6,6 +6,7 @@ import AdminBtn from '../common/AdminBtn'
 import RegionCountry from '../../common/RegionCountry'
 import { StoreContext } from '../../common/StoreContext'
 import { db } from '../../common/Fire'
+import { updateDB } from '../../common/services/CrudDb'
 
 export default function AccountSettings() {
   
@@ -28,7 +29,7 @@ export default function AccountSettings() {
 
   function saveSettings() {
     if(!!allowAccess) {
-      db.collection('users').doc(myUser.userid).update({
+      updateDB('users', myUser.userid, {
         'userinfo.fullname': name,
         'userinfo.phone': phone,
         'userinfo.city': city,
@@ -51,7 +52,7 @@ export default function AccountSettings() {
     setEmail(myUser.email)
     setPhone(myUser.phone)
     setCity(myUser.city)
-    setRegion(myUser.provstate)
+    setRegion(myUser.region)
     setCountry(myUser.country)
     setPassword(myUser.password)
   },[myUser])

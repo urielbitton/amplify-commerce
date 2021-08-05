@@ -246,6 +246,55 @@
 }
 
 /*Dark mode styles */
-.adminapp.darkmode .adminhomecont {
-  background: var(--dark1)
+.adminapp.darkmode .adminhomecont,
+.adminapp.darkmode input,
+.adminapp.darkmode textarea,
+.adminapp.darkmode .notifscont .notifsdiv,
+.adminapp.darkmode .campaignbox,
+.adminapp.darkmode .emailcont,
+.adminapp.darkmode .sitelinkbtn,
+.adminapp.darkmode .tabsbar .tabline,
+.adminapp.darkmode .styleboxcont .stylebox {
+  background: var(--dark1);
 } 
+.adminapp.darkmode .adminsidebar,
+.adminapp.darkmode .adminnav,
+.adminapp.darkmode .pagecont,
+.adminapp.darkmode .userprofilecont,
+.adminapp.darkmode .dashcont,
+.adminapp.darkmode .adminchatwindow,
+.adminapp.darkmode .adminchatsidebar
+ {
+  background: var(--dark2);
+}
+.adminapp.darkmode .settingspage h4.settingstitle,
+.adminapp.darkmode .producttable > .header,
+.adminapp.darkmode .producttable > .content .proditem,
+.adminapp.darkmode .actionbtns {
+  border-color: var(--dark1);
+}
+.adminapp.darkmode input,
+.adminapp.darkmode .adminchatwindow,
+.adminapp.darkmode .adminchatsidebar {
+  border-color: var(--dark2);
+}
+.adminapp.darkmode .producttable > .header h5 {
+  color: #aaa;
+}
+.adminapp.darkmode .producttable > .content h5,
+.adminapp.darkmode .producttable a {
+  color: #777
+}
+.adminapp.darkmode .addnewbtn  {
+  border-color: #333
+}
+.adminapp.darkmode input,
+.adminapp.darkmode textarea,
+.adminapp.darkmode select {
+  background: var(--dark1)!important;
+  border-color: var(--dark1)!important;
+  color: #aaa!important;
+}
+.adminapp.darkmode .appswitch {
+  border-color: var(--dark1)
+}
