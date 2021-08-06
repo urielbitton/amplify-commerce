@@ -6,7 +6,8 @@ import { StoreContext } from '../../common/StoreContext'
 
 export default function Sidebar() {
 
-  const {setEditProdMode, setEditCoupMode, setEditShipMode, setEditOrdMode, setEditCustMode} = useContext(StoreContext)
+  const {setEditProdMode, setEditCoupMode, setEditShipMode, setEditOrdMode, setEditCustMode,
+    setEditUserMode} = useContext(StoreContext)
   const [openTab, setOpenTab] = useState(0)
   const [openNew, setOpenNew] = useState(false)
   const location = useLocation()
@@ -44,7 +45,7 @@ export default function Sidebar() {
       setOpenTab(1)
     else if(location.pathname.includes('/admin/orders/')) 
       setOpenTab(2)
-    else if(location.pathname.includes('/admin/customers/' || '/admin/customer/' || '/admin/reviews/')) 
+    else if(location.pathname.includes('/admin/customers/' || '/admin/customer/')) 
       setOpenTab(3)
     else if(location.pathname.includes('/admin/support/')) 
       setOpenTab(4)
@@ -90,7 +91,7 @@ export default function Sidebar() {
           <Link to="/admin/store/add-shipping" onClick={() => setEditShipMode(false)}><i className="fal fa-plus"></i>Add Shipping</Link>
           <Link to="/admin/orders/add-order" onClick={() => setEditOrdMode(false)}><i className="fal fa-plus"></i>Add Order</Link>
           <Link to="/admin/customers/add-customer" onClick={() => setEditCustMode(false)}><i className="fal fa-plus"></i>Add Customer</Link>
-          <Link to="/admin/settings/users/add-user"><i className="fal fa-plus"></i>Add User</Link>
+          <Link to="/admin/settings/users/add-user" onClick={() => setEditUserMode(false)}><i className="fal fa-plus"></i>Add User</Link>
         </div>
       </div>
       <div className="sidefooter">

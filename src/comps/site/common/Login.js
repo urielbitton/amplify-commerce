@@ -81,7 +81,9 @@ export default function Login(props) {
           wishlist: [],
           addresses: [],
           payments: [],
-          settings: {} 
+          settings: {},
+          dateCreated: new Date(),
+          isActive:true
         }
         firebase.auth().onAuthStateChanged(user => {
           if(user) {
@@ -91,7 +93,7 @@ export default function Login(props) {
               db.collection('customers').doc(user.uid).set({
                 id:user.uid,name: res.additionalUserInfo.profile.name??'',email:'',phone:'',city:'', provstate:'',
                 provstateCode:'',country:'',countryCode:'',moneySpent: 0, number: genRandomNum(), 
-                profimg: res.additionalUserInfo.profile.picture, userRating: 0
+                profimg: res.additionalUserInfo.profile.picture, userRating: 0, dateCreated: new Date(), isActive:true
               }) 
               history.push('/my-account')
             }).catch(err => window.alert('An errror occurred with the google login. Please try again.'))

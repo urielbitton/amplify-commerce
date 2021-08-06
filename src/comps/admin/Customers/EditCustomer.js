@@ -18,7 +18,7 @@ export default function EditCustomer(props) {
     userRating, isActive, dateCreated} = editCustMode&&props.el
   const [custImg, setCustImg] = useState('')
   const [custNum, setCustNum] = useState('')
-  const [custName, setCustName] = useState('') 
+  const [custName, setCustName] = useState('')  
   const [custEmail, setCustEmail] = useState('')
   const [custPhone, setCustPhone] = useState('')
   const [custAddress, setCustAddress] = useState('')

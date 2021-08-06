@@ -59,6 +59,7 @@ const StoreContextProvider = (props) => {
   const [editOrdMode, setEditOrdMode] = useState(false)
   const [editCustMode, setEditCustMode] = useState(false)
   const [editCampMode, setEditCampMode] = useState(false)
+  const [editUserMode, setEditUserMode] = useState(false)
   const [allCoupons, setAllCoupons] = useState([])
   const [allShipping, setAllShipping] = useState([])
   const [showAnaTips, setShowAnaTips] = useState(true)
@@ -255,7 +256,7 @@ const StoreContextProvider = (props) => {
       myTransactions, setMyTransactions, allUsers, setAllUsers, allCampaigns, setAllCampaigns, 
       editCampMode, setEditCampMode, allChats, setAllChats, myChat, setMyChat, fetchChats, setFetchChats,
       accountSettings, setAccountSettings, generalSettings, setGeneralSettings, appearSettings, setAppearSettings, 
-      storeSettings, setStoreSettings, themeColor, setThemeColor
+      storeSettings, setStoreSettings, themeColor, setThemeColor, editUserMode, setEditUserMode
     }}>
       {props.children}  
     </StoreContext.Provider>

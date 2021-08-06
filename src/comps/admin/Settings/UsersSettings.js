@@ -15,7 +15,7 @@ export default function UsersSettings() {
   const clean = text => text.replace(/[^a-zA-Z0-9 ]/g, "")
   let pattern = new RegExp('\\b' + clean(keyword), 'i')
   const allUsersFilter = allUsers?.filter(x => (pattern.test(x.userid) || pattern.test(x.name) || 
-  pattern.test(x.email) || pattern.test(x.city) || pattern.test(x.country)))
+  pattern.test(x.email) || pattern.test(x.city) || pattern.test(x.country)) && x.isActive)
 
   const headersrow = usersHeaders?.map((el,i) => {
     return <h5 className={el.val===sort?"active":""}>
@@ -31,7 +31,7 @@ export default function UsersSettings() {
       <h5 title={`User ID: ${el.userid}`} className="custimg">
         <Link to={`/admin/customer/${el.userid}`}><img src={el.profimg} alt=""/></Link>
       </h5>
-      <h5><Link to={`/admin/customer/${el.userid}`}>{el.fullname}</Link></h5>
+      <h5><Link to={`/admin/customer/${el.userid}`}>{el.fullname}</Link>{el.isAdmin&&<span>Admin</span>}</h5>
       <h5><a className="hoverable" href={`mailto:${el.email}`}>{el.email}</a></h5>
       <h5>{el.phone.length?el.phone:"N/A"}</h5>
       <h5>{el.city.length?el.city:'N/A'}</h5>
@@ -42,7 +42,7 @@ export default function UsersSettings() {
         </div>
         <div className={`optscont ${i===showOpts?"show":""}`}> 
           <div title="Edit User" onClick={() => editUser(el.userid)}><i className="far fa-edit"></i></div>
-          <div title="Delete User" onClick={() => deleteUser(el.userid)}><i className="far fa-trash-alt"></i></div>
+          {!el.isAdmin&&<div title="Delete User" onClick={() => deleteUser(el.userid)}><i className="far fa-trash-alt"></i></div>}
           <div title="User Info" onClick={() => infoUser(el.userid)}><i className="far fa-info"></i></div>
         </div>
       </h5>
@@ -67,6 +67,8 @@ export default function UsersSettings() {
             title={<><i className="far fa-user-friends"></i>User Settings</>}
             searchPlaceholder="Find a setting..."
             setKeyword={setKeyword}
+            btnTitle="Add User"
+            btnUrl="/admin/settings/users/add-user"
           />
           <div className="customerstablecont longidpage">
             <div className="producttable">
@@ -77,7 +79,7 @@ export default function UsersSettings() {
                 {allUsersRow}
               </div>
               <div className="foot">
-                <h5><span>{allUsersFilter.length}</span> Users{allUsersFilter.length>1?'s':''}</h5>
+                <h5><span>{allUsersFilter.length}</span> User{allUsersFilter.length>1?'s':''}</h5>
               </div>
             </div>
           </div>

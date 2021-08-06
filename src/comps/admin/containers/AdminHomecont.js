@@ -31,11 +31,12 @@ import StoreSettings from '../Settings/StoreSettings'
 import AppearanceSettings from '../Settings/AppearanceSettings'
 import UsersSettings from '../Settings/UsersSettings'
 import AccountSettings from '../Settings/AccountSettings'
+import EditUser from '../Settings/EditUser'
 
 export default function AdminHomecont() {
  
   const {allProducts, allCoupons, allShipping, allOrders, allCustomers, allReviews,
-    allCampaigns} = useContext(StoreContext)
+    allCampaigns, allUsers} = useContext(StoreContext)
   
   const editprodpages = allProducts?.map(el => {
     return <Route path={`/admin/store/edit-product/${el.id}`}>
@@ -80,6 +81,11 @@ export default function AdminHomecont() {
   const editcampaignpages = allCampaigns?.map(el => {
     return <Route path={`/admin/customers/marketing/edit-campaign/${el.id}`}>
       <CreateCampaign el={el} />
+    </Route>
+  })
+  const edituserpages = allUsers?.map(el => {
+    return <Route path={`/admin/users/settings/edit-user/${el.userid}`}>
+      <EditUser el={el} />
     </Route>
   })
 
@@ -167,6 +173,10 @@ export default function AdminHomecont() {
           <Route exact path="/admin/settings/users">
             <UsersSettings />
           </Route>
+          <Route exact path="/admin/settings/users/add-user">
+            <EditUser />
+          </Route>
+          {edituserpages}
         </Switch> 
       </div>
     </div> 
