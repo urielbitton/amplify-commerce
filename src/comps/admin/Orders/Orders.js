@@ -4,7 +4,7 @@ import {ordHeaders} from './arrays/arrays'
 import './styles/Orders.css'
 import { Link, useHistory } from 'react-router-dom'
 import refProd from '../../common/referProduct'
-import {convertDate} from '../../common/UtilityFuncs'
+import {convertDate, getCustomerArrById} from '../../common/UtilityFuncs'
 import PageTitle from '../common/PageTitle'
 import { db } from '../../common/Fire'
 import PageTitlesRow from '../common/PageTitlesRow'
@@ -12,7 +12,7 @@ import PageStarter from '../common/PageStarter'
 
 export default function Orders() {
 
-  const {allOrders, allProducts, currencyFormat, setEditOrdMode, setNotifs} = useContext(StoreContext)
+  const {allOrders, allCustomers, allProducts, currencyFormat, setEditOrdMode, setNotifs} = useContext(StoreContext)
   const [sort, setSort] = useState(0)
   const [asc, setAsc] = useState(true)
   const [showOpts, setShowOpts] = useState(-1)
@@ -33,10 +33,10 @@ export default function Orders() {
 
   const allOrdersRow = allOrdersFilter?.sort((a,b) => {
     return
-  }).map((el,i) => {
+  }).map((el,i) => { 
     return <div className="proditem">
       <h5><Link to={`/admin/orders/edit-order/${el.orderid}`}>#{el.orderNumber}</Link></h5>
-      <h5>{el.customer.name}</h5>
+      <h5><Link to={`/admin/customer/${getCustomerArrById(allCustomers, el.customer.id).id}`}>{el.customer.name}</Link></h5>
       <h5 title={el.products.length>1&&`+ ${el.products.length-1} more`}>{refProd(allProducts, el.products[0].id).name}</h5>  
       <h5>#{el.trackingNum}</h5>
       <h5>{convertDate(el.orderDateCreated.toDate())}</h5>

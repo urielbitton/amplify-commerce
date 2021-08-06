@@ -44,7 +44,7 @@ export default function Sidebar() {
       setOpenTab(1)
     else if(location.pathname.includes('/admin/orders/')) 
       setOpenTab(2)
-    else if(location.pathname.includes('/admin/customers/')) 
+    else if(location.pathname.includes('/admin/customers/' || '/admin/customer/' || '/admin/reviews/')) 
       setOpenTab(3)
     else if(location.pathname.includes('/admin/support/')) 
       setOpenTab(4)
@@ -52,7 +52,7 @@ export default function Sidebar() {
       setOpenTab(5)
     else 
       setOpenTab(0)
-  },[])
+  },[location])
 
   useEffect(() => {
     window.onclick = () => {

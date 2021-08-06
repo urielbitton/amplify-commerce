@@ -8,7 +8,7 @@ import PageTitlesRow from '../common/PageTitlesRow'
 import { custHeaders } from './arrays/arrays'
 
 export default function Customers() {
-
+ 
   const {allCustomers, setEditCustMode, currencyFormat, setNotifs} = useContext(StoreContext)
   const [sort, setSort] = useState(0)
   const [asc, setAsc] = useState(true)
@@ -29,7 +29,7 @@ export default function Customers() {
     </h5>
   }) 
 
-  const allOrdersRow = allCustFilter?.sort((a,b) => {
+  const allCustsRow = allCustFilter?.sort((a,b) => {
     return
   }).map((el,i) => {
     return <div className="proditem">
@@ -108,7 +108,7 @@ export default function Customers() {
               {headersrow}
             </div>
             <div className="content">
-              {allOrdersRow}
+              {allCustsRow}
             </div>
             <div className="foot">
               <h5><span>{allCustFilter.length}</span> Customer{allCustFilter.length>1?'s':''}</h5>

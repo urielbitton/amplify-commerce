@@ -1,6 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { StoreContext } from '../../common/StoreContext'
-import ChatProfile from './ChatProfile'
 import ChatSidebar from './ChatSidebar'
 import ChatWindow from './ChatWindow'
 import './styles/CustomerSupport.css'

@@ -265,7 +265,8 @@
 .adminapp.darkmode .pagecont .titlesrow .adminbtn,
 .adminapp.darkmode .producttable .optscont,
 .adminapp.darkmode .editorderspage .detailscontent,
-.adminapp.darkmode .settingspage .infocont {
+.adminapp.darkmode .settingspage .infocont,
+.adminapp.darkmode .adminsupportpage .faqcont .appaccordion .header {
   background: var(--dark1);
 } 
 .adminapp.darkmode .adminsidebar,
@@ -284,7 +285,8 @@
 .adminapp.darkmode .producttable > .content .proditem,
 .adminapp.darkmode .actionbtns,
 .adminapp.darkmode .appswitch,
-.adminapp.darkmode .adminchatwindow header {
+.adminapp.darkmode .adminchatwindow header,
+.adminapp.darkmode .adminsupportpage .faqcont .appaccordion {
   border-color: var(--dark1);
 }
 .adminapp.darkmode input,
@@ -298,7 +300,8 @@
 .adminapp.darkmode .adminchatsidebar .chatcard.active h5,
 .adminapp.darkmode .adminchatsidebar .chatcard.active small,
 .adminapp.darkmode .adminchatwindow header h5 a,
-.adminapp.darkmode .settingspage .infocont p {
+.adminapp.darkmode .settingspage .infocont p,
+.adminapp.darkmode .onecustomerpage big {
   color: #aaa;
 }
 .adminapp.darkmode .producttable > .content h5,
@@ -307,7 +310,10 @@
 .adminapp.darkmode .producttable > .content .labels span,
 .adminapp.darkmode .chatbubblecont.other .chatbubble p,
 .adminapp.darkmode .adminchatwindow .optscont i,
-.adminapp.darkmode .settingspage section > small {
+.adminapp.darkmode .settingspage section > small,
+.adminapp.darkmode .onecustomerpage .section h5,
+.adminapp.darkmode .onecustomerpage .customerrow h6,
+.adminapp.darkmode .onecustomerpage .customerrow h6 a {
   color: #777
 }
 .adminapp.darkmode .addnewbtn,

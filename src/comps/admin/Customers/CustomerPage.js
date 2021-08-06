@@ -9,11 +9,12 @@ import TabsBar from '../common/TabsBar'
 import refProd from '../../common/referProduct'
 import { custOrdHeaders, custRevsHeaders, custTransHeaders, custCartHeaders, tabsTitles,
   custWishHeaders, custAddressHeaders, custPaymentsHeaders } from './arrays/arrays'
-import { Link } from 'react-router-dom'
+import { Link, useHistory } from 'react-router-dom'
+import StartAChat from '../Support/StartAChat'
 
 export default function CustomerPage(props) {
 
-  const {allUsers, currencyFormat, allProducts, allOrders} = useContext(StoreContext)
+  const {allUsers, currencyFormat, allProducts, allOrders, allChats} = useContext(StoreContext)
   const {id, name, profimg, email, phone, address, postCode, city, provState, country,
     number, moneySpent, userRating} = props.el
   const [tabPos, setTabPos] = useState(0)
@@ -24,7 +25,10 @@ export default function CustomerPage(props) {
   const [userWish, setUserWish] = useState([])
   const [userAddress, setUserAddress] = useState([])
   const [userPayments, setUserPayments] = useState([])
+  const [showNewChat, setShowNewChat] = useState(false)
+  const [urlCustId, setUrlCustId] = useState(0)
   const reduceStock = (el) => el.sizes?.reduce((a,b) => a + b.colors.reduce((a,b) => a + b.stock,0),0)
+  const history = useHistory()
 
   const myOrdersHeaders = custOrdHeaders?.map(el => {
     return <h5>{el}</h5>
@@ -146,6 +150,16 @@ export default function CustomerPage(props) {
     </div>
   })
 
+  function sendMessage() {
+    if(allChats.findIndex(x => x.chatInfo.customerId === id) < 0) {
+      setShowNewChat(true)
+    }
+    else {
+      history.push(`/admin/support/customer-support/chat/${id}`)
+      setUrlCustId(id)
+    }
+  }
+
   useEffect(() => {
     getOrdersById(id, setUserOrders) 
     getReviewsById(id, setUserReviews)
@@ -185,7 +199,7 @@ export default function CustomerPage(props) {
         </div>
         <div className="right">
           <div className="actions">
-            <AdminBtn title="Send Message" icon="fal fa-comment"/>
+            <AdminBtn title="Send Message" icon="fal fa-comment" clickEvent onClick={() => sendMessage()}/>
             <AdminBtn title="Email" icon="fal fa-envelope" clickEvent onClick={() => window.open('mailto:'+email)}/>
             <AdminBtn title="Edit" icon="fal fa-pen" url={`/admin/customers/edit-customer/${id}`}/>
             <AdminBtn title="Ban User" solid icon="fal fa-user-slash"/>
@@ -205,6 +219,13 @@ export default function CustomerPage(props) {
           {customerSections}
         </div>
       </div>
+      <StartAChat 
+        showNewChat={showNewChat}
+        setShowNewChat={setShowNewChat}
+        setUrlCustId={setUrlCustId}
+        tempCustomerId={id}
+        hideSearch
+      />
     </div>
   )
 }

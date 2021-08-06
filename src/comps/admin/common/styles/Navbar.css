@@ -30,7 +30,7 @@
   margin-right: 10px;
   font-size: 14px;
 }
-.adminnav .appinput input {
+.adminnav .left .appinput input {
   padding: 10px 15px;
   height: 40px;
   border-radius: 40px;
@@ -38,16 +38,16 @@
   background: var(--adminbg);
   border: 1px solid #eee;
 }
-.adminnav .appinput input::placeholder {
+.adminnav .left .appinput input::placeholder {
   transition: all 0.4s;
 }
-.adminnav .appinput input:focus {
+.adminnav .left .appinput input:focus {
   border-color: var(--admincolor)
 }
-.adminnav .appinput input:focus::placeholder {
+.adminnav .left .appinput input:focus::placeholder {
   opacity: 0;
 }
-.adminnav .appinput i {
+.adminnav .left .appinput i {
   top: 12px;
   right: 15px;
   color: var(--graytxt);
@@ -180,6 +180,9 @@
 .adminnav .updatescont > h4 {
   padding: 10px 20px;
   color: var(--graytxt);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 .adminnav .updatescont .chatcard {
   border-bottom: 1px solid #eee;

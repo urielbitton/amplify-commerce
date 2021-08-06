@@ -75,7 +75,8 @@ export default function Login(props) {
           wishlist: [],
           addresses: [],
           payments: [],
-          settings: {} 
+          settings: {},
+          dateCreated: new Date()
         }
         db.collection('users').doc(user.uid).set({
           userinfo 
@@ -83,7 +84,7 @@ export default function Login(props) {
           db.collection('customers').doc(user.uid).set({
             id:user.uid,name: name??'',email:email,phone:'',city:'',provstate:'',provstateCode:'',
             country:'',countryCode:'', moneySpent: 0, number: genRandomNum(), profimg: defaultImg,
-            userRating: 0
+            userRating: 0, dateCreated: new Date()
           }) 
           setAUser(user)
           history.push('/my-account')
@@ -116,7 +117,8 @@ export default function Login(props) {
           wishlist: [],
           addresses: [],
           payments: [],
-          settings: {} 
+          settings: {},
+          dateCreated: new Date()
         }
         firebase.auth().onAuthStateChanged(user => {
           if(user) {
@@ -126,7 +128,7 @@ export default function Login(props) {
               db.collection('customers').doc(user.uid).set({
                 id:user.uid,name: name??'',email:email,phone:'',city:'', provstate:'',provstateCode:'',
                 country:'',countryCode:'',moneySpent: 0, number: genRandomNum(), profimg: defaultImg,
-                userRating: 0
+                userRating: 0, dateCreated: new Date()
               }) 
               setAUser(user)
               console.log(user)

@@ -7,6 +7,7 @@ import { Link, useHistory } from 'react-router-dom'
 import firebase from 'firebase'
 import ChatCard from '../Support/ChatCard'
 import { menuLinks, extraLinks } from './arrays/links'
+import StartAChat from '../Support/StartAChat'
 
 export default function Navbar() {
 
@@ -14,6 +15,7 @@ export default function Navbar() {
   const [openDrop, setOpenDrop] = useState(0)
   const [chatData, setChatData] = useState([])
   const [showPageSearch, setShowPageSearch] = useState(false)
+  const [showNewChat, setShowNewChat] = useState(false)
   const [keyword, setKeyword] = useState('')
   const clean = text => text.replace(/[^a-zA-Z0-9 ]/g, "")
   let pattern = new RegExp('\\b' + clean(keyword), 'i')
@@ -98,7 +100,7 @@ export default function Navbar() {
           <div className={`iconcont ${openDrop===3?"open":""}`} onClick={(e) => slideChats(e)}>
             <i className="far fa-comment"></i>
             <div className={`updatescont ${openDrop===3?"open":""}`}>
-              <h4>Chats</h4>
+              <h4>Chats<i className="fal fa-plus" onClick={() => setShowNewChat(true)}></i></h4>
               {chatsRow}
               <div className="viewallcont" onClick={() => history.push('/admin/support/customer-support')}>
                 <h6>View All</h6>
@@ -132,6 +134,11 @@ export default function Navbar() {
             </small>
         </div>
       </div>
+      <StartAChat 
+        showNewChat={showNewChat}
+        setShowNewChat={setShowNewChat}
+        tempCustomerId=""
+      />
     </div> 
   )
 }

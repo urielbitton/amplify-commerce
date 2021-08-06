@@ -164,7 +164,7 @@ export default function AdminHomecont() {
           <Route path="/admin/settings/account">
             <AccountSettings />
           </Route>
-          <Route path="/admin/settings/users">
+          <Route exact path="/admin/settings/users">
             <UsersSettings />
           </Route>
         </Switch> 
