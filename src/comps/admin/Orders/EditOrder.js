@@ -302,8 +302,7 @@ export default function EditOrder(props) {
   },[taxRate])
 
   useEffect(() => {
-    !editOrdMode&&generateId(3,7) 
-    return () => setEditOrdMode(false)  
+    !editOrdMode&&generateId(3,7)  
   },[])
 
   useEffect(() => {
@@ -311,6 +310,7 @@ export default function EditOrder(props) {
       setEditOrdMode(true)
     else
       setEditOrdMode(false)
+    return () => setEditOrdMode(false) 
   },[location])
 
   useEffect(() => {

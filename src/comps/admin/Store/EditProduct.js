@@ -167,7 +167,6 @@ export default function EditProduct(props) {
       setEditProdMode(true)
     else 
       setEditProdMode(false)
-
     return () => setEditProdMode(false)
   },[location])
 

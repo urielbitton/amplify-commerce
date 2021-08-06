@@ -5,12 +5,12 @@ import { AppInput } from '../../common/AppInputs'
 import AdminBtn from '../common/AdminBtn'
 import RegionCountry from '../../common/RegionCountry'
 import { StoreContext } from '../../common/StoreContext'
-import { db } from '../../common/Fire'
 import { updateDB } from '../../common/services/CrudDb'
+import Reauth from '../../common/Reauth'
 
 export default function AccountSettings() {
   
-  const {myUser, setNotifs} = useContext(StoreContext)
+  const {myUser, setNotifs, user} = useContext(StoreContext)
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
   const [phone, setPhone] = useState('')
@@ -20,12 +20,15 @@ export default function AccountSettings() {
   const [password, setPassword] = useState('')
   const [showPass, setShowPass] = useState(false)
   const [provinceChoices, setProvinceChoices] = useState([])
+  const [showReauth, setShowReauth] = useState(false)
+  const [allowUpdate, setAllowUpdate] = useState(false)
   const [keyword, setKeyword] = useState('')
   const clean = text => text.replace(/[^a-zA-Z0-9 ]/g, "")
   let pattern = new RegExp('\\b' + clean(keyword), 'i')
   const allowAccess = (myUser.fullname !== name || myUser.phone !== phone || myUser.city !== city
     || myUser.provstate !== region || myUser.country !== country) && (name.length && phone.length && city.length
     && region.length && country.length) 
+  const allowAuthUpdate = (myUser.email !== email || myUser.password !== password)
 
   function saveSettings() {
     if(!!allowAccess) {
@@ -38,13 +41,38 @@ export default function AccountSettings() {
       }).then(() => {
         setNotifs(prev => [...prev, {
           id: Date.now(),
-          title: 'Settings Saved',
+          title: 'Account Saved',
           icon: 'fal fa-save',
           text: `Your account settings have been successfully saved.`,
           time: 5000
         }])
       })
     }
+  }
+  function saveAuthSettings() {
+    updateDB('users', myUser.userid, {
+      'userinfo.email': email,
+      'userinfo.password': password
+    }).then(() => {
+      user.updateEmail(email).then(() => {
+        user.updatePassword(password).then(() => {
+          setNotifs(prev => [...prev, {
+            id: Date.now(),
+            title: 'Account Saved',
+            icon: 'fal fa-save',
+            text: `Your password has ben successfully updated.`,
+            time: 5000
+          }])
+        })
+        setNotifs(prev => [...prev, {
+          id: Date.now(),
+          title: 'Account Saved',
+          icon: 'fal fa-save',
+          text: `Your email has been successfully updated.`,
+          time: 5000
+        }])
+      })
+    })
   }
 
   useEffect(() => {
@@ -70,7 +98,6 @@ export default function AccountSettings() {
           <section>
             <h4 className="settingstitle">Personal Information</h4>
             <AppInput title="Full Name" onChange={(e) => setName(e.target.value)} value={name} />
-            <AppInput title="Email" disabled onChange={(e) => setEmail(e.target.value)} value={email} />
             <AppInput title="Phone" onChange={(e) => setPhone(e.target.value)} value={phone} />
             <AppInput title="City" onChange={(e) => setCity(e.target.value)} value={city} />
             <RegionCountry 
@@ -81,20 +108,34 @@ export default function AccountSettings() {
               provinceChoices={provinceChoices}
               setProvinceChoices={setProvinceChoices}
             />
+          </section>
+          <div className="actionbtns">
+            <AdminBtn title="Save" disabled={!!!allowAccess} solid clickEvent onClick={() => saveSettings()}/>
+          </div>
+          <section>
+            <h4 className="settingstitle">Authentication</h4>
+            <AppInput title="Email" onChange={(e) => setEmail(e.target.value)} value={email} />
             <label className="appinput commoninput passinput">
               <h6>Password</h6>
-              <input type={showPass?"text":"password"} disabled value={password}/>
+              <input type={showPass?"text":"password"} onChange={(e) => setPassword(e.target.value)} value={password}/>
               <i 
                 className={`far ${showPass?"fa-eye-slash":"fa-eye"}`} 
                 onClick={() => setShowPass(prev => !prev)}
               ></i>
             </label>
+            <small style={{fontSize:12,color:'#777',gridColumn:'1/-1'}}>To update your email and password, you need to re-authenticate yourself.</small>
           </section>
           <div className="actionbtns">
-            <AdminBtn title="Save" disabled={!!!allowAccess} solid clickEvent onClick={() => saveSettings()}/>
+            <AdminBtn title="Authenticate" disabled={!!!allowAuthUpdate || !!allowUpdate} solid clickEvent onClick={() => setShowReauth(true)}/>
+            <AdminBtn title="Update" disabled={!!!allowUpdate} solid clickEvent onClick={() => saveAuthSettings()}/>
           </div>
         </div>
       </div>
+      <Reauth 
+        showReauth={showReauth}
+        setShowReauth={setShowReauth}
+        setAllowUpdate={setAllowUpdate}
+      />
     </div>
   )
 } 

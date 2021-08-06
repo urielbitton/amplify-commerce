@@ -27,7 +27,7 @@ export default function StartAChat(props) {
     dateModified: new Date(),
     isActive: true,
     isArchived: false,
-    lastSenderId: user.uid
+    lastSenderId: user?.uid
   }
 
   const allCustList = allCustomersFilter

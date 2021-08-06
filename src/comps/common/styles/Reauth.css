@@ -1,0 +1,54 @@
+.reauthcover {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  background: rgba(0,0,0,0.75);
+  z-index: 1000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  visibility: hidden;
+  opacity: 0;
+  transition: all 0.2s;
+}
+.reauthcover.show {
+  visibility: visible;
+  opacity: 1;
+}
+.reauthcover.show .reauthcont {
+  top: 0;
+}
+.reauthcont {
+  top: -20px;
+  width: 600px;
+  padding: 30px;
+  border-radius: 10px;
+  background: #fff;
+  box-shadow: var(--shadow);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  transition: all 0.3s;
+}
+.reauthcont h4 {
+  color: #444;
+  margin: 10px 0;
+}
+.reauthcont .appinput input {
+  border: none;
+  background: #f1f1f1;
+  border-radius: 10px;
+}
+.reauthcont .appinput h6 {
+  font-size: 12px;
+  margin-bottom: 5px;
+}
+.reauthcont .btnsrow {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 10px;
+}

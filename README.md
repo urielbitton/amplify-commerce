@@ -14,6 +14,7 @@ Features to add:
   updates show up in admin dashboard
 - find way to remove admin id from chat messages
 - send email of invoice to customers when they checkout after successful payment
+- implement languages features (copy waltr system)
 
 Bugs tracking:
 - multiple notifs will stay as long as last notifs

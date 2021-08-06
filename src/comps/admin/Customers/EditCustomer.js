@@ -130,6 +130,7 @@ export default function EditCustomer(props) {
       setEditCustMode(true)
     else
       setEditCustMode(false)
+    return () => setEditCustMode(false) 
   },[location])
 
   useEffect(() => {
@@ -146,8 +147,7 @@ export default function EditCustomer(props) {
   },[editCustMode])
 
   useEffect(() => {
-    setCustNum(genRandomNum())
-    return () => setEditCustMode(false)  
+    setCustNum(genRandomNum()) 
   },[])
   
   useEffect(() => {
@@ -159,7 +159,7 @@ export default function EditCustomer(props) {
       <PageTitle title={pagetitle} />
       <div className="pagecont">
         <h3 className="pagetitle">{pagetitle}</h3>
-        <div className="couponcontent pagemaincontent">
+        <div className="pagemaincontent">
           <div className="profilecont">
             <div className="profimgcont">
               <label>
