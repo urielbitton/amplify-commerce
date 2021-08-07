@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useRef, useState } from 'react'
 import { useHistory, useLocation } from 'react-router-dom'
 import { AppInput, AppSwitch } from '../../common/AppInputs'
-import { db } from '../../common/Fire'
+import { db, Fire2 } from '../../common/Fire'
 import firebase from 'firebase'
 import {StoreContext} from '../../common/StoreContext'
 import AdminBtn from '../common/AdminBtn'
@@ -82,7 +82,7 @@ export default function EditUser(props) {
 
   function createUser() {
     if(!!allowCreate) {
-      firebase.auth().createUserWithEmailAndPassword(userEmail, userPassword2).catch(err => {
+      Fire2.auth().createUserWithEmailAndPassword(userEmail, userPassword2).catch(err => {
         switch(err.code) {
           case "auth/email-already-in-use":
           case "auth/invalid-email":
