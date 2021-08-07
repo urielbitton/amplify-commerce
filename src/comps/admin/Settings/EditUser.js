@@ -81,7 +81,7 @@ export default function EditUser(props) {
   }
 
   function createUser() {
-    if(!!!allowCreate) {
+    if(!!allowCreate) {
       firebase.auth().createUserWithEmailAndPassword(userEmail, userPassword2).catch(err => {
         switch(err.code) {
           case "auth/email-already-in-use":
@@ -94,7 +94,7 @@ export default function EditUser(props) {
           default: 
         }
       }).then(() => {
-        db.collection('users').doc(genNewUserId).set(userObj)
+        db.collection('users').doc(genNewUserId).set({userinfo:userObj})
         .then(() => {
           db.collection('customers').doc(genNewUserId).set(customerObj)
           .then(() => {
