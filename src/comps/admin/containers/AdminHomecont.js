@@ -29,7 +29,7 @@ import AdminSupport from '../Support/AdminSupport'
 import GeneralSettings from '../Settings/GeneralSettings'
 import StoreSettings from '../Settings/StoreSettings'
 import AppearanceSettings from '../Settings/AppearanceSettings'
-import UsersSettings from '../Settings/UsersSettings'
+import Users from '../Settings/Users'
 import AccountSettings from '../Settings/AccountSettings'
 import EditUser from '../Settings/EditUser'
 
@@ -84,7 +84,7 @@ export default function AdminHomecont() {
     </Route>
   })
   const edituserpages = allUsers?.map(el => {
-    return <Route path={`/admin/users/settings/edit-user/${el.userid}`}>
+    return <Route path={`/admin/settings/users/edit-user/${el.userid}`}>
       <EditUser el={el} />
     </Route>
   })
@@ -171,9 +171,9 @@ export default function AdminHomecont() {
             <AccountSettings />
           </Route>
           <Route exact path="/admin/settings/users">
-            <UsersSettings />
+            <Users />
           </Route>
-          <Route exact path="/admin/settings/users/add-user">
+          <Route path="/admin/settings/users/add-user">
             <EditUser />
           </Route>
           {edituserpages}
