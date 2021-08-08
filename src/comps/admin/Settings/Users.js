@@ -1,13 +1,13 @@
 import React, { useContext, useState } from 'react'
 import { StoreContext } from '../../common/StoreContext'
 import PageTitlesRow from '../common/PageTitlesRow'
-import './styles/UsersSettings.css'
+import './styles/Users.css'
 import {usersHeaders} from './arrays/arrays'
-import { Link } from 'react-router-dom'
+import { Link, useHistory } from 'react-router-dom'
 
-export default function UsersSettings() {
+export default function Users() {
 
-  const {allUsers} = useContext(StoreContext)
+  const {allUsers, setEditUserMode} = useContext(StoreContext)
   const [sort, setSort] = useState(0)
   const [asc, setAsc] = useState(true)
   const [showOpts, setShowOpts] = useState(-1)
@@ -15,7 +15,8 @@ export default function UsersSettings() {
   const clean = text => text.replace(/[^a-zA-Z0-9 ]/g, "")
   let pattern = new RegExp('\\b' + clean(keyword), 'i')
   const allUsersFilter = allUsers?.filter(x => (pattern.test(x.userid) || pattern.test(x.name) || 
-  pattern.test(x.email) || pattern.test(x.city) || pattern.test(x.country)) && x.isActive)
+    pattern.test(x.email) || pattern.test(x.city) || pattern.test(x.country)) && x.isActive)
+  const history= useHistory()
 
   const headersrow = usersHeaders?.map((el,i) => {
     return <h5 className={el.val===sort?"active":""}>
@@ -42,18 +43,19 @@ export default function UsersSettings() {
         </div>
         <div className={`optscont ${i===showOpts?"show":""}`}> 
           <div title="Edit User" onClick={() => editUser(el.userid)}><i className="far fa-edit"></i></div>
-          {!el.isAdmin&&<div title="Delete User" onClick={() => deleteUser(el.userid)}><i className="far fa-trash-alt"></i></div>}
+          {!el.isAdmin&&<div style={{opacity:0.4}} title="Delete User" onClick={() => deleteUser(el.userid)}><i className="far fa-trash-alt"></i></div>}
           <div title="User Info" onClick={() => infoUser(el.userid)}><i className="far fa-info"></i></div>
         </div>
       </h5>
     </div>
   })
 
-  function editUser() {
-
+  function editUser(userid) {
+    setEditUserMode(true)
+    history.push(`/admin/settings/users/edit-user/${userid}`)
   }
   function deleteUser() {
-
+    //don't let admin delete users here - must go in edit page
   }
   function infoUser() {
 
@@ -64,7 +66,7 @@ export default function UsersSettings() {
       <div className="settingspage userssettingspage longidpage">
         <div className="pagecont">
           <PageTitlesRow 
-            title={<><i className="far fa-user-friends"></i>User Settings</>}
+            title={<><i className="far fa-user-friends"></i>Users</>}
             searchPlaceholder="Find a setting..."
             setKeyword={setKeyword}
             btnTitle="Add User"

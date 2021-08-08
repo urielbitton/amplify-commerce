@@ -14,8 +14,8 @@ import {validateEmail} from '../../common/UtilityFuncs'
 export default function EditUser(props) {
 
   const {editUserMode, setEditUserMode, setNotifs} = useContext(StoreContext)
-  const {userid, name, email, phone, address, city, provState, country,
-    profimg, isActive, dateCreated} = editUserMode&&props
+  const {userid, fullname, email, phone, address, city, region, provState, country,
+    profimg, isActive, password} = editUserMode&&props.el
   const [userID, setUserID] = useState('')
   const [userImg, setUserImg] = useState('')
   const [userName, setUserName] = useState('')  
@@ -29,9 +29,6 @@ export default function EditUser(props) {
   const [userCountry, setUserCountry] = useState('')
   const [provinceChoices, setProvinceChoices] = useState([])
   const [isUserActive, setIsUserActive] = useState(true)
-  const [loading, setLoading] = useState(false)
-  const [url, setUrl] = useState('')
-  const loadingRef = useRef()
   const genNewUserId = db.collection('users').doc().id
   const userId = editUserMode? userid : genNewUserId
   const location = useLocation()
@@ -96,16 +93,42 @@ export default function EditUser(props) {
           default: 
         }
       }).then(() => {
-        db.collection('users').doc(genNewUserId).set({userinfo:userObj})
-        .then(() => {
-          db.collection('customers').doc(genNewUserId).set(customerObj)
-          .then(() => {
+        updateUserAndCustomer(false)
+      })
+    }
+  }
+  function updateUserAndCustomer(editing) {
+    db.collection('users').doc(userId).set({userinfo:userObj}, {merge:true})
+    .then(() => {
+      db.collection('customers').doc(userId).set(customerObj, {merge:true})
+      .then(() => {
+        history.push('/admin/settings/users')
+        setNotifs(prev => [...prev, {
+          id: Date.now(),
+          title: editing?'User Saved':`New User Created`,
+          icon: editing?'fal fa-save':'fal fa-plus',
+          text: editing?"User & customer has been successfully saved.":"New user and corresponding customer has been created and added to your store.",
+          time: 5000
+        }])
+      })
+    })
+  }
+  function saveUser() {
+    updateUserAndCustomer(true)
+  }
+  
+  function deleteUser() {
+    const confirm = window.confirm('Are you sure you want to delete this user & coresponding customer?')
+    if(editUserMode && confirm) {
+      db.collection('users').doc(userId).delete().then(() => {
+        db.collection('customers').doc(userId).delete().then(() => {
+          db.collection('chats').doc(userId).delete().then(() => {
             history.push('/admin/settings/users')
             setNotifs(prev => [...prev, {
               id: Date.now(),
-              title: `New User Created`,
-              icon: 'fal fa-plus',
-              text: `New user has been successfully created and added to your store.`,
+              title: 'User Deleted',
+              icon: 'fal fa-trash-alt',
+              text: "The user & customer has been successfully deleted from your store.",
               time: 5000
             }])
           })
@@ -113,18 +136,26 @@ export default function EditUser(props) {
       })
     }
   }
-  function editUser() {
-
-  }
-  function deleteUser() {
-
-  }
+ 
+  useEffect(() => {
+    setUserImg(editUserMode?profimg:"https://i.imgur.com/1OKoctC.jpg")
+    setUserName(editUserMode?fullname:"")
+    setUserEmail(editUserMode?email:"")
+    setUserPassword1(editUserMode?password:"")
+    setUserPassword2(editUserMode?password:"")
+    setUserPhone(editUserMode?phone:"")
+    setUserAddress(editUserMode?address:"")
+    setUserCity(editUserMode?city:"")
+    setUserRegion(editUserMode?region:"")
+    setUserCountry(editUserMode?country:"")
+    setIsUserActive(editUserMode?isActive:true)
+  },[editUserMode])
 
   useEffect(() => {
     if(location.pathname.includes('/edit-user')) 
-    setEditUserMode(true)
+      setEditUserMode(true)
     else
-    setEditUserMode(false)
+      setEditUserMode(false)
     return () => setEditUserMode(false) 
   },[location])
 
@@ -146,6 +177,7 @@ export default function EditUser(props) {
               className="profimgcont"
             />
           </div>
+          <br/>
           <div className="generatecont">
             <AppInput title="User ID" onChange={(e) => setUserID(e.target.value)} value={userID} />
             <AdminBtn title="Generate Number" solid clickEvent onClick={() => setUserID(genNewUserId)}/>
@@ -168,9 +200,9 @@ export default function EditUser(props) {
           <AppSwitch className="inprow show" title="Active" onChange={(e) => setIsUserActive(e.target.checked)} checked={isUserActive}/>
           <small>Upon successfull user creation, a customer will be created and automatically linked to the new user</small>
           <div className="final actionbtns">
-            <AdminBtn title={editUserMode?"Edit User":"Create User"} className={!!!allowCreate?"disabled":""} solid clickEvent onClick={() => !editUserMode?createUser():editUser()}/>
-            {editUserMode&&<AdminBtn title="Delete Customer" solid className="deletebtn" clickEvent onClick={() => deleteUser()}/>}
-            <AdminBtn title="Cancel" url="/admin/users/"/>
+            <AdminBtn title={editUserMode?"Save User":"Create User"} className={!!!allowCreate?"disabled":""} solid clickEvent onClick={() => !editUserMode?createUser():saveUser()}/>
+            {editUserMode&&<AdminBtn title="Delete User" solid className="deletebtn" clickEvent onClick={() => deleteUser()}/>}
+            <AdminBtn title="Cancel" url="/admin/settings/users/"/>
           </div>
         </div>
       </div>
