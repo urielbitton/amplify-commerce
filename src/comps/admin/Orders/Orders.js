@@ -36,7 +36,7 @@ export default function Orders() {
   }).map((el,i) => { 
     return <div className="proditem">
       <h5><Link to={`/admin/orders/edit-order/${el.orderid}`}>#{el.orderNumber}</Link></h5>
-      <h5><Link to={`/admin/customer/${getCustomerArrById(allCustomers, el.customer.id).id}`}>{el.customer.name}</Link></h5>
+      <h5><Link to={`/admin/customer/${getCustomerArrById(allCustomers, el.customer.id)?.id}`}>{el.customer.name}</Link></h5>
       <h5 title={el.products.length>1&&`+ ${el.products.length-1} more`}>{refProd(allProducts, el.products[0].id).name}</h5>  
       <h5>#{el.trackingNum}</h5>
       <h5>{convertDate(el.orderDateCreated.toDate())}</h5>

@@ -118,7 +118,7 @@ export default function Navbar() {
           </div>
         </div>
         <div className="profcont" onClick={(e) => {setOpenDrop(1);e.stopPropagation()}}>
-          <img src={myUser?.profimg} alt=""/>
+          <img src={myUser?.profimg.length?myUser.profimg:"https://i.imgur.com/1OKoctC.jpg"} alt=""/>
           <h6>{myUser?.fullname}</h6>
           <i className={`far fa-angle-up ${openDrop===1?"down":""}`}></i>
         </div>

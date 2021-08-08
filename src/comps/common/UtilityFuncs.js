@@ -69,6 +69,12 @@ export function getDaysAgo(date) {
   return Math.round(msToDays(Date.now()) - msToDays(date))
 }
 
+export function validateEmail(email) {
+  const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+  return re.test(String(email).toLowerCase());
+}
+
+/* collections */
 export function getCustomerArrById(allCustomers, id) {
   return allCustomers?.find(x => x.id === id)
 }

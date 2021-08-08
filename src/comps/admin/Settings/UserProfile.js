@@ -1,31 +1,46 @@
 import React, { useContext, useEffect, useState } from 'react'
 import './styles/Settings.css'
 import {StoreContext} from '../../common/StoreContext'
-import ImgUploader from '../../common/services/ImgUploader'
+import { db } from '../../common/Fire'
+import firebase from 'firebase'
 
 export default function UserProfile() {
 
-  const {myUser, allProducts, allOrders, allCustomers, allCoupons, allShipping,
-    darkMode} = useContext(StoreContext)
-  const [url, setUrl] = useState('')
-  const [profImg, setProfImg] = useState(myUser.profimg)
-  
+  const {myUser, allProducts, allOrders, allCustomers, allCoupons, allShipping, darkMode} = useContext(StoreContext)
+  const [profImg, setProfImg] = useState('')
+
+  function uploadSetImg(e) {
+    const file = e.target.files[0]
+    if(file) {
+      const storageRef = firebase.storage().ref('/admin/account/profimg')
+      const task = storageRef.put(file)
+      task.on("stat_changes", 
+        function complete() {
+          storageRef.getDownloadURL().then(url => {
+            db.collection('users').doc(myUser.userid).update({
+              'userinfo.profimg': url
+            })
+          })
+        },
+        function error() {
+          window.alert('File upload error. Please try again later.')
+        }
+      )
+    }
+  }
+
   useEffect(() => {
-    url.length&&setProfImg('')
-  },[url])
+    setProfImg(myUser.profimg)
+  },[myUser])
 
   return (
     <div className="userprofilecont">
-      <div className="profimgcont">
+      <div className="profimgcont imguploadcont">
         <label>
-          <input  
-            style={{display:'none'}} 
-            type="file" 
-            onChange={(e) => ImgUploader(e, setUrl, 'admin/account/profimg', myUser.userid, 'userinfo.profimg')}
-          />
-          <img src={profImg.length?profImg:url.length?url:'https://i.imgur.com/1OKoctC.jpg'} alt=""/>
+          <input style={{display:'none'}} type="file" onChange={(e) => uploadSetImg(e)}/>
+          <img src={profImg.length?profImg:"https://i.imgur.com/1OKoctC.jpg"} alt=""/>
           <div className="iconcont">
-            <i className="far fa-camera"></i>
+            <i className="fas fa-camera"></i>
           </div>
         </label>
       </div>

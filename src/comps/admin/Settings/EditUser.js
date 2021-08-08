@@ -2,13 +2,14 @@ import React, { useContext, useEffect, useRef, useState } from 'react'
 import { useHistory, useLocation } from 'react-router-dom'
 import { AppInput, AppSwitch } from '../../common/AppInputs'
 import { db, Fire2 } from '../../common/Fire'
-import firebase from 'firebase'
 import {StoreContext} from '../../common/StoreContext'
 import AdminBtn from '../common/AdminBtn'
 import PageTitle from '../common/PageTitle'
 import RegionCountry from '../../common/RegionCountry'
 import genRandomNum from '../../common/genRandomNum'
 import { convertCountryCode, convertProvinceCode } from '../../common/UtilityFuncs'
+import UploadImg from '../../common/UploadImg'
+import {validateEmail} from '../../common/UtilityFuncs'
 
 export default function EditUser(props) {
 
@@ -35,7 +36,8 @@ export default function EditUser(props) {
   const userId = editUserMode? userid : genNewUserId
   const location = useLocation()
   const pagetitle = editUserMode?"Edit User":"Add User"
-  const allowCreate = userId && userName && userEmail && userPhone && userAddress && userCity && userRegion && userCountry
+  const allowCreate = userId && userName && validateEmail(userEmail) && userPhone && userAddress && userCity && userRegion 
+    && userCountry && (userPassword1 === userPassword2)
   const history = useHistory()
 
   const userObj = {
@@ -51,7 +53,7 @@ export default function EditUser(props) {
     country: userCountry,
     regionCode: convertProvinceCode(provinceChoices, userRegion)??'',
     countryCode: convertCountryCode(userCountry)??'',
-    profimg: url,
+    profimg: userImg.length?userImg:"https://i.imgur.com/1OKoctC.jpg",
     isActive: isUserActive,
     dateCreated: new Date(),
     addresses: [],
@@ -74,7 +76,7 @@ export default function EditUser(props) {
     regionCode: convertProvinceCode(provinceChoices, userRegion)??'',
     countryCode: convertCountryCode(userCountry)??'',
     moneySpent: 0,
-    profimg: url,
+    profimg: userImg.length?userImg:"https://i.imgur.com/1OKoctC.jpg",
     userRating: 0,
     isActive: isUserActive,
     dateCreated: new Date()
@@ -98,6 +100,7 @@ export default function EditUser(props) {
         .then(() => {
           db.collection('customers').doc(genNewUserId).set(customerObj)
           .then(() => {
+            history.push('/admin/settings/users')
             setNotifs(prev => [...prev, {
               id: Date.now(),
               title: `New User Created`,
@@ -125,6 +128,10 @@ export default function EditUser(props) {
     return () => setEditUserMode(false) 
   },[location])
 
+  useEffect(() => {
+    setUserID(genNewUserId)
+  },[])
+
   return (
     <div className="edituserpage">
       <PageTitle title={pagetitle} />
@@ -132,25 +139,16 @@ export default function EditUser(props) {
         <h3 className="pagetitle">{pagetitle}</h3>
         <div className="pagemaincontent">
           <div className="profilecont">
-            <div className="profimgcont">
-              <label>
-                <input  
-                  style={{display:'none'}} 
-                  type="file" 
-                />
-                <img src={userImg.length?userImg:url.length?url:'https://i.imgur.com/1OKoctC.jpg'} alt=""/>
-                <div className="iconcont">
-                  <i className="fas fa-camera"></i>
-                </div>
-                <div className={`loadertube ${loading?"show":""}`}>
-                  <div className="prog" ref={loadingRef}></div>
-                </div>
-              </label>
-            </div>
+            <UploadImg 
+              img={userImg} 
+              setImg={setUserImg} 
+              storagePath={`${userId}/images/userimg`} 
+              className="profimgcont"
+            />
           </div>
           <div className="generatecont">
             <AppInput title="User ID" onChange={(e) => setUserID(e.target.value)} value={userID} />
-            <AdminBtn title="Generate Number" solid clickEvent />
+            <AdminBtn title="Generate Number" solid clickEvent onClick={() => setUserID(genNewUserId)}/>
           </div>
           <AppInput title="Full Name" onChange={(e) => setUserName(e.target.value)} value={userName}/>
           <AppInput title="Email" onChange={(e) => setUserEmail(e.target.value)} value={userEmail}/>

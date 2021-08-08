@@ -1,0 +1,33 @@
+.imguploadcont {
+  width: 100px;
+  height: 100px;
+  cursor: pointer;
+}
+.imguploadcont img {
+  width: 100%;
+  height: 100%;
+  box-shadow: 0 5px 10px rgba(0,0,0,0.1);
+  border-radius: 100%;
+  cursor: pointer;
+}
+.imguploadcont .iconcont {
+  position: absolute;
+  bottom: 15px;
+  right: 0px;
+  width: 27px;
+  height: 27px;
+  border-radius: 100%;
+  background: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: var(--shadow);
+  opacity: 0;
+  transition: all 0.2s;
+}
+.imguploadcont:hover .iconcont {
+  opacity: 1;
+}
+.imguploadcont .iconcont i {
+  color: var(--admincolor);
+}

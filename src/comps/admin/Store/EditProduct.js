@@ -3,7 +3,6 @@ import './styles/EditProduct.css'
 import {AppInput, AppSelect, AppTextarea} from '../../common/AppInputs'
 import AdminBtn from '../common/AdminBtn'
 import {db} from '../../common/Fire'
-import firebase from 'firebase'
 import {StoreContext} from '../../common/StoreContext'
 import { useHistory, useLocation } from 'react-router-dom'
 import AddStyles from './AddStyles'
@@ -11,6 +10,7 @@ import PageTitle from '../common/PageTitle'
 import TabsBar from '../common/TabsBar'
 import ReviewCard from '../Customers/ReviewCard'
 import { getReviewsArrById } from '../../common/UtilityFuncs'
+import UploadImg from '../../common/UploadImg'
 
 export default function EditProduct(props) {
 
@@ -32,13 +32,12 @@ export default function EditProduct(props) {
   const [prodSizes, setProdSizes] = useState([])
   const [imgUrl, setImgUrl] = useState('')
   const generateid = db.collection('products').doc().id
-  const storageRef = firebase.storage().ref('admin/products').child(`product-${generateid}`) 
+  const storageRefId = editProdMode?id:generateid
   const location = useLocation()
   const history = useHistory()
   const allowCreate = prodName && prodImg && prodPrice && prodBelongs && prodBrand && prodCategs &&
     prodCollection && prodDescription && prodSku && prodComposition && prodShipReturns
   const pagetitle = editProdMode?"Edit A Product":"Create A Product"
-
   const tabsTitles = ['General', 'Styles', 'Additional Info', 'Product Reviews']
 
   const productObj = {
@@ -116,6 +115,8 @@ export default function EditProduct(props) {
   }
   function saveProduct() {
     if(!!allowCreate) {
+      productObj.categories = prodCategs.split(',')
+      productObj.collection = prodCollection.split(',')
       db.collection('products').doc(id).update(productObj)
       .then(res => {
         setNotifs(prev => [...prev, {
@@ -139,28 +140,6 @@ export default function EditProduct(props) {
       }])
     }
   }
-  function uploadImg(e) {
-    const file = e.target.files[0]
-    if(file) {
-      const task = storageRef.put(file)
-      task.on("stat_changes", 
-        function progress(snap) {
-          //setLoading(true)
-          //const percent = (snap.bytesTransferred / snap.totalBytes) * 100
-          //loadingRef.current.style.width = percent + '%'
-        },
-        function error() {
-          window.alert('An error has occured. Please try again later.')
-        },
-        function complete() {
-          //setLoading(false)
-          storageRef.getDownloadURL().then(url => {
-            setImgUrl(url)
-          })
-        }
-      )
-    }
-  }
 
   useEffect(() => {
     if(location.pathname.includes('edit-product'))
@@ -179,6 +158,7 @@ export default function EditProduct(props) {
   useEffect(() => {
     setProdName(editProdMode?name:'')
     setProdImg(editProdMode?imgs[0]:['https://i.imgur.com/IxUNUm5.png'])
+    setImgUrl(editProdMode?imgs[0]:'https://i.imgur.com/IxUNUm5.png')
     setProdPrice(editProdMode?price:'')
     setProdBelongs(editProdMode?belongs:'')
     setProdBrand(editProdMode?brand:'')
@@ -197,19 +177,12 @@ export default function EditProduct(props) {
       <div className="pagecont">
         <h3 className="pagetitle">{pagetitle}</h3>
         <div className="editheader">
-          <div className="editimgcont">
-              <label>
-                <input 
-                  style={{display:'none'}} 
-                  type="file" 
-                  onChange={(e) => uploadImg(e)}
-                />
-                <img src={imgUrl.length?imgUrl:prodImg} alt={name}/>
-                <div className="editimgicon">
-                  <i className="fal fa-camera"></i>
-                </div>
-              </label>
-          </div>
+          <UploadImg 
+            img={imgUrl} 
+            setImg={setImgUrl} 
+            storagePath={`/admin/products/product-${storageRefId}`} 
+            className="editimgcont"
+          />
           <AppInput 
             className="edittitle" 
             placeholder="Enter Product Name"

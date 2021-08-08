@@ -40,7 +40,7 @@ export default function Reviews() {
         <Link to={`/admin/store/edit-product/${referProduct(allProducts, el.productId).id}`}>{referProduct(allProducts, el.productId).name}</Link>
       </h5>
       <h5>
-        <Link to={`/admin/customer/${getCustomerArrById(allCustomers, el.reviewerId).id}`}>{getCustomerArrById(allCustomers, el.reviewerId).name}</Link>
+        <Link to={`/admin/customer/${getCustomerArrById(allCustomers, el.reviewerId)?.id}`}>{getCustomerArrById(allCustomers, el.reviewerId)?.name}</Link>
       </h5>
       <h5>{convertDate(el.dateReviewed.toDate())}</h5> 
       <h5 className="ratingrow">

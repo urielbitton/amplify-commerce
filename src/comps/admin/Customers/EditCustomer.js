@@ -9,7 +9,8 @@ import { useHistory, useLocation } from 'react-router-dom'
 import RegionCountry from '../../common/RegionCountry'
 import { convertCountryCode, convertProvinceCode } from '../../common/UtilityFuncs'
 import PageTitle from '../common/PageTitle'
-import CustImgUploader from '../../common/CustImgUploader'
+import UploadImg from '../../common/UploadImg'
+import {validateEmail} from '../../common/UtilityFuncs'
  
 export default function EditCustomer(props) {
  
@@ -27,18 +28,15 @@ export default function EditCustomer(props) {
   const [custCountry, setCustCountry] = useState('')
   const [provinceChoices, setProvinceChoices] = useState([])
   const [isCustActive, setIsCustActive] = useState(true)
-  const [loading, setLoading] = useState(false)
-  const [url, setUrl] = useState('')
-  const loadingRef = useRef()
-  const allowCreate = custNum && custName && custEmail && custPhone && custAddress && custCity && custRegion && custCountry
+  const allowCreate = custNum && custName && validateEmail(custEmail) && custPhone && custAddress && custCity && custRegion && custCountry
   const genNewCustId = db.collection('customers').doc().id
   const history = useHistory()
   const location = useLocation()
   const pagetitle = editCustMode?"Edit Customer":"Add Customer"
-  const userId = editCustMode? id : genNewCustId
+  const genUserId = editCustMode? id : genNewCustId
 
   const customerObj = {
-    id: userId,
+    id: genUserId,
     number: custNum,
     name: custName,
     email: custEmail,
@@ -50,7 +48,7 @@ export default function EditCustomer(props) {
     provStateCode: convertProvinceCode(provinceChoices, custRegion)??'',
     countryCode: convertCountryCode(custCountry)??'',
     moneySpent: 0,
-    profimg: url,
+    profimg: custImg,
     userRating: editCustMode?userRating:0,
     isActive: isCustActive,
     dateCreated: editCustMode?dateCreated:new Date()
@@ -149,10 +147,6 @@ export default function EditCustomer(props) {
   useEffect(() => {
     setCustNum(genRandomNum()) 
   },[])
-  
-  useEffect(() => {
-    url.length&&setCustImg('')
-  },[url])
 
   return (
     <div className="editcustomerpage">
@@ -161,23 +155,13 @@ export default function EditCustomer(props) {
         <h3 className="pagetitle">{pagetitle}</h3>
         <div className="pagemaincontent">
           <div className="profilecont">
-            <div className="profimgcont">
-              <label>
-                <input  
-                  style={{display:'none'}} 
-                  type="file" 
-                  onChange={(e) => CustImgUploader(e, userId, setLoading, loadingRef, setUrl, false)}
-                />
-                <img src={custImg.length?custImg:url.length?url:'https://i.imgur.com/1OKoctC.jpg'} alt=""/>
-                <div className="iconcont">
-                  <i className="fas fa-camera"></i>
-                </div>
-                <div className={`loadertube ${loading?"show":""}`}>
-                  <div className="prog" ref={loadingRef}></div>
-                </div>
-              </label>
-            </div>
-          </div>
+            <UploadImg 
+              img={custImg} 
+              setImg={setCustImg} 
+              storagePath={`/${genUserId}/images/profilepic`} 
+              className="profimgcont"
+            />
+          </div> 
           <div className="generatecont">
             <AppInput title="Customer Number" onChange={(e) => setCustNum(e.target.value)} value={custNum} />
             <AdminBtn title="Generate Number" solid clickEvent onClick={() => generateNum()}/>

@@ -18,7 +18,7 @@ export default function Customers() {
   const clean = text => text.replace(/[^a-zA-Z0-9 ]/g, "")
   let pattern = new RegExp('\\b' + clean(keyword), 'i')
   const allCustFilter = allCustomers?.filter(x => (pattern.test(x.name) || x.number === keyword
-    || pattern.test(x.email) || pattern.test(x.phone)) && !getUserArrById(allUsers, x.id).isAdmin)
+    || pattern.test(x.email) || pattern.test(x.phone)) && !getUserArrById(allUsers, x.id)?.isAdmin)
   const history = useHistory()
   const reduceMoneySpent = allCustFilter?.reduce((a,b) => a + b.moneySpent, 0)
   const showTable = allCustomers.length?"block":"none"

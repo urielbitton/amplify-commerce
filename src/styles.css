@@ -104,7 +104,7 @@ input::placeholder, textarea::placeholder {
   color: #bbb;
 }
 input:disabled {
-  background: #e5e5e5!important;
+  background: #e5e5e5
 }
 hr {
   border: none;

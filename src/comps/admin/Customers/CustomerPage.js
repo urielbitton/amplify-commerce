@@ -207,7 +207,7 @@ export default function CustomerPage(props) {
           <div className="section">
             <h6>User Rating</h6>
             <div className="userrating">
-              <big>{userRating}</big>
+              <big>{userRating?.toFixed(1)}</big>
               <Ratings rating={userRating}/>
             </div>
           </div>
