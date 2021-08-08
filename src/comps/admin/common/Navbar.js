@@ -8,10 +8,11 @@ import firebase from 'firebase'
 import ChatCard from '../Support/ChatCard'
 import { menuLinks, extraLinks } from './arrays/links'
 import StartAChat from '../Support/StartAChat'
+import UpdatesCard from './UpdatesCard'
 
 export default function Navbar() {
 
-  const {myUser, darkMode, setDarkMode, setNotifs, allChats, setFetchChats} = useContext(StoreContext)
+  const {myUser, darkMode, setDarkMode, setNotifs, allChats, setFetchChats, allUpdates} = useContext(StoreContext)
   const [openDrop, setOpenDrop] = useState(0)
   const [chatData, setChatData] = useState([])
   const [showPageSearch, setShowPageSearch] = useState(false)
@@ -27,6 +28,9 @@ export default function Navbar() {
 
   const chatsRow = allChats?.slice(0,4).map(({chatInfo}) => {
     return <ChatCard chatInfo={chatInfo} urlCustId={0} setChatData={setChatData}/>
+  })
+  const updatesRow = allUpdates?slice(0,10).map(el => {
+    return <UpdatesCard el={el} />
   })
 
   const pageRows = searchMenuLinks?.map(({name,sublinks}) => {
@@ -111,6 +115,9 @@ export default function Navbar() {
             <i className="far fa-bell"></i>
             <div className={`updatescont ${openDrop===2?"open":""}`}>
               <h4>Updates</h4>
+              <div className="viewallcont" onClick={() => history.push('/admin/updates')}>
+                <h6>View All</h6>
+              </div>
             </div>
           </div>
           <div className="iconcont" onClick={() => {setDarkMode(prev => !prev);toggleDarkMode()}}>
@@ -126,7 +133,7 @@ export default function Navbar() {
           <h6>Account</h6>
           <Link to="/admin/settings/account"><i className="far fa-user"></i>My Account</Link>
           <Link to="/admin/settings/general"><i className="far fa-sliders-h"></i>Preferences</Link>
-          <Link to="/admin/settings/support/admin-support"><i className="far fa-question-circle"></i>Support</Link>
+          <Link to="/admin/support/admin-support"><i className="far fa-question-circle"></i>Support</Link>
           <h6>Actions</h6>
           <small onClick={() => logOutAdmin()}>
             <i className="far fa-sign-out"></i>
