@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState} from 'react'
-import { convertDate, convertTime, getCustomerArrById, getHoursAgo } from '../../common/UtilityFuncs'
+import { convertDate, convertTime, getCustomerArrById, getHoursAgo, switchTimestamp } from '../../common/UtilityFuncs'
 import { StoreContext } from '../../common/StoreContext'
 import { useHistory } from 'react-router-dom'
 import { archiveChat, deactivateChat, markReadChat, getChatByUserId } from '../../common/services/ChatService'
@@ -22,15 +22,7 @@ export default function ChatCard(props) {
     }
     return text
   }
-  function switchTimestamp(date) {
-    if(getHoursAgo(date?.toDate()) > 23) {
-      return convertDate(date?.toDate())
-    }
-    else if(getHoursAgo(date?.toDate()) > 0.0166667){
-      return convertTime(date?.toDate())
-    }
-    return 'Just now'
-  }
+  
   function showOptsMenu(e) {
     setShowOpts(showOpts===i?-1:i)
     e.stopPropagation()

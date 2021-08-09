@@ -33,6 +33,21 @@
 .updatescard h5 {
   color: #333;
   font-size: 13px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.updatescard .readreceipt {
+  width: 8px;
+  height: 8px;
+  border-radius: 100%;
+}
+.updatescard .readreceipt.read {
+  background: #e1e1e1;
+}
+.updatescard .readreceipt.unread {
+  background: var(--admincolor);
 }
 .updatescard p {
   font-size: 12px;

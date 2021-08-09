@@ -74,6 +74,16 @@ export function validateEmail(email) {
   return re.test(String(email).toLowerCase());
 }
 
+export function switchTimestamp(date) {
+  if(getHoursAgo(date?.toDate()) > 23) {
+    return convertDate(date?.toDate())
+  }
+  else if(getHoursAgo(date?.toDate()) > 0.0166667){
+    return convertTime(date?.toDate())
+  }
+  return 'Just now'
+}
+
 /* collections */
 export function getCustomerArrById(allCustomers, id) {
   return allCustomers?.find(x => x.id === id)

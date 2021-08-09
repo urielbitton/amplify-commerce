@@ -6,6 +6,7 @@ import {db} from '../../common/Fire'
 import PageTitle from '../common/PageTitle'
 import PageTitlesRow from '../common/PageTitlesRow'
 import PageStarter from '../common/PageStarter'
+import { deleteDB } from '../../common/services/CrudDb'
 
 export default function Coupons() {
 
@@ -59,7 +60,7 @@ export default function Coupons() {
   function deleteCoupon(couponid) {
     const confirm = window.confirm('Are you sure you want to remove this coupon?')
     if(confirm) {
-      db.collection('coupons').doc(couponid).delete()
+      deleteDB('coupons', couponid)
       .then(() => {
         setNotifs(prev => [...prev, {
           id: Date.now(),

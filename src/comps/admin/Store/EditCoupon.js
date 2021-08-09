@@ -6,6 +6,7 @@ import {db} from '../../common/Fire'
 import { useHistory, useLocation } from 'react-router'
 import PageTitle from '../common/PageTitle'
 import { nowDate } from '../../common/UtilityFuncs'
+import { deleteDB, setDB } from '../../common/services/CrudDb'
  
 export default function EditCoupon(props) { 
  
@@ -23,6 +24,7 @@ export default function EditCoupon(props) {
   const history = useHistory()
   const location = useLocation()
   const pagetitle = editCoupMode?"Edit A Coupon":"Create A Coupon"
+  const updateID = db.collection('updates').doc().id
 
   const coupontypeOpts = [
     {name: 'Choose An Option', value: ''},
@@ -52,6 +54,16 @@ export default function EditCoupon(props) {
           text: `The coupon has been successfully created`,
           time: 5000
         }])
+        setDB('updates', updateID, {
+          color: '#0088ff',
+          date: new Date(),
+          descript: 'A new coupon has been created and added to your store. View it here.',
+          icon: 'fal fa-money-bill',
+          id: updateID,
+          read: false,
+          title: 'Coupon Created',
+          url: '/admin/store/coupons'
+        })
         history.push('/admin/store/coupons')
       })
     }
@@ -92,10 +104,10 @@ export default function EditCoupon(props) {
       }])
     }
   }
-  function deleteCoupon(couponid) {
+  function deleteCoupon() {
     const confirm = window.confirm('Are you sure you want to remove this coupon?')
     if(confirm) {
-      db.collection('coupons').doc(couponid).delete()
+      deleteDB('coupons', id)
       .then(() => {
         setNotifs(prev => [...prev, {
           id: Date.now(),
@@ -104,7 +116,7 @@ export default function EditCoupon(props) {
           text: `The coupon was successfully deleted from your store.`,
           time: 5000
         }])
-        history.push('/admin/coupons')
+        history.push('/admin/store/coupons')
       })
     }
   }

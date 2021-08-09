@@ -4,6 +4,7 @@ import {db} from '../../common/Fire'
 import referProduct from '../../common/referProduct'
 import { StoreContext } from '../../common/StoreContext'
 import '../../common/styles/ProductTable.css'
+import {updateDB} from '../../common/services/CrudDb'
 
 export default function WishItem(props) {
 
@@ -19,9 +20,7 @@ export default function WishItem(props) {
         wishlist.splice(itemindex,1)
       } 
     }) 
-    db.collection('users').doc(user.uid).update({ 
-      userinfo: myUser
-    })
+    updateDB('users', user.uid, {userinfo: myUser})
   }
 
   useEffect(() => {
