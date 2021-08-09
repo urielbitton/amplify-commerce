@@ -57,12 +57,12 @@ export default function EditCoupon(props) {
         setDB('updates', updateID, {
           color: '#0088ff',
           date: new Date(),
-          descript: 'A new coupon has been created and added to your store. View it here.',
+          descript: `Coupon ${coupName} has been created and added to your store. View it here.`,
           icon: 'fal fa-money-bill',
           id: updateID,
           read: false,
           title: 'Coupon Created',
-          url: '/admin/store/coupons'
+          url: `/admin/store/edit-coupon/${genNewId}`
         })
         history.push('/admin/store/coupons')
       })
@@ -116,6 +116,16 @@ export default function EditCoupon(props) {
           text: `The coupon was successfully deleted from your store.`,
           time: 5000
         }])
+        setDB('updates', updateID, {
+          color: '#0088ff',
+          date: new Date(),
+          descript: `Coupon ${name} was deleted from your store`,
+          icon: 'fal fa-trash-alt',
+          id: updateID,
+          read: false,
+          title: 'Coupon Deleted',
+          url: '/admin/store/coupons'
+        })
         history.push('/admin/store/coupons')
       })
     }

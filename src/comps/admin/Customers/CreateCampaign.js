@@ -7,6 +7,7 @@ import AdminBtn from '../common/AdminBtn'
 import { db } from '../../common/Fire'
 import CampaignCard from './CampaignCard' 
 import { useHistory, useLocation } from 'react-router-dom'
+import {setDB} from '../../common/services/CrudDb'
 
 export default function CreateCampaign(props) {
  
@@ -31,6 +32,7 @@ export default function CreateCampaign(props) {
     && emailSubject.length && emailBody.length
   const history = useHistory()
   const location = useLocation()
+  const updateID = db.collection('updates').doc().id
   
   const campaignObj = {
     id: editCampMode?id:genCampId,
@@ -171,6 +173,16 @@ export default function CreateCampaign(props) {
           text: `Your campaign was successfully created`,
           time: 5000
         }])
+        setDB('updates', updateID, {
+          color: '#0088ff',
+          date: new Date(),
+          descript: `New capaign ${campName} has been created.`,
+          icon: 'fad fa-mail-bulk',
+          id: updateID,
+          read: false,
+          title: 'Campaign Created',
+          url: `/admin/customers/marketing/campaign/${genCampId}`
+        })
         history.push('/admin/customers/marketing')
       })
     }
@@ -222,6 +234,16 @@ export default function CreateCampaign(props) {
           text: `Your campaign was deleted successfully`,
           time: 5000
         }])
+        setDB('updates', updateID, {
+          color: '#0088ff',
+          date: new Date(),
+          descript: `Campaign ${campName} has been deleted.`,
+          icon: 'fad fa-mail-bulk',
+          id: updateID,
+          read: false,
+          title: 'Campaign Deleted',
+          url: `/admin/customers/marketing`
+        })
         history.push(`/admin/customers/marketing`)
       })
     }

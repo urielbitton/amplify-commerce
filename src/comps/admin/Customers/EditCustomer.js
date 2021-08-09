@@ -11,6 +11,7 @@ import { convertCountryCode, convertProvinceCode } from '../../common/UtilityFun
 import PageTitle from '../common/PageTitle'
 import UploadImg from '../../common/UploadImg'
 import {validateEmail} from '../../common/UtilityFuncs'
+import {setDB} from '../../common/services/CrudDb'
  
 export default function EditCustomer(props) {
  
@@ -34,6 +35,7 @@ export default function EditCustomer(props) {
   const location = useLocation()
   const pagetitle = editCustMode?"Edit Customer":"Add Customer"
   const genUserId = editCustMode? id : genNewCustId
+  const updateID = db.collection('updates').doc().id
 
   const customerObj = {
     id: genUserId,
@@ -67,6 +69,16 @@ export default function EditCustomer(props) {
           text: `The customer has been successfully created`,
           time: 5000
         }])
+        setDB('updates', updateID, {
+          color: '#0088ff',
+          date: new Date(),
+          descript: `Customer ${custName} has been created and added to your store.`,
+          icon: 'fal fa-user-tag',
+          id: updateID,
+          read: false,
+          title: 'Customer Created',
+          url: `/admin/customer/${id}`
+        })
         history.push('/admin/customers')
       })
     }
@@ -118,6 +130,16 @@ export default function EditCustomer(props) {
           text: `The customer has been deleted.`,
           time: 5000
         }])
+        setDB('updates', updateID, {
+          color: '#0088ff',
+          date: new Date(),
+          descript: `Customer ${custName} has been deleted from your store.`,
+          icon: 'fal fa-user-tag',
+          id: updateID,
+          read: false,
+          title: 'Customer Deleted',
+          url: `/admin/customers`
+        })
         history.push('/admin/customers')
       })
     }

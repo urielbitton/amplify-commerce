@@ -9,10 +9,12 @@ import PageTitle from '../common/PageTitle'
 import PageTitlesRow from '../common/PageTitlesRow'
 import {reviewsHeaders} from './arrays/arrays'
 import './styles/Reviews.css'
+import {deleteDB, setDB} from '../../common/services/CrudDb'
+import { db } from '../../common/Fire'
 
 export default function Reviews() { 
 
-  const {allReviews, allCustomers, allProducts} = useContext(StoreContext)
+  const {allReviews, allCustomers, allProducts, setNotifs} = useContext(StoreContext)
   const [sort, setSort] = useState(0)
   const [asc, setAsc] = useState(true)
   const [showOpts, setShowOpts] = useState(-1)
@@ -22,6 +24,7 @@ export default function Reviews() {
   const allReviewsFilter = allReviews?.filter(x => (pattern.test(x.title) || x.number === keyword || pattern.test(x.reviewer)))
   const history = useHistory()  
   const showTable = allReviews.length?"block":"none"
+  const updateID = db.collection('updates').doc().id
 
   const headersrow = reviewsHeaders?.map((el,i) => {
     return <h5 className={el.val===sort?"active":""}>
@@ -55,15 +58,36 @@ export default function Reviews() {
         </div>
         <div className={`optscont ${i===showOpts?"show":""}`}> 
           <div className="disabled"><i className="far fa-edit"></i></div>
-          <div onClick={() => deleteReview()}><i className="far fa-trash-alt"></i></div>
+          <div onClick={() => deleteReview(el.id)}><i className="far fa-trash-alt"></i></div>
           <div onClick={() => history.push(`/admin/customers/reviews/${el.id}`)}><i className="far fa-info"></i></div>
         </div>
       </h5>
     </div>
   })
 
-  function deleteReview() {
-
+  function deleteReview(reviewid) {
+    const confirm = window.confirm('Are you sure you want to delete this review?')
+    if(confirm) {
+      deleteDB('reviews', reviewid).then(() => {
+        setNotifs(prev => [...prev, {
+          id: Date.now(),
+          title: `Review Deleted`,
+          icon: 'fal fa-trash-alt',
+          text: `The review has been successfully deleted from your store.`,
+          time: 5000
+        }])
+        setDB('updates', updateID, {
+          color: '#0088ff',
+          date: new Date(),
+          descript: `The review has been deleted from your store.`,
+          icon: 'fal fa-star-half-alt',
+          id: updateID,
+          read: false,
+          title: 'Review Deleted',
+          url: `/admin/customers/reviews`
+        })
+      })
+    }
   }
 
   useEffect(() => {

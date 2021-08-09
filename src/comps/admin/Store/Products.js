@@ -6,6 +6,7 @@ import {db} from '../../common/Fire'
 import PageTitle from '../common/PageTitle'
 import PageTitlesRow from '../common/PageTitlesRow'
 import PageStarter from '../common/PageStarter'
+import {setDB} from '../../common/services/CrudDb'
 
 export default function Products() {
 
@@ -22,6 +23,7 @@ export default function Products() {
   const allProdsFilter = allProducts?.filter(x => (pattern.test(clean(x.name)) || pattern.test(x.price) || x.id === keyword || 
     x.categories.some(x => x===keyword) || x.collection.some(x => x===keyword) || pattern.test(x.belongs)))
   const showTable = allProducts.length?"block":"none"
+  const updateID = db.collection('updates').doc().id
  
   const headersrow = prodHeaders?.map((el,i) => {
     return <h5 className={el.val===sort?"active":""}>
@@ -101,7 +103,17 @@ export default function Products() {
           icon: 'fal fa-trash-alt',
           text: `The product has been deleted from your store.`,
           time: 5000
-        }])
+        }]) 
+        setDB('updates', updateID, {
+          color: '#0088ff',
+          date: new Date(),
+          descript: `The product has been deleted.`,
+          icon: 'fal fa-tshirt',
+          id: updateID,
+          read: false,
+          title: 'Product Deleted',
+          url: `/admin/store/products` 
+        })
       })
     }
   }

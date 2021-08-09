@@ -2,16 +2,42 @@ import React, { useContext } from 'react'
 import Ratings from '../../common/Ratings'
 import './styles/Reviews.css'
 import {StoreContext} from '../../common/StoreContext'
-import { getCustomerArrById } from '../../common/UtilityFuncs'
 import AdminBtn from '../common/AdminBtn'
 import referProduct from '../../common/referProduct'
-import { Link } from 'react-router-dom'
 import ReviewCard from './ReviewCard'
+import { deleteDB, setDB, updateDB } from '../../common/services/CrudDb'
+import { db } from '../../common/Fire'
 
 export default function ReviewPage(props) {
  
-  const {allProducts, currencyFormat}  = useContext(StoreContext)
-  const {title, rating, productId} = props.el
+  const {allProducts, currencyFormat, setNotifs}  = useContext(StoreContext)
+  const {id, title, rating, productId, isActive} = props.el
+  const updateID = db.collection('updates').doc().id
+
+  function deleteReview() {
+    deleteDB('reviews', id).then(() => {
+      setNotifs(prev => [...prev, {
+        id: Date.now(),
+        title: `Review Deleted`,
+        icon: 'fal fa-trash-alt',
+        text: `The review has been successfully deleted from your store.`,
+        time: 5000
+      }])
+      setDB('updates', updateID, {
+        color: '#0088ff',
+        date: new Date(),
+        descript: `The review has been deleted from your store.`,
+        icon: 'fal fa-star-half-alt',
+        id: updateID,
+        read: false,
+        title: 'Review Deleted',
+        url: `/admin/customers/reviews`
+      })
+    })
+  }
+  function toggleApprove() {
+    updateDB('reviews', id, {'isActive':!isActive})
+  }
 
   return ( 
     <div className="reviewspage onereviewpage">
@@ -34,8 +60,8 @@ export default function ReviewPage(props) {
         <ReviewCard el={props.el}/>
         <div className="actionbtns">
           <AdminBtn title="Done" solid/>
-          <AdminBtn title="Remove Review" solid className="deletebtn"/>
-          <AdminBtn title="Hide Review"/>
+          <AdminBtn title="Delete Review" solid className="deletebtn" clickEvent onClick={() => deleteReview()}/>
+          <AdminBtn title={isActive?"Unapprove Review":"Approve Review"} solid={isActive?"Unapprove Review":"Approve Review"} clickEvent onClick={() => toggleApprove()}/>
         </div>
       </div>
     </div>

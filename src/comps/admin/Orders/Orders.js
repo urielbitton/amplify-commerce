@@ -9,6 +9,7 @@ import PageTitle from '../common/PageTitle'
 import { db } from '../../common/Fire'
 import PageTitlesRow from '../common/PageTitlesRow'
 import PageStarter from '../common/PageStarter'
+import { setDB } from '../../common/services/CrudDb'
 
 export default function Orders() {
 
@@ -23,6 +24,7 @@ export default function Orders() {
     || pattern.test(x.customer.name) || pattern.test(x.orderStatus)))
   const history = useHistory()
   const showTable = allOrders.length?"block":"none"
+  const updateID = db.collection('updates').doc().id
 
   const headersrow = ordHeaders?.map((el,i) => {
     return <h5 className={el.val===sort?"active":""}>
@@ -73,6 +75,16 @@ export default function Orders() {
         text: `The order has been deleted from your store`,
         time: 5000
       }]))
+      setDB('updates', updateID, {
+        color: '#0088ff',
+        date: new Date(),
+        descript: `The order has been deleted.`,
+        icon: 'fal fa-shopping-bag',
+        id: updateID,
+        read: false,
+        title: 'Order Deleted',
+        url: `/admin/orders/`
+      })
     }
   }
   function infoOrder() {

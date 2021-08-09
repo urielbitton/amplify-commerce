@@ -6,6 +6,7 @@ import { db } from '../../common/Fire'
 import PageTitle from '../common/PageTitle'
 import PageTitlesRow from '../common/PageTitlesRow'
 import PageStarter from '../common/PageStarter'
+import { setDB } from '../../common/services/CrudDb'
 
 export default function Shipping() {
 
@@ -22,6 +23,7 @@ export default function Shipping() {
   const reducePrices = allShippingFilter.reduce((a,b) => a + b.price,0)
   const history = useHistory()
   const showTable = allShipping.length?"block":"none"
+  const updateID = db.collection('updates').doc().id
 
   const headersrow = shipHeaders?.map((el,i) => {
     return <h5 className={el.val===sort?"active":""}>
@@ -71,6 +73,16 @@ export default function Shipping() {
           text: `The shipping method has been deleted.`,
           time: 5000
         }])
+        setDB('updates', updateID, {
+          color: '#0088ff',
+          date: new Date(),
+          descript: `The shipping method has been deleted.`,
+          icon: 'fal fa-truck',
+          id: updateID,
+          read: false,
+          title: 'Shipping Method Deleted',
+          url: `/admin/store/shipping`
+        })
       })
     }
   }

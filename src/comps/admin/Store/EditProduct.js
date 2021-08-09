@@ -4,13 +4,14 @@ import {AppInput, AppSelect, AppTextarea} from '../../common/AppInputs'
 import AdminBtn from '../common/AdminBtn'
 import {db} from '../../common/Fire'
 import {StoreContext} from '../../common/StoreContext'
-import { useHistory, useLocation } from 'react-router-dom'
+import { useHistory, useLocation, useParams } from 'react-router-dom'
 import AddStyles from './AddStyles'
 import PageTitle from '../common/PageTitle'
 import TabsBar from '../common/TabsBar'
 import ReviewCard from '../Customers/ReviewCard'
 import { getReviewsArrById } from '../../common/UtilityFuncs'
 import UploadImg from '../../common/UploadImg'
+import {setDB} from '../../common/services/CrudDb'
 
 export default function EditProduct(props) {
 
@@ -39,6 +40,8 @@ export default function EditProduct(props) {
     prodCollection && prodDescription && prodSku && prodComposition && prodShipReturns
   const pagetitle = editProdMode?"Edit A Product":"Create A Product"
   const tabsTitles = ['General', 'Styles', 'Additional Info', 'Product Reviews']
+  const updateID = db.collection('updates').doc().id
+  const prodID = useParams()
 
   const productObj = {
     id: editProdMode?id:generateid,
@@ -77,6 +80,16 @@ export default function EditProduct(props) {
           text: `The product was successfully added to your store.`,
           time: 5000
         }])
+        setDB('updates', updateID, {
+          color: '#0088ff',
+          date: new Date(),
+          descript: `Product ${prodName} has been created and added to your store. View it here.`,
+          icon: 'fal fa-tshirt',
+          id: updateID,
+          read: false,
+          title: 'Product Created',
+          url: `/admin/store/edit-product/${prodName}`
+        })
         history.push('/admin/store/products')
       }).catch(err => window.alert('An error occured while adding product. Please try again.'))
     }
@@ -109,6 +122,16 @@ export default function EditProduct(props) {
           text: `The product was successfully deleted from your store.`,
           time: 5000
         }])
+        setDB('updates', updateID, {
+          color: '#0088ff',
+          date: new Date(),
+          descript: `Product ${name} was deleted from your store.`,
+          icon: 'fal fa-trash-alt',
+          id: updateID,
+          read: false,
+          title: 'Product Deleted',
+          url: '/admin/store/products'
+        })
         history.push('/admin/store/products')
       })
     }

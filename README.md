@@ -1,24 +1,28 @@
 # amplify-commerce
 
-Features to add: 
+V1 Features to add: 
 - Decrease stock count of purchased products + increase qtySold of product when creating orders thru clients and admin
 - implement trash cans for products, orders, coupons, etc...
 - Change all inputs ProvinceCountries to RegionCountry (enhanced) component
 - make dashboard stats dynamic
 - guest add to cart and checkout features (if enabled)
 - add newarrivals, about + contact pages
-- To complete integrated payments use stripe and my last DEV bookmark on how to implement with node server
-- track site visits through firebase analytics
-- add site updates in updates collection (everytime a new product is sold, order is made, customer created, etc.)
-  updates show up in admin dashboard
 - find way to remove admin id from chat messages
 - send email of invoice to customers when they checkout after successful payment
+- send email to admin everytime: an order is made, user is created, order delayed, etc.
 - implement languages features (copy waltr system)
 - implement firebase admin sdk (to manage users)
+- implement password reset pages + features for clients
+- paginate all long collections to limit firebase fetches
+- change colorConverter + sizeConverter switches for a function that will convert the size's value to its name
 ***- Go back and trace entire app to make sure to add all missing features (like searches, sorts, etc)
 
+V2 Features to add
+- track site visits through firebase analytics
+- To complete integrated payments use stripe and my last DEV bookmark on how to implement with node server
+
 Bugs tracking:
-- multiple notifs will stay as long as last notifs
+- logout needs page reload (why?)
 
 After Development:
 - test app

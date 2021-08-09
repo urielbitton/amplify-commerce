@@ -6,7 +6,7 @@ import {db} from '../../common/Fire'
 import PageTitle from '../common/PageTitle'
 import PageTitlesRow from '../common/PageTitlesRow'
 import PageStarter from '../common/PageStarter'
-import { deleteDB } from '../../common/services/CrudDb'
+import { deleteDB, setDB } from '../../common/services/CrudDb'
 
 export default function Coupons() {
 
@@ -22,6 +22,7 @@ export default function Coupons() {
   const reduceActive = allCouponsFilter.reduce((a,b) => a + (b.isActive?1:0),0)
   const history = useHistory()
   const showTable = allCoupons.length?"block":"none"
+  const updateID = db.collection('updates').doc().id
 
   const headersrow = couponHeaders?.map((el,i) => {
     return <h5 className={el.val===sort?"active":""}>
@@ -69,6 +70,16 @@ export default function Coupons() {
           text: `The coupon has been deleted.`,
           time: 5000
         }])
+        setDB('updates', updateID, {
+          color: '#0088ff',
+          date: new Date(),
+          descript: `The coupon has been deleted.`,
+          icon: 'fal fa-money-bill',
+          id: updateID,
+          read: false,
+          title: 'Coupon Deleted',
+          url: `/admin/store/coupons`
+        })
       })
     }
   }

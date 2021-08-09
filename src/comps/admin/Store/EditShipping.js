@@ -9,6 +9,7 @@ import {countries as countriesOpts} from '../../common/Lists'
 import './styles/EditShipping.css'
 import AppAccordion from '../../site/common/AppAccordion'
 import PageTitle from '../common/PageTitle'
+import { setDB } from '../../common/services/CrudDb'
 
 export default function EditShipping(props) {
 
@@ -31,6 +32,7 @@ export default function EditShipping(props) {
   const genNewId = db.collection('shipping').doc().id
   const allowCreate = shipName && shipCompany && shipPrice
   const pagetitle = editShipMode?"Edit A Shipping Method":"Create A Shipping Method"
+  const updateID = db.collection('updates').doc().id
 
   const shipObj = {
     id: editShipMode?id:genNewId,
@@ -70,6 +72,16 @@ export default function EditShipping(props) {
           text: `The shipping method has been successfully added to your store.`,
           time: 5000
         }])
+        setDB('updates', updateID, {
+          color: '#0088ff',
+          date: new Date(),
+          descript: `Shipping Method ${shipName} was created and added to your store.`,
+          icon: 'fal fa-truck',
+          id: updateID,
+          read: false,
+          title: 'Shipping Method Created',
+          url: `/admin/store/edit-shipping/${genNewId}`
+        })
         window.alert('')
         history.push('/admin/store/shipping')
       })
@@ -121,6 +133,16 @@ export default function EditShipping(props) {
           text: `The shipping method was successfully deleted from your store.`,
           time: 5000
         }])
+        setDB('updates', updateID, {
+          color: '#0088ff',
+          date: new Date(),
+          descript: `Shipping Method ${shipName} was deleted from your store.`,
+          icon: 'fal fa-truck',
+          id: updateID,
+          read: false,
+          title: 'Shipping Method Deleted',
+          url: `/admin/store/shipping`
+        })
         history.push('/admin/store/shipping')
       })
     }

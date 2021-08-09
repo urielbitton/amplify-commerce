@@ -34,7 +34,7 @@ export default function StoreProducts() {
   const colorObj = {
     id: genColorId,
     name: colorName,
-    value: colorHex
+    value: colorHex.toLowerCase()
   }
 
   const sizesRows = sizeOpts?.map(el => {

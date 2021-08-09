@@ -3,7 +3,6 @@ import './styles/Orders.css'
 import {StoreContext} from '../../common/StoreContext'
 import {AppInput, AppSelect, AppSwitch} from '../../common/AppInputs'
 import AdminBtn from '../common/AdminBtn'
-import firebase from 'firebase'
 import {db} from '../../common/Fire'
 import refProd from '../../common/referProduct'
 import {sizeConverter, colorConverter, getCustomerArrById} from '../../common/UtilityFuncs'
@@ -15,6 +14,7 @@ import CustomerPicker from './CustomerPicker'
 import {convertDate} from '../../common/UtilityFuncs'
 import genRandomNum from '../../common/genRandomNum'
 import RegionCountry from '../../common/RegionCountry'
+import { setDB } from '../../common/services/CrudDb'
  
 export default function EditOrder(props) { 
 
@@ -66,6 +66,7 @@ export default function EditOrder(props) {
   const location = useLocation()
   const genNewOrderId = db.collection('orders').doc().id
   const pagetitle = editOrdMode?"Edit An Order":"Create An Order"
+  const updateID = db.collection('updates').doc().id
    
   const tabshead = ['General', 'Products', 'Customer', 'Shipping', 'Billing & Payment', 'Updates']
   const statusOpts = [
@@ -215,6 +216,16 @@ export default function EditOrder(props) {
           text: `The order has been successfully created`,
           time: 5000
         }])
+        setDB('updates', updateID, {
+          color: '#0088ff',
+          date: new Date(),
+          descript: `A new order ${orderNum} has been created. View it here.`,
+          icon: 'fal fa-shopping-bag',
+          id: updateID,
+          read: false,
+          title: 'Order Created',
+          url: `/admin/orders/edit-order/${genNewOrderId}`
+        })
         history.push('/admin/orders')
       })
     }
@@ -269,6 +280,16 @@ export default function EditOrder(props) {
           text: `The order has been deleted from your store`,
           time: 5000
         }])
+        setDB('updates', updateID, {
+          color: '#0088ff',
+          date: new Date(),
+          descript: `Order ${orderNum} has been deleted.`,
+          icon: 'fal fa-shopping-bag',
+          id: updateID,
+          read: false,
+          title: 'Order Deleted',
+          url: `/admin/orders/`
+        })
         history.push('/admin/orders')
       })
     }

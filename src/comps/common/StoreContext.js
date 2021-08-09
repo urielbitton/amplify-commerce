@@ -66,7 +66,6 @@ const StoreContextProvider = (props) => {
   const [allCampaigns, setAllCampaigns] = useState([])
   const [allChats, setAllChats] = useState([])
   const [fetchChats, setFetchChats] = useState(false)
-  const [accountSettings, setAccountSettings] = useState({})
   const [generalSettings, setGeneralSettings] = useState({})
   const [storeSettings, setStoreSettings] = useState({})
   const [appearSettings, setAppearSettings] = useState({})
@@ -181,11 +180,8 @@ const StoreContextProvider = (props) => {
       setStoreSettings(snap.data())
     })
     db.collection('admin').doc('storeSettings').onSnapshot(snap => {
-      setSizesOpts(snap.data().sizeOpts)  
-      setColorsOpts(snap.data().colorOpts) 
-    })
-    db.collection('admin').doc('accountSettings').onSnapshot(snap => {
-      setAccountSettings(snap.data())
+      setSizesOpts(snap.data()?.sizeOpts)  
+      setColorsOpts(snap.data()?.colorOpts)  
     })
     db.collection('admin').doc('generalSettings').onSnapshot(snap => {
       setGeneralSettings(snap.data())
@@ -261,9 +257,8 @@ const StoreContextProvider = (props) => {
       showAnaTips, setShowAnaTips, allReviews, setAllReviews, myReviews, setMyReviews,
       myTransactions, setMyTransactions, allUsers, setAllUsers, allCampaigns, setAllCampaigns, 
       editCampMode, setEditCampMode, allChats, setAllChats, myChat, setMyChat, fetchChats, setFetchChats,
-      accountSettings, setAccountSettings, generalSettings, setGeneralSettings, appearSettings, setAppearSettings, 
-      storeSettings, setStoreSettings, themeColor, setThemeColor, editUserMode, setEditUserMode,
-      allUpdates, setAllUpdates
+      generalSettings, setGeneralSettings, appearSettings, setAppearSettings, storeSettings, setStoreSettings,
+      themeColor, setThemeColor, editUserMode, setEditUserMode, allUpdates, setAllUpdates
     }}>
       {props.children}  
     </StoreContext.Provider>

@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { Link, useHistory } from 'react-router-dom'
 import { db } from '../../common/Fire'
+import { setDB } from '../../common/services/CrudDb'
 import { StoreContext } from '../../common/StoreContext'
 import { getUserArrById } from '../../common/UtilityFuncs'
 import PageStarter from '../common/PageStarter'
@@ -22,6 +23,7 @@ export default function Customers() {
   const history = useHistory()
   const reduceMoneySpent = allCustFilter?.reduce((a,b) => a + b.moneySpent, 0)
   const showTable = allCustomers.length?"block":"none"
+  const updateID = db.collection('updates').doc().id
  
   const headersrow = custHeaders?.map((el,i) => {
     return <h5 className={el.val===sort?"active":""}>
@@ -73,6 +75,17 @@ export default function Customers() {
           text: `The customer has been saved.`,
           time: 5000
         }])
+        setDB('updates', updateID, {
+          color: '#0088ff',
+          date: new Date(),
+          descript: `The customer has been deleted from your store.`,
+          icon: 'fal fa-user-tag',
+          id: updateID,
+          read: false,
+          title: 'Customer Deleted',
+          url: `/admin/customers`
+        })
+        history.push('/admin/customers')
       })
     }
   }
