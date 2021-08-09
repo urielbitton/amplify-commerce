@@ -4,7 +4,7 @@ import {AppInput, AppSelect, AppTextarea} from '../../common/AppInputs'
 import AdminBtn from '../common/AdminBtn'
 import {db} from '../../common/Fire'
 import {StoreContext} from '../../common/StoreContext'
-import { useHistory, useLocation, useParams } from 'react-router-dom'
+import { useHistory, useLocation } from 'react-router-dom'
 import AddStyles from './AddStyles'
 import PageTitle from '../common/PageTitle'
 import TabsBar from '../common/TabsBar'
@@ -41,7 +41,6 @@ export default function EditProduct(props) {
   const pagetitle = editProdMode?"Edit A Product":"Create A Product"
   const tabsTitles = ['General', 'Styles', 'Additional Info', 'Product Reviews']
   const updateID = db.collection('updates').doc().id
-  const prodID = useParams()
 
   const productObj = {
     id: editProdMode?id:generateid,

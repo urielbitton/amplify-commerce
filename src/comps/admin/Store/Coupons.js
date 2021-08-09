@@ -7,6 +7,7 @@ import PageTitle from '../common/PageTitle'
 import PageTitlesRow from '../common/PageTitlesRow'
 import PageStarter from '../common/PageStarter'
 import { deleteDB, setDB } from '../../common/services/CrudDb'
+import { Link } from 'react-router-dom'
 
 export default function Coupons() {
 
@@ -36,7 +37,7 @@ export default function Coupons() {
   }).map((el,i) => {
     return <div className="proditem">
       <h5>{i+1}</h5>
-      <h5 className="boxed"><span>{el.name}</span></h5>
+      <h5 className="boxed"><Link to={`/admin/store/edit-coupon/${el.id}`}><span>{el.name}</span></Link></h5>
       <h5>{el.type}</h5>
       <h5>{el.type==='flat'?currencyFormat.format(el.amount):percentFormat.format(el.amount/100)}</h5>
       <h5>{el.isActive?"Active":"Not Active"}</h5>
