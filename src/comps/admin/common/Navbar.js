@@ -9,6 +9,7 @@ import ChatCard from '../Support/ChatCard'
 import { menuLinks, extraLinks } from './arrays/links'
 import StartAChat from '../Support/StartAChat'
 import UpdatesCard from './UpdatesCard'
+import { Fire } from '../../common/Fire'
 
 export default function Navbar() {
 
@@ -21,16 +22,17 @@ export default function Navbar() {
   const clean = text => text.replace(/[^a-zA-Z0-9 ]/g, "")
   let pattern = new RegExp('\\b' + clean(keyword), 'i')
   const history = useHistory()
+
   const searchMenuLinks = [
     {name: 'Home',sublinks:[{name:'Dashboard',icon:'far fa-tachometer-alt-fast',url: '/admin/'}]},
     ...menuLinks.slice(1), ...extraLinks
   ]
 
   const chatsRow = allChats?.slice(0,4).map(({chatInfo}) => {
-    return <ChatCard chatInfo={chatInfo} urlCustId={0} setChatData={setChatData}/>
+    return <ChatCard chatInfo={chatInfo} urlCustId={0} setChatData={setChatData} key={chatInfo.customerId}/>
   })
-  const updatesRow = allUpdates?slice(0,10).map(el => {
-    return <UpdatesCard el={el} />
+  const updatesRow = allUpdates?.slice(0,10).map(el => {
+    return <UpdatesCard el={el} key={el.id} />
   })
 
   const pageRows = searchMenuLinks?.map(({name,sublinks}) => {
@@ -60,10 +62,14 @@ export default function Navbar() {
   }
 
   function logOutAdmin() {
-    firebase.auth().signOut()
-    .then(() => {
-      history.push('/')
-      window.location.reload()
+    firebase.auth().onAuthStateChanged(user => {
+      if(user) {
+        Fire.auth().signOut()
+        .then(() => {
+          history.push('/')
+          window.location.reload()
+        })
+      }
     })
   }
   function slideChats(e) {
@@ -105,7 +111,9 @@ export default function Navbar() {
             <i className="far fa-comment"></i>
             <div className={`updatescont ${openDrop===3?"open":""}`}>
               <h4>Chats<i className="fal fa-plus" onClick={() => setShowNewChat(true)}></i></h4>
-              {chatsRow}
+              <div className="inner">
+                {chatsRow}
+              </div>
               <div className="viewallcont" onClick={() => history.push('/admin/support/customer-support')}>
                 <h6>View All</h6>
               </div>
@@ -115,6 +123,9 @@ export default function Navbar() {
             <i className="far fa-bell"></i>
             <div className={`updatescont ${openDrop===2?"open":""}`}>
               <h4>Updates</h4>
+              <div className="inner">
+                {updatesRow}
+              </div>
               <div className="viewallcont" onClick={() => history.push('/admin/updates')}>
                 <h6>View All</h6>
               </div>

@@ -193,7 +193,7 @@ const StoreContextProvider = (props) => {
     db.collection('admin').doc('appearanceSettings').onSnapshot(snap => {
       setAppearSettings(snap.data())
     })
-    db.collection('updates').limit(10).onSnapshot(snap => {
+    db.collection('updates').orderBy('date','desc').limit(10).onSnapshot(snap => {
       const updatesArr = []
       snap.forEach(doc => updatesArr.push(doc.data()))
       setAllUpdates(updatesArr)

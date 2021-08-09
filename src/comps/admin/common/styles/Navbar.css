@@ -58,7 +58,7 @@
   align-items: center;
   gap: 2px;
 }
-.adminnav .right .iconcont {
+.adminnav .toolbar > .iconcont {
   width: 40px;
   height: 40px;
   display: flex;
@@ -68,15 +68,15 @@
   cursor: pointer;
   transition: all 0.2s;
 }
-.adminnav .right .iconcont:hover,
-.adminnav .right .iconcont.open {
+.adminnav .toolbar > .iconcont:hover,
+.adminnav .toolbar > .iconcont.open {
   background: var(--light); 
 }
-.adminnav .right .iconcont:hover i,
-.adminnav .right .iconcont.open i {
+.adminnav .toolbar > .iconcont:hover > i,
+.adminnav .toolbar > .iconcont.open > i {
   color: var(--admincolor);
 }
-.adminnav .right .iconcont i {
+.adminnav .toolbar > .iconcont > i {
   color: var(--graytxt);
   font-size: 17px;
 }
@@ -163,14 +163,24 @@
   background: #fff;
   box-shadow: var(--shadow);
   border-radius: 5px;
-  width: 300px;
+  width: 330px;
   display: flex;
   flex-direction: column;
   z-index: 999;
   transition: all 0.3s;
-  overflow: hidden;
+  overflow-x: hidden;
   visibility: hidden;
   opacity: 0;
+}
+.updatescont .inner {
+  width: 100%;
+  max-height: 400px;
+  display: flex;
+  flex-direction: column;
+  overflow-y: scroll;
+}
+.updatescont .inner::-webkit-scrollbar {
+  width: 5px;
 }
 .updatescont.open {
   opacity: 1;
