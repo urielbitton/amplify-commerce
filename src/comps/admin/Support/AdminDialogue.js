@@ -38,7 +38,7 @@ export default function AdminDialogue(props) {
         senderId: user.uid
       }
       sendChat(chatInfo.customerId, chatObj, user.uid)
-      getChatByUserId(chatInfo.customerId, setChatData)
+      getChatByUserId(chatInfo.customerId, setChatData, 10)
       setMsgString('') 
     }
   }
@@ -48,7 +48,7 @@ export default function AdminDialogue(props) {
   },[chatData])
 
   useEffect(() => {
-    getChatByUserId(chatInfo.customerId, setChatData)
+    getChatByUserId(chatInfo.customerId, setChatData, 10)
   },[location])
 
   return (

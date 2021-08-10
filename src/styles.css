@@ -10,7 +10,7 @@ body {
 }
   
 :root { 
-  --fontfam: Poppins;
+  --fontfam: Poppins, sans-serif;
   --color: #3bc1ff;
   --admincolor: #0088ff;
   --adminbg: #fbfcfe;

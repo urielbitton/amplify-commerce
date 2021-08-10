@@ -9,7 +9,7 @@ export default function Support() {
   const [chatData, setChatData] = useState([])
 
   useEffect(() => {
-    user&&getChatByUserId(user.uid, setChatData)
+    user&&getChatByUserId(user.uid, setChatData, 10)
   },[user])  
  
   return (

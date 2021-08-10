@@ -14,7 +14,7 @@ export default function ChatCard(props) {
 
   function initChat(chatInfo) {
     history.push(`/admin/support/customer-support/chat/${chatInfo.customerId}`)
-    getChatByUserId(chatInfo.customerId, setChatData)
+    getChatByUserId(chatInfo.customerId, setChatData, 10)
   }
   function shortenMsgs(text) {
     if(text.length > 40) {

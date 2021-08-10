@@ -35,8 +35,8 @@ export default function Dialogue(props) {
         messageDate: new Date(),
         senderId: user.uid
       }
-      sendChat(chatInfo.customerId, chatObj, chatInfo.customerId)
-      getChatByUserId(chatInfo.customerId, setChatData)
+      sendChat(chatInfo?.customerId, chatObj, chatInfo?.customerId)
+      getChatByUserId(chatInfo?.customerId, setChatData, 10)
       setMsgString('') 
     }
   }
@@ -46,7 +46,7 @@ export default function Dialogue(props) {
   },[chatData])
 
   useEffect(() => {
-    getChatByUserId(`chats/${chatInfo.customerId}/messages`, setChatData)
+    getChatByUserId(`chats/${chatInfo?.customerId}/messages`, setChatData, 10)
   },[])
 
   return (

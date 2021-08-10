@@ -194,7 +194,7 @@ const StoreContextProvider = (props) => {
       snap.forEach(doc => updatesArr.push(doc.data()))
       setAllUpdates(updatesArr)
     })
-  },[user, auser])  
+  },[user, auser])   
 
   useEffect(() => {
     fetchChats&&db.collection('chats').orderBy('chatInfo.dateModified','desc').limit(5).onSnapshot(snap => {

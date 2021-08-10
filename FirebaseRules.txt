@@ -5,7 +5,8 @@ service cloud.firestore {
   match /databases/{database}/documents {
   
   	match /admin/{document=**} {
-      allow read, write: if isAdmin();
+      allow read;
+      allow write: if isAdmin();
     }
     
     match /customers/{document=**} {
@@ -52,7 +53,17 @@ service cloud.firestore {
     match /reviews/{reviewID} {
       allow read;
       allow write: if isAdmin();
-      allow write: if isOwner();
+      allow write: if request.auth.uid == reviewID;
+    }
+    
+    match /chats/{chatID}/{document=**} {
+      allow read, write: if request.auth.uid == chatID;
+      allow read, write: if isAdmin();
+    }
+    
+    match /updates/{document=**} {
+    	allow write;
+      allow read: if isAdmin();
     }
     
     
@@ -62,9 +73,9 @@ service cloud.firestore {
       return get(/databases/$(database)/documents/users/$(request.auth.uid)).data.userinfo.isAdmin;
     }
     
-    function isOwner() {
-    	return get(/databases/$(database)/documents/users/$(request.auth.uid)) == request.resource.data.reviewerId;
-    }
+    // function isChatOwner() {
+    // 	return get(/databases/$(database)/documents/users/$(request.auth.uid)) == request.resource.data.chatInfo.customerId;
+    // }
     
   }
   

@@ -4,15 +4,13 @@ export function getChatByUserId(customerId, setChatData, limit=10) {
   db.collection('chats').doc(customerId).collection('messages').orderBy('messageDate','desc').limit(limit)
     .onSnapshot(snap => {
       const chatsArr = []
-      snap.forEach(doc => {
-        chatsArr.push(doc.data())
-      })
+      snap.forEach(doc => chatsArr.push(doc.data()))
       setChatData(chatsArr)
   })
   db.collection('chats').doc(customerId).update({
     'chatInfo.read': true
   })
-}
+} 
 
 export function sendChat(customerId, chatObj, lastSenderId) {
   db.collection('chats').doc(customerId).collection('messages').add(chatObj).then(() => {
