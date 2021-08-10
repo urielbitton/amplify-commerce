@@ -3,14 +3,18 @@ import { AppInput, AppSelect, AppSwitch } from '../../common/AppInputs'
 import { StoreContext } from '../../common/StoreContext'
 import RegionCountry from '../../common/RegionCountry'
 import AdminBtn from '../common/AdminBtn'
+import {setDB, updateDB} from '../../common/services/CrudDb'
+import { db } from '../../common/Fire'
 
 export default function StoreGeneral() {
 
-  const {storeSettings, percentFormat} = useContext(StoreContext)
+  const {storeSettings, percentFormat, setNotifs} = useContext(StoreContext)
   const [taxRate, setTaxRate] = useState(0)
   const [enableTaxes, setEnableTaxes] = useState(true)
   const [calcTax, setCalcTax] = useState('')
-  const [currency, setCurrency] = useState('')
+  const [currencyName, setCurrencyName] = useState('')
+  const [currencyValue, setCurrencyValue] = useState('')
+  const [currencySymbol, setCurrencySymbol] = useState('')
   const [numDecimals, setNumDecimals] = useState(2)
   const [line1, setLine1] = useState('')
   const [line2, setLine2] = useState('')
@@ -19,7 +23,6 @@ export default function StoreGeneral() {
   const [country, setCountry] = useState('')
   const [phone, setPhone] = useState('')
   const [provinceChoices, setProvinceChoices] = useState([])
-
   const [newOrder, setNewOrder] = useState(true)
   const [newCustomer, setNewCustomer] = useState(true)
   const [delivOrder, setDelivOrder] = useState(true)
@@ -27,6 +30,7 @@ export default function StoreGeneral() {
   const [delayOrder, setDelayOrder] = useState(true)
   const [deletedAccount, setDeletedAccount] = useState(true)
   const [highSeller, setHighSeller] = useState(false)
+  const updateID = db.collection('updates').doc().id
 
   const currencies = [
     {name: 'Choose a Currency', value: '', symbol: ''},
@@ -60,15 +64,67 @@ export default function StoreGeneral() {
     </div>
   })
 
-  function saveSettings() {
-
+  function saveTaxesSettings() {
+    updateDB('admin', 'storeSettings', {
+      taxes: {
+        adminTaxRate: taxRate,
+        calcBasedOn: calcBase,
+        enableTaxes
+      },
+      currency: {
+        name: currencyName,
+        value: currencyValue,
+        symbol: currencySymbol,
+        numDecimals
+      }
+    }).then(() => callNotif('Taxes & Formats'))
+  }
+  function saveAddressSettings() {
+    updateDB('admin', 'storeSettings', {
+      address: { line1,line2,city,country,phone,region }
+    }).then(() => callNotif('Store Address'))
+  }
+  function saveNotifsSettings() {
+    updateDB('admin', 'storeSettings', {
+      notifs: { 
+        newOrder,
+        newCustomer,
+        deliveredOrder: delivOrder,
+        refundedOrder: refundOrder,
+        delayedOrder: delayOrder,
+        highSellingProduct: highSeller,
+        deletedAccount,
+      }
+    }).then(() => callNotif('Store Notifications'))
+  }
+  function callNotif(title) {
+    setNotifs(prev => [...prev, {
+      id: Date.now(),
+      title: `${title} Settings Updated`,
+      icon: 'fal fa-save',
+      text: `Your ${title} settings have been successfully updated`,
+      time: 5000
+    }])
+    setDB('updates', updateID, {
+      color: '#0088ff',
+      date: new Date(),
+      descript: `The ${title} settings were updated to your store. You can view them here.`,
+      icon: 'fal fa-cog',
+      id: updateID,
+      read: false,
+      title: `${title} Settings Updated`,
+      url: `/admin/settings/store?general`
+    })
   }
 
   useEffect(() => {
-    setTaxRate(storeSettings.adminTaxRate)
-    setEnableTaxes(storeSettings.enableTaxes)
-    setCurrency(storeSettings.currency.value)
-    setNumDecimals(storeSettings.numDecimals)
+    setTaxRate(storeSettings.taxes.adminTaxRate)
+    setEnableTaxes(storeSettings.taxes.enableTaxes)
+    setCalcTax(storeSettings.taxes.calcBasedOn)
+    setCurrencyName(storeSettings.currency.name)
+    setCurrencySymbol(storeSettings.currency.symbol)
+    setCurrencyValue(storeSettings.currency.value)
+    setNumDecimals(storeSettings.currency.numDecimals)
     setLine1(storeSettings.address.line1)
     setLine2(storeSettings.address.line2)
     setCity(storeSettings.address.city)
@@ -85,16 +141,24 @@ export default function StoreGeneral() {
     setHighSeller(storeSettings.notifs.highSellingProduct)
   },[storeSettings])
 
+  useEffect(() => {
+    setCurrencyName(currencies.find(x => x.value === currencyValue)?.name)
+    setCurrencySymbol(currencies.find(x => x.value === currencyValue)?.symbol)
+  },[currencyValue])
+
   return (
     <>
       <section>
         <h4 className="settingstitle">Taxes & Formats</h4>
         <AppInput title={`Tax Rate (${percentFormat.format(taxRate)})`} type="number" onChange={(e) => setTaxRate(e.target.value)} value={taxRate} descript descriptText="Set the global tax rate for your store"/>
         <AppSwitch title="Enable Taxes" onChange={(e) => setEnableTaxes(e.target.checked)} checked={enableTaxes} />
-        <AppSelect title="Calculate tax rate based on" options={calcBase} onChange={(e) => setCalcTax(e.target.value)} value={calcTax}/>
-        <AppSelect title="Currency" options={currencies} onChange={(e) => setCurrency(e.target.value)} value={currency} namebased/>
+        <AppSelect title="Calculate tax rate based on" options={calcBase} onChange={(e) => setCalcTax(e.target.value)} value={calcTax} namebased/>
+        <AppSelect title="Currency" options={currencies} onChange={(e) => setCurrencyValue(e.target.value)} value={currencyValue} namebased/>
         <AppInput title="Number of Decimals" onChange={(e) => setNumDecimals(e.target.value)} value={numDecimals} />
       </section>
+      <div className="actionbtns">
+        <AdminBtn title="Save" solid clickEvent onClick={() => saveTaxesSettings()}/>
+      </div>
       <section>
         <h4 className="settingstitle">Store Address</h4>
         <AppInput title="Address Line 1" onChange={(e) => setLine1(e.target.value)} value={line1}/>
@@ -110,6 +174,9 @@ export default function StoreGeneral() {
         />
         <AppInput title="Phone Number" onChange={(e) => setPhone(e.target.value)} value={phone} />
       </section>
+      <div className="actionbtns">
+        <AdminBtn title="Save" solid clickEvent onClick={() => saveAddressSettings()}/>
+      </div>
       <section>
         <h4 className="settingstitle">Notifications</h4>
         <small>Send me in-app notifications when the following events occur:</small>
@@ -124,7 +191,7 @@ export default function StoreGeneral() {
         </div>
       </section>
       <div className="actionbtns">
-        <AdminBtn title="Save" solid clickEvent onClick={() => saveSettings()}/>
+        <AdminBtn title="Save" solid clickEvent onClick={() => saveNotifsSettings()}/>
       </div>
     </>
   )

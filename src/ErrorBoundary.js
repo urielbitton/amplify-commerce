@@ -24,7 +24,7 @@ class ErrorBoundary extends React.Component {
           <img src="https://i.imgur.com/z8nfahP.png" alt=""/>
           <h1>An error occured on this page</h1>
           <h6>Don't worry we're working on fixing this bug so it doesn't happen again.</h6>
-          <a href="https://6hui4.csb.app.com"><button>Back Home</button></a>
+          <a href="https://csb-6hui4.vercel.app/"><button>Back Home</button></a>
         </div>
       )
     }

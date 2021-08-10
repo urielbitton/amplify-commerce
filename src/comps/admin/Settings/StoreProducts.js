@@ -4,6 +4,7 @@ import {AppInput, AppSwitch} from '../../common/AppInputs'
 import AdminBtn from '../common/AdminBtn'
 import { db } from '../../common/Fire'
 import firebase from 'firebase'
+import {setDB} from '../../common/services/CrudDb'
 
 export default function StoreProducts() {
 
@@ -25,6 +26,7 @@ export default function StoreProducts() {
   const colorAccess = colorName.length && colorHex.length
   const genSizeId = db.collection('admin').doc().id
   const genColorId = db.collection('admin').doc().id
+  const updateID = db.collection('updates').doc().id
   
   const sizeObj = {
     id: genSizeId,
@@ -64,6 +66,16 @@ export default function StoreProducts() {
           text: `New ${title} has been successfully added to your store.`,
           time: 5000
         }])
+        setDB('updates', updateID, {
+          color: '#0088ff',
+          date: new Date(),
+          descript: `A new product ${title} has been created. You can view it here.`,
+          icon: 'fal fa-store',
+          id: updateID,
+          read: false,
+          title: `Product ${title} Created`,
+          url: `/admin/settings/store?products`
+        })
       })
     }
     else {
