@@ -56,7 +56,7 @@
 .adminnav .right .toolbar {
   display: flex;
   align-items: center;
-  gap: 2px;
+  gap: 5px;
 }
 .adminnav .toolbar > .iconcont {
   width: 40px;
@@ -284,4 +284,27 @@
 }
 .pagesearchcont > a h6 i {
   margin-right: 10px;
+}
+
+.circlenum {
+  position: absolute;
+  top: -3px;
+  right: -3px;
+  width: 18px;
+  height: 18px;
+  border-radius: 100%;
+  background: var(--admincolor);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  visibility: hidden;
+  opacity: 0;
+}
+.circlenum.show {
+  visibility: visible;
+  opacity: 1;
+}
+.circlenum small {
+  color: #fff;
+  font-size: 9px;
 }
