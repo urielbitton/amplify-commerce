@@ -20,7 +20,6 @@ export default function ChatSidebar(props) {
   const history = useHistory()
   const location = useLocation()
   
-
   const tabsTitles = [
     {name: 'All Chats', url: '/admin/support/customer-support/chat'},
     {name: 'Archived', url: '/admin/support/customer-support/archived'}

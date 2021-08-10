@@ -2,16 +2,47 @@ import React, { useContext, useEffect, useState } from 'react'
 import {AppSwitch} from '../../common/AppInputs'
 import AdminBtn from '../common/AdminBtn'
 import {StoreContext} from '../../common/StoreContext'
+import {setDB, updateDB} from '../../common/services/CrudDb'
+import { db } from '../../common/Fire'
 
 export default function StorePayments() {
 
-  const {storeSettings} = useContext(StoreContext)
+  const {storeSettings, setNotifs} = useContext(StoreContext)
   const [enablePayPal, setEnablePayPal] = useState(true)
   const [isSetupPayPal, setIsSetupPayPal] = useState()
   const [enableStripe, setEnableStripe] = useState(true)
   const [isSetupStripe, setIsSetupStripe] = useState()
   const [enableDirect, setEnableDirect] = useState(false)
   const [isSetupDirect, setIsSetupDirect] = useState()
+  const updateID = db.collection('updates').doc().id
+
+  function savePayments() {
+    updateDB('admin', 'storeSettings', {
+      payments: {
+        directBank: {isEnabled:enableDirect, isSetup:isSetupDirect},
+        paypal: {isEnabled:enablePayPal, isSetup:isSetupPayPal},
+        stripe: {isEnabled:enableStripe, isSetup:isSetupStripe}
+      }
+    }).then(() => {
+      setNotifs(prev => [...prev, {
+        id: Date.now(),
+        title: `Payments Updated`,
+        icon: 'fal fa-wallet',
+        text: `The store payments settings were successfully updated`,
+        time: 5000
+      }])
+      setDB('updates', updateID, {
+        color: '#0088ff',
+        date: new Date(),
+        descript: `The store payment settings were updated. View them here.`,
+        icon: 'fal fa-cog',
+        id: updateID,
+        read: false,
+        title: 'Payment Settings Updated',
+        url: `/admin/settings/store?payments`
+      })
+    })
+  }
 
   useEffect(() => {
     setEnablePayPal(storeSettings.payments.paypal.isEnabled)
@@ -43,7 +74,7 @@ export default function StorePayments() {
         </div>
       </section>
       <div className="actionbtns">
-        <AdminBtn title="Save" solid/>
+        <AdminBtn title="Save" solid clickEvent onClick={() => savePayments()}/>
       </div>
     </>
   )
