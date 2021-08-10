@@ -17,7 +17,6 @@ const StoreContextProvider = (props) => {
   const [myUser, setMyUser] = useState({})
   const [cart, setCart] = useState([])
   const [auser, setAUser] = useState('')   
-
   const currencyFormat = new Intl.NumberFormat('en-CA', {style: 'currency', currency: 'CAD'})
   const percentFormat = new Intl.NumberFormat('en-CA', {style: 'percent'})
   const numberFormat = new Intl.NumberFormat('en-CA')
@@ -49,7 +48,7 @@ const StoreContextProvider = (props) => {
   const [taxRate, setTaxRate] = useState(0)
   const [showSearch, setShowSearch] = useState(false)
   const [darkMode, setDarkMode] = useState(localStorage.getItem('darkmode') === "true"?true:false)
-  const [themeColor, setThemeColor] = useState(localStorage.getItem('themeColor') !== undefined?localStorage.getItem('themeColor'):'#0088ff')
+  const [themeColor, setThemeColor] = useState('#0088ff')
   const [highSellersLimit, setHighSellersLimit] = useState(5)
   const [recentSellersLimit, setRecentSellersLimit] = useState(5)
   const [recentOrdersLimit, setRecentOrdersLimit] = useState(5)
