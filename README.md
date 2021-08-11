@@ -18,18 +18,22 @@ V1 Features to add:
 - implement full searching accross admin (especially settings)
 - make entire site + admin responsive
 - detect with LS if user has used site before, if yes make profile icon redirect to login page, else redirect to create account page
+- fix chat "read" bug (should update to read only if not same id AND clicked on chat)
+- implement algolia search to search db instead of local searches where applicable
+- remove and fix all console warnings (add keys in maps, firebase rules permissions errors, etc.)
 ***- Go back and trace entire app to make sure to add all missing features (like searches, sorts, etc)
 
 V2 Features to add
 - track site visits through firebase analytics
 - To complete integrated payments use stripe and my last DEV bookmark on how to implement with node server
+- manage users with firebase admin sdk
 
 Bugs tracking:
 - logout needs page reload (why?)
 
 After Development:
 - test app
-- test security rules
+- test all security rules
 - limit firebase fetches using limit()
 - fix localStorage bug
 

@@ -7,7 +7,7 @@ import AdminDialogue from './AdminDialogue'
 
 export default function ChatWindow(props) {
 
-  const {allChats} = useContext(StoreContext)
+  const {allChats, darkMode} = useContext(StoreContext)
   const {chatData, setChatData, setShowNewChat} = props
 
   const chatPages = allChats
@@ -27,7 +27,7 @@ export default function ChatWindow(props) {
             <PageStarter 
               subtitle="Select a chat to start chatting with customers"
               title="Start a Chat"
-              img="https://i.imgur.com/xP6AwB2.png"
+              img={darkMode?"https://i.imgur.com/PszMVaq.png":"https://i.imgur.com/QUEWs1L.png"}
               btnText="New Chat"
               clickEvent
               onClick={() => setShowNewChat(true)}

@@ -302,7 +302,9 @@
 .adminapp.darkmode .adminchatsidebar .chatcard.active small,
 .adminapp.darkmode .adminchatwindow header h5 a,
 .adminapp.darkmode .settingspage .infocont p,
-.adminapp.darkmode .onecustomerpage big {
+.adminapp.darkmode .onecustomerpage big,
+.adminapp.darkmode .pagestarter h3,
+.adminapp.darkmode .adminnav .updatescont h5 {
   color: #aaa;
 }
 .adminapp.darkmode .producttable > .content h5,
@@ -314,7 +316,9 @@
 .adminapp.darkmode .settingspage section > small,
 .adminapp.darkmode .onecustomerpage .section h5,
 .adminapp.darkmode .onecustomerpage .customerrow h6,
-.adminapp.darkmode .onecustomerpage .customerrow h6 a {
+.adminapp.darkmode .onecustomerpage .customerrow h6 a,
+.adminapp.darkmode .pagestarter h6,
+.adminapp.darkmode .adminnav .updatescont p {
   color: #777
 }
 .adminapp.darkmode .addnewbtn,
