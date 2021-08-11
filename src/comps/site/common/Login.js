@@ -66,37 +66,36 @@ export default function Login(props) {
     firebase.auth().signInWithPopup(provider)
     .then((res) => {
       if(res.additionalUserInfo.isNewUser) {
-        const userinfo = {
-          userid: res.additionalUserInfo.profile.id,
-          fullname: res.additionalUserInfo.profile.name,
-          email: res.additionalUserInfo.profile.email,
-          phone: "",
-          city: "",
-          provstate: "",
-          country: "",
-          profimg: res.additionalUserInfo.profile.picture,
-          isAdmin: false,
-          cart: [],
-          savedlater: [], 
-          wishlist: [],
-          addresses: [],
-          payments: [],
-          settings: {},
-          dateCreated: new Date(),
-          isActive:true
-        }
         firebase.auth().onAuthStateChanged(user => {
           if(user) {
             db.collection('users').doc(user.uid).set({
-              userinfo
-            }).then(res => { 
+              userinfo: {
+                userid: user.uid,
+                fullname: res.additionalUserInfo.profile.name,
+                email: res.additionalUserInfo.profile.email,
+                phone: "",
+                city: "",
+                provstate: "",
+                country: "",
+                profimg: res.additionalUserInfo.profile.picture,
+                isAdmin: false,
+                cart: [],
+                savedlater: [],
+                wishlist: [],
+                addresses: [],
+                payments: [],
+                settings: {},
+                dateCreated: new Date(),
+                isActive:true
+              }
+            }).then(() => { 
               db.collection('customers').doc(user.uid).set({
                 id:user.uid,name: res.additionalUserInfo.profile.name??'',email:'',phone:'',city:'', provstate:'',
                 provstateCode:'',country:'',countryCode:'',moneySpent: 0, number: genRandomNum(), 
                 profimg: res.additionalUserInfo.profile.picture, userRating: 0, dateCreated: new Date(), isActive:true
               }) 
               history.push('/my-account')
-            }).catch(err => window.alert('An errror occurred with the google login. Please try again.'))
+            })
           }
         })
       }
@@ -104,9 +103,7 @@ export default function Login(props) {
         setAUser(res.user)
         history.push('/my-account')
       }
-    }).catch((error) => {
-      console.log(error)
-    })
+    }).catch(err => window.alert('An errror occurred with the google login. Please try again.'))
   }
 
   useEffect(() => { 

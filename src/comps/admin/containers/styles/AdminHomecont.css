@@ -276,7 +276,7 @@
 .adminapp.darkmode .dashcont,
 .adminapp.darkmode .adminchatwindow,
 .adminapp.darkmode .adminchatsidebar,
-.adminapp.darkmode .adminnav .chatcard:hover,
+.adminapp.darkmode .adminnav .updatescont .inner > div:hover,
 .adminapp.darkmode .newchatcont {
   background: var(--dark2);
 }

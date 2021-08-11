@@ -29,7 +29,7 @@ export function createAChat(customerId, message, adminId) {
     dateCreated: new Date(), 
     dateModified: new Date(),
     lastMsg: message,
-    lastSenderId: adminId.length?adminId:customerId,
+    lastSenderId: adminId?.length?adminId??"admin":customerId,
     isArchived: false,
     isActive: true,
     read: false
@@ -40,7 +40,7 @@ export function createAChat(customerId, message, adminId) {
       isActive: true,
       message,
       messageDate: new Date(),
-      senderId: !adminId.length?customerId:adminId
+      senderId: !adminId?.length?customerId:adminId??"admin"
     })
   })
 }

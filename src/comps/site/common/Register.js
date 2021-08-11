@@ -16,7 +16,7 @@ export default function Login(props) {
   const [password, setPassword] = useState('') 
   const [emailError, setEmailError] = useState('') 
   const [passError, setPassError] = useState('')
-  const [isLogging, setIsLoggin] = useState(false)
+  const [isLogging, setIsLogging] = useState(false)
   const history = useHistory()
   const defaultImg = 'https://i.imgur.com/1OKoctC.jpg'
 
@@ -44,11 +44,11 @@ export default function Login(props) {
     firebase.auth().createUserWithEmailAndPassword(email, password).catch(err => {
       switch(err.code) {
         case "auth/email-already-in-use":
+          setEmailError('Please enter a valid email address.'); break;
         case "auth/invalid-email":
-          setEmailError('Please enter a valid email address.')
-        break
+          setEmailError('Please enter a valid email address.'); break;
         case "auth/weak-password":
-          setPassError(err.message)
+          setPassError('The password is not long enough or too easy to guess.')
         break
         default: 
       }
@@ -103,29 +103,28 @@ export default function Login(props) {
     firebase.auth().signInWithPopup(provider)
     .then((res) => {
       if(res.additionalUserInfo.isNewUser) {
-        const userinfo = {
-          userid: res.additionalUserInfo.profile.id,
-          fullname: res.additionalUserInfo.profile.name,
-          email: res.additionalUserInfo.profile.email,
-          phone: "",
-          city: "",
-          provstate: "",
-          country: "",
-          profimg: res.additionalUserInfo.profile.picture,
-          isAdmin: false,
-          cart: [],
-          savedlater: [],
-          wishlist: [],
-          addresses: [],
-          payments: [],
-          settings: {},
-          dateCreated: new Date(),
-          isActive:true
-        }
         firebase.auth().onAuthStateChanged(user => {
           if(user) {
             db.collection('users').doc(user.uid).set({
-              userinfo
+              userinfo: {
+                userid: user.uid,
+                fullname: res.additionalUserInfo.profile.name,
+                email: res.additionalUserInfo.profile.email,
+                phone: "",
+                city: "",
+                provstate: "",
+                country: "",
+                profimg: res.additionalUserInfo.profile.picture,
+                isAdmin: false,
+                cart: [],
+                savedlater: [],
+                wishlist: [],
+                addresses: [],
+                payments: [],
+                settings: {},
+                dateCreated: new Date(),
+                isActive:true
+              }
             }).then(res => {
               db.collection('customers').doc(user.uid).set({
                 id:user.uid,name: name??'',email:email,phone:'',city:'', provstate:'',provstateCode:'',
@@ -147,6 +146,7 @@ export default function Login(props) {
   useEffect(() => { 
     clearErrors()
     authListener()
+    return () => setIsLogging(false)
   },[]) 
  
   return (
