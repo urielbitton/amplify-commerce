@@ -2,24 +2,54 @@ import React, { useContext, useEffect, useState } from 'react'
 import {AppSwitch} from '../../common/AppInputs'
 import {StoreContext} from '../../common/StoreContext'
 import AdminBtn from '../common/AdminBtn'
+import {setDB, updateDB} from '../../common/services/CrudDb'
+import { db } from '../../common/Fire'
 
 export default function StoreAccounts() {
 
-  const {storeSettings} = useContext(StoreContext)
+  const {storeSettings, setNotifs} = useContext(StoreContext)
   const [guestOrders, setGuestOrders] = useState(true)
-  const [createAccount, setCreateAccount] = useState(true)
+  const [allowCreate, setAllowCreate] = useState(true)
   const [allowDelete, setAllowDelete] = useState(true)
   const [allowEdit, setAllowEdit] = useState(true)
   const [allowTrack, setAllowTrack] = useState(true)
   const [allowCancel, setAllowCancel] = useState(true)
+  const updateID = db.collection('updates').doc().id
 
   function saveSettings() {
-
+    updateDB('admin', 'storeSettings', { 
+      accounts: {
+        allowCustCancelOrders: allowCancel,
+        allowCustCreateAccount: allowCreate,
+        allowCustDeleteAccount: allowDelete,
+        allowCustEditAccount: allowEdit,
+        allowCustTrackOrders: allowTrack,
+        guestOrders
+      }
+    }).then(() => {
+      setNotifs(prev => [...prev, {
+        id: Date.now(),
+        title: `Store Accounts Settings Updated`,
+        icon: 'fal fa-user-cog',
+        text: `The store account settings were successfully updated`,
+        time: 5000
+      }])
+      setDB('updates', updateID, {
+        color: '#0088ff',
+        date: new Date(),
+        descript: `The store account settings were updated. View them here.`,
+        icon: 'fal fa-user-cog',
+        id: updateID,
+        read: false,
+        title: 'Store Accounts Settings Updated',
+        url: `/admin/settings/store?accounts`
+      })
+    })
   }
 
   useEffect(() => {
     setGuestOrders(storeSettings.accounts.guestOrders)
-    setCreateAccount(storeSettings.accounts.allowCustCreateAccount)
+    setAllowCreate(storeSettings.accounts.allowCustCreateAccount)
     setAllowDelete(storeSettings.accounts.allowCustDeleteAccount)
     setAllowEdit(storeSettings.accounts.allowCustEditAccount)
     setAllowTrack(storeSettings.accounts.allowCustTrackOrders)
@@ -31,7 +61,7 @@ export default function StoreAccounts() {
       <section>
         <h4 className="settingstitle">Checkout Experience</h4>
         <AppSwitch title="Allow customers to place orders without an account" onChange={(e) => setGuestOrders(e.target.checked)} checked={guestOrders} />
-        <AppSwitch title="Allow customers to create an account during checkout" onChange={(e) => setCreateAccount(e.target.checked)} checked={createAccount}/>
+        <AppSwitch title="Allow customers to create an account during checkout" onChange={(e) => setAllowCreate(e.target.checked)} checked={allowCreate}/>
       </section>
       <section>
         <h4 className="settingstitle">Customer Accounts</h4>

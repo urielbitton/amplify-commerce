@@ -4,7 +4,8 @@ import { StoreContext } from '../../common/StoreContext'
 import AdminBtn from '../common/AdminBtn'
 import PageTitlesRow from '../common/PageTitlesRow'
 import UserProfile from './UserProfile'
-import {updateDB} from '../../common/services/CrudDb'
+import {setDB, updateDB} from '../../common/services/CrudDb'
+import { db } from '../../common/Fire'
 
 export default function AppearanceSettings() {
   
@@ -15,8 +16,10 @@ export default function AppearanceSettings() {
   const [pFontSize, setPFontSize] = useState(15)
   const [hFontSize, setHFontSize] = useState(24)
   const [siteGridWidth, setSieGridWidth] = useState(1320)
+  const [siteThemeColor, setSiteThemeColor] = useState('#3bc1ff')
   const clean = text => text.replace(/[^a-zA-Z0-9 ]/g, "")
   let pattern = new RegExp('\\b' + clean(keyword), 'i')
+  const updateID = db.collection('updates').doc().id
 
   const fontsList = [
     {name: 'Arial'},
@@ -36,10 +39,12 @@ export default function AppearanceSettings() {
     document.documentElement.style.setProperty('--admincolor', themeColor)
     document.documentElement.style.setProperty('--light', themeColor+'2b')
     updateDB('admin', 'appearanceSettings', {
+      appTheme,
       fontFamily,
       hFontSize,
       pFontSize,
-      siteGridWidth
+      siteGridWidth,
+      siteThemeColor
     }).then(() => {
       setNotifs(prev => [...prev, {
         id: Date.now(),
@@ -48,6 +53,16 @@ export default function AppearanceSettings() {
         text: `Appearance Settings have been successfully saved.`,
         time: 5000
       }])
+      setDB('updates', updateID, {
+        color: '#0088ff',
+        date: new Date(),
+        descript: `The appearance settings were updated. View them here.`,
+        icon: 'fal fa-palette',
+        id: updateID,
+        read: false,
+        title: 'Appearances Settings Updated',
+        url: `/admin/settings/appearances`
+      })
     })
     
   }
@@ -64,6 +79,7 @@ export default function AppearanceSettings() {
     setPFontSize(appearSettings.pFontSize)
     setHFontSize(appearSettings.hFontSize)
     setSieGridWidth(appearSettings.siteGridWidth)
+    setSiteThemeColor(appearSettings.siteThemeColor)
   },[])
 
   return (

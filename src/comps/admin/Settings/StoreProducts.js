@@ -4,7 +4,7 @@ import {AppInput, AppSwitch} from '../../common/AppInputs'
 import AdminBtn from '../common/AdminBtn'
 import { db } from '../../common/Fire'
 import firebase from 'firebase'
-import {setDB} from '../../common/services/CrudDb'
+import {setDB, updateDB} from '../../common/services/CrudDb'
 
 export default function StoreProducts() {
 
@@ -151,7 +151,29 @@ export default function StoreProducts() {
     }
   }
   function saveSettings() {
-    
+    updateDB('admin', 'storeSettings', {
+      reviews: {
+        enableRatings, enableReviews, requireRatings: reqRating, verifiedReviews
+      }
+    }).then(() => {
+      setNotifs(prev => [...prev, {
+        id: Date.now(),
+        title: `Reviews Settings Updated`,
+        icon: 'fal fa-save',
+        text: `The settings for reviews & ratings have been successfully updated`,
+        time: 5000
+      }])
+      setDB('updates', updateID, {
+        color: '#0088ff',
+        date: new Date(),
+        descript: `The settings for product reviews has been updated.`,
+        icon: 'fal fa-cog',
+        id: updateID,
+        read: false,
+        title: `Product Reviews Updated`,
+        url: `/admin/settings/store?products`
+      })
+    })
   }
 
   useEffect(() => {

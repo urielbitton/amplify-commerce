@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useRef, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { useHistory, useLocation } from 'react-router-dom'
 import { AppInput, AppSwitch } from '../../common/AppInputs'
 import { db, Fire2 } from '../../common/Fire'
@@ -10,12 +10,13 @@ import genRandomNum from '../../common/genRandomNum'
 import { convertCountryCode, convertProvinceCode } from '../../common/UtilityFuncs'
 import UploadImg from '../../common/UploadImg'
 import {validateEmail} from '../../common/UtilityFuncs'
+import {setDB} from '../../common/services/CrudDb'
 
 export default function EditUser(props) {
 
   const {editUserMode, setEditUserMode, setNotifs} = useContext(StoreContext)
-  const {userid, fullname, email, phone, address, city, region, provState, country,
-    profimg, isActive, password} = editUserMode&&props.el
+  const {userid, fullname, email, phone, address, city, region, country, profimg, isActive,
+    password} = editUserMode&&props.el
   const [userID, setUserID] = useState('')
   const [userImg, setUserImg] = useState('')
   const [userName, setUserName] = useState('')  
@@ -36,6 +37,7 @@ export default function EditUser(props) {
   const allowCreate = userId && userName && validateEmail(userEmail) && userPhone && userAddress && userCity && userRegion 
     && userCountry && (userPassword1 === userPassword2)
   const history = useHistory()
+  const updateID = db.collection('updates').doc().id
 
   const userObj = {
     userid: userId,
@@ -110,6 +112,16 @@ export default function EditUser(props) {
           text: editing?"User & customer has been successfully saved.":"New user and corresponding customer has been created and added to your store.",
           time: 5000
         }])
+        !editing&& setDB('updates', updateID, {
+          color: '#0088ff',
+          date: new Date(),
+          descript: `A new user was created and added to your store. View them here.`,
+          icon: 'fal fa-user',
+          id: updateID,
+          read: false,
+          title: 'New User Created',
+          url: `/admin/settings/users`
+        })
       })
     })
   }
@@ -131,6 +143,16 @@ export default function EditUser(props) {
               text: "The user & customer has been successfully deleted from your store.",
               time: 5000
             }])
+            setDB('updates', updateID, {
+              color: '#ff384c',
+              date: new Date(),
+              descript: `User ${userId} has been deleted from your store`,
+              icon: 'fal fa-user',
+              id: updateID,
+              read: false,
+              title: 'User Deleted',
+              url: `/admin/settings/users`
+            })
           })
         })
       })

@@ -15,6 +15,7 @@ V1 Features to add:
 - implement password reset pages + features for clients
 - paginate all long collections to limit firebase fetches
 - change colorConverter + sizeConverter switches for a function that will convert the size's value to its name
+- implement full searching accross admin (especially settings)
 ***- Go back and trace entire app to make sure to add all missing features (like searches, sorts, etc)
 
 V2 Features to add

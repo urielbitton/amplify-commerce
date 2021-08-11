@@ -286,7 +286,8 @@
 .adminapp.darkmode .actionbtns,
 .adminapp.darkmode .appswitch,
 .adminapp.darkmode .adminchatwindow header,
-.adminapp.darkmode .adminsupportpage .faqcont .appaccordion {
+.adminapp.darkmode .adminsupportpage .faqcont .appaccordion,
+.adminapp.darkmode .adminbtn {
   border-color: var(--dark1);
 }
 .adminapp.darkmode input,
@@ -332,4 +333,7 @@
 }
 .adminapp.darkmode .adminnav .profcont:hover {
   background: var(--light)
+}
+.adminapp.darkmode .adminbtn.solid {
+  border: none;
 }

@@ -5,8 +5,9 @@ import { AppInput } from '../../common/AppInputs'
 import AdminBtn from '../common/AdminBtn'
 import RegionCountry from '../../common/RegionCountry'
 import { StoreContext } from '../../common/StoreContext'
-import { updateDB } from '../../common/services/CrudDb'
+import { setDB, updateDB } from '../../common/services/CrudDb'
 import Reauth from '../../common/Reauth'
+import { db } from '../../common/Fire'
 
 export default function AccountSettings() {
   
@@ -29,6 +30,7 @@ export default function AccountSettings() {
     || myUser.provstate !== region || myUser.country !== country) && (name.length && phone.length && city.length
     && region.length && country.length) 
   const allowAuthUpdate = (myUser.email !== email || myUser.password !== password)
+  const updateID = db.collection('updates').doc().id
 
   function saveSettings() {
     if(!!allowAccess) {
@@ -46,6 +48,16 @@ export default function AccountSettings() {
           text: `Your account settings have been successfully saved.`,
           time: 5000
         }])
+        setDB('updates', updateID, {
+          color: '#0088ff',
+          date: new Date(),
+          descript: `The admin account settings were updated. View them here.`,
+          icon: 'fal fa-user-cog',
+          id: updateID,
+          read: false,
+          title: 'Account Settings Updated',
+          url: `/admin/settings/account`
+        })
       })
     }
   }

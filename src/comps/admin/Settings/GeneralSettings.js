@@ -4,7 +4,8 @@ import {AppInput, AppSelect} from '../../common/AppInputs'
 import { StoreContext } from '../../common/StoreContext'
 import PageTitlesRow from '../common/PageTitlesRow'
 import AdminBtn from '../common/AdminBtn'
-import { updateDB } from '../../common/services/CrudDb'
+import { setDB, updateDB } from '../../common/services/CrudDb'
+import { db } from '../../common/Fire'
 
 export default function GeneralSettings() {
   
@@ -20,6 +21,7 @@ export default function GeneralSettings() {
   const [keyword, setKeyword] = useState('')
   const clean = text => text.replace(/[^a-zA-Z0-9 ]/g, "")
   let pattern = new RegExp('\\b' + clean(keyword), 'i')
+  const updateID = db.collection('updates').doc().id
 
   const userRoles = [
     {name: 'Choose a Role', value: ''},
@@ -47,6 +49,16 @@ export default function GeneralSettings() {
         text: `Your general settings have been successfully saved.`,
         time: 5000
       }])
+      setDB('updates', updateID, {
+        color: '#0088ff',
+        date: new Date(),
+        descript: `The admin general settings were updated. View them here.`,
+        icon: 'fal fa-user-cog',
+        id: updateID,
+        read: false,
+        title: 'General Settings Updated',
+        url: `/admin/settings/general`
+      })
     })
   }
 
