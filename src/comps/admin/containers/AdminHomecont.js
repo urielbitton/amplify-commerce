@@ -32,6 +32,7 @@ import AppearanceSettings from '../Settings/AppearanceSettings'
 import Users from '../Settings/Users'
 import AccountSettings from '../Settings/AccountSettings'
 import EditUser from '../Settings/EditUser'
+import MissingItem from '../common/MissingItem'
 
 export default function AdminHomecont() {
  
@@ -54,7 +55,11 @@ export default function AdminHomecont() {
             <EditProduct /> 
           </Route>
           <Route path="/admin/store/edit-product/:prodID" 
-            render={el => <EditProduct el={allProducts.find(x => x.id === el.match.params.prodID)} />}
+            render={el => {
+            return allProducts.find(x => x.id === el.match.params.prodID)?
+              <EditProduct el={allProducts.find(x => x.id === el.match.params.prodID)} />:
+              <MissingItem itemName="Product" itemUrl="/admin/store/products"/>
+            }}
           />
           <Route path="/admin/store/coupons">
             <Coupons />
@@ -63,7 +68,11 @@ export default function AdminHomecont() {
             <EditCoupon />
           </Route>
           <Route path="/admin/store/edit-coupon/:coupID" 
-            render={el => <EditCoupon el={allCoupons.find(x => x.id === el.match.params.coupID)} />}
+            render={el => {
+              return allCoupons.find(x => x.id === el.match.params.coupID)?
+              <EditCoupon el={allCoupons.find(x => x.id === el.match.params.coupID)} />:
+              <MissingItem itemName="Coupon" itemUrl="/admin/store/coupons"/>
+            }}
           />
           <Route path="/admin/store/shipping">
             <Shipping />
@@ -72,7 +81,11 @@ export default function AdminHomecont() {
             <EditShipping />
           </Route>
           <Route path="/admin/store/edit-shipping/:shipID" 
-            render={el => <EditShipping el={allShipping.find(x => x.id === el.match.params.shipID)} />}
+            render={el => {
+              return allShipping.find(x => x.id === el.match.params.shipID)?
+              <EditShipping el={allShipping.find(x => x.id === el.match.params.shipID)} />:
+              <MissingItem itemName="Shipping Method" itemUrl="/admin/store/shipping"/>
+            }}
           />
           <Route path="/admin/store/analytics">
             <Analytics />
@@ -84,7 +97,11 @@ export default function AdminHomecont() {
             <EditOrder />
           </Route>
           <Route path="/admin/orders/edit-order/:ordID" 
-            render={el => <EditOrder el={allOrders.find(x => x.orderid === el.match.params.ordID)} />}
+            render={el => {
+              return allOrders.find(x => x.orderid === el.match.params.ordID)?
+              <EditOrder el={allOrders.find(x => x.orderid === el.match.params.ordID)} />:
+              <MissingItem itemName="Order" itemUrl="/admin/orders"/>
+            }}
           />
           <Route path="/admin/orders/transactions">
             <Transactions />
@@ -96,16 +113,28 @@ export default function AdminHomecont() {
             <EditCustomer />
           </Route>
           <Route path="/admin/customers/edit-customer/:custID" 
-            render={el => <EditCustomer el={allCustomers.find(x => x.id === el.match.params.custID)} />}
+            render={el => {
+              return allCustomers.find(x => x.id === el.match.params.custID)?
+              <EditCustomer el={allCustomers.find(x => x.id === el.match.params.custID)} />:
+              <MissingItem itemName="Customer" itemUrl="/admin/customers"/>
+            }}
           />
           <Route path="/admin/customer/:custID" 
-            render={el => <CustomerPage el={allCustomers.find(x => x.id === el.match.params.custID)} />}
+            render={el => {
+              return allCustomers.find(x => x.id === el.match.params.custID)?
+              <CustomerPage el={allCustomers.find(x => x.id === el.match.params.custID)} />:
+              <MissingItem itemName="Customer" itemUrl="/admin/customers"/>
+            }}
           />
           <Route exact path="/admin/customers/reviews">
             <Reviews />
           </Route>
           <Route path="/admin/customers/reviews/:reviewID" 
-            render={el => <ReviewPage el={allReviews.find(x => x.id === el.match.params.reviewID)} />}
+            render={el => {
+              return allReviews.find(x => x.id === el.match.params.reviewID)?
+              <ReviewPage el={allReviews.find(x => x.id === el.match.params.reviewID)} />:
+              <MissingItem itemName="Review" itemUrl="/admin/customers/reviews"/>
+            }}
           />
           <Route exact path="/admin/customers/marketing">
             <Marketing />
@@ -114,10 +143,18 @@ export default function AdminHomecont() {
             <CreateCampaign />
           </Route>
           <Route path="/admin/customers/marketing/campaign/:campID" 
-            render={el => <CampaignPage el={allCampaigns.find(x => x.id === el.match.params.campID)} />}
+            render={el => {
+              return allCampaigns.find(x => x.id === el.match.params.campID)?
+              <CampaignPage el={allCampaigns.find(x => x.id === el.match.params.campID)} />:
+              <MissingItem itemName="Campaign" itemUrl="/admin/customers/marketing"/>
+            }}
           />
           <Route path="/admin/customers/marketing/edit-campaign/:campID" 
-            render={el => <CreateCampaign el={allCampaigns.find(x => x.id === el.match.params.campID)} />}
+            render={el => {
+              return allCampaigns.find(x => x.id === el.match.params.campID)?
+              <CreateCampaign el={allCampaigns.find(x => x.id === el.match.params.campID)} />:
+              <MissingItem itemName="Campaign" itemUrl="/admin/customers/marketing"/>
+            }}
           />
           <Route path="/admin/support/customer-support">
             <CustomerSupport />
@@ -144,7 +181,11 @@ export default function AdminHomecont() {
             <EditUser />
           </Route>
           <Route path="/admin/settings/users/edit-user/:userID" 
-            render={el => <EditUser el={allUsers.find(x => x.userid === el.match.params.userID)} />}
+            render={el => {
+              return allUsers.find(x => x.userid === el.match.params.userID)?
+              <EditUser el={allUsers.find(x => x.userid === el.match.params.userID)} />:
+              <MissingItem itemName="User" itemUrl="/admin/settings/users"/>
+            }}
           />
         </Switch> 
       </div>

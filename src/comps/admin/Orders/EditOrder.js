@@ -70,6 +70,7 @@ export default function EditOrder(props) {
   const [chosenSizeIndex, setChosenSizeIndex] = useState(0)
   const [sizesAv, setSizesAv] = useState([])
   const [colorsAv, setColorsAv] = useState([])
+  console.log(colorsAv, chosenSizeIndex)
    
   const tabshead = ['General', 'Products', 'Customer', 'Shipping', 'Billing & Payment', 'Updates']
   const statusOpts = [
@@ -85,7 +86,7 @@ export default function EditOrder(props) {
   const colorsAvailable = colorsAv?.map(el => {
     return {name: colorConverter(el.name), value: el.name}
   })
-  const qtyAvailable = chosenSizeIndex&&colorsAv?.find(x => x.name === chosenColor)?.stock
+  const qtyAvailable = chosenSizeIndex>-1&&colorsAv?.find(x => x.name === chosenColor)?.stock
 
   const entireOrder = {  
     orderid: editOrdMode?orderid:genNewOrderId,
@@ -218,9 +219,6 @@ export default function EditOrder(props) {
   }
 
   function createOrder() { 
-    ordProducts.forEach((el,i) => {
-      updateProductByStyle(refProd(allProducts, ordProducts[i].id)?.sizes.filter(x => x.name === el.chosenSize), ordProducts[i]?.chosenSize, ordProducts[i]?.chosenColor, ordProducts[i]?.units)
-    })
     if(allowCreate) { 
       db.collection('orders').doc(genNewOrderId).set(entireOrder)
       .then(() => {
@@ -364,13 +362,20 @@ export default function EditOrder(props) {
   },[chosenProd])
 
   useEffect(() => {
-    setChosenSizeIndex(sizesAv?.findIndex(x => x.name===chosenSize))
+    if(chosenSize.length)
+      setChosenSizeIndex(sizesAv?.findIndex(x => x.name===chosenSize))
+    else 
+      setChosenSizeIndex(-1)
   },[chosenSize])
   useEffect(() => {
+    chosenProd.length&&
     setSizesAv(allProducts?.find(x => x.id === chosenProd)?.sizes)
   },[chosenProd])
   useEffect(() => { 
-    setColorsAv(sizesAv[chosenSizeIndex]?.colors)
+    if(chosenSizeIndex>-1)
+      setColorsAv(sizesAv[chosenSizeIndex]?.colors)
+    else 
+      setColorsAv([])
   },[chosenSizeIndex])
 
   useEffect(() => {

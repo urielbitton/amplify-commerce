@@ -9,6 +9,7 @@ import {AppSelect} from '../../common/AppInputs'
 import refProd from '../../common/referProduct'
 import {convertDate, getDaysAgo} from '../../common/UtilityFuncs'
 import PageTitle from '../common/PageTitle'
+import { Link } from 'react-router-dom'
 
 export default function Dashboard() { 
 
@@ -103,7 +104,7 @@ export default function Dashboard() {
   .slice(0,5)
   .map(el => { 
     return <div className="proditem">
-      <h5>#{el.orderNumber}</h5>
+      <h5><Link to={`/admin/orders/edit-order/${el.orderid}`}>#{el.orderNumber}</Link></h5>
       <h5>{refProd(allProducts, el.products[0].id).name} + {el.products.length-1}</h5> 
       <h5>{convertDate(el.orderDateCreated.toDate())}</h5>
       <h5>{currencyFormat.format(el.orderTotal)}</h5>

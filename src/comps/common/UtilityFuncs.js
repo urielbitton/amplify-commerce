@@ -93,7 +93,7 @@ export function updateProductByStyle(sizesArr, size, color, units) {
 export function dbUpdateProductStyle(prodData, prodSizes) {
   prodData.forEach((el,i) => {
     db.collection('products').doc(el.id).update({
-      sizes: prodSizes
+      sizes: prodSizes[i]
     })
   })
 }

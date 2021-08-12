@@ -9,7 +9,6 @@ import AppButton from "../common/AppButton";
 import { PayPalButton } from "react-paypal-button-v2";
 import CreateOrder from "./CreateOrder";
 import { db } from "../../common/Fire";
-import firebase from "firebase";
 import AddressBox from "../client/AddressBox";
 import ProvinceCountry from "../../common/ProvinceCountry";
 import AppAccordion from "../common/AppAccordion";
@@ -17,7 +16,7 @@ import AppAccordion from "../common/AppAccordion";
 export default function Checkout() {
   const {showCart, cart, setShowCart, billingState, setBillingState, shippingState, setShippingState,
     myUser, cartSubtotal, currencyFormat, percentFormat, shippingMethods, paymentMethods, 
-    provinceChoices, taxRate } = useContext(StoreContext);
+    provinceChoices, taxRate, allProducts } = useContext(StoreContext);
   const [chosenShipping, setChosenShipping] = useState({name: "regular", cost: 3.99});
   const [paymentDetails, setPaymentDetails] = useState({method: "stripe", email: "", cardnumber: ""});
   const [successPaid, setSuccessPaid] = useState(false);
@@ -28,7 +27,6 @@ export default function Checkout() {
   const orderTotal = cartSubtotal + cartSubtotal * taxRate + chosenShipping.cost
   const clientid = "ASTQpkv9Y3mQ5-YBd20q0jMb9-SJr_TvUl_nhXu5h3C7xl0wumYgdqpSYIL6Vd__56oB7Slag0n2HA_r"
   const history = useHistory();
-  const user = firebase.auth().currentUser;
   const primaryAddress = myUser?.addresses?.find((x) => x.primary)
 
   const inputFieldsArr = [
@@ -139,13 +137,15 @@ export default function Checkout() {
   }
   function placeOrder() {
     if (allowOrder()) {
-    } else window.alert("Please fill in all billing details to proceed.");
+      //display stripe to pay with cc
+    }
+    else window.alert("Please fill in all billing details to proceed.");
   }
   function startOrder() {
     const orderid = db.collection("orders").doc().id;
     const orderNum = `${db.collection('orders').doc().id.slice(0,3)}-${db.collection('orders').doc().id.slice(0,7)}`
     const customer = {
-      id: user.uid,
+      id: myUser.userid,
       name: myUser.fullname,
       email: myUser.email,
       phone: myUser.phone,
@@ -166,7 +166,8 @@ export default function Checkout() {
       taxRate,
       billingState,
       shippingState,
-      myUser
+      myUser,
+      allProducts
     );
     setBillingState({});
     history.push("/order-confirm");
