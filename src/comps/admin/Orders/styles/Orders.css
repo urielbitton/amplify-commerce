@@ -113,6 +113,7 @@
   display: none;
   align-items: center;
   justify-content: space-between;
+  flex-wrap: wrap;
 }
 .editorderspage .editsection .inprow.show {
   display: flex;

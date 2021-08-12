@@ -38,6 +38,7 @@
   font-weight: 500;
   color: #333;
   font-size: 14.5px;
+  display: flex;
 }
 .onecustomerpage .section h5.name {
   font-size: 16px;
@@ -52,6 +53,14 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+  gap: 10px;
+}
+.onecustomerpage .section.data span.id {
+  word-wrap: break-word;
+  width: 210px;
+  font-size: 13px;
+  text-transform: lowercase;
+  text-align: right;
 }
 .onecustomerpage .right {
   display: flex;

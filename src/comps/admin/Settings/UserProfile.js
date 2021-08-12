@@ -6,7 +6,8 @@ import firebase from 'firebase'
 
 export default function UserProfile() {
 
-  const {myUser, allProducts, allOrders, allCustomers, allCoupons, allShipping, darkMode} = useContext(StoreContext)
+  const {myUser, allProducts, allOrders, allCustomers, allCoupons, allShipping, 
+    darkMode, appearSettings} = useContext(StoreContext)
   const [profImg, setProfImg] = useState('')
 
   function uploadSetImg(e) {
@@ -63,7 +64,7 @@ export default function UserProfile() {
       <div className="infotab">
         <h4>Theme</h4>
         <h6><span>Dark Mode</span>{darkMode?"On":"Off"}</h6>
-        <h6><span>Color Theme</span></h6>
+        <h6><span>App Theme</span>{appearSettings.appTheme}</h6>
       </div>
       <div className="infotab">
         <h4>Permissions</h4>

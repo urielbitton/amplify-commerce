@@ -88,7 +88,7 @@ export const custPaymentsHeaders = [
   'Card Number',
   'Cardholder',
   'Exp. Date',
-  'Billing',
+  'Billing Address',
   'Bank',
   'Primary'
 ]

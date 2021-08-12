@@ -42,13 +42,11 @@ export function convertTime(time) {
     timeValue = "12"
   }
   timeValue += (minutes < 10) ? ":0" + minutes : ":" + minutes
-  //timeValue += (seconds < 10) ? ":0" + seconds : ":" + seconds
   timeValue += (hours >= 12) ? " PM" : " AM"
   return timeValue
 }
 
 const date = new Date() 
-
 export const nowDate = `${date.getFullYear()}-${date.getMonth()<10?'0'+(date.getMonth()+1):(date.getMonth()+1)}-${date.getDate()<10?'0'+(date.getDate()):(date.getDate())}`
 export const nowDateTime = `${date.getFullYear()}-${date.getMonth()<10?'0'+(date.getMonth()+1):(date.getMonth()+1)}-${date.getDate()<10?'0'+(date.getDate()):(date.getDate())}T${date.getHours()<10?"0"+date.getHours():date.getHours()}:${date.getMinutes()<10?"0"+date.getMinutes():date.getMinutes()}`
 
@@ -82,6 +80,22 @@ export function switchTimestamp(date) {
     return convertTime(date?.toDate())
   }
   return 'Just now'
+}
+
+export function updateProductByStyle(sizesArr, size, color, units) {
+  const sizeIndex = sizesArr.indexOf(sizesArr.find(x => x.name === size))
+  const colorIndex = sizesArr[sizeIndex].colors.indexOf(sizesArr[sizeIndex].colors.find(x => x.name === color))
+  sizesArr[sizeIndex].colors[colorIndex].stock -= units 
+  sizesArr[sizeIndex].colors[colorIndex].qtySold += units
+  sizesArr[sizeIndex].colors[colorIndex].dateSoldLast = new Date()
+}
+ 
+export function dbUpdateProductStyle(prodData, prodSizes) {
+  prodData.forEach((el,i) => {
+    db.collection('products').doc(el.id).update({
+      sizes: prodSizes
+    })
+  })
 }
 
 /* collections */

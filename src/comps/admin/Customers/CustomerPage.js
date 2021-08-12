@@ -23,7 +23,7 @@ export default function CustomerPage(props) {
   const [userTrans, setUserTrans] = useState([])
   const [userCart, setUserCart] = useState([])
   const [userWish, setUserWish] = useState([])
-  const [userAddress, setUserAddress] = useState([])
+  const [userAddresses, setUserAddresses] = useState([])
   const [userPayments, setUserPayments] = useState([])
   const [showNewChat, setShowNewChat] = useState(false)
   const [urlCustId, setUrlCustId] = useState(0)
@@ -38,7 +38,7 @@ export default function CustomerPage(props) {
       <h6><Link to={`/admin/orders/edit-order/${el.orderid}`}>#{el.orderNumber}</Link></h6>
       <h6 title={el.products.length>1&&`+ ${el.products.length-1} more`}>{refProd(allProducts, el.products[0]?.id)?.name}</h6>
       <h6>{convertDate(el.orderDateCreated.toDate())}</h6>
-      <h6>{el.orderTotal}</h6>
+      <h6>{currencyFormat.format(el.orderTotal)}</h6>
       <h6><span>{el.updates[el.updates.length-1].status}</span></h6>
     </div>
   })
@@ -93,10 +93,10 @@ export default function CustomerPage(props) {
   const myWishlist = userWish?.map(el => {
     return <div className="customerrow custcartrow">
     <h6>
-      <Link to={`/admin/store/edit-product/${el}`}><img src={refProd(allProducts, el).imgs[0]} alt=""/></Link>
+      <Link to={`/admin/store/edit-product/${el}`}><img src={refProd(allProducts, el)?.imgs[0]} alt=""/></Link>
     </h6>
-    <h6>{refProd(allProducts, el).name}</h6>
-    <h6>{refProd(allProducts, el).price}</h6>
+    <h6>{refProd(allProducts, el)?.name}</h6>
+    <h6>{refProd(allProducts, el)?.price}</h6>
     <h6>{reduceStock(refProd(allProducts, el))}</h6>
   </div>
   })
@@ -104,7 +104,7 @@ export default function CustomerPage(props) {
   const myAddressHeaders = custAddressHeaders?.map(el => {
     return <h5>{el}</h5>
   })
-  const myAddresses = userAddress?.map(el => {
+  const myAddresses = userAddresses?.map(el => {
     return <div className="customerrow">
     <h6>{el.fname} {el.lname}</h6>
     <h6>{el.address}</h6>
@@ -125,8 +125,8 @@ export default function CustomerPage(props) {
     <h6>****{el.cardNumber.slice(-4)}</h6>
     <h6>{el.cardHolder}</h6>
     <h6>{el.expiryMonth}/{el.expiryYear}</h6>
-    <h6>{}</h6>
-    <h6>{el.bank}</h6>
+    <h6>{userAddresses.find(x => x.id === el.billingAddress)?.address}</h6>
+    <h6>{el.bank.length?el.bank:"N/A"}</h6>
     <h6>{el.primary?"Primary":""}</h6>
   </div>
   })
@@ -166,7 +166,7 @@ export default function CustomerPage(props) {
     getTransactionsById(id, setUserTrans)
     setUserCart(getUserArrById(allUsers, id)?.cart)
     setUserWish(getUserArrById(allUsers, id)?.wishlist)
-    setUserAddress(getUserArrById(allUsers, id)?.addresses)
+    setUserAddresses(getUserArrById(allUsers, id)?.addresses)
     setUserPayments(getUserArrById(allUsers, id)?.payments)
   },[allUsers]) 
 
@@ -192,7 +192,7 @@ export default function CustomerPage(props) {
           <div className="section data">
             <h6>Customer Data</h6>
             <h5><b>Customer Number:</b> #{number}</h5>
-            <h5><b>Customer ID:</b> {id}</h5>
+            <h5><b>User ID:</b> <span className="id">{id}</span></h5>
             <h5><b>User Type:</b>{getUserArrById(allUsers, id)?.isAdmin?"Admin":"Client"}</h5>
             <h5><b>Money Spent:</b> {currencyFormat.format(moneySpent)}</h5>
           </div>

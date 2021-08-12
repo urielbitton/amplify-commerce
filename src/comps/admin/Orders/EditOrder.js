@@ -5,22 +5,22 @@ import {AppInput, AppSelect, AppSwitch} from '../../common/AppInputs'
 import AdminBtn from '../common/AdminBtn'
 import {db} from '../../common/Fire'
 import refProd from '../../common/referProduct'
-import {sizeConverter, colorConverter, getCustomerArrById} from '../../common/UtilityFuncs'
+import {sizeConverter, colorConverter, getCustomerArrById, convertDate, updateProductByStyle, 
+  dbUpdateProductStyle} from '../../common/UtilityFuncs'
 import BillingShippingFields from './BillingShippingFields'
 import { Link, useHistory, useLocation } from 'react-router-dom'
 import PageTitle from '../common/PageTitle'
 import OrderUpdates from './OrderUpdates'
 import CustomerPicker from './CustomerPicker'
-import {convertDate} from '../../common/UtilityFuncs'
 import genRandomNum from '../../common/genRandomNum'
 import RegionCountry from '../../common/RegionCountry'
 import { setDB } from '../../common/services/CrudDb'
  
 export default function EditOrder(props) { 
 
-  const {editOrdMode, setEditOrdMode, allProducts, allShipping, sizesOpts, colorsOpts, currencyFormat, 
-    setEditShipMode, billingState, setBillingState, shippingState, setShippingState, taxRate, allCustomers, 
-  allOrders, percentFormat, setNotifs} = useContext(StoreContext)
+  const {editOrdMode, setEditOrdMode, allProducts, allShipping, currencyFormat, setEditShipMode, 
+    billingState, setBillingState, shippingState, setShippingState, taxRate, allCustomers, allOrders, 
+    percentFormat, setNotifs} = useContext(StoreContext)
   const {orderid, orderNumber, orderDateCreated, products, customer, orderTaxRate, trackingNum, shippingDetails,
      billingDetails, shippingMethod, paymentDetails, updates, trackingReturn, orderSubtotal} = editOrdMode&&props.el
   const [tabPos, setTabPos] = useState(0)
@@ -67,6 +67,9 @@ export default function EditOrder(props) {
   const genNewOrderId = db.collection('orders').doc().id
   const pagetitle = editOrdMode?"Edit An Order":"Create An Order"
   const updateID = db.collection('updates').doc().id
+  const [chosenSizeIndex, setChosenSizeIndex] = useState(0)
+  const [sizesAv, setSizesAv] = useState([])
+  const [colorsAv, setColorsAv] = useState([])
    
   const tabshead = ['General', 'Products', 'Customer', 'Shipping', 'Billing & Payment', 'Updates']
   const statusOpts = [
@@ -75,7 +78,15 @@ export default function EditOrder(props) {
   const payMethodOpts = [
     {name:'PayPal'},{name:'Visa'},{name:'Master Card'},{name:'Debit'},{name:'American Express'}
   ]
-  
+
+  const sizesAvailable = sizesAv?.map(el => {
+    return {name: sizeConverter(el.name), value: el.name}
+  })
+  const colorsAvailable = colorsAv?.map(el => {
+    return {name: colorConverter(el.name), value: el.name}
+  })
+  const qtyAvailable = chosenSizeIndex&&colorsAv?.find(x => x.name === chosenColor)?.stock
+
   const entireOrder = {  
     orderid: editOrdMode?orderid:genNewOrderId,
     orderNumber: orderNum,
@@ -205,10 +216,20 @@ export default function EditOrder(props) {
     setChosenProd('')
     setEditStyleMode(false)
   }
-  function createOrder() {
+
+  function createOrder() { 
+    ordProducts.forEach((el,i) => {
+      updateProductByStyle(refProd(allProducts, ordProducts[i].id)?.sizes.filter(x => x.name === el.chosenSize), ordProducts[i]?.chosenSize, ordProducts[i]?.chosenColor, ordProducts[i]?.units)
+    })
     if(allowCreate) { 
       db.collection('orders').doc(genNewOrderId).set(entireOrder)
       .then(() => {
+        ordProducts.forEach((el,i) => {
+          updateProductByStyle(refProd(allProducts, ordProducts[i].id)?.sizes, ordProducts[i]?.chosenSize, ordProducts[i]?.chosenColor, ordProducts[i]?.units)
+        })
+        const prodData = ordProducts.map(el => el)
+        const prodSizes = ordProducts.map(el => refProd(allProducts, el.id).sizes)
+        dbUpdateProductStyle(prodData, prodSizes)
         setNotifs(prev => [...prev, {
           id: Date.now(),
           title: 'Order Created',
@@ -343,6 +364,16 @@ export default function EditOrder(props) {
   },[chosenProd])
 
   useEffect(() => {
+    setChosenSizeIndex(sizesAv?.findIndex(x => x.name===chosenSize))
+  },[chosenSize])
+  useEffect(() => {
+    setSizesAv(allProducts?.find(x => x.id === chosenProd)?.sizes)
+  },[chosenProd])
+  useEffect(() => { 
+    setColorsAv(sizesAv[chosenSizeIndex]?.colors)
+  },[chosenSizeIndex])
+
+  useEffect(() => {
     setOrdSubTotal(ordProducts?.reduce((a,b) => a + (refProd(allProducts, b.id).price * b.units),0))
   },[ordProducts])
 
@@ -353,6 +384,12 @@ export default function EditOrder(props) {
   useEffect(() => {
     !editOrdMode&&setPaypalOn(payMethod==='PayPal')
   },[payMethod])
+
+  useEffect(() => { 
+    if(editOrdMode && props.el === undefined) { 
+      history.push('/admin/orders')
+    }
+  },[props])
 
   return (
     <div className="editorderspage">
@@ -369,7 +406,7 @@ export default function EditOrder(props) {
           <div className="ordercontent-form">
             <div className={`tabsection editsection ${tabPos===0?"show":""}`}>
               <div>
-                <AppInput title="Order Number" className="ordernuminp" placeholder="#123456" onChange={(e) => setOrderNum(e.target.value)} value={orderNum}/>
+                <AppInput title="Order Number *" className="ordernuminp" placeholder="#123456" onChange={(e) => setOrderNum(e.target.value)} value={orderNum}/>
                 <AdminBtn title="Generate" className="genbtn" solid clickEvent onClick={() => generateId()}/>
               </div>
               <AppInput title="Order Date" disabled value={editOrdMode?convertDate(orderDateCreated.seconds?orderDateCreated.toDate():orderDateCreated):convertDate(new Date())}/>            
@@ -385,12 +422,13 @@ export default function EditOrder(props) {
                 namebased
               /> 
               <div className={`inprow ${chosenProd?"show":""}`}>
-                <AppSelect title="Size" options={[{name:'Choose a Size',value:''},...sizesOpts]} onChange={(e) => setChosenSize(e.target.value)} value={chosenSize} namebased />
-                <AppSelect title="Color" options={[{name:'Choose a Color',value:''},...colorsOpts]} onChange={(e) => setChosenColor(e.target.value)} value={chosenColor} namebased />
-                <AppInput title="Quantity" type="number" min={0} onChange={(e) => setChosenQty(e.target.value)} value={chosenQty<0?0:chosenQty} />
+                <AppSelect title="Size" options={[{name:'Choose a Size',value:''},...sizesAvailable??[]]} onChange={(e) => setChosenSize(e.target.value)} value={chosenSize} namebased />
+                <AppSelect title="Color" options={[{name:'Choose a Color',value:''},...colorsAvailable??[]]} onChange={(e) => setChosenColor(e.target.value)} value={chosenColor} namebased />
+                <AppInput title="Quantity" type="number" min={0} max={qtyAvailable} onChange={(e) => setChosenQty(e.target.value)} value={chosenQty<0?0:chosenQty>qtyAvailable?qtyAvailable:chosenQty} />
+                <small style={{flexBasis:'100%',color:'#777'}}>Stock available: {qtyAvailable??'Choose a style'}</small>
               </div>
               <div className="actionbtns">
-                <AdminBtn title={editStyleMode?"Edit Product":"Add Product"} disabled={!allowAddNew} clickEvent onClick={() => editStyleMode?editNewProduct():addNewProduct()}/>
+                <AdminBtn title={editStyleMode?"Edit Product":"Add Product"} solid disabled={!allowAddNew} clickEvent onClick={() => editStyleMode?editNewProduct():addNewProduct()}/>
                 <AdminBtn title="Cancel" disabled={!chosenProd.length} clickEvent onClick={() => cancelChoose()}/>
               </div>
               <div className={`savedprodscont ${ordProducts.length?"show":"hide"}`}>
@@ -403,8 +441,8 @@ export default function EditOrder(props) {
               <AdminBtn title="Find Customer" solid clickEvent onClick={() => setShowCustomerPicker(prev => !prev)}/>
               <h5 style={{color: '#777'}}>-OR-</h5>
               <h6 className="cusidmsg">Manually enter a customer's information (a customer ID will automatically be assigned.)</h6>
-              <AppInput title="Full Name" onChange={(e) => setCustName(e.target.value)} value={custName} />
-              <AppInput title="Email" onChange={(e) => setCustEmail(e.target.value)} value={custEmail}/>
+              <AppInput title="Full Name *" onChange={(e) => setCustName(e.target.value)} value={custName} />
+              <AppInput title="Email *" onChange={(e) => setCustEmail(e.target.value)} value={custEmail}/>
               <AppInput title="Phone" onChange={(e) => setCustPhone(e.target.value)} value={custPhone}/>
               <AppInput title="City" onChange={(e) => setCustCity(e.target.value)} value={custCity}/>
               <RegionCountry 

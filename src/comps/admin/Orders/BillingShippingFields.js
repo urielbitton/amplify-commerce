@@ -9,7 +9,7 @@ export default function BillingShippingFields(props) {
   const {setBillShipState, formDetails, region, setRegion, country, setCountry,
     provinceChoices, setProvinceChoices} = props
 
-  const billingarr = [
+  const billingarr = [ 
     { title: "First Name *", name: "fname", editVal: formDetails?.fname},
     { title: "Last Name *", name: "lname", editVal: formDetails?.lname},
     { title: "Email Address *", name: "email", editVal: formDetails?.email},
