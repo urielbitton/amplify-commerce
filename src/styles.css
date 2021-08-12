@@ -168,6 +168,17 @@ a.hide {
   filter: brightness(110%);
   box-shadow: 0 6px 10px #0088ff2f;
 }
+.error404page h6 {
+  margin-bottom: 10px;
+  color: #333;
+}
+.error404page h3 {
+  font-size: 50px;
+  color: #333
+}
+.error404page img {
+  width: 400px;
+}
 
 @media (max-width: 1400px) {
   .grid {

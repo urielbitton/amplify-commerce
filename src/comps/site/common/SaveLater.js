@@ -5,7 +5,7 @@ import {db} from '../../common/Fire'
 export default function SaveLater(props) {
 
   const {user, myUser} = useContext(StoreContext)
-  const {cart, savedlater} = props
+  const {savedlater} = props
   const {id, chosenColor, chosenSize, units} = props.el
 
   function saveForLater() {
@@ -15,10 +15,10 @@ export default function SaveLater(props) {
       chosenSize,
       id
     })
-    cart.forEach(el => {
+    myUser.cart.forEach(el => {
       if(el.id===id) {
-        let itemindex = cart.indexOf(el)
-        cart.splice(itemindex,1)
+        let itemindex = myUser?.cart.indexOf(el)
+        myUser.cart.splice(itemindex,1)
       } 
     })
     db.collection('users').doc(user.uid).update({

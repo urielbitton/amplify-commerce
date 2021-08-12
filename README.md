@@ -1,7 +1,7 @@
 # amplify-commerce
 
 V1 Features to add: 
-- Decrease stock count of purchased products + increase qtySold of product when creating orders thru clients and admin
+- add ids to order-confirmation page so they can be routed as pages and users can go back to them
 - Change all inputs ProvinceCountries to RegionCountry (enhanced) component
 - make dashboard stats dynamic
 - add newarrivals, about + contact pages
@@ -17,6 +17,7 @@ V1 Features to add:
 - implement full searching accross admin (especially settings)
 - remove and fix all console warnings (add keys in maps, firebase rules permissions errors, etc.)
 - make entire site + admin responsive
+- fix issue with loader when no user on admin & login pages
 - implement trash cans for products, orders, coupons, etc...
 - detect with LS if user has used site before, if yes make profile icon redirect to login page, else redirect to create account page
 - check if products have enough stock when customer checks out on site + admin
