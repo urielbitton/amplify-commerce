@@ -14,7 +14,7 @@ import ProvinceCountry from "../../common/ProvinceCountry";
 import AppAccordion from "../common/AppAccordion";
 
 export default function Checkout() {
-  const {showCart, cart, setShowCart, billingState, setBillingState, shippingState, setShippingState,
+  const {showCart, setShowCart, billingState, setBillingState, shippingState, setShippingState,
     myUser, cartSubtotal, currencyFormat, percentFormat, shippingMethods, paymentMethods, 
     provinceChoices, taxRate, allProducts } = useContext(StoreContext);
   const [chosenShipping, setChosenShipping] = useState({name: "regular", cost: 3.99});
@@ -60,7 +60,7 @@ export default function Checkout() {
       />
     );
   });
-  const caritemrows = cart?.map((el) => {
+  const caritemrows = myUser?.cart?.map((el) => {
     return <CheckoutItem el={el} key={el.id} />;
   });
   const shipoptions = shippingMethods?.map(
@@ -138,8 +138,10 @@ export default function Checkout() {
   function placeOrder() {
     if (allowOrder()) {
       //display stripe to pay with cc
+      startOrder()
     }
-    else window.alert("Please fill in all billing details to proceed.");
+    else 
+      window.alert("Please fill in all billing details to proceed.");
   }
   function startOrder() {
     const orderid = db.collection("orders").doc().id;
@@ -157,7 +159,6 @@ export default function Checkout() {
     CreateOrder(
       orderid,
       orderNum,
-      cart,
       customer,
       cartSubtotal,
       orderTotal,

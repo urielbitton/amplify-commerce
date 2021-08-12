@@ -16,7 +16,7 @@ export default function OrdersCard(props) {
   const [showActions, setShowActions] = useState(-1)
   let orderDate = orderDateCreated.toDate().toString().split(' ')
   const productsmore = products.length>1?products.length-1:0
-  const orderStatus = updates[updates.length-1].status
+  const orderStatus = updates[updates.length-1]?.status
 
   function trackOrder() {
     setShowTrackCont(true)

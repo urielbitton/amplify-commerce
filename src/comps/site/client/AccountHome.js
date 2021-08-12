@@ -22,8 +22,8 @@ export default function AccountHome()  {
       <h6>{el.products.length}</h6>
       <h6>{currencyFormat.format(el.orderTotal)}</h6>
       <h6>
-        <span className={`${el.updates[el.updates.length-1].status==='Delivered'?"Delivered":""} ${el.updates[el.updates.length-1].status==='cancelled'?"cancelled":""}`}>
-          {el.updates[el.updates.length-1].status}
+        <span className={`${el.updates[el.updates.length-1]?.status==='Delivered'?"Delivered":""} ${el.updates[el.updates.length-1]?.status==='cancelled'?"cancelled":""}`}>
+          {el.updates[el.updates.length-1]?.status}
         </span>
       </h6>
       <h6>
@@ -33,9 +33,9 @@ export default function AccountHome()  {
   })
   const purchasesrow = recentPurchases?.slice(0,5).map(el => {
     return <div className="orderrow" key={el.subid}>
-      <h6><img src={refProd(allProducts,el.id).imgs[0]} alt=""/></h6>
-      <h6><Link to={`/product/${el.id}`}>{refProd(allProducts,el.id).name}</Link></h6>
-      <h6>{currencyFormat.format(refProd(allProducts,el.id).price)}</h6>
+      <h6><img src={refProd(allProducts, el.id).imgs[0]} alt=""/></h6>
+      <h6><Link to={`/product/${el.id}`}>{refProd(allProducts, el.id).name}</Link></h6>
+      <h6>{currencyFormat.format(refProd(allProducts, el.id).price)}</h6>
       <h6>{el.units}</h6>
       <h6>{/*add instead orderDate on cart item (next to subid) */}</h6>
     </div>

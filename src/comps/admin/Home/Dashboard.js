@@ -39,7 +39,7 @@ export default function Dashboard() {
   const thisMonthProfit = totalSales[thisMonth-1].value + (totalSales[thisMonth-1].value * 0.15)
   const lastMonthProfit = totalSales[lastMonth-1].value + (totalSales[lastMonth-1].value * 0.15)
   const tableFilterOpts = [{name: '3',value: 3},{name: '5',value: 5},{name: '10',value: 10},{name: '15',value: 15},{name: '20',value: 20}]
-  const activeOrders = allOrders.reduce((a,b) => a + (b.updates[b.updates.length-1].status!=='Delivered')?1:0, 0)
+  const activeOrders = allOrders.reduce((a,b) => a + (b.updates[b.updates.length-1]?.status!=='Delivered')?1:0, 0)
  
   const dashboxarr = [ 
     {title: 'Products Sold', icon: 'far fa-box-open', total: totalProductsSold, thismonth: thisMonthProdSold, lastmonth: lastMonthProdSold, format: 'number', compare: true},
@@ -108,7 +108,7 @@ export default function Dashboard() {
       <h5>{refProd(allProducts, el.products[0].id).name} + {el.products.length-1}</h5> 
       <h5>{convertDate(el.orderDateCreated.toDate())}</h5>
       <h5>{currencyFormat.format(el.orderTotal)}</h5>
-      <h5 className="ordstatus"><span>{el.updates[el.updates.length-1].status}</span></h5>
+      <h5 className="ordstatus"><span>{el.updates[el.updates.length-1]?.status}</span></h5>
     </div>  
   })
 

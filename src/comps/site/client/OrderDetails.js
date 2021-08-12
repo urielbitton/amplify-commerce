@@ -53,7 +53,7 @@ export default function OrderDetails(props) {
           <div className="column">
             <h6>Payment Details</h6>
             <small>
-              <img src={paymenticons.find(x => x.name===paymentDetails.method).icon} alt=""/>
+              <img src={paymenticons.find(x => x.name===paymentDetails.method)?.icon} alt=""/>
               {
                 paymentDetails.method==='paypal'?
                 paymentDetails.email:

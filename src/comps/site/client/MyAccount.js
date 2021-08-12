@@ -45,6 +45,7 @@ export default function MyAccount() {
     const confirm = window.confirm('Are you sure you wish to log out?')
     if(confirm) {
       firebase.auth().signOut()
+      history.push('/')
       window.location.reload()
     }
   }

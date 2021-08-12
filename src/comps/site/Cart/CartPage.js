@@ -53,9 +53,9 @@ export default function CartPage() {
   function clearCart() {
     let confirm = window.confirm("Are you sure you want to remove all the items from your cart?")
     if (confirm) {
-      cart.splice(0,cart.length)
+      myUser.cart.splice(0,cart.length)
       db.collection("users").doc(user.uid).update({
-        'userinfo.cart': cart
+        'userinfo.cart': myUser?.cart
       })
     } 
   }
