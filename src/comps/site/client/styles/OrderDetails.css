@@ -68,3 +68,6 @@
 .orderdetailspage .metainfo span.cancelled {
   color: var(--red)
 }
+.orderdetailspage .foot-cont {
+  padding: 20px 0;
+}

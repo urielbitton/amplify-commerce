@@ -17,12 +17,12 @@ export default function ProductPage(props) {
 
   const {allProducts, currencyFormat, setShowQuickShop, setShowCart} = useContext(StoreContext)
   const {id, name, price, rating, ratingsarr, imgs, belongs, sizes, collection, descript, 
-    reviews, categories, brand, shippingReturns, composition} = props.el
+    reviews, categories, brand, shippingReturns, composition, sku} = props.el
   const [activeImg, setActiveImg] = useState(imgs[0])
   const [chosenSize, setChosenSize] = useState(sizes[0]?.name)
   const [chosenColor, setChosenColor] = useState(sizes[0]?.colors[0]?.name)
   const [secTab, setSecTab] = useState(0)
-  const chosenSizeIndex = sizes?.findIndex(x => x.name===chosenSize)
+  const [chosenSizeIndex, setChosenSizeIndex] = useState(0)
   const stocksLeft = sizes[chosenSizeIndex]?.colors[sizes[chosenSizeIndex]?.colors?.findIndex(x => x.name===chosenColor)]?.stock  
   const subid = id+chosenSize+chosenColor
   const location = useLocation()
@@ -72,6 +72,10 @@ export default function ProductPage(props) {
     }
   },[chosenSize,chosenSizeIndex,sizes]) 
 
+  useEffect(() => {
+    setChosenSizeIndex(sizes?.findIndex(x => x.name===chosenSize))
+  },[chosenSize])
+
   return (
     <div className="productpage">
       <PageBanner 
@@ -96,7 +100,7 @@ export default function ProductPage(props) {
           </div>
           <div className="infocont">
             <h2>{name}</h2> 
-            <h6 className="productid">Product ID: {id}</h6>
+            <h6 className="productid">Product ID: {sku}</h6>
             <h3 className="price">{currencyFormat.format(price)}</h3>
             <div className="prodactionsrow">
               <AddToCart 
@@ -108,12 +112,12 @@ export default function ProductPage(props) {
               />
               <AddToWish el={props.el} />
               <AppSelect 
-                options={[{name: 'Choose a Size',disabled:true},...sizeoptions]}
+                options={[{name: 'Choose a Size',disabled:true}, ...sizeoptions]}
                 onChange={(e) => setChosenSize(e.target.value)}
                 namebased
               />
               <AppSelect 
-                options={[{name: 'Choose a Color',disabled:true},...coloroptions]}
+                options={[{name: 'Choose a Color',disabled:true}, ...coloroptions??[]]}
                 onChange={(e) => setChosenColor(e.target.value)}
                 namebased
               />
@@ -132,7 +136,7 @@ export default function ProductPage(props) {
                 }
                 
               </div>
-              <div><h6>SKU</h6><span>{id}</span></div>
+              <div><h6>SKU</h6><span>{sku}</span></div>
               <div><h6>Share Product</h6><span className="socialshares">{socialshares}</span></div>
               <div>
                 <h6>Rating</h6><span><Ratings rating={rating} /><small>({ratingsarr.length})</small></span>

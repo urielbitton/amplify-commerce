@@ -9,12 +9,18 @@ import { StoreContext } from '../../common/StoreContext'
 
 export default function AppContainer() {
 
-  const {showSearch} = useContext(StoreContext)
+  const {showSearch, myUser, setMyUser, user} = useContext(StoreContext)
   const location = useLocation()
 
   useEffect(() => {
     window.scrollTo(0,0) 
   },[location])
+
+  useEffect(() => {
+    if(!user) {
+      setMyUser({})
+    }
+  },[user])
  
   return ( 
     <div className={`appcontainer ${showSearch?"noscroll":""}`}>

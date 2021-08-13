@@ -71,14 +71,14 @@ export default function OrdersCard(props) {
           <div className="packagedetails">
             <img src={refProd(allProducts,products[prodindex].id).imgs} alt=""/>
             <h6>
-              <Link to={`/product/${products[prodindex].id}`} className="prodtitle">{refProd(allProducts,products[prodindex].id).name} x {products[prodindex].units}</Link>
+              <Link to={`/shop/product/${products[prodindex].id}`} className="prodtitle">{refProd(allProducts,products[prodindex].id).name} x {products[prodindex].units}</Link>
               {showmore&&productsmore>0&&<small>+ {productsmore} more product{productsmore>1?"s":""}</small>}
               <small>{currencyFormat.format(refProd(allProducts,products[prodindex].id).price)}</small>
               <small>
                 Brand: {refProd(allProducts,products[prodindex].id).brand} |
                 Size: {sizeConverter(products[prodindex].chosenSize)} | Color: {colorConverter(products[prodindex].chosenColor)}
               </small>
-              <AppButton title="Buy Again" url={`/product/${products[prodindex].id}`}/>
+              <AppButton title="Buy Again" url={`/shop/product/${products[prodindex].id}`}/>
             </h6>
           </div>
         </div>

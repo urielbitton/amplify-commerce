@@ -92,7 +92,7 @@ export default function Checkout() {
             name="paymentmethod"
             onChange={(e) => {
               setPaymentDetails({
-                method: "paypal",
+                method: "PayPal",
                 email: "urielas1@gmail.com",
                 cardnumber: ""
               });

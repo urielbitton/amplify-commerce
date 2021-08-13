@@ -34,7 +34,7 @@ export default function AccountHome()  {
   const purchasesrow = recentPurchases?.slice(0,5).map(el => {
     return <div className="orderrow" key={el.subid}>
       <h6><img src={refProd(allProducts, el.id).imgs[0]} alt=""/></h6>
-      <h6><Link to={`/product/${el.id}`}>{refProd(allProducts, el.id).name}</Link></h6>
+      <h6><Link to={`/shop/product/${el.id}`}>{refProd(allProducts, el.id).name}</Link></h6>
       <h6>{currencyFormat.format(refProd(allProducts, el.id).price)}</h6>
       <h6>{el.units}</h6>
       <h6>{/*add instead orderDate on cart item (next to subid) */}</h6>

@@ -21,16 +21,11 @@ import OrderTrackingPage from '../common/OrderTrackingPage'
 import OrderTracker from '../client/OrderTracker'
 import Search from '../common/Search'
 import Loader from '../../common/Loader'
+import MissingItem from '../../admin/common/MissingItem'
 
 export default function HomeCont() {
 
-  const {slideNav, allProducts, user} = useContext(StoreContext)
-
-  const productpagerow = allProducts?.map(el => {
-    return <Route exact path={`/product/${el.id}`}>
-      <ProductPage el={el} key={el.id}/> 
-    </Route>
-  })
+  const {slideNav, allProducts, allOrders, user} = useContext(StoreContext)
  
   return (
     <div className="homecont">
@@ -69,13 +64,23 @@ export default function HomeCont() {
         <Route exact path="/register">
           <Register /> 
         </Route>
-        <Route exact path="/order-confirm">
-          <OrderConfirm /> 
-        </Route>
+        <Route path="/order-confirmation/:orderID"  
+          render={el => {
+          return allOrders.find(x => x.orderid === el.match.params.orderID)?
+            <OrderConfirm el={allOrders.find(x => x.orderid === el.match.params.orderID)} />:
+            <MissingItem itemName="Order" itemUrl="/my-account/orders"/>
+          }}
+        />
         <Route path="/order-tracking">
           <OrderTrackingPage />
         </Route>
-        {productpagerow}
+        <Route path="/shop/product/:prodID"  
+          render={el => {
+          return allProducts.find(x => x.id === el.match.params.prodID)?
+            <ProductPage el={allProducts.find(x => x.id === el.match.params.prodID)} />:
+            <MissingItem itemName="Product" itemUrl="/shop"/>
+          }}
+        />
         <Route path="/my-account">
           {user ? <MyAccount /> : <Loader />}
         </Route>

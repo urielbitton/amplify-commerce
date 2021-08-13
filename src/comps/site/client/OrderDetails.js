@@ -1,5 +1,6 @@
 import React, { useContext } from 'react'
 import { StoreContext } from '../../common/StoreContext'
+import AppButton from '../common/AppButton'
 import OrdersCard from './OrdersCard'
 import './styles/OrderDetails.css'
 
@@ -71,6 +72,9 @@ export default function OrderDetails(props) {
         </div>
       </div>
       {productsrow}
+      <div className="foot-cont">
+        <AppButton title="View Order Confirmation" url={`/order-confirmation/${orderid}`}/>
+      </div>
     </div>
   )
 }

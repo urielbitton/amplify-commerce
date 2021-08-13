@@ -6,7 +6,7 @@ import {colorConverter} from '../../common/UtilityFuncs'
 
 export default function SaveLaterItem(props) {
 
-  const {currencyFormat, myUser, cart, user, allProducts} = useContext(StoreContext)
+  const {currencyFormat, myUser, user, allProducts} = useContext(StoreContext)
   const {id, name, imgs, price} = refProd(allProducts,props.el.id)
   const {subid, chosenColor, chosenSize, units} = props.el
   const [showOpts, setShowOpts] = useState(false)
@@ -24,8 +24,8 @@ export default function SaveLaterItem(props) {
     })
   }
   function addBackToCart() { 
-    if(!cart.find(el => el.subid===subid)) {
-      cart.push({
+    if(!myUser.cart.find(el => el.subid===subid)) {
+      myUser.cart.push({
         units,  
         chosenColor,
         chosenSize,

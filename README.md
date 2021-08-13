@@ -1,7 +1,6 @@
 # amplify-commerce
 
 V1 Features to add: 
-- add ids to order-confirmation page so they can be routed as pages and users can go back to them
 - Change all inputs ProvinceCountries to RegionCountry (enhanced) component
 - make dashboard stats dynamic
 - add newarrivals, about + contact pages
@@ -19,6 +18,7 @@ V1 Features to add:
 - make entire site + admin responsive
 - fix issue with loader when no user on admin & login pages
 - implement trash cans for products, orders, coupons, etc...
+- let customers in account orders: change shipping, edit order, cancel order, cancel specific products.
 - detect with LS if user has used site before, if yes make profile icon redirect to login page, else redirect to create account page
 - check if products have enough stock when customer checks out on site + admin
 - guest add to cart and checkout features with LS - fix LS bug (if enabled)
@@ -33,7 +33,7 @@ V2 Features to add
 - manage users with firebase admin sdk
 
 Bugs tracking:
-- logout needs page reload (why?)
+
 
 After Development:
 - test app

@@ -11,7 +11,7 @@ import {colorConverter} from '../../common/UtilityFuncs'
 
 export default function Navbar() {
 
-  const {allProducts, cart, user, slideNav, showCart, setShowCart, setSlideNav, myUser, cartSubtotal, 
+  const {allProducts, user, slideNav, showCart, setShowCart, setSlideNav, myUser, cartSubtotal, 
     currencyFormat, setShowSearch} = useContext(StoreContext)
   const [dealBar, setDealBar] = useState(true)
   const [fixNav, setFixNav] = useState(false)
@@ -31,7 +31,7 @@ export default function Navbar() {
     </div>
   })
 
-  const cartitemrow = cart?.map(({id,units,chosenColor,chosenSize,subid}) => {
+  const cartitemrow = myUser?.cart?.map(({id,units,chosenColor,chosenSize,subid}) => {
     return <div className="cartitemcont" key={subid}>
       <img src={refProd(allProducts,id)?.imgs[0]} alt="" /> 
       <div className="infocont"> 
@@ -47,20 +47,20 @@ export default function Navbar() {
   })
 
   function removeCartItem(subid) {
-    cart.forEach(el => {
+    myUser.cart.forEach(el => {
       if(el.subid===subid) {
-        let itemindex = cart.indexOf(el)
-        cart.splice(itemindex,1)
+        let itemindex = myUser?.cart.indexOf(el)
+        myUser.cart.splice(itemindex,1)
       }
     })
     db.collection('users').doc(user.uid).update({
-      'userinfo.cart': cart
+      'userinfo.cart': myUser.cart
     })
   }
   function clearCart() {
     let confirm = window.confirm('Are you sure you want to remove all items from your cart?')
     if(confirm) {
-      cart.splice(0,cart.length)
+      myUser.cart.splice(0,myUser.cart.length)
       db.collection('users').doc(user.uid).update({
         userinfo: myUser
       })
@@ -118,9 +118,9 @@ export default function Navbar() {
             </Link>
             <div onClick={(e) => e.stopPropagation()}>
               <i className="fal fa-shopping-bag" title="My Cart" onClick={() => setShowCart(prev => !prev)}></i>  
-              {cart?.length>0&&<div className="numcircle">{cart?.length}</div>}
+              {myUser?.cart?.length>0&&<div className="numcircle">{myUser?.cart?.length}</div>}
               <div className={`cartcont ${showCart&&"show"}`}>
-                <div className="cartfull" style={{display: cart?.length?"flex":"none"}}>
+                <div className="cartfull" style={{display: myUser?.cart?.length?"flex":"none"}}>
                   <div className="cartproducts">
                     {cartitemrow} 
                   </div>
@@ -128,7 +128,7 @@ export default function Navbar() {
                     <span>Total:</span>
                     <small>{currencyFormat.format(cartSubtotal)}</small>
                   </div>
-                  { cart?.length>2&&
+                  { myUser?.cart?.length>2&&
                     <small className="clearcart" onClick={() => clearCart()}>Clear Cart</small>
                   }
                   <div className="btnscont">
@@ -137,7 +137,7 @@ export default function Navbar() {
                   </div>
                 </div>
                 {
-                  !cart?.length&&
+                  !myUser?.cart?.length&&
                   <div className="cartempty">
                     <i className="fal fa-shopping-cart"></i>
                     <h4>Your cart is empty</h4>

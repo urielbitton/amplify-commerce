@@ -11,7 +11,7 @@ import { Link } from 'react-router-dom'
 
 export default function CartItem(props) {
   
-  const {currencyFormat, cart, myUser, user, allProducts} = useContext(StoreContext)
+  const {currencyFormat, myUser, user, allProducts} = useContext(StoreContext)
   const {id, name, imgs, price, sizes} = refProd(allProducts,props.el.id)
   const {subid, chosenColor, chosenSize, units} = props.el
   const [showOpts, setShowOpts] = useState(false)
@@ -20,14 +20,14 @@ export default function CartItem(props) {
   const savedlater = myUser?.savedlater
 
   function removeItem() {
-    cart.forEach(el => {
+    myUser.cart.forEach(el => {
       if(el.subid===subid) {
-        let itemindex = cart.indexOf(el)
-        cart.splice(itemindex,1)
+        let itemindex = myUser.cart.indexOf(el)
+        myUser.cart.splice(itemindex,1)
       } 
     })
     db.collection('users').doc(user.uid).update({
-      'userinfo.cart': cart
+      'userinfo.cart': myUser.cart
     })
   }
 
@@ -68,7 +68,7 @@ export default function CartItem(props) {
         <div className={`optionscont ${showOpts?"show":""}`} onClick={() => setShowOpts(prev => !prev)}>
           <EditProduct product={props.el} />
           <h6 onClick={() => removeItem()}>Delete</h6>
-          <SaveLater el={props.el} cart={cart} savedlater={savedlater} />
+          <SaveLater el={props.el} cart={myUser?.cart} savedlater={savedlater} />
         </div>
       </div>
     </div>

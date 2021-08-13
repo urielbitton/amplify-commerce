@@ -10,7 +10,7 @@ import SaveLaterItem from "./SaveLaterItem"
 import {sizeConverter, colorConverter} from '../../common/UtilityFuncs'
  
 export default function CartPage() {
-  const {myUser, user, cart, cartSubtotal, shippingMethods, currencyFormat, showCart, setShowCart,
+  const {myUser, user, cartSubtotal, shippingMethods, currencyFormat, showCart, setShowCart,
     editProduct, setEditProduct, showEditProd, setShowEditProd
   } = useContext(StoreContext)
   const savedlater = myUser?.savedlater
@@ -21,7 +21,7 @@ export default function CartPage() {
   const allcolors = []
   const subid = editProduct.id+chosenSize+chosenColor
 
-  const cartitemsrow = cart?.map(el => {
+  const cartitemsrow = myUser?.cart?.map(el => {
     return <CartItem el={el} key={el.subid} />
   })
   const savedlateritemsrow = savedlater?.map(el => {
@@ -53,15 +53,15 @@ export default function CartPage() {
   function clearCart() {
     let confirm = window.confirm("Are you sure you want to remove all the items from your cart?")
     if (confirm) {
-      myUser.cart.splice(0,cart.length)
+      myUser.cart.splice(0,myUser.cart.length)
       db.collection("users").doc(user.uid).update({
-        'userinfo.cart': myUser?.cart
+        'userinfo.cart': myUser.cart
       })
     } 
   }
   function saveProduct() {
-    let prevProd = cart?.find(x => x.subid === editProduct.subid)
-    let currentProd = cart?.find(x => x.subid === subid)
+    let prevProd = myUser.cart?.find(x => x.subid === editProduct.subid)
+    let currentProd = myUser.cart?.find(x => x.subid === subid)
     if(!currentProd) {
       prevProd.chosenSize = chosenSize
       prevProd.chosenColor = chosenColor
@@ -89,7 +89,7 @@ export default function CartPage() {
   return (
     <div className="cartpage">
       <PageBanner title="Cart" />
-      { cart?.length?
+      { myUser.cart?.length?
         <div className="grid xgrid cartgrid">
           <div className="maincartcont">
             <div className="carttable producttable">

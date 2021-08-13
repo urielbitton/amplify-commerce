@@ -32,7 +32,7 @@ export default function ProductBox(props) {
       <div 
         className="imgcont" 
         style={{backgroundImage: `url(${imgs[0]})`}}
-        onClick={() => history.push(`/product/${id}`)}
+        onClick={() => history.push(`/shop/product/${id}`)}
       >
         <div className="productactions" onClick={(e) => e.stopPropagation()}>
           <AddToWish el={props.el} />

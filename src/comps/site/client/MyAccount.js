@@ -44,9 +44,10 @@ export default function MyAccount() {
   function logoutUser() {
     const confirm = window.confirm('Are you sure you wish to log out?')
     if(confirm) {
-      firebase.auth().signOut()
-      history.push('/')
-      window.location.reload()
+      firebase.auth().signOut().then(() => {
+        history.push('/')
+        console.log('user logged out')
+      }).catch(err => console.log(err))
     }
   }
   function startChat() {

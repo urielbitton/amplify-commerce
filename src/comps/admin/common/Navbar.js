@@ -64,11 +64,9 @@ export default function Navbar() {
   function logOutAdmin() {
     firebase.auth().onAuthStateChanged(user => {
       if(user) {
-        Fire.auth().signOut()
-        .then(() => {
+        firebase.auth().signOut().then(() => {
           history.push('/')
-          window.location.reload()
-        })
+        }).catch(err => console.log(err))
       }
     })
   }
