@@ -8,7 +8,7 @@ import ErrorBoundary from './ErrorBoundary'
 export default function App() { 
   return (
     <div className="App">
-      <StoreContextProvider>
+      <StoreContextProvider>  
         <ErrorBoundary>
           <Router>
             <AppContainer />

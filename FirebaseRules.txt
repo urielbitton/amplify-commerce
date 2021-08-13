@@ -15,13 +15,11 @@ service cloud.firestore {
     }
     
     match /orders/{orderID} {
-      allow read;
-      allow write: if isAdmin();
-      allow create, update: if request.auth.uid == orderID;
+      allow read, write;
     }
   
     match /products/{document=**} {
-      allow read;
+      allow read, update;
       allow write: if isAdmin();
     }
     

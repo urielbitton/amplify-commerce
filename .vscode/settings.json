@@ -1,4 +1,5 @@
 {
   // "files.autoSave": "afterDelay",
-  "javascript.autoClosingTags": true
+  "javascript.autoClosingTags": true,
+  "files.autoSave": "afterDelay"
 }

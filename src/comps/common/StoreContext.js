@@ -69,6 +69,7 @@ const StoreContextProvider = (props) => {
   const [storeSettings, setStoreSettings] = useState({})
   const [appearSettings, setAppearSettings] = useState({})
   const [allUpdates, setAllUpdates] = useState([])
+  const [allSubscribers, setAllSubscribers] = useState([])
 
   const [quickProduct, setQuickProduct] = useState({
     id: '', 
@@ -193,6 +194,11 @@ const StoreContextProvider = (props) => {
       snap.forEach(doc => updatesArr.push(doc.data()))
       setAllUpdates(updatesArr)
     })
+    db.collection('subscribers').orderBy('date','desc').onSnapshot(snap => {
+      const subsArr = []
+      snap.forEach(doc => subsArr.push(doc.data()))
+      setAllSubscribers(subsArr)
+    })
   },[user, auser])   
 
   useEffect(() => {
@@ -257,7 +263,7 @@ const StoreContextProvider = (props) => {
       myTransactions, setMyTransactions, allUsers, setAllUsers, allCampaigns, setAllCampaigns, 
       editCampMode, setEditCampMode, allChats, setAllChats, myChat, setMyChat, fetchChats, setFetchChats,
       generalSettings, setGeneralSettings, appearSettings, setAppearSettings, storeSettings, setStoreSettings,
-      themeColor, setThemeColor, editUserMode, setEditUserMode, allUpdates, setAllUpdates
+      themeColor, setThemeColor, editUserMode, setEditUserMode, allUpdates, setAllUpdates, allSubscribers
     }}>
       {props.children}  
     </StoreContext.Provider>
