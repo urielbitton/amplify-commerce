@@ -1,5 +1,6 @@
 import { db } from "./Fire"
 import { countries } from "./Lists"
+import {updateDB} from '../common/services/CrudDb'
 
 export function sizeConverter(size) {
   if(size==='XS') return 'Extra Small'
@@ -96,6 +97,10 @@ export function dbUpdateProductStyle(prodData, prodSizes) {
       sizes: prodSizes[i]
     })
   })
+}
+
+export function dbUpdateMonthlySales(month, amount) {
+  
 }
 
 /* collections */

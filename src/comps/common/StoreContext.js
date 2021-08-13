@@ -15,7 +15,6 @@ const StoreContextProvider = (props) => {
   const [allCustomers, setAllCustomers] = useState([])
   const [allUsers, setAllUsers] = useState([])
   const [allOrders, setAllOrders] = useState([])
-  const [allStats, setAllStats] = useState({})
   const [allTransactions, setAllTransactions] = useState([])
   const [allReviews, setAllReviews] = useState([])
   const [allCoupons, setAllCoupons] = useState([])
@@ -24,6 +23,8 @@ const StoreContextProvider = (props) => {
   const [allSubscribers, setAllSubscribers] = useState([])
   const [allShipping, setAllShipping] = useState([])
   const [allChats, setAllChats] = useState([])
+  const [statsTotalSales, setStatsTotalSales] = useState([])
+  const [statsProductsSold, setStatsProductsSold] = useState([])
   const [myUser, setMyUser] = useState({})
   const [cart, setCart] = useState([])
   const [auser, setAUser] = useState('')   
@@ -156,8 +157,15 @@ const StoreContextProvider = (props) => {
       snap.forEach(doc => shipArr.push(doc.data()))
       setAllShipping(shipArr) 
     }) 
-    db.collection('stats').doc('allstats').onSnapshot(snap => {
-      setAllStats(snap.data()?.allstats)
+    db.collection('totalSales').onSnapshot(snap => {
+      let salesArr = [] 
+      snap.forEach(doc => salesArr.push(doc.data()))
+      setStatsTotalSales(salesArr)
+    })
+    db.collection('productsSold').onSnapshot(snap => {
+      let soldArr = [] 
+      snap.forEach(doc => soldArr.push(doc.data()))
+      setStatsProductsSold(soldArr)
     })
     db.collection('customers').onSnapshot(snap => {
       const custArr = []
@@ -256,18 +264,17 @@ const StoreContextProvider = (props) => {
       myOrders, setMyOrders, trackingDetails, setTrackingDetails, showTrackCont, setShowTrackCont, 
       provinceChoices, setProvinceChoices, taxRate, setTaxRate, selectedProvince, setSelectedProvince,
       selectedCountry, setSelectedCountry, expiryMonths, expiryYears, numberFormat, allOrders, setAllOrders,
-      showSearch, setShowSearch, cart, setCart, darkMode, setDarkMode, allStats, 
-      highSellersLimit, setHighSellersLimit, recentSellersLimit, setRecentSellersLimit, 
-      recentOrdersLimit, setRecentOrdersLimit, editProdMode, setEditProdMode, sizesOpts, colorsOpts,
-      editCoupMode, setEditCoupMode, editShipMode, setEditShipMode, allCoupons, setAllCoupons,
-      allShipping, setAllShipping, editOrdMode, setEditOrdMode, allCustomers, setAllCustomers,
-      notifs, setNotifs, allTransactions, setAllTransactions, editCustMode, setEditCustMode, 
+      showSearch, setShowSearch, cart, setCart, darkMode, setDarkMode, highSellersLimit, setHighSellersLimit, 
+      recentSellersLimit, setRecentSellersLimit, recentOrdersLimit, setRecentOrdersLimit, editProdMode, 
+      setEditProdMode, sizesOpts, colorsOpts, editCoupMode, setEditCoupMode, editShipMode, setEditShipMode, 
+      allCoupons, setAllCoupons, allShipping, setAllShipping, editOrdMode, setEditOrdMode, allCustomers, 
+      setAllCustomers, notifs, setNotifs, allTransactions, setAllTransactions, editCustMode, setEditCustMode, 
       showAnaTips, setShowAnaTips, allReviews, setAllReviews, myReviews, setMyReviews,
       myTransactions, setMyTransactions, allUsers, setAllUsers, allCampaigns, setAllCampaigns, 
       editCampMode, setEditCampMode, allChats, setAllChats, myChat, setMyChat, fetchChats, setFetchChats,
       generalSettings, setGeneralSettings, appearSettings, setAppearSettings, storeSettings, setStoreSettings,
       themeColor, setThemeColor, editUserMode, setEditUserMode, allUpdates, setAllUpdates, allSubscribers,
-      editSubsMode, setEditSubsMode
+      editSubsMode, setEditSubsMode, statsTotalSales, statsProductsSold
     }}>
       {props.children}  
     </StoreContext.Provider>

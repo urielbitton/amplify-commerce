@@ -64,6 +64,18 @@ service cloud.firestore {
       allow read: if isAdmin();
     }
     
+    match /subscribers/{document=**} {
+    	allow read, write;
+    }
+    
+    match /totalSales/{document=**} {
+     allow read, write: if isAdmin();
+    }
+    
+    match /productsSold/{document=**} {
+     allow read, write: if isAdmin();
+    }
+    
     
     //functions
     

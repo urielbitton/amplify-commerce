@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import Dashbox from './Dashbox'
 import DashCont from './DashCont'
 import './styles/Dashboard.css'
@@ -10,17 +10,21 @@ import refProd from '../../common/referProduct'
 import {convertDate, getDaysAgo} from '../../common/UtilityFuncs'
 import PageTitle from '../common/PageTitle'
 import { Link } from 'react-router-dom'
+import { getProductsSoldByYear, getTotalSalesByYear } from '../../common/services/statsServices'
 
 export default function Dashboard() { 
 
-  const {allOrders, allProducts, currencyFormat, allStats, highSellersLimit, setHighSellersLimit, 
-    recentSellersLimit, setRecentSellersLimit, recentOrdersLimit, setRecentOrdersLimit, storeSettings
+  const {allOrders, allProducts, currencyFormat, highSellersLimit, setHighSellersLimit, recentSellersLimit,
+    setRecentSellersLimit, recentOrdersLimit, setRecentOrdersLimit, storeSettings
   } = useContext(StoreContext)
-  const {productsSold, totalSales} = allStats
+  
+  const currentYear = new Date().getFullYear()
+  const [totalSales, setTotalSales] = useState([])
+  const [productsSold, setProductsSold] = useState([])
   const salescategories = ['January','February','March','April','May','June','July','August','September','October','November','December']
   const totalsalesnumbers = totalSales?.map(el => el.value)
   const netprofitnumbers = totalSales?.map(el => el.value - (el.value * 0.15))
-  const lossnumbers = [70,75,410,230,9,69,139,65,69,20,5,0]
+  const lossnumbers = [0,0,0,0,0,0,0,0,0,0,0,0]
   const orderstats = [45,65,14,3,5]
   const tableheaders = ['Product','Name','Style','Unit Price','Qty Sold','Date Sold Last','Earnings']
   const ordersheaders = ['Order Number','Products','Order Date','Order Total','Order Status']
@@ -32,12 +36,12 @@ export default function Dashboard() {
   const allTotalProfits = allTotalSales - (allTotalSales * storeSettings?.taxes.adminTaxRate)
   const thisMonth = new Date().getUTCMonth() + 1
   const lastMonth = ((thisMonth - 2) % 12 + 1)
-  const thisMonthProdSold = productsSold&&productsSold[thisMonth-1]?.value
-  const lastMonthProdSold = productsSold&&productsSold[lastMonth-1]?.value
-  const thisMonthSales = totalSales[thisMonth-1].value
-  const lastMonthSales = totalSales[lastMonth-1].value
-  const thisMonthProfit = totalSales[thisMonth-1].value + (totalSales[thisMonth-1].value * 0.15)
-  const lastMonthProfit = totalSales[lastMonth-1].value + (totalSales[lastMonth-1].value * 0.15)
+  const thisMonthProdSold = productsSold&&productsSold[thisMonth]?.value
+  const lastMonthProdSold = productsSold&&productsSold[lastMonth]?.value
+  const thisMonthSales = totalSales[thisMonth]?.value
+  const lastMonthSales = totalSales[lastMonth]?.value
+  const thisMonthProfit = totalSales[thisMonth]?.value + (totalSales[thisMonth]?.value * storeSettings?.taxes.adminTaxRate)
+  const lastMonthProfit = totalSales[lastMonth]?.value + (totalSales[lastMonth]?.value * storeSettings?.taxes.adminTaxRate)
   const tableFilterOpts = [{name: '3',value: 3},{name: '5',value: 5},{name: '10',value: 10},{name: '15',value: 15},{name: '20',value: 20}]
   const activeOrders = allOrders.reduce((a,b) => a + (b.updates[b.updates.length-1]?.status!=='Delivered')?1:0, 0)
  
@@ -112,7 +116,10 @@ export default function Dashboard() {
     </div>  
   })
 
-  
+  useEffect(() => {
+    getTotalSalesByYear(currentYear, setTotalSales)
+    getProductsSoldByYear(currentYear, setProductsSold)
+  },[])
  
   return ( 
     <div className="dashboardpage">
