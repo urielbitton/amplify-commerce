@@ -1,9 +1,7 @@
 # amplify-commerce
 
 V1 Features to add: 
-- Change all inputs ProvinceCountries to RegionCountry (enhanced) component
-- make dashboard stats dynamic
-- add newarrivals, about + contact pages
+- make dashboard stats linked to store data
 - fix chat "read" bug (should update to read only if not same id AND clicked on chat)
 - find way to remove admin id from chat messages
 - send email of invoice to customers when they checkout after successful payment
@@ -20,6 +18,7 @@ V1 Features to add:
 - implement trash cans for products, orders, coupons, etc...
 - let customers in account orders: change shipping, edit order, cancel order, cancel specific products.
 - detect with LS if user has used site before, if yes make profile icon redirect to login page, else redirect to create account page
+- add newarrivals, about + contact pages
 - check if products have enough stock when customer checks out on site + admin
 - guest add to cart and checkout features with LS - fix LS bug (if enabled)
 - implement firebase admin sdk (to manage users: firebase.google.com/docs/auth/admin/manage-users)
