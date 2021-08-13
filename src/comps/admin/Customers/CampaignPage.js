@@ -41,7 +41,7 @@ export default function CampaignPage(props) {
           </div>
         </div>
         <h6 className="smalltitle">Email Template</h6>
-        <div className="emailcont">
+        <div className="emailcont dark-bg-1">
           <h6>Subject</h6>
           <p>{email.subject}</p>
           <br/>

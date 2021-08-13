@@ -8,7 +8,7 @@ export default function CampaignCard(props) {
   const {hideBtns} = props
 
   return (
-    <div className="campaignbox">
+    <div className="campaignbox dark-bg-1">
       <div className="titles">
         <i className="fal fa-mail-bulk mainicon"></i>
         <h4>{name}</h4>

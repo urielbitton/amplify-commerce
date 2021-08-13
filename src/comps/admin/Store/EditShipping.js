@@ -82,7 +82,6 @@ export default function EditShipping(props) {
           title: 'Shipping Method Created',
           url: `/admin/store/edit-shipping/${genNewId}`
         })
-        window.alert('')
         history.push('/admin/store/shipping')
       })
     }

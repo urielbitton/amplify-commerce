@@ -92,3 +92,11 @@ export const custPaymentsHeaders = [
   'Bank',
   'Primary'
 ]
+
+export const subsHeaders = [
+  {name: 'Name', val: 0},
+  {name: 'Email', val: 1},
+  {name: 'Date Added', val: 2},
+  {name: 'Status', val: 3},
+  {name: 'Actions', val: -1}
+]

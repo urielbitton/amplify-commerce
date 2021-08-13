@@ -1,10 +1,11 @@
 # amplify-commerce
 
 V1 Features to add: 
-- add subscribers page in admin sidebar
+- add all info conts in admin pages (like infoCustomer when info icon click in table rows)
 - make dashboard stats linked to store data
 - fix chat "read" bug (should update to read only if not same id AND clicked on chat)
 - find way to remove admin id from chat messages
+- fix dark mode classes for optimization
 - send email of invoice to customers when they checkout after successful payment
 - send email to admin everytime: an order is made, user is created, order delayed, etc.
 - implement password reset pages + features for clients
@@ -15,6 +16,7 @@ V1 Features to add:
 - implement full searching accross admin (especially settings)
 - remove and fix all console warnings (add keys in maps, firebase rules permissions errors, etc.)
 - make entire site + admin responsive
+- color code updates icons
 - fix issue with loader when no user on admin & login pages
 - implement trash cans for products, orders, coupons, etc...
 - let customers in account orders: change shipping, edit order, cancel order, cancel specific products.

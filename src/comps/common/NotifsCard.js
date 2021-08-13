@@ -31,7 +31,7 @@ export default function NotifsCard(props) {
 
 
   return (
-    <div className={`notifsdiv ${show===id&&"show"}`} style={{borderColor:color}}>
+    <div className={`notifsdiv ${show===id&&"show"} dark-bg-1`} style={{borderColor:color}}>
       <div className="infocont">
         <div className="iconcont" style={{background:color}}>
           <i className={icon}></i>

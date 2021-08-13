@@ -34,14 +34,15 @@ import AccountSettings from '../Settings/AccountSettings'
 import EditUser from '../Settings/EditUser'
 import MissingItem from '../common/MissingItem'
 import Subscribers from '../Customers/Subscribers'
+import EditSubscriber from '../Customers/EditSubscriber'
 
 export default function AdminHomecont() {
  
   const {allProducts, allCoupons, allShipping, allOrders, allCustomers, allReviews,
-    allCampaigns, allUsers} = useContext(StoreContext)
+    allCampaigns, allUsers, allSubscribers} = useContext(StoreContext)
 
   return (
-    <div className="adminhomecont">
+    <div className="adminhomecont dark-bg-1">
       <Navbar />
       <NotifsCont />
       <div className="maincontent">
@@ -190,6 +191,16 @@ export default function AdminHomecont() {
           />
           <Route path="/admin/customers/subscribers">
             <Subscribers />
+          </Route>
+          <Route path="/admin/customers/edit-subscriber/:subID" 
+            render={el => {
+              return allSubscribers.find(x => x.id === el.match.params.subID)?
+              <EditSubscriber el={allSubscribers.find(x => x.id === el.match.params.subID)} />:
+              <MissingItem itemName="Subscriber" itemUrl="/admin/customers/subscribers"/>
+            }}
+          />
+          <Route path="/admin/customers/add-subscriber">
+            <EditSubscriber />
           </Route>
         </Switch> 
       </div>

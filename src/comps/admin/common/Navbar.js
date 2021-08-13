@@ -92,7 +92,7 @@ export default function Navbar() {
           title="Amplify Site"
           url="/"
           icon="fal fa-external-link"
-          className="sitelinkbtn"
+          className="sitelinkbtn dark-bg-1"
         />
       <div>
         <AppInput 

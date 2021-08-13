@@ -14,6 +14,16 @@ const StoreContextProvider = (props) => {
   const [allProducts, setAllProducts] = useState([])
   const [allCustomers, setAllCustomers] = useState([])
   const [allUsers, setAllUsers] = useState([])
+  const [allOrders, setAllOrders] = useState([])
+  const [allStats, setAllStats] = useState({})
+  const [allTransactions, setAllTransactions] = useState([])
+  const [allReviews, setAllReviews] = useState([])
+  const [allCoupons, setAllCoupons] = useState([])
+  const [allCampaigns, setAllCampaigns] = useState([])
+  const [allUpdates, setAllUpdates] = useState([])
+  const [allSubscribers, setAllSubscribers] = useState([])
+  const [allShipping, setAllShipping] = useState([])
+  const [allChats, setAllChats] = useState([])
   const [myUser, setMyUser] = useState({})
   const [cart, setCart] = useState([])
   const [auser, setAUser] = useState('')   
@@ -21,7 +31,7 @@ const StoreContextProvider = (props) => {
   const percentFormat = new Intl.NumberFormat('en-CA', {style: 'percent'})
   const numberFormat = new Intl.NumberFormat('en-CA')
   const cartSubtotal = cart?.length?cart?.reduce((a, b) => a + (refProd(allProducts,b?.id)?.price*b?.units), 0):0
-
+  
   const [locateUser, setLocateUser] = useState(false)
   const [userLocation, setUserLocation] = useState({})
   const [slideNav, setSlideNav] = useState(false)
@@ -30,10 +40,6 @@ const StoreContextProvider = (props) => {
   const [myReviews, setMyReviews] = useState([])
   const [myTransactions, setMyTransactions] = useState([])
   const [myChat, setMyChat] = useState({})
-  const [allOrders, setAllOrders] = useState([])
-  const [allStats, setAllStats] = useState({})
-  const [allTransactions, setAllTransactions] = useState([])
-  const [allReviews, setAllReviews] = useState([])
   const [showQuickShop, setShowQuickShop] = useState(false)
   const [showEditProd, setShowEditProd] = useState(false)
   const [colorFilter, setColorFilter] = useState('all')
@@ -52,6 +58,7 @@ const StoreContextProvider = (props) => {
   const [highSellersLimit, setHighSellersLimit] = useState(5)
   const [recentSellersLimit, setRecentSellersLimit] = useState(5)
   const [recentOrdersLimit, setRecentOrdersLimit] = useState(5)
+
   const [editProdMode, setEditProdMode] = useState(false)
   const [editCoupMode, setEditCoupMode] = useState(false)
   const [editShipMode, setEditShipMode] = useState(false)
@@ -59,17 +66,13 @@ const StoreContextProvider = (props) => {
   const [editCustMode, setEditCustMode] = useState(false)
   const [editCampMode, setEditCampMode] = useState(false)
   const [editUserMode, setEditUserMode] = useState(false)
-  const [allCoupons, setAllCoupons] = useState([])
-  const [allShipping, setAllShipping] = useState([])
+  const [editSubsMode, setEditSubsMode] = useState(false)
+
   const [showAnaTips, setShowAnaTips] = useState(true)
-  const [allCampaigns, setAllCampaigns] = useState([])
-  const [allChats, setAllChats] = useState([])
   const [fetchChats, setFetchChats] = useState(false)
   const [generalSettings, setGeneralSettings] = useState({})
   const [storeSettings, setStoreSettings] = useState({})
   const [appearSettings, setAppearSettings] = useState({})
-  const [allUpdates, setAllUpdates] = useState([])
-  const [allSubscribers, setAllSubscribers] = useState([])
 
   const [quickProduct, setQuickProduct] = useState({
     id: '', 
@@ -263,7 +266,8 @@ const StoreContextProvider = (props) => {
       myTransactions, setMyTransactions, allUsers, setAllUsers, allCampaigns, setAllCampaigns, 
       editCampMode, setEditCampMode, allChats, setAllChats, myChat, setMyChat, fetchChats, setFetchChats,
       generalSettings, setGeneralSettings, appearSettings, setAppearSettings, storeSettings, setStoreSettings,
-      themeColor, setThemeColor, editUserMode, setEditUserMode, allUpdates, setAllUpdates, allSubscribers
+      themeColor, setThemeColor, editUserMode, setEditUserMode, allUpdates, setAllUpdates, allSubscribers,
+      editSubsMode, setEditSubsMode
     }}>
       {props.children}  
     </StoreContext.Provider>
