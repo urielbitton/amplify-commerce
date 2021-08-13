@@ -9,7 +9,7 @@ import { StoreContext } from '../../common/StoreContext'
 
 export default function AppContainer() {
 
-  const {showSearch, myUser, setMyUser, user} = useContext(StoreContext)
+  const {showSearch, setMyUser, user} = useContext(StoreContext)
   const location = useLocation()
 
   useEffect(() => {

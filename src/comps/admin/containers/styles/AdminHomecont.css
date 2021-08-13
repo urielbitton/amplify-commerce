@@ -306,7 +306,7 @@
 .adminapp.darkmode .onecustomerpage big,
 .adminapp.darkmode .pagestarter h3,
 .adminapp.darkmode .adminnav .updatescont h5,
-.editorderspage .detailscontent h4 {
+.adminapp.darkmode .editorderspage .detailscontent h4 {
   color: #aaa;
 }
 .adminapp.darkmode .producttable > .content h5,
@@ -321,7 +321,7 @@
 .adminapp.darkmode .onecustomerpage .customerrow h6 a,
 .adminapp.darkmode .pagestarter h6,
 .adminapp.darkmode .adminnav .updatescont p,
-.editorderspage .detailscontent h5 {
+.adminapp.darkmode .editorderspage .detailscontent h5 {
   color: #777
 }
 .adminapp.darkmode .addnewbtn,

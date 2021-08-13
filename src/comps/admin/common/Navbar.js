@@ -13,7 +13,7 @@ import { Fire } from '../../common/Fire'
 
 export default function Navbar() {
 
-  const {myUser, darkMode, setDarkMode, setNotifs, allChats, setFetchChats, allUpdates} = useContext(StoreContext)
+  const {myUser, setMyUser, darkMode, setDarkMode, setNotifs, allChats, setFetchChats, allUpdates} = useContext(StoreContext)
   const [openDrop, setOpenDrop] = useState(0)
   const [chatData, setChatData] = useState([])
   const [showPageSearch, setShowPageSearch] = useState(false)
@@ -66,6 +66,7 @@ export default function Navbar() {
       if(user) {
         firebase.auth().signOut().then(() => {
           history.push('/')
+          setMyUser({})
         }).catch(err => console.log(err))
       }
     })

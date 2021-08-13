@@ -10,13 +10,13 @@ import { PayPalButton } from "react-paypal-button-v2";
 import CreateOrder from "./CreateOrder";
 import { db } from "../../common/Fire";
 import AddressBox from "../client/AddressBox";
-import ProvinceCountry from "../../common/ProvinceCountry";
+import RegionCountry from "../../common/RegionCountry";
 import AppAccordion from "../common/AppAccordion";
 
 export default function Checkout() {
   const {showCart, setShowCart, billingState, setBillingState, shippingState, setShippingState,
     myUser, cartSubtotal, currencyFormat, percentFormat, shippingMethods, paymentMethods, 
-    provinceChoices, taxRate, allProducts } = useContext(StoreContext);
+    taxRate, allProducts } = useContext(StoreContext);
   const [chosenShipping, setChosenShipping] = useState({name: "regular", cost: 3.99});
   const [paymentDetails, setPaymentDetails] = useState({method: "stripe", email: "", cardnumber: ""});
   const [successPaid, setSuccessPaid] = useState(false);
@@ -24,6 +24,10 @@ export default function Checkout() {
   const [paySwitch, setPaySwitch] = useState(0);
   const [defaultForm, setDefaultForm] = useState(false);
   const [altShipAddress, setAltShipAddress] = useState(false);
+  const [region, setRegion] = useState('')
+  const [country, setCountry] = useState('')
+  const [provinceArrBill, setProvinceArrBill] = useState([])
+  const [provinceArrShip, setProvinceArrShip] = useState([])
   const orderTotal = cartSubtotal + cartSubtotal * taxRate + chosenShipping.cost
   const clientid = "ASTQpkv9Y3mQ5-YBd20q0jMb9-SJr_TvUl_nhXu5h3C7xl0wumYgdqpSYIL6Vd__56oB7Slag0n2HA_r"
   const history = useHistory();
@@ -129,7 +133,7 @@ export default function Checkout() {
   }  
   function allowOrder() {
     if(billingState.fname &&  billingState.lname && billingState.address && billingState.city && 
-      (provinceChoices.length?billingState.provstate:true) && billingState.country && billingState.postcode
+      (provinceArrBill.length?billingState.provstate:true) && billingState.country && billingState.postcode
       && billingState.phone && billingState.email) {
       return true
     }
@@ -232,7 +236,14 @@ export default function Checkout() {
                         />
                       </div>
                       {billingInputs.slice(0, 6)}
-                      <ProvinceCountry setState={setBillingState} />
+                      <RegionCountry 
+                        country={country}
+                        setCountry={setCountry}
+                        region={region}
+                        setRegion={setRegion}
+                        provinceChoices={provinceArrBill} 
+                        setProvinceChoices={setProvinceArrBill}
+                      />
                       {billingInputs.slice(6)}
                     </>
                   ) : (
@@ -274,7 +285,14 @@ export default function Checkout() {
                 {altShipAddress && (
                   <div className="shippingformcont">
                     {shippingInputs.slice(0, 6)}
-                    <ProvinceCountry setState={setShippingState} />
+                    <RegionCountry 
+                      country={country}
+                      setCountry={setCountry}
+                      region={region}
+                      setRegion={setRegion}
+                      provinceChoices={provinceArrShip} 
+                      setProvinceChoices={setProvinceArrShip}
+                    />
                     {shippingInputs.slice(6)}
                   </div>
                 )}

@@ -1,6 +1,7 @@
 # amplify-commerce
 
 V1 Features to add: 
+- add subscribers page in admin sidebar
 - make dashboard stats linked to store data
 - fix chat "read" bug (should update to read only if not same id AND clicked on chat)
 - find way to remove admin id from chat messages

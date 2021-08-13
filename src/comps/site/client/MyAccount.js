@@ -17,7 +17,7 @@ import { createAChat } from '../../common/services/ChatService'
 
 export default function MyAccount() {
 
-  const {user, myOrders, myChat} = useContext(StoreContext)
+  const {user, setMyUser, myOrders, myChat} = useContext(StoreContext)
   const history = useHistory()
 
   const accountlinks = [
@@ -46,21 +46,15 @@ export default function MyAccount() {
     if(confirm) {
       firebase.auth().signOut().then(() => {
         history.push('/')
+        setMyUser({})
         console.log('user logged out')
       }).catch(err => console.log(err))
     }
   }
+
   function startChat() {
     createAChat(user.uid, 'Customer Support')
-  } 
-
-  useEffect(() => {
-    if(user === null) {
-      setTimeout(() => {
-        history.push('/') 
-      }, 10000);
-    }   
-  },[]) 
+  }  
 
   return (
     <div className="myaccountpage">

@@ -9,7 +9,6 @@ import { useHistory } from 'react-router-dom'
 export default function AdminApp() {
 
   const {darkMode, myUser} = useContext(StoreContext)
-  const history= useHistory()
 
   return (
     myUser&&myUser?.isAdmin?

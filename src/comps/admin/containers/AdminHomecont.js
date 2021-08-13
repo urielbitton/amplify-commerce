@@ -33,6 +33,7 @@ import Users from '../Settings/Users'
 import AccountSettings from '../Settings/AccountSettings'
 import EditUser from '../Settings/EditUser'
 import MissingItem from '../common/MissingItem'
+import Subscribers from '../Customers/Subscribers'
 
 export default function AdminHomecont() {
  
@@ -187,6 +188,9 @@ export default function AdminHomecont() {
               <MissingItem itemName="User" itemUrl="/admin/settings/users"/>
             }}
           />
+          <Route path="/admin/customers/subscribers">
+            <Subscribers />
+          </Route>
         </Switch> 
       </div>
     </div> 
