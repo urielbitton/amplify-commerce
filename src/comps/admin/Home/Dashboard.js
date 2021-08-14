@@ -17,7 +17,6 @@ export default function Dashboard() {
   const {allOrders, allProducts, currencyFormat, highSellersLimit, setHighSellersLimit, recentSellersLimit,
     setRecentSellersLimit, recentOrdersLimit, setRecentOrdersLimit, storeSettings
   } = useContext(StoreContext)
-  
   const currentYear = new Date().getFullYear()
   const [totalSales, setTotalSales] = useState([])
   const [productsSold, setProductsSold] = useState([])

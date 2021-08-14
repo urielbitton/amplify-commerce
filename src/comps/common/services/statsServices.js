@@ -17,3 +17,11 @@ export function getProductsSoldByYear(year, setProductsSold) {
       setProductsSold(salesArr)
   })
 }
+
+export function getStatsYearsList(setList) {
+  db.collection('totalSales').get().then(doc => {
+    const yearsArr = []
+    doc.forEach(el => yearsArr.push(el.data().year))
+    setList(yearsArr)
+  })
+}

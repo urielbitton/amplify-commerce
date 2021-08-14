@@ -59,3 +59,18 @@ export const courrierOpts = [
   {name: 'Purolator', value: 'purolator'},
   {name: 'DHL', value: 'dhl'},
 ]
+
+export const initMonthsObj = [
+  {name: 'january', month: 1, value: 0},
+  {name: 'february', month: 2, value: 0},
+  {name: 'march', month: 3, value: 0},
+  {name: 'april', month: 4, value: 0},
+  {name: 'may', month: 5, value: 0},
+  {name: 'june', month: 6, value: 0},
+  {name: 'july', month: 7, value: 0},
+  {name: 'august', month: 8, value: 0},
+  {name: 'september', month: 9, value: 0},
+  {name: 'october', month: 10, value: 0},
+  {name: 'november', month: 11, value: 0},
+  {name: 'december', month: 12, value: 0}
+]

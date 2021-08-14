@@ -29,6 +29,7 @@ V1 Features to add:
 ***- Go back and trace entire app to make sure to add all missing features (like searches, sorts, etc)
 
 V2 Features to add
+- create custom charts feature in analytics
 - implement languages features for admin 
 - track site visits through firebase analytics
 - To complete integrated payments use stripe and my last DEV bookmark on how to implement with node server

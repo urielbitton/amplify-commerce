@@ -74,6 +74,7 @@ const StoreContextProvider = (props) => {
   const [generalSettings, setGeneralSettings] = useState({})
   const [storeSettings, setStoreSettings] = useState({})
   const [appearSettings, setAppearSettings] = useState({})
+  const [statsYear, setStatsYear] = useState(new Date().getFullYear())
 
   const [quickProduct, setQuickProduct] = useState({
     id: '', 
@@ -274,12 +275,12 @@ const StoreContextProvider = (props) => {
       editCampMode, setEditCampMode, allChats, setAllChats, myChat, setMyChat, fetchChats, setFetchChats,
       generalSettings, setGeneralSettings, appearSettings, setAppearSettings, storeSettings, setStoreSettings,
       themeColor, setThemeColor, editUserMode, setEditUserMode, allUpdates, setAllUpdates, allSubscribers,
-      editSubsMode, setEditSubsMode, statsTotalSales, statsProductsSold
+      editSubsMode, setEditSubsMode, statsTotalSales, statsProductsSold, statsYear, setStatsYear
     }}>
       {props.children}  
     </StoreContext.Provider>
   )  
-
+ 
 } 
 
 export default StoreContextProvider

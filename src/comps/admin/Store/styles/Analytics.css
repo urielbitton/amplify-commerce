@@ -8,6 +8,50 @@
 .analyticspage .pagetitle > h4 {
   color: var(--graytxt);
 }
+.analyticspage .pagetitle > h4 i {
+  font-size: 14px;
+  margin-left: 10px;
+  color: #777;
+  transition: all 0.2s;
+  cursor: pointer;
+}
+.analyticspage .pagetitle .btnsdiv {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+.analyticspage .pagetitle > h4 .tooltip {
+  position: absolute;
+  padding: 5px 10px;
+  border-radius: 7px;
+  background: rgba(0,0,0,0.8);
+  color: #eee;
+  font-size: 10px;
+  white-space: nowrap;
+  transition: all 0.4s;
+  opacity: 0;
+  visibility: hidden;
+  margin-left: 0px;
+}
+.analyticspage .pagetitle > h4 i:hover + .tooltip,
+.analyticspage .pagetitle > h4 .tooltip:hover {
+  margin-left: 7px;
+  opacity: 1;
+  visibility: visible;
+}
+.analyticspage .pagetitle .appselect {
+  display: flex;
+  align-items: center;
+  gap: 10px; 
+}
+.analyticspage .pagetitle .appselect h6 {
+  color: var(--graytxt);
+}
+.analyticspage .pagetitle .appselect select {
+  padding: 5px 10px;
+  border-radius: 5px;
+}
+
 .analyticsgrid {
   grid-column: 1/-1;
   display: grid;
@@ -66,4 +110,36 @@
 }
 .analyticspage .appaccordion .stylerow h5.nostock {
   color: var(--red);
+}
+
+.analyticspage .addercover {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  background: rgba(0,0,0,0.75);
+  visibility: hidden;
+  opacity: 0;
+  transition: all 0.2s;
+}
+.analyticspage .addercover.show {
+  visibility: visible;
+  opacity: 1;
+}
+.analyticspage .addercont {
+  padding: 30px;
+  border-radius: 10px;
+  background: #fff;
+  width: 600px;
+}
+.analyticspage .addercont .actionbtn {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  margin-top: 20px;
 }

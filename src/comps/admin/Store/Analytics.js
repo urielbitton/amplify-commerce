@@ -5,35 +5,48 @@ import AdminBtn from '../common/AdminBtn'
 import './styles/Analytics.css'
 import { ApexChart } from '../../common/Charts'
 import DashCont from '../Home/DashCont'
-import { AppSelect } from '../../common/AppInputs'
+import { AppInput, AppSelect } from '../../common/AppInputs'
 import {sizeConverter, colorConverter, convertDate} from '../../common/UtilityFuncs'
 import AppAccordion from '../../site/common/AppAccordion'
 import PageTitle from '../common/PageTitle'
+import { getProductsSoldByYear, getStatsYearsList, getTotalSalesByYear } from '../../common/services/statsServices'
+import { setDB } from '../../common/services/CrudDb'
+import { db } from '../../common/Fire'
+import { initMonthsObj } from './arrays/arrays'
 
 export default function Analytics() {
 
-  const {allOrders, allProducts, allCoupons, allShipping, allCustomers, allStats, setNotifs,
-    showAnaTips, setShowAnaTips, currencyFormat} = useContext(StoreContext)
-  const {productsSold, totalSales} = allStats
+  const {allOrders, allProducts, allCoupons, allShipping, allCustomers, setNotifs, showAnaTips, storeSettings, 
+    setShowAnaTips, currencyFormat, statsYear, setStatsYear} = useContext(StoreContext)
+  const currentYear = new Date().getFullYear()
+  const [totalSales, setTotalSales] = useState([])
+  const [productsSold, setProductsSold] = useState([])
+  const [yearsList, setYearsList] = useState([])
+  const [showAddYear, setShowAddYear] = useState(false)
+  const [newYear, setNewYear] = useState(+currentYear + 1)
+  const salescategories = ['January','February','March','April','May','June','July','August','September','October','November','December']
+  const totalsalesnumbers = totalSales?.map(el => el.value)
+  const netprofitnumbers = totalSales?.map(el => el.value - (el.value * 0.15))
+  const lossnumbers = [0,0,0,0,0,0,0,0,0,0,0,0]
   const totalProductsSold = productsSold?.reduce((a,b) => a + b.value,0)
   const allTotalSales = totalSales?.reduce((a,b) => a + b.value,0)
   const allTotalProfits = allTotalSales - (allTotalSales * 0.15)
   const thisMonth = new Date().getUTCMonth() + 1
   const lastMonth = ((thisMonth - 2) % 12 + 1)
-  const thisMonthProdSold = productsSold&&productsSold[thisMonth-1]?.value
-  const lastMonthProdSold = productsSold&&productsSold[lastMonth-1]?.value
-  const thisMonthSales = totalSales[thisMonth-1].value
-  const lastMonthSales = totalSales[lastMonth-1].value
-  const thisMonthProfit = totalSales[thisMonth-1].value + (totalSales[thisMonth-1].value * 0.15)
-  const lastMonthProfit = totalSales[lastMonth-1].value + (totalSales[lastMonth-1].value * 0.15)
+  const thisMonthProdSold = productsSold&&productsSold[thisMonth]?.value
+  const lastMonthProdSold = productsSold&&productsSold[lastMonth]?.value
+  const thisMonthSales = totalSales[thisMonth]?.value
+  const lastMonthSales = totalSales[lastMonth]?.value
+  const thisMonthProfit = totalSales[thisMonth]?.value + (totalSales[thisMonth]?.value * storeSettings?.taxes.adminTaxRate)
+  const lastMonthProfit = totalSales[lastMonth]?.value + (totalSales[lastMonth]?.value * storeSettings?.taxes.adminTaxRate)
   const earningsHeaders = ['Product','Name','Style','Unit Price','Earnings','Date Sold Last','Qty Sold']
   const lowStockHeaders = ['Product','Name','Stock Watch','Earnings','Unit Price']
   const filterQtySold = (x,qty) => x.sizes.find(x => x.colors.find(x => x.qtySold > qty))
   const [highEarningsLimit, setHighEarningsLimit] = useState(7)
   const reduceLowStock = allProducts.reduce((a,b) => a + b.sizes.reduce((a,b) => a + (b.colors.reduce((a,b) => a + (b.stock < 5)?1:0)),0), 0)
-
   const monthCategories = ['January','February','March','April','May','June','July','August','September','October','November','December']    
   const tableFilterOpts = [{name: '3',value: 3},{name: '5',value: 5},{name: '10',value: 10},{name: '15',value: 15},{name: '20',value: 20}]
+  const batch = db.batch()
 
   const dashboxarr = [
     {title: 'Products Sold', icon: 'far fa-box-open', total: totalProductsSold, thismonth: thisMonthProdSold, lastmonth: lastMonthProdSold, format: 'number', compare: true},
@@ -95,7 +108,7 @@ export default function Analytics() {
               </div>
               {size.colors?.filter(x => x.stock < 5).map(color => {
                 return <div className="stylerow">
-                  <h5>{sizeConverter(size.name)}, {colorConverter(color.name)}</h5>
+                  <h5>{size.name}, {colorConverter(color.name)}</h5>
                   <h5 className={color.stock<1?"nostock":""}>{color.stock} left</h5>
                   <h5>{convertDate(color.dateSoldLast.toDate())}</h5>
                 </div>
@@ -106,9 +119,43 @@ export default function Analytics() {
         <h5>{currencyFormat.format(el.price * filterQtySold(el,0).colors.find(x => x.qtySold > 0).qtySold)}</h5>
     </div>
   })
+
+  const yearsListOpts = yearsList?.map(el => {
+    return {name: el, value: el}
+  })
+
+  function createNewChart() {
+    setNotifs(prev => [...prev, {
+      id: Date.now(),
+      title: 'Coming Soon', 
+      icon: 'fal fa-stopwatch',
+      text: `Creating custom analytics charts features are coming soon.`,
+      time: 5000
+    }]) 
+  }
+
+  function addNewYear() {
+    if(+newYear > currentYear) {
+      initMonthsObj.forEach(doc => {
+        const docRef = db.collection('totalSales').doc(newYear.toString()).collection('sales').doc(doc.name)
+        batch.set(docRef, {month:doc.month,value:doc.value})
+      })
+      batch.commit().then(() => {
+        setDB('totalSales', newYear.toString(), {year:+newYear, isActive:true})
+        setNotifs(prev => [...prev, {
+          id: Date.now(),
+          title: 'New Year Added', 
+          icon: 'fal fa-plus',
+          text: `A new analytics/stats year has been successfully added to your store.`,
+          time: 5000
+        }]) 
+        setShowAddYear(false)
+      })
+    } 
+  }
   
   useEffect(() => {
-    showAnaTips&&setNotifs(prev => [...prev, {
+    showAnaTips&&false&&setNotifs(prev => [...prev, {
       id: Date.now(),
       title: 'Tip', 
       color: 'var(--green)',
@@ -122,12 +169,30 @@ export default function Analytics() {
     return () => setNotifs([])
   },[showAnaTips])
 
+  useEffect(() => {
+    getTotalSalesByYear(statsYear, setTotalSales)
+    getProductsSoldByYear(statsYear, setProductsSold)
+    getStatsYearsList(setYearsList) 
+  },[statsYear])
+
+  useEffect(() => {
+    return () => setStatsYear(new Date().getFullYear())
+  },[])
+
   return (
     <div className="analyticspage dashboardpage">
       <PageTitle title="Analytics"/>
       <div className="pagetitle">
-        <h4>Analytics</h4>
-        <AdminBtn title="Create Chart" solid icon="fal fa-chart-area" clickEvent />
+        <h4>
+          Analytics 
+          <i className="far fa-info-circle"></i>
+          <span className="tooltip">Analytics for year 2021</span>
+        </h4>
+        <div className="btnsdiv">
+          <AppSelect title="Year" options={[...yearsListOpts]} onChange={(e) => setStatsYear(e.target.value)} value={statsYear} namebased />
+          <AdminBtn title="New Year" icon="fal fa-plus" solid clickEvent onClick={() => setShowAddYear(true)}/>
+          <AdminBtn title="Create Chart" solid icon="fal fa-chart-area" clickEvent onClick={() => createNewChart()} />
+        </div>
       </div>
       <div className="dashboxcont">
         {dashboxrow}
@@ -136,6 +201,21 @@ export default function Analytics() {
         {dashboxrow2}
       </div>
       <div className="analyticsgrid">
+      <DashCont className="saleschart" title="Sales Summary">
+        <div className="chartcont">
+          <ApexChart 
+            type="area" 
+            dataArray={[
+              {name: 'Total Sales',data: totalsalesnumbers},
+              {name: 'Net Profit',data: netprofitnumbers},
+              {name: 'Losses',data: lossnumbers},
+            ]}
+            series={salescategories}
+            height={340} 
+            legendAlign="right"
+          />
+        </div>
+        </DashCont>
         <DashCont className="saleschart" title="Customer Visits">
           <div className="chartcont">
             <ApexChart 
@@ -194,6 +274,18 @@ export default function Analytics() {
             <h5><span>{reduceLowStock}</span> Low Stock Products</h5>
           </div>
         </DashCont>
+      </div>
+      <div className={`addercover ${showAddYear?"show":""}`}> 
+        <div className="addercont">
+          <h4>Add New Year</h4>
+          <small>Add a new analytics/stats year </small>
+          <AppInput placeholder="Enter a year number" type="number" onChange={(e) => setNewYear(e.target.value)} value={newYear} descriptText="Enter a year in the future only."/>
+          <small>Note: once the year you have set comes into effect, your store stats will automatically be saved for that selected year.</small>
+          <div className="actionbtn">
+          <AdminBtn title="Add Year" disabled={+newYear <= currentYear} solid clickEvent onClick={() => addNewYear()}/>
+          <AdminBtn title="Cancel" clickEvent onClick={() => setShowAddYear(false)}/>
+          </div>
+        </div>
       </div>
     </div>
   )
