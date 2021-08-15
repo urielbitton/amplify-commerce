@@ -20,7 +20,7 @@ export default function Navbar() {
   const [keyword, setKeyword] = useState('')
   const clean = text => text.replace(/[^a-zA-Z0-9 ]/g, "")
   let pattern = new RegExp('\\b' + clean(keyword), 'i')
-  const unreadChatsNum = allChats.filter(x => !x.chatInfo.read).length
+  const unreadChatsNum = allChats.filter(x => !x.chatInfo.read && x.chatInfo.lastSenderId !== 'admin').length
   const unreadNotifsNum = allUpdates.filter(x => !x.read).length
   const history = useHistory()
 

@@ -42,6 +42,11 @@ export default function AdminDialogue(props) {
       setMsgString('') 
     }
   }
+  function markRead() {
+    if(chatInfo && !chatInfo.read) {
+      markReadChat(chatInfo.customerId, true)
+    }
+  }
 
   useEffect(() => {
     scrollRef.current.scrollIntoView()
@@ -52,11 +57,11 @@ export default function AdminDialogue(props) {
   },[location])
 
   useEffect(() => {
-    markReadChat(chatInfo.customerId, !chatInfo.read)
-  },[])
+    markRead()
+  },[]) 
  
   return (
-    <div className="dialoguecont">
+    <div className="dialoguecont" onClick={() => markRead()}>
       <header>
         <div>
           <img src={getCustomerArrById(allCustomers, chatInfo?.customerId)?.profimg} alt=""/>

@@ -54,7 +54,7 @@ export default function ChatCard(props) {
       <img src={getCustomerArrById(allCustomers, chatInfo.customerId).profimg} alt=""/>
       <div>
         <h5>{getCustomerArrById(allCustomers, chatInfo.customerId).name}</h5>
-        <small>{shortenMsgs(chatInfo.lastMsg)}</small> 
+        <small>{chatInfo.lastSenderId === 'admin'?"You:":""} {shortenMsgs(chatInfo.lastMsg)}</small> 
       </div>
       <div className="optscont" onClick={(e) => showOptsMenu(e)}>
         <i className="fal fa-ellipsis-h"></i>
