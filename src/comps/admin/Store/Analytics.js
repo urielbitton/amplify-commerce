@@ -135,7 +135,7 @@ export default function Analytics() {
   }
 
   function addNewYear() {
-    if(+newYear > currentYear) {
+    if(+newYear > currentYear && !yearsList.includes(newYear)) {
       initMonthsObj.forEach(doc => {
         const docRef = db.collection('totalSales').doc(newYear.toString()).collection('sales').doc(doc.name)
         batch.set(docRef, {month:doc.month,value:doc.value})
@@ -152,8 +152,18 @@ export default function Analytics() {
         setShowAddYear(false)
       })
     } 
+    else if(yearsList.includes(newYear)) {
+      setNotifs(prev => [...prev, {
+        id: Date.now(),
+        title: 'Warning', 
+        icon: 'fal fa-exclamation',
+        color: 'var(--orange)',
+        text: `The stats year you are trying to add already exists. Please add another year.`,
+        time: 5000
+      }])
+    }
   }
-  
+
   useEffect(() => {
     showAnaTips&&false&&setNotifs(prev => [...prev, {
       id: Date.now(),

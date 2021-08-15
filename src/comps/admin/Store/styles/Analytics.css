@@ -136,6 +136,19 @@
   border-radius: 10px;
   background: #fff;
   width: 600px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.analyticspage .addercont > h4 {
+  font-size: 18px;
+  color: #333;
+}
+.analyticspage .addercont > small {
+  margin-top: 10px;
+}
+.analyticspage input {
+  border-radius: 10px;
 }
 .analyticspage .addercont .actionbtn {
   display: flex;

@@ -1,4 +1,5 @@
 import { db } from '../Fire'
+import firebase from 'firebase'
 
 export function getTotalSalesByYear(year, setTotalSales) {
   db.collection('totalSales').doc(year.toString()).collection('sales').orderBy('month','desc')
@@ -23,5 +24,12 @@ export function getStatsYearsList(setList) {
     const yearsArr = []
     doc.forEach(el => yearsArr.push(el.data().year))
     setList(yearsArr)
+  })
+}
+
+export function updateMonthlySales(month, year, amount) {
+  return db.collection('totalSales').doc(year.toString()).collection('sales').doc(month)
+  .update({
+    value: firebase.firestore.FieldValue.increment(amount)
   })
 }

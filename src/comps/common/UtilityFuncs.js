@@ -99,8 +99,10 @@ export function dbUpdateProductStyle(prodData, prodSizes) {
   })
 }
 
-export function dbUpdateMonthlySales(month, amount) {
-  
+export function convertNumToMonthName(num) {
+  const months = ["january","february","march","april","may","june","july","august","september",
+    "october","november","december"]
+  return months[num]
 }
 
 /* collections */

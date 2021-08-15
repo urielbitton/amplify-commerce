@@ -2,13 +2,15 @@ import firebase from 'firebase'
 import {db} from '../../common/Fire'
 import referProduct from '../../common/referProduct'
 import { setDB } from '../../common/services/CrudDb'
-import { dbUpdateProductStyle, updateProductByStyle } from '../../common/UtilityFuncs'
+import { updateMonthlySales } from '../../common/services/statsServices'
+import { convertNumToMonthName, dbUpdateProductStyle, updateProductByStyle } from '../../common/UtilityFuncs'
 
 export default function CreateOrder(orderid, orderNum, customer, orderSubtotal, orderTotal, shippingMethod, 
   paymentDetails, taxRate, billingDetails, shippingDetails, myUser, allProducts) {
   
     const user = firebase.auth().currentUser
     const updateID = db.collection('updates').doc().id
+    const date = new Date()
 
     const orderObj = {
       orderid,
@@ -18,7 +20,7 @@ export default function CreateOrder(orderid, orderNum, customer, orderSubtotal, 
       customer,
       orderSubtotal: parseFloat(orderSubtotal.toFixed(2)),
       orderTotal,
-      taxRate,
+      orderTaxRate: taxRate,
       paymentDetails,
       shippingMethod,
       billingDetails,
@@ -34,7 +36,7 @@ export default function CreateOrder(orderid, orderNum, customer, orderSubtotal, 
       trackingReturn: ''
     }
     //create order on firebase
-    db.collection('orders').doc(orderid).set(orderObj)
+    return db.collection('orders').doc(orderid).set(orderObj)
     .then(() => {
       console.log('Order has been placed successfully.')
       setDB('updates', updateID, {
@@ -57,8 +59,6 @@ export default function CreateOrder(orderid, orderNum, customer, orderSubtotal, 
       const prodData = myUser.cart.map(el => el)
       const prodSizes = myUser.cart.map(el => referProduct(allProducts, el.id).sizes)
       dbUpdateProductStyle(prodData, prodSizes)
-    }).catch(err => {
-      console.log(err)
-      window.alert('Order could not be created. Please try again later or use the customer support chat in your account page for help.')
+      updateMonthlySales(convertNumToMonthName(date.getUTCMonth()), date.getFullYear(), orderTotal)
     })
 }

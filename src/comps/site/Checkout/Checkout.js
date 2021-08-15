@@ -159,7 +159,7 @@ export default function Checkout() {
       city: myUser.city,
       country: myUser.country,
       provstate: myUser.provstate
-    };
+    }
     CreateOrder(
       orderid,
       orderNum,
@@ -173,9 +173,13 @@ export default function Checkout() {
       shippingState,
       myUser,
       allProducts
-    );
-    setBillingState({});
-    history.push("/order-confirm");
+    ).then(() => {
+      setBillingState({});
+      history.push(`/order-confirmation/${orderid}`);
+    }).catch(err => {
+      console.log(err)
+      window.alert('Order could not be created. Please try again later or use the customer support chat in your account page for help.')
+    })
   }
 
   useEffect(() => {

@@ -6,7 +6,7 @@ import AdminBtn from '../common/AdminBtn'
 import {db} from '../../common/Fire'
 import refProd from '../../common/referProduct'
 import {sizeConverter, colorConverter, getCustomerArrById, convertDate, updateProductByStyle, 
-  dbUpdateProductStyle} from '../../common/UtilityFuncs'
+  dbUpdateProductStyle, convertNumToMonthName} from '../../common/UtilityFuncs'
 import BillingShippingFields from './BillingShippingFields'
 import { Link, useHistory, useLocation } from 'react-router-dom'
 import PageTitle from '../common/PageTitle'
@@ -15,6 +15,7 @@ import CustomerPicker from './CustomerPicker'
 import genRandomNum from '../../common/genRandomNum'
 import RegionCountry from '../../common/RegionCountry'
 import { setDB } from '../../common/services/CrudDb'
+import { updateMonthlySales } from '../../common/services/statsServices'
  
 export default function EditOrder(props) { 
 
@@ -25,7 +26,7 @@ export default function EditOrder(props) {
      billingDetails, shippingMethod, paymentDetails, updates, trackingReturn, orderSubtotal} = editOrdMode&&props.el
   const [tabPos, setTabPos] = useState(0)
   const [orderNum, setOrderNum] = useState('')  
-  const [ordTaxRate, setOrdTaxRate] = useState(taxRate)
+  const [ordTaxRate, setOrdTaxRate] = useState(0)
   const [ordSubTotal, setOrdSubTotal] = useState(0) 
   const [ordProducts, setOrdProducts] = useState([])
   const [chosenProd, setChosenProd] = useState('')
@@ -61,16 +62,18 @@ export default function EditOrder(props) {
   const [custProvinceChoices, setCustProvinceChoices] = useState([])
   const [billProvinceChoices, setBillProvinceChoices] = useState([])
   const [shipProvinceChoices, setShipProvinceChoices] = useState([])
-  const allowCreate = orderNum && ordProducts.length && payEmail && (customerId.length > 0 || (custName.length > 0 && custEmail.length > 0))
+  const allowCreate = orderNum && ordProducts.length  && ordTaxRate &&
+    (customerId.length > 0 || (custName.length > 0 && custEmail.length > 0))
   const history = useHistory()
-  const location = useLocation()
+  const location = useLocation() 
   const genNewOrderId = db.collection('orders').doc().id
   const pagetitle = editOrdMode?"Edit An Order":"Create An Order"
   const updateID = db.collection('updates').doc().id
   const [chosenSizeIndex, setChosenSizeIndex] = useState(0)
   const [sizesAv, setSizesAv] = useState([])
   const [colorsAv, setColorsAv] = useState([])
-  console.log(colorsAv, chosenSizeIndex)
+  const date = new Date()
+  console.log(ordTaxRate)
    
   const tabshead = ['General', 'Products', 'Customer', 'Shipping', 'Billing & Payment', 'Updates']
   const statusOpts = [
@@ -91,7 +94,7 @@ export default function EditOrder(props) {
   const entireOrder = {  
     orderid: editOrdMode?orderid:genNewOrderId,
     orderNumber: orderNum,
-    orderDateCreated: new Date(),
+    orderDateCreated: date,
     orderSubtotal: ordSubTotal,
     orderTotal: (ordSubTotal + (ordSubTotal*ordTaxRate)),
     orderTaxRate: ordTaxRate,
@@ -217,9 +220,9 @@ export default function EditOrder(props) {
     setChosenProd('')
     setEditStyleMode(false)
   }
-
+  
   function createOrder() { 
-    if(allowCreate) { 
+    if(!!allowCreate) { 
       db.collection('orders').doc(genNewOrderId).set(entireOrder)
       .then(() => {
         ordProducts.forEach((el,i) => {
@@ -228,6 +231,7 @@ export default function EditOrder(props) {
         const prodData = ordProducts.map(el => el)
         const prodSizes = ordProducts.map(el => refProd(allProducts, el.id).sizes)
         dbUpdateProductStyle(prodData, prodSizes)
+        updateMonthlySales(convertNumToMonthName(date.getUTCMonth()), date.getFullYear(), entireOrder.orderTotal)
         setNotifs(prev => [...prev, {
           id: Date.now(),
           title: 'Order Created',
@@ -237,7 +241,7 @@ export default function EditOrder(props) {
         }])
         setDB('updates', updateID, {
           color: '#0088ff',
-          date: new Date(),
+          date: date,
           descript: `A new order ${orderNum} has been created. View it here.`,
           icon: 'fal fa-shopping-bag',
           id: updateID,
@@ -261,7 +265,7 @@ export default function EditOrder(props) {
   }
 
   function editOrder() {
-    if(allowCreate) {
+    if(!!allowCreate) {
       db.collection('orders').doc(orderid).update(entireOrder)
       .then(() => {
         setNotifs(prev => [...prev, {
@@ -301,7 +305,7 @@ export default function EditOrder(props) {
         }])
         setDB('updates', updateID, {
           color: '#0088ff',
-          date: new Date(),
+          date: date,
           descript: `Order ${orderNum} has been deleted.`,
           icon: 'fal fa-shopping-bag',
           id: updateID,
@@ -317,7 +321,7 @@ export default function EditOrder(props) {
   useEffect(() => {
     setOrderNum(editOrdMode?orderNumber:generateId())
     setOrdSubTotal(editOrdMode?orderSubtotal:"")
-    setOrdTaxRate(editOrdMode?orderTaxRate:taxRate)
+    setOrdTaxRate(editOrdMode?orderTaxRate:ordTaxRate)
     setOrdProducts(editOrdMode?products:[])
     setCustomerId(editOrdMode?customer.id:"")
     setCustName(editOrdMode?customer.name:'')
@@ -414,10 +418,10 @@ export default function EditOrder(props) {
                 <AppInput title="Order Number *" className="ordernuminp" placeholder="#123456" onChange={(e) => setOrderNum(e.target.value)} value={orderNum}/>
                 <AdminBtn title="Generate" className="genbtn" solid clickEvent onClick={() => generateId()}/>
               </div>
-              <AppInput title="Order Date" disabled value={editOrdMode?convertDate(orderDateCreated.seconds?orderDateCreated.toDate():orderDateCreated):convertDate(new Date())}/>            
+              <AppInput title="Order Date" disabled value={editOrdMode?convertDate(orderDateCreated.seconds?orderDateCreated.toDate():orderDateCreated):convertDate(date)}/>            
               <AppInput title="Order Tax Rate" onChange={(e) => setOrdTaxRate(e.target.value)} value={ordTaxRate} type="number" />
             </div>
-            <div className={`tabsection editsection ${tabPos===1?"show":""}`}>
+            <div className={`tabsection editsection ${tabPos===1?"show":""}`}> 
               <h4>Order Products</h4>
               <AppSelect 
                 title="Available Products" 
@@ -508,7 +512,7 @@ export default function EditOrder(props) {
               <OrderUpdates statusOpts={statusOpts} ordUpdates={ordUpdates} setOrdUpdates={setOrdUpdates} />
             </div>
             <div className="final actionbtns">
-              <AdminBtn title={editOrdMode?"Edit Order":"Create Order"} className={!allowCreate?"disabled":""} solid clickEvent onClick={() => !editOrdMode?createOrder():editOrder()}/>
+              <AdminBtn title={editOrdMode?"Edit Order":"Create Order"} className={!!!allowCreate?"disabled":""} solid clickEvent onClick={() => !editOrdMode?createOrder():editOrder()}/>
               {editOrdMode&&<AdminBtn title="Delete Order" solid className="deletebtn" clickEvent onClick={() => deleteOrder()}/>}
               <AdminBtn title="Cancel" url="/admin/orders"/>
             </div>
@@ -517,7 +521,7 @@ export default function EditOrder(props) {
             <div className="detailscontent">
               <h4>Order Details</h4> 
               <h5><span>Order Number</span><span className="ordernuminp">#{orderNum}</span></h5>
-              <h5><span>Order Date</span><span>{editOrdMode?convertDate(orderDateCreated.seconds?orderDateCreated.toDate():orderDateCreated):convertDate(new Date())}</span></h5>
+              <h5><span>Order Date</span><span>{editOrdMode?convertDate(orderDateCreated.seconds?orderDateCreated.toDate():orderDateCreated):convertDate(date)}</span></h5>
               <h5><span>Products</span><span>{ordProducts.length}</span></h5>
               <h5><span>Order Subtotal</span><span>{currencyFormat.format(ordSubTotal)}</span></h5>
               <h5><span>Order Tax Rate</span>{percentFormat.format(ordTaxRate)}</h5>
