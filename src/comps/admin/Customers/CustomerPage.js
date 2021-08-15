@@ -63,8 +63,8 @@ export default function CustomerPage(props) {
       <h6>
         <Link to={`/admin/orders/transactions/${el.id}`}>#{el.number}</Link>
       </h6>
-      <h6>#{getOrderArrById(allOrders, el.orderId).orderNumber}</h6>
-      <h6>****{el.cardNumber.slice(-4)}</h6>
+      <h6>#{getOrderArrById(allOrders, el.orderId)?.orderNumber}</h6>
+      <h6>****{el.cardNumber?.slice(-4)}</h6>
       <h6>{el.method}</h6>
       <h6>{convertDate(el.date.toDate())}</h6>
       <h6>{currencyFormat.format(el.total)}</h6>

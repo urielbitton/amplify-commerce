@@ -62,7 +62,7 @@ export default function EditOrder(props) {
   const [custProvinceChoices, setCustProvinceChoices] = useState([])
   const [billProvinceChoices, setBillProvinceChoices] = useState([])
   const [shipProvinceChoices, setShipProvinceChoices] = useState([])
-  const allowCreate = orderNum && ordProducts.length  && ordTaxRate &&
+  const allowCreate = orderNum && ordProducts.length  && ordTaxRate>-1 &&
     (customerId.length > 0 || (custName.length > 0 && custEmail.length > 0))
   const history = useHistory()
   const location = useLocation() 
@@ -73,7 +73,6 @@ export default function EditOrder(props) {
   const [sizesAv, setSizesAv] = useState([])
   const [colorsAv, setColorsAv] = useState([])
   const date = new Date()
-  console.log(ordTaxRate)
    
   const tabshead = ['General', 'Products', 'Customer', 'Shipping', 'Billing & Payment', 'Updates']
   const statusOpts = [

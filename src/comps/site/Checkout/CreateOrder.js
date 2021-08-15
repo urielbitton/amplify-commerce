@@ -49,10 +49,6 @@ export default function CreateOrder(orderid, orderNum, customer, orderSubtotal, 
         title: 'New Order Created',
         url: `/admin/orders/edit-order/${orderid}`
       })
-      myUser.cart = []
-      db.collection('users').doc(user.uid).update({
-        userinfo: myUser //update user cart in their userInfo object
-      })
       myUser.cart.forEach((el,i) => {
         updateProductByStyle(referProduct(allProducts, myUser.cart[i].id)?.sizes, myUser.cart[i]?.chosenSize, myUser.cart[i]?.chosenColor, myUser.cart[i]?.units)
       })
@@ -60,5 +56,10 @@ export default function CreateOrder(orderid, orderNum, customer, orderSubtotal, 
       const prodSizes = myUser.cart.map(el => referProduct(allProducts, el.id).sizes)
       dbUpdateProductStyle(prodData, prodSizes)
       updateMonthlySales(convertNumToMonthName(date.getUTCMonth()), date.getFullYear(), orderTotal)
+    }).then(() => {
+      myUser.cart = []
+      db.collection('users').doc(user.uid).update({
+        userinfo: myUser //update user cart in their userInfo object
+      })
     })
 }

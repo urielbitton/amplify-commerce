@@ -7,16 +7,16 @@ export default function AdminBtn(props) {
   const {title, icon, url, className, solid, clickEvent, onClick, disabled, hideBtn} = props
 
   return (
-    <Link 
-        to={!disabled&&url}  
-        onClick={clickEvent?(e) => !disabled&&onClick(e):() => null} 
-      >
-      <div className={`adminbtncont ${hideBtn?"hide":""}`}>
-        <div className={`adminbtn ${className} ${disabled?"disabled":""} ${solid?"solid":""}`}> 
-          {icon&&<i className={`icon ${icon}`}></i>}
-          <span>{title}</span>
-      </div>
+    <div className={`adminbtncont ${hideBtn?"hide":""}`}>
+      <Link 
+          to={!disabled&&url}  
+          onClick={clickEvent?(e) => !disabled&&onClick(e):() => null} 
+        >
+          <div className={`adminbtn ${className} ${disabled?"disabled":""} ${solid?"solid":""}`}> 
+            {icon&&<i className={`icon ${icon}`}></i>}
+            <span>{title}</span>
+        </div>
+      </Link>
     </div>
-    </Link>
   )
 }
