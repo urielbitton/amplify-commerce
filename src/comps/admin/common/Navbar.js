@@ -9,7 +9,6 @@ import ChatCard from '../Support/ChatCard'
 import { menuLinks, extraLinks } from './arrays/links'
 import StartAChat from '../Support/StartAChat'
 import UpdatesCard from './UpdatesCard'
-import { Fire } from '../../common/Fire'
 
 export default function Navbar() {
 
@@ -21,6 +20,8 @@ export default function Navbar() {
   const [keyword, setKeyword] = useState('')
   const clean = text => text.replace(/[^a-zA-Z0-9 ]/g, "")
   let pattern = new RegExp('\\b' + clean(keyword), 'i')
+  const unreadChatsNum = allChats.filter(x => !x.chatInfo.read).length
+  const unreadNotifsNum = allUpdates.filter(x => !x.read).length
   const history = useHistory()
 
   const searchMenuLinks = [
@@ -84,7 +85,6 @@ export default function Navbar() {
     setFetchChats(true)
   },[])
 
-
   return (
     <div className="adminnav">
       <div className="left">
@@ -110,7 +110,7 @@ export default function Navbar() {
       <div className="right">
         <div className="toolbar">
           <div className={`iconcont ${openDrop===3?"open":""}`} onClick={(e) => slideChats(e)}>
-            <i className="far fa-comment"></i>
+            <i className={`far fa-comment ${unreadChatsNum>0?"colored":""}`}></i>
             <div className={`updatescont ${openDrop===3?"open":""}`}>
               <h4>Chats<i className="fal fa-plus" onClick={() => setShowNewChat(true)}></i></h4>
               <div className="inner">
@@ -120,12 +120,12 @@ export default function Navbar() {
                 <h6>View All</h6>
               </div>
             </div>
-            <div className={`circlenum ${allChats.filter(x => !x.chatInfo.read).length?"show":""}`}>
-              <small>{allChats.filter(x => !x.chatInfo.read).length}</small>
+            <div className={`circlenum ${unreadChatsNum?"show":""}`}>
+              <small>{unreadChatsNum}</small>
             </div>
           </div>
           <div className={`iconcont ${openDrop===2?"open":""}`} onClick={(e) => {setOpenDrop(2);e.stopPropagation()}}>
-            <i className="far fa-bell"></i>
+            <i className={`far fa-bell ${unreadNotifsNum>0?"colored":""}`}></i>
             <div className={`updatescont ${openDrop===2?"open":""}`}>
               <h4>Updates</h4>
               <div className="inner">
@@ -135,8 +135,8 @@ export default function Navbar() {
                 <h6>View All</h6>
               </div>
             </div>
-            <div className={`circlenum ${allUpdates.filter(x => !x.read).length?"show":""}`}>
-              <small>{allUpdates.filter(x => !x.read).length}</small>
+            <div className={`circlenum ${unreadNotifsNum?"show":""}`}>
+              <small>{unreadNotifsNum}</small>
             </div>
           </div>
           <div className="iconcont" onClick={() => {setDarkMode(prev => !prev);toggleDarkMode()}}>

@@ -2,7 +2,7 @@ import firebase from 'firebase'
 import {db} from '../../common/Fire'
 import referProduct from '../../common/referProduct'
 import { setDB } from '../../common/services/CrudDb'
-import { updateMonthlySales } from '../../common/services/statsServices'
+import { updateMonthlyProductsSold, updateMonthlySales } from '../../common/services/statsServices'
 import { convertNumToMonthName, dbUpdateProductStyle, updateProductByStyle } from '../../common/UtilityFuncs'
 
 export default function CreateOrder(orderid, orderNum, customer, orderSubtotal, orderTotal, shippingMethod, 
@@ -56,6 +56,7 @@ export default function CreateOrder(orderid, orderNum, customer, orderSubtotal, 
       const prodSizes = myUser.cart.map(el => referProduct(allProducts, el.id).sizes)
       dbUpdateProductStyle(prodData, prodSizes)
       updateMonthlySales(convertNumToMonthName(date.getUTCMonth()), date.getFullYear(), orderTotal)
+      updateMonthlyProductsSold(convertNumToMonthName(date.getUTCMonth()), date.getFullYear(), myUser.cart.reduce((a,b) => a + b.units, 0))
     }).then(() => {
       myUser.cart = []
       db.collection('users').doc(user.uid).update({

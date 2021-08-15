@@ -60,7 +60,7 @@ export const courrierOpts = [
   {name: 'DHL', value: 'dhl'},
 ]
 
-export const initMonthsObj = [
+export const initSalesMonthsObj = [
   {name: 'january', month: 1, value: 0},
   {name: 'february', month: 2, value: 0},
   {name: 'march', month: 3, value: 0},
@@ -74,3 +74,4 @@ export const initMonthsObj = [
   {name: 'november', month: 11, value: 0},
   {name: 'december', month: 12, value: 0}
 ]
+

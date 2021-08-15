@@ -1,7 +1,6 @@
 # amplify-commerce
 
 V1 Features to add: 
-- make dashboard stats linked to store data
 - fix chat "read" bug (should update to read only if not same id AND clicked on chat)
 - find way to remove admin id from chat messages
 - fix dark mode classes for optimization
@@ -18,6 +17,7 @@ V1 Features to add:
 - color code updates icons
 - add all info conts in admin pages (like infoCustomer when info icon click in table rows)
 - fix issue with loader when no user on admin & login pages
+- swap shipping methods in checkout for ones in the DB
 - implement trash cans for products, orders, coupons, etc...
 - let customers in account orders: change shipping, edit order, cancel order, cancel specific products.
 - detect with LS if user has used site before, if yes make profile icon redirect to login page, else redirect to create account page

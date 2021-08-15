@@ -15,7 +15,7 @@ import CustomerPicker from './CustomerPicker'
 import genRandomNum from '../../common/genRandomNum'
 import RegionCountry from '../../common/RegionCountry'
 import { setDB } from '../../common/services/CrudDb'
-import { updateMonthlySales } from '../../common/services/statsServices'
+import { updateMonthlyProductsSold, updateMonthlySales } from '../../common/services/statsServices'
  
 export default function EditOrder(props) { 
 
@@ -219,9 +219,9 @@ export default function EditOrder(props) {
     setChosenProd('')
     setEditStyleMode(false)
   }
-  
+
   function createOrder() { 
-    if(!!allowCreate) { 
+    if(!!allowCreate) {  
       db.collection('orders').doc(genNewOrderId).set(entireOrder)
       .then(() => {
         ordProducts.forEach((el,i) => {
@@ -231,6 +231,7 @@ export default function EditOrder(props) {
         const prodSizes = ordProducts.map(el => refProd(allProducts, el.id).sizes)
         dbUpdateProductStyle(prodData, prodSizes)
         updateMonthlySales(convertNumToMonthName(date.getUTCMonth()), date.getFullYear(), entireOrder.orderTotal)
+        updateMonthlyProductsSold(convertNumToMonthName(date.getUTCMonth()), date.getFullYear(), prodData.reduce((a,b) => a + b.units, 0))
         setNotifs(prev => [...prev, {
           id: Date.now(),
           title: 'Order Created',

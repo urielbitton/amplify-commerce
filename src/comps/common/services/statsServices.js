@@ -2,7 +2,7 @@ import { db } from '../Fire'
 import firebase from 'firebase'
 
 export function getTotalSalesByYear(year, setTotalSales) {
-  db.collection('totalSales').doc(year.toString()).collection('sales').orderBy('month','desc')
+  db.collection('totalSales').doc(year.toString()).collection('sales').orderBy('month','asc')
     .onSnapshot(snap => {
       const salesArr = [] 
       snap.forEach(doc => salesArr.push(doc.data())) 
@@ -11,7 +11,7 @@ export function getTotalSalesByYear(year, setTotalSales) {
 }
 
 export function getProductsSoldByYear(year, setProductsSold) {
-  db.collection('productsSold').doc(year.toString()).collection('sales').orderBy('month','desc')
+  db.collection('productsSold').doc(year.toString()).collection('sales').orderBy('month','asc')
     .onSnapshot(snap => {
       const salesArr = [] 
       snap.forEach(doc => salesArr.push(doc.data())) 
@@ -29,6 +29,13 @@ export function getStatsYearsList(setList) {
 
 export function updateMonthlySales(month, year, amount) {
   return db.collection('totalSales').doc(year.toString()).collection('sales').doc(month)
+  .update({
+    value: firebase.firestore.FieldValue.increment(amount)
+  })
+}
+
+export function updateMonthlyProductsSold(month, year, amount) {
+  return db.collection('productsSold').doc(year.toString()).collection('sales').doc(month)
   .update({
     value: firebase.firestore.FieldValue.increment(amount)
   })

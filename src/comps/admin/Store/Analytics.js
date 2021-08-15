@@ -12,7 +12,7 @@ import PageTitle from '../common/PageTitle'
 import { getProductsSoldByYear, getStatsYearsList, getTotalSalesByYear } from '../../common/services/statsServices'
 import { setDB } from '../../common/services/CrudDb'
 import { db } from '../../common/Fire'
-import { initMonthsObj } from './arrays/arrays'
+import { initSalesMonthsObj } from './arrays/arrays'
 
 export default function Analytics() {
 
@@ -31,7 +31,7 @@ export default function Analytics() {
   const totalProductsSold = productsSold?.reduce((a,b) => a + b.value,0)
   const allTotalSales = totalSales?.reduce((a,b) => a + b.value,0)
   const allTotalProfits = allTotalSales - (allTotalSales * 0.15)
-  const thisMonth = new Date().getUTCMonth() + 1
+  const thisMonth = new Date().getUTCMonth()
   const lastMonth = ((thisMonth - 2) % 12 + 1)
   const thisMonthProdSold = productsSold&&productsSold[thisMonth]?.value
   const lastMonthProdSold = productsSold&&productsSold[lastMonth]?.value
@@ -62,7 +62,7 @@ export default function Analytics() {
   ]
 
   const dashboxrow = dashboxarr?.map(el => {
-    return <Dashbox el={el} compareTitle="This Month" />
+    return <Dashbox el={el} compareTitle="This Month"/>
   }) 
   const dashboxrow2 = dashboxarr2?.map(el => {
     return <Dashbox el={el} />
@@ -136,12 +136,17 @@ export default function Analytics() {
 
   function addNewYear() {
     if(+newYear > currentYear && !yearsList.includes(newYear)) {
-      initMonthsObj.forEach(doc => {
+      initSalesMonthsObj.forEach(doc => {
         const docRef = db.collection('totalSales').doc(newYear.toString()).collection('sales').doc(doc.name)
         batch.set(docRef, {month:doc.month,value:doc.value})
-      })
+      }) 
+      initSalesMonthsObj.forEach(doc => {
+        const docRef = db.collection('productsSold').doc(newYear.toString()).collection('sales').doc(doc.name)
+        batch.set(docRef, {month:doc.month,value:doc.value})
+      }) 
       batch.commit().then(() => {
         setDB('totalSales', newYear.toString(), {year:+newYear, isActive:true})
+        setDB('productsSold', newYear.toString(), {year:+newYear, isActive:true})
         setNotifs(prev => [...prev, {
           id: Date.now(),
           title: 'New Year Added', 

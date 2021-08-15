@@ -40,7 +40,7 @@ export const menuLinks = [
     icon: 'far fa-question-circle',
     url: '/admin/support/',
     sublinks: [
-      {name: 'customer support', icon: 'far fa-user-headset', url: '/admin/support/customer-support'},
+      {name: 'customer chat', icon: 'far fa-user-headset', url: '/admin/support/customer-support'},
       {name: 'support & help', icon: 'far fa-question-circle', url: '/admin/support/admin-support'},
     ]
   },

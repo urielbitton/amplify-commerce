@@ -11,7 +11,7 @@ import {sizeConverter, colorConverter} from '../../common/UtilityFuncs'
  
 export default function CartPage() {
   const {myUser, user, cartSubtotal, shippingMethods, currencyFormat, showCart, setShowCart,
-    editProduct, setEditProduct, showEditProd, setShowEditProd
+    editProduct, showEditProd, setShowEditProd
   } = useContext(StoreContext)
   const savedlater = myUser?.savedlater
   const [chosenShipping, setChosenShipping] = useState({name: "regular",cost: 3.99})
@@ -78,14 +78,16 @@ export default function CartPage() {
   useEffect(() => {
     showCart && setShowCart(false);
   }, [])
+
   useEffect(() => {
     setChosenSize(editProduct?.chosenSize)
     setChosenColor(editProduct?.chosenColor)
   },[showEditProd])
+
   useEffect(() => {
     setChosenColor(editProduct?.sizes[editProduct?.sizes?.findIndex(x => x.name===chosenSize)]?.colors[0])
   },[chosenSize])
-
+ 
   return (
     <div className="cartpage">
       <PageBanner title="Cart" />

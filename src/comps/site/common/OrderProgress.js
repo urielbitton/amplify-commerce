@@ -23,7 +23,7 @@ export default function OrderProgress(props) {
       default: return 0;
     }
   }
-
+  
   const levels = [
     {name: 'Received', level: 16, date: order?.updates[recieveDate]?.date},
     {name: 'Processing', level: 42, date: order?.updates[processDate]?.date},
@@ -33,10 +33,8 @@ export default function OrderProgress(props) {
   const subtitlesrow = levels.map(({name,level,date}) => {
     return <small key={name}>
       {name}
-      {
-        dateTitles&&
-        <>
-          <span>
+      { dateTitles && date!==undefined&&<>
+          <span> 
             {convertDate(date?.toDate())} 
           </span>
           <span>{date&&convertTime(date?.toDate())}</span>

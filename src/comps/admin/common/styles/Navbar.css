@@ -80,6 +80,9 @@
   color: var(--graytxt);
   font-size: 17px;
 }
+.adminnav .toolbar > .iconcont > i.colored {
+  color: var(--admincolor)
+}
 .adminnav .profcont {
   display: flex;
   align-items: center;

@@ -44,6 +44,10 @@
   display: flex;
   flex-direction: column;
 }
+.dashbox .advancedstats {
+  line-height: 1;
+  margin-top: 5px;
+}
 .dashbox .iconcont {
   width: 55px;
   height: 55px;

@@ -33,7 +33,7 @@ export default function Dashboard() {
   const totalProductsSold = productsSold?.reduce((a,b) => a + b.value,0)
   const allTotalSales = totalSales?.reduce((a,b) => a + b.value,0)
   const allTotalProfits = allTotalSales - (allTotalSales * storeSettings?.taxes.adminTaxRate)
-  const thisMonth = new Date().getUTCMonth() + 1
+  const thisMonth = new Date().getUTCMonth()
   const lastMonth = ((thisMonth - 2) % 12 + 1)
   const thisMonthProdSold = productsSold&&productsSold[thisMonth]?.value
   const lastMonthProdSold = productsSold&&productsSold[lastMonth]?.value
@@ -43,7 +43,7 @@ export default function Dashboard() {
   const lastMonthProfit = totalSales[lastMonth]?.value + (totalSales[lastMonth]?.value * storeSettings?.taxes.adminTaxRate)
   const tableFilterOpts = [{name: '3',value: 3},{name: '5',value: 5},{name: '10',value: 10},{name: '15',value: 15},{name: '20',value: 20}]
   const activeOrders = allOrders.reduce((a,b) => a + (b.updates[b.updates.length-1]?.status!=='Delivered')?1:0, 0)
- 
+
   const dashboxarr = [ 
     {title: 'Products Sold', icon: 'far fa-box-open', total: totalProductsSold, thismonth: thisMonthProdSold, lastmonth: lastMonthProdSold, format: 'number', compare: true},
     {title: 'Total Sales', icon: 'far fa-chart-line', total: allTotalSales, thismonth: thisMonthSales, lastmonth: lastMonthSales, format: 'currency', compare: true},
@@ -169,11 +169,11 @@ export default function Dashboard() {
         <div className="foot">
           <h5><span>{highsellers?.length}</span> product{highsellers?.length>1?"s":""}</h5>
           <h5>
-            <span>{topproducts?.slice(0,highSellersLimit).reduce((a,b) => a + filterQtySold(b,0)?.colors.find(x => x.qtySold > 6).qtySold,0)}</span> 
+            <span>{topproducts?.slice(0,highSellersLimit).reduce((a,b) => a + filterQtySold(b,0)?.colors.find(x => x.qtySold > 6)?.qtySold,0)}</span>  
             &nbsp;Quantities Sold
           </h5>
           <h5>
-            <span>{currencyFormat.format(topproducts?.slice(0,highSellersLimit).reduce((a,b) => a + (filterQtySold(b,0)?.colors.find(x => x.qtySold > 6).qtySold * b.price),0))}</span>
+            <span>{currencyFormat.format(topproducts?.slice(0,highSellersLimit).reduce((a,b) => a + (filterQtySold(b,0)?.colors.find(x => x.qtySold > 6)?.qtySold * b.price),0))}</span>
             &nbsp;Total Earnings
           </h5>
         </div>
