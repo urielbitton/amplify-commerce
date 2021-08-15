@@ -11,13 +11,14 @@ import { db } from '../../common/Fire'
 
 export default function AccountSettings() {
   
-  const {myUser, setNotifs, user} = useContext(StoreContext)
+  const {myUser, setNotifs, user, accountSettings} = useContext(StoreContext)
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
   const [phone, setPhone] = useState('')
   const [city, setCity] = useState('')
   const [region, setRegion] = useState('')
   const [country, setCountry] = useState('')
+  const [chatName, setChatName] = useState('')
   const [password, setPassword] = useState('')
   const [showPass, setShowPass] = useState(false)
   const [provinceChoices, setProvinceChoices] = useState([])
@@ -41,6 +42,7 @@ export default function AccountSettings() {
         'userinfo.region': region,
         'userinfo.country': country,
       }).then(() => {
+        updateDB('admin', accountSettings, {chatName, name})
         setNotifs(prev => [...prev, {
           id: Date.now(),
           title: 'Account Saved',
@@ -120,6 +122,7 @@ export default function AccountSettings() {
               provinceChoices={provinceChoices}
               setProvinceChoices={setProvinceChoices}
             />
+            <AppInput title="Chat Name" onChange={(e) => setChatName(e.target.value)} value={accountSettings.chatName} descriptText="How your name should be displayed to customers you chat with."/>
           </section>
           <div className="actionbtns">
             <AdminBtn title="Save" disabled={!!!allowAccess} solid clickEvent onClick={() => saveSettings()}/>

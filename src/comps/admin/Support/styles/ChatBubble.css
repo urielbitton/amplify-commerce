@@ -35,6 +35,7 @@
 }
 .chatbubblecont .chatbubble h6 {
   color: #fff;
+  font-size: 11px;
 }
 .chatbubblecont.other .chatbubble h6 {
   color: #333;

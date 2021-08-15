@@ -95,7 +95,7 @@ export default function MyAccount() {
                   <PageStarter 
                     subtitle="You have no chats yet"
                     title="Chat with Support"
-                    img="https://i.imgur.com/xP6AwB2.png"
+                    img="https://i.imgur.com/PszMVaq.png"
                     btnText="Start a Chat"
                     clickEvent
                     onClick={() => startChat()}

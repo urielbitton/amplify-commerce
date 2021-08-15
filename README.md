@@ -1,10 +1,8 @@
 # amplify-commerce
 
 V1 Features to add: 
-- fix chat "read" bug (should update to read only if not same id AND clicked on chat)
-- find way to remove admin id from chat messages
-- fix dark mode classes for optimization
-- send email of invoice to customers when they checkout after successful payment
+- fix chat "read" bug
+- send email of invoice (use sendgrid/mailjs - arrange into html design instead of using pdf) to customers when they checkout after successful payment
 - send email to admin everytime: an order is made, user is created, order delayed, etc.
 - implement password reset pages + features for clients
 - add ?. by every iterated function call so no pages in app crash when undefined.
@@ -26,6 +24,7 @@ V1 Features to add:
 - guest add to cart and checkout features with LS - fix LS bug (if enabled)
 - implement firebase admin sdk (to manage users: firebase.google.com/docs/auth/admin/manage-users)
 - implement algolia search to search db instead of local searches where applicable
+- ask on SO how to keep product updates concurrent
 ***- Go back and trace entire app to make sure to add all missing features (like searches, sorts, etc)
 
 V2 Features to add
@@ -34,12 +33,14 @@ V2 Features to add
 - track site visits through firebase analytics
 - To complete integrated payments use stripe and my last DEV bookmark on how to implement with node server
 - manage users with firebase admin sdk
+- deleting a user needs to delete their storage folder 
+- allow editing/deleting of individual chat messages (also group by date inside chat window, etc.)
 
 Bugs tracking:
-
+- logout-login bug
 
 After Development:
-- test app
+- test app (send to ppl to test)
 - test all security rules
 - limit firebase fetches using limit()
 - fix localStorage bug
@@ -54,3 +55,4 @@ https://www.youtube.com/watch?v=iWEgpdVSZyg
 https://softauthor.com/firestore-querying-filtering-data-for-web/#order-limit-firestore-query
 - Send emails with SendGrid + nodemailer: 
 https://medium.com/swlh/send-email-with-node-js-from-react-website-using-nodemailer-and-sendgrid-2d2e54545a1a
+- useful npm packages: https://javascript.plainenglish.io/45-npm-packages-to-solve-16-react-problems-a9ab18946224

@@ -4,7 +4,7 @@ import { getCustomerArrById } from '../../common/UtilityFuncs'
 import AdminChatBubble from './AdminChatBubble'
 import './styles/Dialogue.css'
 import TextareaAutosize from 'react-textarea-autosize'
-import { getChatByUserId, sendChat } from '../../common/services/ChatService'
+import { getChatByUserId, markReadChat, sendChat } from '../../common/services/ChatService'
 import { Link, useLocation } from 'react-router-dom'
 
 export default function AdminDialogue(props) {
@@ -35,9 +35,9 @@ export default function AdminDialogue(props) {
         isActive: true,
         message: msgString,
         messageDate: new Date(),
-        senderId: user.uid
+        senderId: 'admin'
       }
-      sendChat(chatInfo.customerId, chatObj, user.uid)
+      sendChat(chatInfo.customerId, chatObj, 'admin')
       getChatByUserId(chatInfo.customerId, setChatData, 10)
       setMsgString('') 
     }
@@ -51,6 +51,10 @@ export default function AdminDialogue(props) {
     getChatByUserId(chatInfo.customerId, setChatData, 10)
   },[location])
 
+  useEffect(() => {
+    markReadChat(chatInfo.customerId, !chatInfo.read)
+  },[])
+ 
   return (
     <div className="dialoguecont">
       <header>

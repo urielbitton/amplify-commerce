@@ -74,6 +74,7 @@ const StoreContextProvider = (props) => {
   const [generalSettings, setGeneralSettings] = useState({})
   const [storeSettings, setStoreSettings] = useState({})
   const [appearSettings, setAppearSettings] = useState({})
+  const [accountSettings, setAccountSettings] = useState({})
   const [statsYear, setStatsYear] = useState(new Date().getFullYear())
 
   const [quickProduct, setQuickProduct] = useState({
@@ -201,6 +202,9 @@ const StoreContextProvider = (props) => {
     db.collection('admin').doc('appearanceSettings').onSnapshot(snap => {
       setAppearSettings(snap.data())
     })
+    db.collection('admin').doc('accountSettings').onSnapshot(snap => {
+      setAccountSettings(snap.data())
+    })
     db.collection('updates').orderBy('date','desc').limit(10).onSnapshot(snap => {
       const updatesArr = []
       snap.forEach(doc => updatesArr.push(doc.data()))
@@ -270,7 +274,7 @@ const StoreContextProvider = (props) => {
       setEditProdMode, sizesOpts, colorsOpts, editCoupMode, setEditCoupMode, editShipMode, setEditShipMode, 
       allCoupons, setAllCoupons, allShipping, setAllShipping, editOrdMode, setEditOrdMode, allCustomers, 
       setAllCustomers, notifs, setNotifs, allTransactions, setAllTransactions, editCustMode, setEditCustMode, 
-      showAnaTips, setShowAnaTips, allReviews, setAllReviews, myReviews, setMyReviews,
+      showAnaTips, setShowAnaTips, allReviews, setAllReviews, myReviews, setMyReviews, accountSettings,
       myTransactions, setMyTransactions, allUsers, setAllUsers, allCampaigns, setAllCampaigns, 
       editCampMode, setEditCampMode, allChats, setAllChats, myChat, setMyChat, fetchChats, setFetchChats,
       generalSettings, setGeneralSettings, appearSettings, setAppearSettings, storeSettings, setStoreSettings,

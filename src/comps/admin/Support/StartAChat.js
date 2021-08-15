@@ -33,7 +33,7 @@ export default function StartAChat(props) {
   const allCustList = allCustomersFilter
   ?.map(({id,name,profimg}) => {
     return <div 
-      className="custrow" 
+      className={`custrow ${customerId===id?"active":""}`} 
       onClick={() => customerId!==id?setCustomerId(id):setCustomerId('')}
     >
       <div className="first">

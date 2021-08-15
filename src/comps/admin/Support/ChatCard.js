@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState} from 'react'
-import { convertDate, convertTime, getCustomerArrById, getHoursAgo, switchTimestamp } from '../../common/UtilityFuncs'
+import { getCustomerArrById, switchTimestamp } from '../../common/UtilityFuncs'
 import { StoreContext } from '../../common/StoreContext'
 import { useHistory } from 'react-router-dom'
 import { archiveChat, deactivateChat, markReadChat, getChatByUserId } from '../../common/services/ChatService'

@@ -5,7 +5,7 @@ import './styles/ChatBubble.css'
 
 export default function ChatBubble(props) {
 
-  const {allCustomers, user} = useContext(StoreContext)
+  const {allCustomers, user, accountSettings} = useContext(StoreContext)
   const {message, senderId, messageDate} = props.el
   const {chatData} = props
   const myBubble = senderId === user.uid
@@ -28,14 +28,14 @@ export default function ChatBubble(props) {
     <div className={`chatbubblecont ${!myBubble?"other":""}`}>
       <div className="left">
         <img 
-          src={myBubble?getCustomerArrById(allCustomers, senderId)?.profimg:"https://i.imgur.com/8VnozI9.jpg"} 
+          src={myBubble?getCustomerArrById(allCustomers, senderId)?.profimg:accountSettings.profimg} 
           alt=""
         />
       </div>
       <div className="right">
         <div className="chatbubble">
           <h6>
-            {myBubble?getCustomerArrById(allCustomers, senderId)?.name:"Amplify"}
+            {myBubble?getCustomerArrById(allCustomers, senderId)?.name:accountSettings.chatName}
           </h6>
           <p>{message}</p>
         </div>

@@ -38,6 +38,12 @@
   align-items: flex-start;
   width: 100%;
 }
+.userprofilecont .infotab.accinfo h6 {
+  text-transform: lowercase;
+}
+.userprofilecont .infotab.accinfo h6 span {
+  text-transform: capitalize;
+}
 .userprofilecont .infotab h4 {
   font-size: 15px;
   color: #aaa;
@@ -47,7 +53,7 @@
 .userprofilecont .infotab h6 {
   color: var(--graytxt);
   font-size: 13px;
-  margin-bottom: 5px;
+  margin-bottom: 5px; 
   width: 100%;
   display: flex;
   align-items: center;

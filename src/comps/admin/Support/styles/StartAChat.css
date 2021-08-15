@@ -90,10 +90,12 @@
   transition: all 0.2s;
   cursor: pointer;
 }
-.newchatcont .resultscont .custrow:hover {
+.newchatcont .resultscont .custrow:hover,
+.newchatcont .resultscont .custrow.active {
   background: var(--admincolor);
 }
-.newchatcont .resultscont .custrow:hover h6 {
+.newchatcont .resultscont .custrow:hover h6,
+.newchatcont .resultscont .custrow.active h6 {
   color: #fff;
 }
 .newchatcont .resultscont small {

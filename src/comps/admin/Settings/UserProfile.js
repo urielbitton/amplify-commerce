@@ -3,10 +3,11 @@ import './styles/Settings.css'
 import {StoreContext} from '../../common/StoreContext'
 import { db } from '../../common/Fire'
 import firebase from 'firebase'
+import { updateDB } from '../../common/services/CrudDb'
 
 export default function UserProfile() {
 
-  const {myUser, allProducts, allOrders, allCustomers, allCoupons, allShipping, 
+  const {myUser, allProducts, allOrders, allCustomers, allUsers, allCoupons, allShipping, 
     darkMode, appearSettings} = useContext(StoreContext)
   const [profImg, setProfImg] = useState('')
 
@@ -20,7 +21,7 @@ export default function UserProfile() {
           storageRef.getDownloadURL().then(url => {
             db.collection('users').doc(myUser.userid).update({
               'userinfo.profimg': url
-            })
+            }).then(() => updateDB('admin', 'accountSettings', {profimg:url}))
           })
         },
         function error() {
@@ -48,7 +49,7 @@ export default function UserProfile() {
       <h4>{myUser.fullname}</h4>
       <h6>{myUser.provstate}, {myUser.country}</h6>
       <br/>
-      <div className="infotab">
+      <div className="infotab accinfo">
         <h4>Account Info</h4>
         <h6><span>ID: </span>{myUser.userid}</h6>
         <h6><span>Email: </span>{myUser.email}</h6>
@@ -58,6 +59,7 @@ export default function UserProfile() {
         <h6><span>Products: </span>{allProducts.length}</h6>
         <h6><span>Orders: </span>{allOrders.length}</h6>
         <h6><span>Customers: </span>{allCustomers.length}</h6>
+        <h6><span>Users: </span>{allUsers.length}</h6>
         <h6><span>Coupons: </span>{allCoupons.length}</h6>
         <h6><span>Shipping Methods: </span>{allShipping.length}</h6>
       </div>
