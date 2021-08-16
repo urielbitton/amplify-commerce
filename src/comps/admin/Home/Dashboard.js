@@ -108,7 +108,7 @@ export default function Dashboard() {
   .map(el => { 
     return <div className="proditem">
       <h5><Link to={`/admin/orders/edit-order/${el.orderid}`}>#{el.orderNumber}</Link></h5>
-      <h5>{refProd(allProducts, el.products[0].id).name} + {el.products.length-1}</h5> 
+      <h5>{refProd(allProducts, el.products[0].id).name} {el.products.length-1>0&&`+${el.products.length-1}`}</h5> 
       <h5>{convertDate(el.orderDateCreated.toDate())}</h5>
       <h5>{currencyFormat.format(el.orderTotal)}</h5>
       <h5 className="ordstatus"><span>{el.updates[el.updates.length-1]?.status}</span></h5>

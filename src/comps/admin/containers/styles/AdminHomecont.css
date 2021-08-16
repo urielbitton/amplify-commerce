@@ -247,6 +247,21 @@
   width: 400px;
 }
 
+.dashboardpage .producttable {
+  min-width: 800px;
+}
+.pagecont {
+  min-width: 900px;
+}
+.marketingpage .pagecont,
+.adminsupportpage .pagecont,
+.settingspage .pagecont {
+  min-width: 100%;
+}
+.adminchatwindow {
+  min-width: 800px;
+}
+
 /*Dark mode styles */ 
 .adminapp.darkmode .dark-bg-1,
 .adminapp.darkmode input,

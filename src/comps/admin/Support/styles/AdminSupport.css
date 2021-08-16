@@ -64,3 +64,9 @@
 .adminsupportpage .contactlinkcont a:hover {
   filter: brightness(110%);
 }
+
+@media (max-width: 760px) {
+  .adminsupportpage .faqcont > div {
+    grid-template-columns: auto;
+  }
+}

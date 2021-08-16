@@ -205,3 +205,12 @@
   padding: 5px 10px;
   height: 45px;
 }
+
+@media (max-width: 1250px) {
+  .settingspage {
+    grid-template-columns: auto;
+  }
+  .settingspage .userprofilecont {
+    grid-row: 2;
+  }
+}

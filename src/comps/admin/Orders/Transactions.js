@@ -29,7 +29,7 @@ export default function Transactions() {
   const allTransactionsRow = allTransactions?.map((el,i) => {
     return <div className="proditem">
       <h5>#{el.number}</h5>
-      <h5><Link to={`/admin/orders/edit-order/${el.orderId}`}>#{getOrderArrById(allOrders, el.orderId).orderNumber}</Link></h5>
+      <h5><Link to={`/admin/orders/edit-order/${el.orderId}`}>#{getOrderArrById(allOrders, el.orderId)?.orderNumber}</Link></h5>
       <h5>{getCustomerArrById(allCustomers, el.customerId)?.name}</h5>
       <h5>****{el.cardNumber.slice(-4)}</h5>
       <h5>{currencyFormat.format(el.total)}</h5>
