@@ -23,7 +23,7 @@ export default function Analytics() {
   const [productsSold, setProductsSold] = useState([])
   const [yearsList, setYearsList] = useState([])
   const [showAddYear, setShowAddYear] = useState(false)
-  const [newYear, setNewYear] = useState(+currentYear + 1)
+  const [newYear, setNewYear] = useState(+currentYear)
   const salescategories = ['January','February','March','April','May','June','July','August','September','October','November','December']
   const totalsalesnumbers = totalSales?.map(el => el.value)
   const netprofitnumbers = totalSales?.map(el => el.value - (el.value * 0.15))
@@ -134,8 +134,8 @@ export default function Analytics() {
     }]) 
   }
 
-  function addNewYear() {
-    if(+newYear > currentYear && !yearsList.includes(newYear)) {
+  function addNewYear(autoAdd) {
+    if((+newYear > currentYear || autoAdd) && (yearsList.length && !yearsList.includes(newYear))) {
       initSalesMonthsObj.forEach(doc => {
         const docRef = db.collection('totalSales').doc(newYear.toString()).collection('sales').doc(doc.name)
         batch.set(docRef, {month:doc.month,value:doc.value})
@@ -155,9 +155,10 @@ export default function Analytics() {
           time: 5000
         }]) 
         setShowAddYear(false)
+        setNewYear(+currentYear)
       })
     } 
-    else if(yearsList.includes(newYear)) {
+    else if(yearsList.includes(newYear) && !autoAdd) {
       setNotifs(prev => [...prev, {
         id: Date.now(),
         title: 'Warning', 
@@ -193,6 +194,10 @@ export default function Analytics() {
   useEffect(() => {
     return () => setStatsYear(new Date().getFullYear())
   },[])
+
+  useEffect(() => {
+    addNewYear(true)
+  },[currentYear, yearsList]) 
 
   return (
     <div className="analyticspage dashboardpage">
@@ -294,10 +299,10 @@ export default function Analytics() {
         <div className="addercont">
           <h4>Add New Year</h4>
           <small>Add a new analytics/stats year </small>
-          <AppInput placeholder="Enter a year number" type="number" onChange={(e) => setNewYear(e.target.value)} value={newYear} descriptText="Enter a year in the future only."/>
+          <AppInput placeholder="Enter a year number" type="number" onChange={(e) => setNewYear(e.target.value)} value={newYear+1} descriptText="Enter a year in the future only."/>
           <small>Note: once the year you have set comes into effect, your store stats will automatically be saved for that selected year.</small>
           <div className="actionbtn">
-          <AdminBtn title="Add Year" disabled={+newYear <= currentYear} solid clickEvent onClick={() => addNewYear()}/>
+          <AdminBtn title="Add Year" disabled={+newYear <= currentYear} solid clickEvent onClick={() => addNewYear(false)}/>
           <AdminBtn title="Cancel" clickEvent onClick={() => setShowAddYear(false)}/>
           </div>
         </div>

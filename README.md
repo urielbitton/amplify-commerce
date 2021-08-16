@@ -1,6 +1,12 @@
 # amplify-commerce
 
 V1 Features to add: 
+- make entire site + admin responsive
+- swap shipping methods in checkout for ones in the DB
+- let customers in account orders: change shipping, edit order, cancel order, cancel specific products.
+- add newarrivals, about + contact pages
+- implement stripe checkout (https://www.youtube.com/watch?v=1r-F3FIONl8)
+- check if products have enough stock when customer checks out on site + admin
 - send email of invoice (use sendgrid/mailjs - arrange into html design instead of using pdf) to customers when they checkout after successful payment
 - send email to admin everytime: an order is made, user is created, order delayed, etc.
 - implement password reset pages + features for clients
@@ -10,19 +16,12 @@ V1 Features to add:
 - change colorConverter + sizeConverter switches for a function that will convert the size's value to its name
 - implement full searching accross admin (especially settings, using algolia)
 - remove and fix all console warnings (add keys in maps, firebase rules permissions errors, etc.)
-- make entire site + admin responsive
 - color code updates icons
 - add all info conts in admin pages (like infoCustomer when info icon click in table rows)
 - fix issue with loader when no user on admin & login pages
-- swap shipping methods in checkout for ones in the DB
 - implement trash cans for products, orders, coupons, etc...
-- let customers in account orders: change shipping, edit order, cancel order, cancel specific products.
 - detect with LS if user has used site before, if yes make profile icon redirect to login page, else redirect to create account page
-- add newarrivals, about + contact pages
-- implement stripe checkout (https://www.youtube.com/watch?v=1r-F3FIONl8)
-- check if products have enough stock when customer checks out on site + admin
 - guest add to cart and checkout features with LS - fix LS bug (if enabled)
-- implement firebase admin sdk (to manage users: firebase.google.com/docs/auth/admin/manage-users)
 - ask on SO how to keep product updates concurrent
 ***- Go back and trace entire app to make sure to add all missing features (like searches, sorts, etc)
 
@@ -31,7 +30,7 @@ V2 Features to add
 - implement languages features for admin 
 - track site visits through firebase analytics
 - To complete integrated payments use stripe and my last DEV bookmark on how to implement with node server
-- manage users with firebase admin sdk
+- implement firebase admin sdk (to manage users: firebase.google.com/docs/auth/admin/manage-users)
 - deleting a user needs to delete their storage folder 
 - allow editing/deleting of individual chat messages (also group by date inside chat window, etc.)
 
