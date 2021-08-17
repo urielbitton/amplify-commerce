@@ -4,7 +4,6 @@ import Sidebar from '../common/Sidebar'
 import './styles/AdminApp.css'
 import { StoreContext } from '../../common/StoreContext'
 import Loader from '../../common/Loader'
-import { useHistory } from 'react-router-dom'
 
 export default function AdminApp() {
 

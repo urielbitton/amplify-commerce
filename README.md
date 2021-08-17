@@ -17,15 +17,17 @@ V1 Features to add:
 - implement full searching accross admin (especially settings, using algolia)
 - remove and fix all console warnings (add keys in maps, firebase rules permissions errors, etc.)
 - color code updates icons
-- add all info conts in admin pages (like infoCustomer when info icon click in table rows)
-- fix issue with loader when no user on admin & login pages
-- implement trash cans for products, orders, coupons, etc...
-- detect with LS if user has used site before, if yes make profile icon redirect to login page, else redirect to create account page
 - guest add to cart and checkout features with LS - fix LS bug (if enabled)
-- ask on SO how to keep product updates concurrent
 ***- Go back and trace entire app to make sure to add all missing features (like searches, sorts, etc)
 
+Bugs:
+- fix issue with loader when no user on admin & login pages
+
 V2 Features to add
+- implement trash cans for products, orders, coupons, etc...
+- add all info conts in admin pages (like infoCustomer when info icon click in table rows)
+- detect with LS if user has used site before, if yes make profile icon redirect to login page, else redirect to create account page
+- ask on SO how to keep product updates concurrent
 - create custom charts feature in analytics
 - implement languages features for admin 
 - track site visits through firebase analytics
