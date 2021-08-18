@@ -12,7 +12,8 @@ import UpdatesCard from './UpdatesCard'
 
 export default function Navbar() {
 
-  const {myUser, setMyUser, darkMode, setDarkMode, setNotifs, allChats, setFetchChats, allUpdates} = useContext(StoreContext)
+  const {user, myUser, setMyUser, darkMode, setDarkMode, setNotifs, allChats, setFetchChats, 
+    allUpdates} = useContext(StoreContext)
   const [openDrop, setOpenDrop] = useState(0)
   const [chatData, setChatData] = useState([])
   const [showPageSearch, setShowPageSearch] = useState(false)
@@ -62,19 +63,26 @@ export default function Navbar() {
     }])
   }
 
-  function logOutAdmin() {
-    firebase.auth().onAuthStateChanged(user => {
-      if(user) {
-        firebase.auth().signOut().then(() => {
-          history.push('/')
-          setMyUser({})
-        }).catch(err => console.log(err))
-      }
-    })
+  function logOutAdmin(e) {
+    e.stopPropagation()
+    if(user) {
+      firebase.auth().signOut().then(() => {
+        history.push('/')
+        setMyUser({}) 
+      }).catch(err => console.log(err))
+    }
   }
   function slideChats(e) {
     e.stopPropagation()
-    setOpenDrop(3)
+    openDrop!==3?setOpenDrop(3):setOpenDrop(0)
+  }
+  function slideNotifs(e) {
+    e.stopPropagation()
+    openDrop!==2?setOpenDrop(2):setOpenDrop(0)
+  }
+  function slideProfile(e) {
+    e.stopPropagation()
+    openDrop!==1?setOpenDrop(1):setOpenDrop(0)
   }
 
   useEffect(() => {
@@ -124,7 +132,7 @@ export default function Navbar() {
               <small>{unreadChatsNum}</small>
             </div>
           </div>
-          <div className={`iconcont ${openDrop===2?"open":""}`} onClick={(e) => {setOpenDrop(2);e.stopPropagation()}}>
+          <div className={`iconcont ${openDrop===2?"open":""}`} onClick={(e) => slideNotifs(e)}>
             <i className={`far fa-bell ${unreadNotifsNum>0?"colored":""}`}></i>
             <div className={`updatescont ${openDrop===2?"open":""}`}>
               <h4>Updates</h4>
@@ -143,7 +151,7 @@ export default function Navbar() {
             <i className={`fa${darkMode?"s":"r"} fa-eclipse`}></i>
           </div>
         </div>
-        <div className="profcont" onClick={(e) => {setOpenDrop(1);e.stopPropagation()}}>
+        <div className="profcont" onClick={(e) => slideProfile(e)}>
           <img src={myUser?.profimg.length?myUser.profimg:"https://i.imgur.com/1OKoctC.jpg"} alt=""/>
           <h6>{myUser?.fullname}</h6>
           <i className={`far fa-angle-up ${openDrop===1?"down":""}`}></i>
@@ -154,7 +162,7 @@ export default function Navbar() {
           <Link to="/admin/settings/general"><i className="far fa-sliders-h"></i>Preferences</Link>
           <Link to="/admin/support/admin-support"><i className="far fa-question-circle"></i>Support</Link>
           <h6>Actions</h6>
-          <small onClick={() => logOutAdmin()}>
+          <small onClick={(e) => logOutAdmin(e)}>
             <i className="far fa-sign-out"></i>
             Log Out
             </small>

@@ -93,6 +93,7 @@
   padding: 10px;
   cursor: pointer;
   transition: all 0.2s;
+  user-select: none;
 }
 .adminnav .profcont:hover {
   background: var(--adminbg)
@@ -132,6 +133,7 @@
   opacity: 0;
   visibility: hidden;
   color: var(--graytxt);
+  user-select: none;
 }
 .profslidecont.open {
   opacity: 1;

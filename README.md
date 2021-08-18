@@ -37,7 +37,7 @@ V2 Features to add
 - allow editing/deleting of individual chat messages (also group by date inside chat window, etc.)
 
 Bugs tracking:
-- logout-login bug
+- login after a long time may bug out and needs button click again
 
 After Development:
 - test app (send to ppl to test)
