@@ -1,6 +1,5 @@
 import { db } from "./Fire"
 import { countries } from "./Lists"
-import {updateDB} from '../common/services/CrudDb'
 
 export function sizeConverter(size) {
   if(size==='XS') return 'Extra Small'

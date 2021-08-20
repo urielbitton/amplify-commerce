@@ -20,7 +20,9 @@
   color: var(--graytxt);
 }
 .pagecont .titlesrow > h4 {
-  color: var(--graytxt)
+  color: var(--graytxt);
+  font-size: 25px;
+  font-weight: 600;
 }
 .pagecont .titlesrow > h4 i {
   margin-right: 10px;

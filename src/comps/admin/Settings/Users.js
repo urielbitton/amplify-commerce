@@ -66,7 +66,7 @@ export default function Users() {
       <div className="settingspage userssettingspage longidpage">
         <div className="pagecont">
           <PageTitlesRow 
-            title={<><i className="far fa-user-friends"></i>Users</>}
+            title="Users"
             searchPlaceholder="Find a setting..."
             setKeyword={setKeyword}
             btnTitle="Add User"

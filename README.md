@@ -1,6 +1,7 @@
 # amplify-commerce
 
 V1 Features to add: 
+- add Order View page (model https://i.imgur.com/yW3FVDm.png)
 - make entire site + admin responsive
 - swap shipping methods in checkout for ones in the DB
 - let customers in account orders: change shipping, edit order, cancel order, cancel specific products.
