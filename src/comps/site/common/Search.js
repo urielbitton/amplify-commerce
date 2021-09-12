@@ -17,7 +17,7 @@ export default function Search() {
   x.categories.some(x => x===keyword) || x.collection.some(x => x===keyword) || pattern.test(x.belongs)) 
   && keyword.length)
   .map(prod => {
-    return <Link to={`shop//product/${prod.id}`} onClick={() => closeSearch()}>
+    return <Link to={`/shop/product/${prod.id}`} onClick={() => closeSearch()}>
       <div className="searchproductrow">
         <img src={prod.imgs[0]} alt="" />
         <div>

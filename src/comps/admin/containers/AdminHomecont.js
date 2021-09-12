@@ -168,7 +168,7 @@ export default function AdminHomecont() {
             <GeneralSettings />
           </Route>
           <Route path="/admin/settings/store">
-            <StoreSettings />
+            <StoreSettings /> 
           </Route>
           <Route path="/admin/settings/appearance">
             <AppearanceSettings />
