@@ -1,5 +1,7 @@
 # amplify-commerce
 
+SITE: https://csb-6hui4.vercel.app/
+
 V1 Features to add: 
 - add Order View page (model https://i.imgur.com/yW3FVDm.png)
 - make entire site + admin responsive
